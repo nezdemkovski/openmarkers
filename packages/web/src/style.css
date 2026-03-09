@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --sidebar-width: 280px;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  transition: transform 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+    z-index: 40;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+.chart-card {
+  min-height: 300px;
+}
+
+.badge-red {
+  @apply bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 text-xs font-semibold px-2 py-0.5 rounded-full;
+}
+
+.badge-green {
+  @apply bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 text-xs font-semibold px-2 py-0.5 rounded-full;
+}
+
+.nav-item {
+  @apply flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer text-sm transition-colors;
+}
+.nav-item:hover {
+  @apply bg-gray-100 dark:bg-gray-700;
+}
+.nav-item.active {
+  @apply bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400 font-medium;
+}
+
+/* Bio description tooltip — only shown when text is clamped */
+.bio-desc {
+  position: relative;
+}
+.bio-desc.clamped {
+  cursor: help;
+}
+.bio-desc .bio-desc-full {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 20;
+  @apply text-xs text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg p-2.5 mt-1;
+}
+.bio-desc.clamped:hover .bio-desc-full {
+  display: block;
+}
+
+/* Theme transition */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
+}

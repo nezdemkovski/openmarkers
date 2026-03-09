@@ -1,0 +1,33 @@
+{
+  "name": "@openmarkers/web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:api": "bun --watch src/server.ts",
+    "build": "vite build",
+    "preview": "bun src/server.ts",
+    "format": "prettier --write \"**/*.{ts,tsx,json}\" --ignore-path ../../.gitignore"
+  },
+  "dependencies": {
+    "@neondatabase/auth": "^0.2.0-beta.1",
+    "@neondatabase/neon-js": "0.2.0-beta.1",
+    "@openmarkers/db": "workspace:*",
+    "@openmarkers/mcp-server": "workspace:*",
+    "@tailwindcss/vite": "^4.2.1",
+    "@tanstack/react-query": "^5.90.21",
+    "@vitejs/plugin-react": "^5.1.4",
+    "jose": "^6.2.0",
+    "lucide-react": "^0.577.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "recharts": "^3.8.0",
+    "tailwindcss": "^4.2.1",
+    "vite": "^7.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3"
+  }
+}

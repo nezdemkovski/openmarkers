@@ -1,0 +1,15 @@
+{
+  "name": "@openmarkers/db",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "format": "prettier --write \"**/*.{ts,tsx,json}\" --ignore-path ../../.gitignore"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.1",
+    "jose": "^6.2.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@openmarkers/mcp-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "format": "prettier --write \"**/*.{ts,tsx,json}\" --ignore-path ../../.gitignore"
+  },
+  "dependencies": {
+    "@openmarkers/db": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.27.0",
+    "zod": "^3.25.76"
+  }
+}
