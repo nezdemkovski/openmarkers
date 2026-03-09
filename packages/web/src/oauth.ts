@@ -1,17 +1,44 @@
 import { renderLoginPage } from "./oauth-login.ts";
-import { db } from "@openmarkers/db/src/db";
-import { oauthClients, oauthAuthCodes, oauthRefreshTokens } from "@openmarkers/db/src/schema/app";
-import { eq, lt } from "drizzle-orm";
+import { oauthStore } from "@openmarkers/db";
 
 const NEON_AUTH_BASE_URL = process.env.NEON_AUTH_BASE_URL!;
+const OAUTH_SECRET = process.env.OAUTH_SECRET || "openmarkers-default-oauth-secret-change-me";
+
+// --- AES-256-GCM encryption for session cookies stored in DB ---
+
+let cryptoKey: CryptoKey | null = null;
+
+async function getKey(): Promise<CryptoKey> {
+  if (cryptoKey) return cryptoKey;
+  const raw = new TextEncoder().encode(OAUTH_SECRET);
+  const hash = await crypto.subtle.digest("SHA-256", raw);
+  cryptoKey = await crypto.subtle.importKey("raw", hash, "AES-GCM", false, ["encrypt", "decrypt"]);
+  return cryptoKey;
+}
+
+async function encrypt(plaintext: string): Promise<string> {
+  const key = await getKey();
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const encoded = new TextEncoder().encode(plaintext);
+  const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, encoded);
+  const combined = new Uint8Array(iv.length + ciphertext.byteLength);
+  combined.set(iv);
+  combined.set(new Uint8Array(ciphertext), iv.length);
+  return Buffer.from(combined).toString("base64");
+}
+
+async function decrypt(encoded: string): Promise<string> {
+  const key = await getKey();
+  const combined = Buffer.from(encoded, "base64");
+  const iv = combined.subarray(0, 12);
+  const ciphertext = combined.subarray(12);
+  const plaintext = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ciphertext);
+  return new TextDecoder().decode(plaintext);
+}
 
 // Cleanup expired entries every 60s
-setInterval(async () => {
-  const now = Date.now();
-  try {
-    await db.delete(oauthAuthCodes).where(lt(oauthAuthCodes.expiresAt, now));
-    await db.delete(oauthRefreshTokens).where(lt(oauthRefreshTokens.expiresAt, now));
-  } catch { /* ignore cleanup errors */ }
+setInterval(() => {
+  oauthStore.cleanupExpired().catch(() => {});
 }, 60_000);
 
 // --- Neon Auth server-side sign-in ---
@@ -89,21 +116,14 @@ async function refreshViaNeonAuth(sessionCookie: string): Promise<string | null>
 
 // --- PKCE verification ---
 
-async function verifyPkce(codeVerifier: string, codeChallenge: string): Promise<boolean> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(codeVerifier);
-  const digest = await crypto.subtle.digest("SHA-256", data);
-  const base64url = btoa(String.fromCharCode(...new Uint8Array(digest)))
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+function verifyPkce(codeVerifier: string, codeChallenge: string): boolean {
+  const hash = new Bun.CryptoHasher("sha256").update(codeVerifier).digest();
+  const base64url = Buffer.from(hash).toString("base64url");
   return base64url === codeChallenge;
 }
 
 function generateCode(): string {
-  const bytes = new Uint8Array(32);
-  crypto.getRandomValues(bytes);
-  return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  return Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString("hex");
 }
 
 // --- Helper to get base URL ---
@@ -115,29 +135,6 @@ function getBaseUrl(req: Request): string {
   return `${proto}://${host}`;
 }
 
-// --- DB helpers ---
-
-async function ensureClient(clientId: string, redirectUri?: string) {
-  if (!clientId) return;
-  const existing = await db.select().from(oauthClients).where(eq(oauthClients.clientId, clientId)).limit(1);
-  if (existing.length > 0) {
-    // Add redirect_uri if not already present
-    if (redirectUri) {
-      const uris: string[] = JSON.parse(existing[0].redirectUris);
-      if (!uris.includes(redirectUri)) {
-        uris.push(redirectUri);
-        await db.update(oauthClients).set({ redirectUris: JSON.stringify(uris) }).where(eq(oauthClients.clientId, clientId));
-      }
-    }
-    return;
-  }
-  await db.insert(oauthClients).values({
-    clientId,
-    clientSecret: "",
-    redirectUris: JSON.stringify(redirectUri ? [redirectUri] : []),
-  });
-  console.info("[oauth] Client registered:", clientId);
-}
 
 // --- OAuth Handlers ---
 
@@ -190,12 +187,7 @@ export function handleRegister(req: Request): Response | Promise<Response> {
         return Response.json({ error: "redirect_uris is required" }, { status: 400, headers: CORS_HEADERS });
       }
 
-      await db.insert(oauthClients).values({
-        clientId,
-        clientSecret,
-        redirectUris: JSON.stringify(redirectUris),
-        clientName,
-      });
+      await oauthStore.registerClient({ clientId, clientSecret, redirectUris, clientName });
       console.info("[oauth] Client registered:", clientId, clientName || "");
 
       return Response.json({
@@ -233,7 +225,7 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     }
 
     return (async () => {
-      await ensureClient(clientId, redirectUri);
+      await oauthStore.ensureClient(clientId, redirectUri);
       const html = renderLoginPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope });
       return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
     })();
@@ -251,7 +243,7 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const state = formData.get("state") as string;
     const scope = formData.get("scope") as string;
 
-    await ensureClient(clientId, redirectUri);
+    await oauthStore.ensureClient(clientId, redirectUri);
 
     // Authenticate via Neon Auth
     const authResult = await signInViaNeonAuth(email, password);
@@ -265,13 +257,13 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
 
     // Generate authorization code and store in DB
     const code = generateCode();
-    await db.insert(oauthAuthCodes).values({
+    await oauthStore.storeAuthCode({
       code,
       codeChallenge,
       clientId,
       redirectUri,
       neonSessionToken: authResult.jwt,
-      neonSessionCookie: authResult.sessionCookie,
+      neonSessionCookie: await encrypt(authResult.sessionCookie),
       expiresAt: Date.now() + 5 * 60 * 1000,
     });
 
@@ -305,17 +297,16 @@ export function handleToken(req: Request): Response | Promise<Response> {
     const grantType = params.get("grant_type");
     const clientId = params.get("client_id") || "";
 
-    await ensureClient(clientId);
+    await oauthStore.ensureClient(clientId);
 
     if (grantType === "authorization_code") {
       const code = params.get("code") || "";
       const codeVerifier = params.get("code_verifier") || "";
 
       // Look up auth code from DB
-      const rows = await db.select().from(oauthAuthCodes).where(eq(oauthAuthCodes.code, code)).limit(1);
-      const stored = rows[0];
+      const stored = await oauthStore.getAuthCode(code);
       if (!stored || stored.clientId !== clientId || stored.expiresAt < Date.now()) {
-        if (stored) await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
+        if (stored) await oauthStore.deleteAuthCode(code);
         return Response.json({ error: "invalid_grant" }, { status: 400, headers: CORS_HEADERS });
       }
 
@@ -324,18 +315,18 @@ export function handleToken(req: Request): Response | Promise<Response> {
       }
 
       // Verify PKCE
-      const pkceValid = await verifyPkce(codeVerifier, stored.codeChallenge);
+      const pkceValid = verifyPkce(codeVerifier, stored.codeChallenge);
       if (!pkceValid) {
-        await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
+        await oauthStore.deleteAuthCode(code);
         return Response.json({ error: "invalid_grant", error_description: "PKCE verification failed" }, { status: 400, headers: CORS_HEADERS });
       }
 
       // Delete auth code (one-time use)
-      await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
+      await oauthStore.deleteAuthCode(code);
 
       // Generate refresh token and store in DB
       const refreshToken = generateCode();
-      await db.insert(oauthRefreshTokens).values({
+      await oauthStore.storeRefreshToken({
         token: refreshToken,
         neonSessionCookie: stored.neonSessionCookie,
         clientId,
@@ -345,7 +336,7 @@ export function handleToken(req: Request): Response | Promise<Response> {
       // Calculate expires_in from JWT
       let expiresIn = 3600;
       try {
-        const payload = JSON.parse(atob(stored.neonSessionToken.split(".")[1]));
+        const payload = JSON.parse(Buffer.from(stored.neonSessionToken.split(".")[1], "base64url").toString());
         if (payload.exp) {
           expiresIn = Math.max(1, payload.exp - Math.floor(Date.now() / 1000));
         }
@@ -361,26 +352,26 @@ export function handleToken(req: Request): Response | Promise<Response> {
 
     } else if (grantType === "refresh_token") {
       const refreshToken = params.get("refresh_token") || "";
-      const rows = await db.select().from(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, refreshToken)).limit(1);
-      const stored = rows[0];
+      const stored = await oauthStore.getRefreshToken(refreshToken);
       if (!stored || stored.clientId !== clientId || stored.expiresAt < Date.now()) {
-        if (stored) await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, refreshToken));
+        if (stored) await oauthStore.deleteRefreshToken(refreshToken);
         return Response.json({ error: "invalid_grant" }, { status: 400, headers: CORS_HEADERS });
       }
 
-      // Get fresh JWT from Neon Auth
-      const newJwt = await refreshViaNeonAuth(stored.neonSessionCookie);
+      // Get fresh JWT from Neon Auth (decrypt session cookie first)
+      const decryptedCookie = await decrypt(stored.neonSessionCookie);
+      const newJwt = await refreshViaNeonAuth(decryptedCookie);
       if (!newJwt) {
-        await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, refreshToken));
+        await oauthStore.deleteRefreshToken(refreshToken);
         console.warn("[oauth] Token refresh failed — session expired for client:", clientId);
         return Response.json({ error: "invalid_grant", error_description: "Session expired. Please re-authorize." }, { status: 400, headers: CORS_HEADERS });
       }
       console.info("[oauth] Token refreshed for client:", clientId);
 
       // Rotate refresh token
-      await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, refreshToken));
+      await oauthStore.deleteRefreshToken(refreshToken);
       const newRefreshToken = generateCode();
-      await db.insert(oauthRefreshTokens).values({
+      await oauthStore.storeRefreshToken({
         token: newRefreshToken,
         neonSessionCookie: stored.neonSessionCookie,
         clientId,
@@ -389,7 +380,7 @@ export function handleToken(req: Request): Response | Promise<Response> {
 
       let expiresIn = 3600;
       try {
-        const payload = JSON.parse(atob(newJwt.split(".")[1]));
+        const payload = JSON.parse(Buffer.from(newJwt.split(".")[1], "base64url").toString());
         if (payload.exp) {
           expiresIn = Math.max(1, payload.exp - Math.floor(Date.now() / 1000));
         }
