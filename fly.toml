@@ -1,20 +1,12 @@
-# fly.toml app configuration file generated for openmarkers on 2026-03-09T03:41:50+03:00
+# fly.toml app configuration file generated for openmarkers on 2026-03-09T01:13:33Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'openmarkers'
-primary_region = 'fra'
+primary_region = 'iad'
 
 [build]
-  dockerfile = 'Dockerfile'
-
-  [build.args]
-    VITE_NEON_AUTH_URL = 'https://ep-broad-butterfly-al67osc1.neonauth.c-3.eu-central-1.aws.neon.tech/neondb/auth'
-
-[env]
-  NODE_ENV = 'production'
-  PORT = '3000'
 
 [http_service]
   internal_port = 3000
@@ -22,10 +14,10 @@ primary_region = 'fra'
   auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
-  size = 'shared-cpu-1x'
-  memory = '256mb'
+  memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 256
+  memory_mb = 1024
