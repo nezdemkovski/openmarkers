@@ -18,7 +18,9 @@ RUN bun run build
 
 # Production
 FROM base
+RUN addgroup -g 1001 -S appuser && adduser -S appuser -u 1001
 COPY --from=build /app /app
 ENV NODE_ENV=production
+USER appuser
 EXPOSE 3000
 CMD ["bun", "packages/web/src/server.ts"]

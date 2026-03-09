@@ -30,10 +30,123 @@ import {
 import type { Lang } from "@openmarkers/db";
 import { createMcpHandler } from "@openmarkers/mcp-server";
 import { handleASMetadata, handleRSMetadata, handleRegister, handleAuthorize, handleToken, handleOAuthPreflight } from "./oauth.ts";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { existsSync } from "node:fs";
+import { z } from "zod";
+
+// --- Validation schemas ---
+
+const MAX_BODY_SIZE = 5 * 1024 * 1024; // 5MB
+
+const dateString = z.string().regex(/^(\d{4}-\d{2}-\d{2})?$/, "Must be YYYY-MM-DD format or empty");
+
+const profileCreateSchema = z.object({
+  name: z.string().min(1).max(200),
+  date_of_birth: dateString,
+  sex: z.enum(["M", "F"]),
+});
+
+const profileUpdateSchema = z.object({
+  name: z.string().min(1).max(200).optional(),
+  date_of_birth: dateString.optional(),
+  sex: z.enum(["M", "F"]).optional(),
+}).refine(data => Object.keys(data).length > 0, "At least one field is required");
+
+const resultCreateSchema = z.object({
+  profile_id: z.number().int().positive(),
+  biomarker_id: z.string().min(1).max(200),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD format"),
+  value: z.union([z.number(), z.string().min(1).max(200)]),
+});
+
+const resultUpdateSchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD format").optional(),
+  value: z.union([z.number(), z.string().min(1).max(200)]).optional(),
+}).refine(data => Object.keys(data).length > 0, "At least one field is required");
+
+const biomarkerCreateSchema = z.object({
+  id: z.string().min(1).max(200).regex(/^[a-z0-9_]+$/, "Must be lowercase alphanumeric with underscores"),
+  category_id: z.string().min(1).max(200),
+  unit: z.string().max(50).nullish(),
+  ref_min: z.number().nullish(),
+  ref_max: z.number().nullish(),
+  type: z.enum(["quantitative", "qualitative"]).optional(),
+});
+
+const biomarkerUpdateSchema = z.object({
+  unit: z.string().max(50).nullable().optional(),
+  ref_min: z.number().nullable().optional(),
+  ref_max: z.number().nullable().optional(),
+}).refine(data => Object.keys(data).length > 0, "At least one field is required");
+
+const batchResultsSchema = z.object({
+  profile_id: z.number().int().positive(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD format"),
+  entries: z.array(z.object({
+    biomarker_id: z.string().min(1).max(200),
+    value: z.union([z.number(), z.string().min(1).max(200)]),
+  })).min(1).max(500),
+});
+
+const importDataSchema = z.object({
+  user: z.object({
+    name: z.string().min(1).max(200),
+    dateOfBirth: z.string().optional(),
+    sex: z.enum(["M", "F"]).optional(),
+  }),
+  categories: z.array(z.object({
+    id: z.string().min(1).max(200),
+    biomarkers: z.array(z.object({
+      id: z.string().min(1).max(200),
+      unit: z.string().max(50).nullish(),
+      refMin: z.number().nullish(),
+      refMax: z.number().nullish(),
+      type: z.enum(["quantitative", "qualitative"]).optional(),
+      results: z.array(z.object({
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        value: z.union([z.number(), z.string().max(200)]),
+      })).max(10000),
+    })).max(500),
+  })).max(100),
+});
+
+const reorderSchema = z.object({
+  profileIds: z.array(z.number().int().positive()).min(1).max(100),
+});
+
+async function parseBody<T>(req: Request, schema: z.ZodSchema<T>): Promise<T | Response> {
+  const contentLength = req.headers.get("content-length");
+  if (contentLength && Number(contentLength) > MAX_BODY_SIZE) {
+    return error("Request body too large", 413);
+  }
+  try {
+    const body = await req.json();
+    const result = schema.safeParse(body);
+    if (!result.success) {
+      const messages = result.error.issues.map(i => `${i.path.join(".")}: ${i.message}`);
+      return error(`Validation error: ${messages.join("; ")}`, 400);
+    }
+    return result.data;
+  } catch {
+    return error("Invalid JSON", 400);
+  }
+}
+
+function isResponse(value: unknown): value is Response {
+  return value instanceof Response;
+}
 
 const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
+
+const SECURITY_HEADERS: Record<string, string> = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "X-XSS-Protection": "0",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  ...(process.env.NODE_ENV === "production"
+    ? { "Strict-Transport-Security": "max-age=31536000; includeSubDomains" }
+    : {}),
+};
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -44,6 +157,7 @@ function json(data: unknown, status = 200): Response {
       "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Allow-Credentials": "true",
+      ...SECURITY_HEADERS,
     },
   });
 }
@@ -112,7 +226,7 @@ export function startWebServer(opts: {
       if (method === "GET" && (path === "/.well-known/oauth-protected-resource/mcp" || path === "/.well-known/oauth-protected-resource"))
         return handleRSMetadata(req);
 
-      // Dynamic client registration
+      // Dynamic client registration (OAuth 2.1 spec — unauthenticated per RFC 7591)
       if (path === "/register") {
         if (method === "OPTIONS") return handleOAuthPreflight();
         if (method === "POST") return handleRegister(req);
@@ -152,6 +266,7 @@ export function startWebServer(opts: {
             "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Authorization",
             "Access-Control-Allow-Credentials": "true",
+            ...SECURITY_HEADERS,
           },
         });
       }
@@ -340,7 +455,8 @@ export function startWebServer(opts: {
       if (method === "POST" && path === "/api/profiles") {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
+        const body = await parseBody(req, profileCreateSchema);
+        if (isResponse(body)) return body;
         const profile = await createProfile(auth.userId, body);
         return json(profile, 201);
       }
@@ -349,7 +465,8 @@ export function startWebServer(opts: {
       if (method === "PATCH" && profileMatch) {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
+        const body = await parseBody(req, profileUpdateSchema);
+        if (isResponse(body)) return body;
         const profile = await updateProfile(
           Number(profileMatch[1]),
           auth.userId,
@@ -363,8 +480,8 @@ export function startWebServer(opts: {
       if (method === "PUT" && path === "/api/profiles/reorder") {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
-        if (!Array.isArray(body?.profileIds)) return error("profileIds array is required");
+        const body = await parseBody(req, reorderSchema);
+        if (isResponse(body)) return body;
         await reorderProfiles(auth.userId, body.profileIds);
         return json({ ok: true });
       }
@@ -400,7 +517,8 @@ export function startWebServer(opts: {
       if (method === "POST" && path === "/api/biomarkers") {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
+        const body = await parseBody(req, biomarkerCreateSchema);
+        if (isResponse(body)) return body;
         const biomarker = await createBiomarker(body);
         return json(biomarker, 201);
       }
@@ -410,7 +528,8 @@ export function startWebServer(opts: {
       if (method === "PATCH" && biomarkerMatch) {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
+        const body = await parseBody(req, biomarkerUpdateSchema);
+        if (isResponse(body)) return body;
         const biomarker = await updateBiomarker(biomarkerMatch[1], body);
         if (!biomarker) return error("Biomarker not found", 404);
         return json(biomarker);
@@ -437,10 +556,8 @@ export function startWebServer(opts: {
       if (method === "POST" && path === "/api/batch-results") {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
-        if (!body?.profile_id || !body?.date || !Array.isArray(body?.entries)) {
-          return error("profile_id, date, and entries array are required");
-        }
+        const body = await parseBody(req, batchResultsSchema);
+        if (isResponse(body)) return body;
         try {
           const result = await batchAddResults(auth.userId, body);
           return json(result, 201);
@@ -453,7 +570,8 @@ export function startWebServer(opts: {
       if (method === "POST" && path === "/api/results") {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
+        const body = await parseBody(req, resultCreateSchema);
+        if (isResponse(body)) return body;
         try {
           const result = await addResult(auth.userId, body);
           return json(result, 201);
@@ -470,7 +588,8 @@ export function startWebServer(opts: {
       if (method === "PATCH" && resultMatch) {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
+        const body = await parseBody(req, resultUpdateSchema);
+        if (isResponse(body)) return body;
         const result = await updateResult(
           auth.userId,
           Number(resultMatch[1]),
@@ -523,21 +642,26 @@ export function startWebServer(opts: {
       if (method === "POST" && path === "/api/import") {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
+        const body = await parseBody(req, importDataSchema);
+        if (isResponse(body)) return body;
         const profileId = await importProfileData(auth.userId, body);
         return json({ ok: true, profile_id: profileId }, 201);
       }
 
       // --- Static file serving (production) ---
       if (hasFrontend) {
-        const filePath = join(
+        const filePath = resolve(
           publicDir,
-          path === "/" ? "index.html" : path,
+          path === "/" ? "index.html" : path.slice(1),
         );
+        // Prevent path traversal — ensure resolved path stays within publicDir
+        if (!filePath.startsWith(resolve(publicDir))) {
+          return error("Forbidden", 403);
+        }
         const file = Bun.file(filePath);
-        if (await file.exists()) return new Response(file);
+        if (await file.exists()) return new Response(file, { headers: SECURITY_HEADERS });
         // SPA fallback
-        return new Response(Bun.file(join(publicDir, "index.html")));
+        return new Response(Bun.file(join(publicDir, "index.html")), { headers: SECURITY_HEADERS });
       }
 
       return error("Not found", 404);

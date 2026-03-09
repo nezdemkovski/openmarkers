@@ -2,7 +2,10 @@ import { renderLoginPage } from "./oauth-login.ts";
 import { oauthStore } from "@openmarkers/db";
 
 const NEON_AUTH_BASE_URL = process.env.NEON_AUTH_BASE_URL!;
-const OAUTH_SECRET = process.env.OAUTH_SECRET || "openmarkers-default-oauth-secret-change-me";
+const OAUTH_SECRET = process.env.OAUTH_SECRET;
+if (!OAUTH_SECRET) {
+  throw new Error("OAUTH_SECRET environment variable is required. Generate one with: openssl rand -base64 32");
+}
 
 // --- AES-256-GCM encryption for session cookies stored in DB ---
 
