@@ -15,6 +15,7 @@ import {
   getProfileResults,
   importProfileData,
   exportProfileData,
+  batchAddResults,
   findProfileByName,
   getTimelineForProfile,
   getSnapshotForProfile,
@@ -125,6 +126,22 @@ export function startWebServer(opts: {
       if (path === "/token") {
         if (method === "OPTIONS") return handleOAuthPreflight();
         if (method === "POST") return handleToken(req);
+      }
+
+      // GET /schema.json — public, no auth (biomarker metadata only)
+      if (method === "GET" && path === "/schema.json") {
+        const schemaPath = join(import.meta.dir, "..", "..", "..", "data", "schema.json");
+        const file = Bun.file(schemaPath);
+        if (await file.exists()) {
+          return new Response(file, {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Cache-Control": "public, max-age=86400",
+            },
+          });
+        }
+        return error("Schema not found", 404);
       }
 
       // CORS preflight
@@ -414,6 +431,22 @@ export function startWebServer(opts: {
         return json(
           await getProfileResults(auth.userId, Number(profileId), filters),
         );
+      }
+
+      // POST /api/batch-results
+      if (method === "POST" && path === "/api/batch-results") {
+        const auth = await requireAuth(req);
+        if (!authResult(auth)) return auth;
+        const body = await req.json();
+        if (!body?.profile_id || !body?.date || !Array.isArray(body?.entries)) {
+          return error("profile_id, date, and entries array are required");
+        }
+        try {
+          const result = await batchAddResults(auth.userId, body);
+          return json(result, 201);
+        } catch (e: unknown) {
+          return error((e as Error).message || "Failed to add results", 403);
+        }
       }
 
       // POST /api/results

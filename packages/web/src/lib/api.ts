@@ -80,6 +80,15 @@ export const api = {
       body: JSON.stringify({ profileIds }),
     }),
   deleteAccount: () => del<{ ok: boolean }>("/api/account"),
+  listBiomarkers: (categoryId?: string) => {
+    const qs = categoryId ? `?category_id=${encodeURIComponent(categoryId)}` : "";
+    return request<import("@openmarkers/db").DbBiomarker[]>(`/api/biomarkers${qs}`);
+  },
+  batchResults: (data: {
+    profile_id: number;
+    date: string;
+    entries: Array<{ biomarker_id: string; value: string | number }>;
+  }) => post<{ inserted: number; skipped: number }>("/api/batch-results", data),
   addResult: (data: { profile_id: number; biomarker_id: string; date: string; value: string | number }) =>
     post<{ id: number; profile_id: number; biomarker_id: string; date: string; value: string }>("/api/results", data),
   updateResult: (id: number, data: { date?: string; value?: string | number }) =>

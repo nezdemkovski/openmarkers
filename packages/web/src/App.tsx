@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { Copy, CheckCheck } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeI18n } from "./i18n.ts";
 import { authClient } from "./lib/auth-client.ts";
@@ -11,6 +12,7 @@ import TimelineView from "./components/TimelineView.tsx";
 import ComparisonView from "./components/ComparisonView.tsx";
 import SettingsView from "./components/SettingsView.tsx";
 import Loading from "./components/Loading.tsx";
+import AddLabVisit from "./components/AddLabVisit.tsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.tsx";
 import TermsOfService from "./components/TermsOfService.tsx";
 import type { UserData, Lang, Route } from "./types.ts";
@@ -132,6 +134,7 @@ export default function App() {
   }, [profileList, activeProfileId]);
 
   const hasNoProfiles = isAuthenticated && !isDemo && profileListLoaded && profileList.length === 0;
+  const showGettingStarted = !isDemo && (hasNoProfiles || (profileData && profileData.categories.length === 0));
   const displayData = isDemo && demoData ? demoData : hasNoProfiles ? EMPTY_USER_DATA : profileData;
 
   const handleResultMutate = useCallback(() => {
@@ -199,9 +202,11 @@ export default function App() {
   const [importPending, setImportPending] = useState<{ data: unknown; name: string } | null>(null);
   const [importName, setImportName] = useState("");
   const [importing, setImporting] = useState(false);
+  const [addLabVisitProfileId, setAddLabVisitProfileId] = useState<number | null>(null);
 
   const switchToProfile = useCallback((profileId: number) => {
     queryClient.invalidateQueries({ queryKey: ["profiles"] });
+    queryClient.invalidateQueries({ queryKey: ["profile", profileId] });
     setActiveProfileId(profileId);
     localStorage.setItem("activeProfileId", String(profileId));
     setIsDemo(false);
@@ -401,6 +406,7 @@ export default function App() {
           isDemo={isDemo}
           onSetDemo={setDemoMode}
           onImport={handleImport}
+          onAddLabVisit={activeProfileId != null && !isDemo ? () => setAddLabVisitProfileId(activeProfileId) : undefined}
           authEmail={authEmail}
           onSignOut={handleSignOut}
         />
@@ -424,13 +430,15 @@ export default function App() {
                 onDeleteAccount={handleDeleteAccount}
                 onExport={handleExportProfile}
               />
-            ) : hasNoProfiles ? (
+            ) : showGettingStarted ? (
               <GettingStarted
                 i18n={i18n}
                 onImport={handleImport}
-                onDemo={() => setDemoMode(true)}
                 onCreated={switchToProfile}
+                onAddLabVisit={(profileId) => setAddLabVisitProfileId(profileId)}
                 importing={importing}
+                hasProfile={!hasNoProfiles}
+                activeProfileId={activeProfileId}
               />
             ) : route.view === "category" && category ? (
               <CategoryView category={category} isDark={isDark} i18n={i18n} profileId={isDemo ? undefined : (activeProfileId ?? undefined)} onMutate={isDemo ? undefined : handleResultMutate} />
@@ -438,14 +446,6 @@ export default function App() {
               <TimelineView categories={displayData.categories} isDark={isDark} i18n={i18n} />
             ) : route.view === "compare" ? (
               <ComparisonView categories={displayData.categories} isDark={isDark} i18n={i18n} />
-            ) : displayData.categories.length === 0 && !isDemo ? (
-              <GettingStarted
-                i18n={i18n}
-                onImport={handleImport}
-                onDemo={() => setDemoMode(true)}
-                onCreated={switchToProfile}
-                importing={importing}
-              />
             ) : (
               <Dashboard
                 userData={displayData}
@@ -493,6 +493,22 @@ export default function App() {
           </div>
         </div>
       )}
+      {addLabVisitProfileId !== null && (
+        <AddLabVisit
+          profileId={addLabVisitProfileId}
+          i18n={i18n}
+          onClose={() => {
+            const pid = addLabVisitProfileId;
+            setAddLabVisitProfileId(null);
+            switchToProfile(pid);
+          }}
+          onSuccess={() => {
+            const pid = addLabVisitProfileId;
+            setAddLabVisitProfileId(null);
+            switchToProfile(pid);
+          }}
+        />
+      )}
     </>
   );
 }
@@ -500,15 +516,19 @@ export default function App() {
 function GettingStarted({
   i18n,
   onImport,
-  onDemo,
   onCreated,
+  onAddLabVisit,
   importing,
+  hasProfile,
+  activeProfileId,
 }: {
   i18n: ReturnType<typeof makeI18n>;
   onImport: (file: File) => void;
-  onDemo: () => void;
   onCreated: (profileId: number) => void;
+  onAddLabVisit: (profileId: number) => void;
   importing: boolean;
+  hasProfile: boolean;
+  activeProfileId: number | null;
 }) {
   const { t } = i18n;
   const [showCreate, setShowCreate] = useState(false);
@@ -544,128 +564,113 @@ function GettingStarted({
     input.click();
   };
 
+  const hasActiveProfile = hasProfile && activeProfileId !== null;
+
   return (
     <div className="max-w-lg mx-auto pt-8 md:pt-16">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t("allResults")}</h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("getStartedDesc")}</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t(hasActiveProfile ? "addYourData" : "allResults")}</h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t(hasActiveProfile ? "addYourDataDesc" : "getStartedDesc")}</p>
       </div>
 
       <div className="space-y-3">
-        {/* Import data — primary action */}
-        <button
-          onClick={handleFileSelect}
-          disabled={importing}
-          className="w-full flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm hover:border-blue-300 dark:hover:border-blue-600 transition-colors text-left disabled:opacity-60"
-        >
-          <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
-            {importing ? (
-              <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-              </svg>
-            )}
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-              {importing ? t("importingData") : t("import")}
-            </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("importDesc")}</div>
-          </div>
-        </button>
-
-        {/* Create new profile */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+        {/* Add lab visit — only when profile exists */}
+        {hasActiveProfile && (
           <button
-            onClick={() => setShowCreate(!showCreate)}
-            className="w-full flex items-center gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left"
+            onClick={() => onAddLabVisit(activeProfileId)}
+            className="w-full flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm hover:border-blue-300 dark:hover:border-blue-600 transition-colors text-left"
           >
-            <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
-              <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
             </div>
-            <div className="flex-1">
-              <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("createProfile")}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("createProfileDesc")}</div>
+            <div>
+              <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("addLabVisit")}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("addLabVisitDesc")}</div>
             </div>
-            <svg className={`w-4 h-4 text-gray-400 transition-transform ${showCreate ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
           </button>
-          {showCreate && (
-            <form onSubmit={handleCreate} className="px-5 pb-5 space-y-3 border-t border-gray-100 dark:border-gray-700 pt-4">
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={t("profileName")}
-                required
-                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <input
-                type="date"
-                value={dob}
-                onChange={(e) => setDob(e.target.value)}
-                required
-                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setSex("M")}
-                  className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${
-                    sex === "M"
-                      ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                      : "border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400"
-                  }`}
-                >
-                  {t("sexMale")}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSex("F")}
-                  className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${
-                    sex === "F"
-                      ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                      : "border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400"
-                  }`}
-                >
-                  {t("sexFemale")}
-                </button>
-              </div>
-              {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
-              <button
-                type="submit"
-                disabled={loading || !name.trim() || !dob}
-                className="w-full py-2 px-4 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
-              >
-                {loading ? "..." : t("createProfile")}
-              </button>
-            </form>
-          )}
-        </div>
+        )}
 
-        {/* Try demo */}
-        <button
-          onClick={onDemo}
-          className="w-full flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl border border-amber-200 dark:border-amber-700/50 p-5 shadow-sm hover:bg-amber-50/50 dark:hover:bg-amber-950/20 transition-colors text-left"
-        >
-          <div className="w-10 h-10 rounded-lg bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center shrink-0">
-            <svg className="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
+        {/* Import data */}
+        <ImportButton importing={importing} onClick={handleFileSelect} t={t} />
+
+        {/* Create new profile — only when no profile exists */}
+        {!hasActiveProfile && (
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+            <button
+              onClick={() => setShowCreate(!showCreate)}
+              className="w-full flex items-center gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left"
+            >
+              <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("createProfile")}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("createProfileDesc")}</div>
+              </div>
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${showCreate ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {showCreate && (
+              <form onSubmit={handleCreate} className="px-5 pb-5 space-y-3 border-t border-gray-100 dark:border-gray-700 pt-4">
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder={t("profileName")}
+                  required
+                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <input
+                  type="date"
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSex("M")}
+                    className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                      sex === "M"
+                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                        : "border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400"
+                    }`}
+                  >
+                    {t("sexMale")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSex("F")}
+                    className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${
+                      sex === "F"
+                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                        : "border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400"
+                    }`}
+                  >
+                    {t("sexFemale")}
+                  </button>
+                </div>
+                {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+                <button
+                  type="submit"
+                  disabled={loading || !name.trim() || !dob}
+                  className="w-full py-2 px-4 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                >
+                  {loading ? "..." : t("createProfile")}
+                </button>
+              </form>
+            )}
           </div>
-          <div>
-            <div className="text-sm font-semibold text-amber-700 dark:text-amber-300">{t("authTryDemo")}</div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("demoDesc")}</div>
-          </div>
-        </button>
+        )}
+
+        <AiImportSection i18n={i18n} />
+        <McpSetupSection i18n={i18n} />
       </div>
     </div>
   );
@@ -676,5 +681,188 @@ function MenuIcon() {
     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
+  );
+}
+
+const SCHEMA_URL = "https://openmarkers.app/schema.json";
+
+const AI_PROMPT = `I have lab/blood test results that I need to convert into a specific JSON format for the OpenMarkers app.
+
+First, fetch the schema from: ${SCHEMA_URL}
+
+The schema contains all supported biomarker IDs, units, and reference ranges in x-biomarker-metadata. Use ONLY biomarker IDs that exist in the schema. If a test from my results doesn't match any biomarker in the schema, skip it.
+
+Convert my lab results into this JSON structure:
+{
+  "$schema": "${SCHEMA_URL}",
+  "user": { "name": "My Name", "dateOfBirth": "YYYY-MM-DD", "sex": "M" },
+  "categories": [
+    {
+      "id": "<category_id from schema>",
+      "biomarkers": [
+        {
+          "id": "<biomarker_id from schema>",
+          "results": [{ "date": "YYYY-MM-DD", "value": 5.2 }]
+        }
+      ]
+    }
+  ]
+}
+
+Rules:
+- Always include the "$schema" field pointing to ${SCHEMA_URL}
+- Match my test names to the closest biomarker ID in the schema (e.g. "Urea" → "S-UREA", "Hemoglobin" → "B-HGB")
+- Use the category_id each biomarker belongs to in the schema
+- Do NOT include unit/refMin/refMax in the output — the app has its own reference ranges
+- Numeric values should be numbers, not strings
+- Group results by category, then by biomarker
+- If I have results from multiple dates, include all of them under the same biomarker
+
+Here are my lab results:
+`;
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }}
+      className="absolute top-2 right-2 px-2 py-1 text-xs rounded border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+    >
+      {copied ? <CheckCheck className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+    </button>
+  );
+}
+
+function ImportButton({ importing, onClick, t }: { importing: boolean; onClick: () => void; t: (key: string) => string }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={importing}
+      className="w-full flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm hover:border-blue-300 dark:hover:border-blue-600 transition-colors text-left disabled:opacity-60"
+    >
+      <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
+        {importing ? (
+          <svg className="w-5 h-5 text-green-600 dark:text-green-400 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+        ) : (
+          <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+        )}
+      </div>
+      <div>
+        <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+          {importing ? t("importingData") : t("import")}
+        </div>
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("importDesc")}</div>
+      </div>
+    </button>
+  );
+}
+
+function AiImportSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
+  const { t } = i18n;
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left"
+      >
+        <div className="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
+          <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+          </svg>
+        </div>
+        <div className="flex-1">
+          <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("aiImport")}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("aiImportDesc")}</div>
+        </div>
+        <svg className={`w-4 h-4 text-gray-400 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="px-5 pb-5 border-t border-gray-100 dark:border-gray-700 pt-4 space-y-3">
+          <p className="text-sm text-gray-600 dark:text-gray-400">{t("aiImportInstructions")}</p>
+          <div className="relative">
+            <pre className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-xs text-gray-700 dark:text-gray-300 font-mono whitespace-pre-wrap max-h-48 overflow-y-auto">{AI_PROMPT.trim()}</pre>
+            <CopyButton text={AI_PROMPT} />
+          </div>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{t("aiImportThen")}</p>
+          <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-3 space-y-1.5">
+            <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{t("schemaTip")}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{t("schemaTipDesc")}</p>
+            <div className="relative">
+              <pre className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-gray-100 font-mono">{`"$schema": "${SCHEMA_URL}"`}</pre>
+              <CopyButton text={`"$schema": "${SCHEMA_URL}"`} />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function McpSetupSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
+  const { t } = i18n;
+  const [open, setOpen] = useState(false);
+
+  const mcpConfig = JSON.stringify({
+    "openmarkers": {
+      "type": "http",
+      "url": "https://openmarkers.app/mcp",
+    }
+  }, null, 2);
+
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left"
+      >
+        <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center shrink-0">
+          <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+          </svg>
+        </div>
+        <div className="flex-1">
+          <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("mcpSetup")}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("mcpSetupDesc")}</div>
+        </div>
+        <svg className={`w-4 h-4 text-gray-400 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="px-5 pb-5 border-t border-gray-100 dark:border-gray-700 pt-4 space-y-3">
+          <p className="text-sm text-gray-600 dark:text-gray-400">{t("mcpSetupInstructions")}</p>
+          <div className="relative">
+            <pre className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 font-mono overflow-x-auto">{mcpConfig}</pre>
+            <CopyButton text={mcpConfig} />
+          </div>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{t("mcpSetupAuth")}</p>
+          <div className="text-xs text-gray-500 dark:text-gray-400 space-y-2">
+            <p className="font-medium text-gray-700 dark:text-gray-300">{t("mcpSetupToolsTitle")}</p>
+            <ul className="list-disc pl-4 space-y-0.5">
+              <li><span className="font-mono text-gray-600 dark:text-gray-300">import_profile_data</span> — {t("mcpToolImport")}</li>
+              <li><span className="font-mono text-gray-600 dark:text-gray-300">get_schema</span> — {t("mcpToolSchema")}</li>
+              <li><span className="font-mono text-gray-600 dark:text-gray-300">add_result</span> — {t("mcpToolAddResult")}</li>
+              <li><span className="font-mono text-gray-600 dark:text-gray-300">get_profile</span> — {t("mcpToolGetProfile")}</li>
+              <li><span className="font-mono text-gray-600 dark:text-gray-300">get_trends</span> — {t("mcpToolTrends")}</li>
+              <li><span className="font-mono text-gray-600 dark:text-gray-300">get_analysis_prompt</span> — {t("mcpToolAnalysis")}</li>
+            </ul>
+            <p className="text-gray-400 dark:text-gray-500">{t("mcpToolsMore")}</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

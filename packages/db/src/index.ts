@@ -612,6 +612,48 @@ export async function importProfileData(
   return profileId;
 }
 
+// ---- Batch add results (for "Add Lab Visit" flow) ----
+
+export async function batchAddResults(
+  authUserId: string,
+  data: {
+    profile_id: number;
+    date: string;
+    entries: Array<{ biomarker_id: string; value: string | number }>;
+  },
+): Promise<{ inserted: number; skipped: number }> {
+  const profile = await getProfile(data.profile_id, authUserId);
+  if (!profile) throw new Error("Profile not found or not owned by user");
+  if (!data.entries.length) return { inserted: 0, skipped: 0 };
+
+  // Ensure profile_biomarkers associations exist
+  const pbValues = data.entries.map((e) => ({
+    profileId: data.profile_id,
+    biomarkerId: e.biomarker_id,
+    unit: null as string | null,
+    refMin: null as number | null,
+    refMax: null as number | null,
+  }));
+  await db.insert(profileBiomarkers).values(pbValues).onConflictDoNothing();
+
+  // Insert results
+  const resValues = data.entries.map((e) => ({
+    profileId: data.profile_id,
+    biomarkerId: e.biomarker_id,
+    date: data.date,
+    value: String(e.value),
+  }));
+  const upserted = await db
+    .insert(results)
+    .values(resValues)
+    .onConflictDoUpdate({
+      target: [results.profileId, results.biomarkerId, results.date],
+      set: { value: sql`excluded.value` },
+    })
+    .returning({ id: results.id });
+  return { inserted: upserted.length, skipped: data.entries.length - upserted.length };
+}
+
 export async function isDbEmpty(): Promise<boolean> {
   const [row] = await db
     .select({ count: sql<number>`count(*)` })

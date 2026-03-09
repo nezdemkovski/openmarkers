@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Sun, Moon, Languages, ChevronDown, Clock, GitCompareArrows, FlaskConical, X, Upload, Settings, LogOut } from "lucide-react";
+import { Sun, Moon, Languages, ChevronDown, Clock, GitCompareArrows, FlaskConical, X, Upload, Settings, LogOut, PlusCircle } from "lucide-react";
 import type { Category, I18n, Lang, UserData, Route } from "../types.ts";
 import { LANGS } from "../i18n.ts";
 
@@ -40,6 +40,7 @@ interface SidebarProps {
   isDemo: boolean;
   onSetDemo: (demo: boolean) => void;
   onImport?: (file: File) => void;
+  onAddLabVisit?: () => void;
   authEmail?: string | null;
   onSignOut?: () => void;
 }
@@ -60,6 +61,7 @@ export default function Sidebar({
   isDemo,
   onSetDemo,
   onImport,
+  onAddLabVisit,
   authEmail,
   onSignOut,
 }: SidebarProps) {
@@ -259,6 +261,15 @@ export default function Sidebar({
               <span className="flex-1 text-left">{t("import")}</span>
             </button>
           </>
+        )}
+        {!isDemo && onAddLabVisit && (
+          <button
+            onClick={onAddLabVisit}
+            className="nav-item w-full text-gray-600 dark:text-gray-300 font-medium gap-2"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span className="flex-1 text-left">{t("addLabVisit")}</span>
+          </button>
         )}
         {!isDemo && (
           <button

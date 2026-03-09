@@ -19,7 +19,7 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
   const [showPreview, setShowPreview] = useState(false);
 
   const localPrompt = useMemo(
-    () => profileId == null ? buildPrompt(userData, makeI18n("en"), lang) : "",
+    () => (profileId == null ? buildPrompt(userData, makeI18n("en"), lang) : ""),
     [userData, lang, profileId],
   );
 
@@ -39,7 +39,7 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
 
   return (
     <div className="mb-6">
-      <div className="bg-gradient-to-r from-violet-50 to-blue-50 dark:from-violet-950/30 dark:to-blue-950/30 border border-violet-200 dark:border-violet-700/50 rounded-xl p-4 shadow-sm">
+      <div className="bg-linear-to-r from-violet-50 to-blue-50 dark:from-violet-950/30 dark:to-blue-950/30 border border-violet-200 dark:border-violet-700/50 rounded-xl p-4 shadow-sm">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-lg bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
@@ -47,7 +47,38 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
             </div>
             <div>
               <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("aiAnalysis")}</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{t("aiAnalysisDesc")}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t("aiAnalysisDesc")
+                  .split("{mcpLink}")
+                  .map((part, i) =>
+                    i === 0 ? (
+                      part
+                    ) : (
+                      <span key={i}>
+                        {profileId != null ? (
+                          <a
+                            href="/settings"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              history.pushState(null, "", "/settings");
+                              window.dispatchEvent(new PopStateEvent("popstate"));
+                              setTimeout(
+                                () => document.getElementById("mcp")?.scrollIntoView({ behavior: "smooth" }),
+                                100,
+                              );
+                            }}
+                            className="text-violet-600 dark:text-violet-400 hover:underline"
+                          >
+                            {t("aiAnalysisSetupMcp")}
+                          </a>
+                        ) : (
+                          t("aiAnalysisSetupMcp")
+                        )}
+                        {part}
+                      </span>
+                    ),
+                  )}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">

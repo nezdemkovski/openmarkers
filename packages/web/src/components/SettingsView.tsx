@@ -411,7 +411,7 @@ function McpSection({ t }: { t: (key: string) => string }) {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 space-y-4">
+    <section id="mcp" className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 space-y-4">
       <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{t("settingsMcp")}</h2>
       <p className="text-sm text-gray-600 dark:text-gray-400">{t("settingsMcpDesc")}</p>
 
