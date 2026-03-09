@@ -17,9 +17,11 @@ export async function verifyToken(
 ): Promise<{ userId: string; email: string } | null> {
   try {
     const { payload } = await jwtVerify(token, getJWKS());
-    return { userId: payload.sub!, email: (payload.email as string) ?? "" };
+    if (!payload.sub) return null;
+    return { userId: payload.sub, email: typeof payload.email === "string" ? payload.email : "" };
   } catch (e) {
-    console.error("[auth] JWT verification failed:", (e as Error).message);
+    const message = e instanceof Error ? e.message : "Unknown error";
+    console.error("[auth] JWT verification failed:", message);
     return null;
   }
 }

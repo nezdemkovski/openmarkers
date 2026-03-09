@@ -160,6 +160,14 @@ export interface TranslationData {
 }
 
 export type Lang = "en" | "cs" | "ru" | "is";
+const LANG_VALUES: readonly string[] = ["en", "cs", "ru", "is"];
+export function isLang(value: unknown): value is Lang {
+  return typeof value === "string" && LANG_VALUES.includes(value);
+}
+
+export function errorMessage(e: unknown): string {
+  return e instanceof Error ? e.message : "Unknown error";
+}
 
 export interface I18n {
   t: (key: string) => string;

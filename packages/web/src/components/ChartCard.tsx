@@ -164,8 +164,8 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
     if (biomarker.refMin != null) _refParts.push(biomarker.refMin);
     if (biomarker.refMax != null) _refParts.push(biomarker.refMax);
     const _refStr = _refParts.join(" \u2013 ");
-    const results = biomarker.results.filter((r) => typeof r.value === "number");
-    const _data = results.map((r) => ({ date: r.date, value: r.value as number }));
+    const results = biomarker.results.filter((r): r is typeof r & { value: number } => typeof r.value === "number");
+    const _data = results.map((r) => ({ date: r.date, value: r.value }));
     const allValues = _data.map((d) => d.value);
     if (biomarker.refMin != null) allValues.push(biomarker.refMin);
     if (biomarker.refMax != null) allValues.push(biomarker.refMax);

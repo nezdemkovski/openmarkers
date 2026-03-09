@@ -237,14 +237,14 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
   // POST — form submission
   return (async () => {
     const formData = await req.formData();
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const clientId = formData.get("client_id") as string;
-    const redirectUri = formData.get("redirect_uri") as string;
-    const codeChallenge = formData.get("code_challenge") as string;
-    const codeChallengeMethod = formData.get("code_challenge_method") as string;
-    const state = formData.get("state") as string;
-    const scope = formData.get("scope") as string;
+    const email = String(formData.get("email") ?? "");
+    const password = String(formData.get("password") ?? "");
+    const clientId = String(formData.get("client_id") ?? "");
+    const redirectUri = String(formData.get("redirect_uri") ?? "");
+    const codeChallenge = String(formData.get("code_challenge") ?? "");
+    const codeChallengeMethod = String(formData.get("code_challenge_method") ?? "");
+    const state = String(formData.get("state") ?? "");
+    const scope = String(formData.get("scope") ?? "");
 
     await oauthStore.ensureClient(clientId, redirectUri);
 

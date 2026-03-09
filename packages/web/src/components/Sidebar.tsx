@@ -74,8 +74,10 @@ export default function Sidebar({
 
   useEffect(() => {
     const close = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
-      if (userRef.current && !userRef.current.contains(e.target as Node)) setUserOpen(false);
+      const target = e.target;
+      if (!(target instanceof Node)) return;
+      if (langRef.current && !langRef.current.contains(target)) setLangOpen(false);
+      if (userRef.current && !userRef.current.contains(target)) setUserOpen(false);
     };
     document.addEventListener("click", close);
     return () => document.removeEventListener("click", close);

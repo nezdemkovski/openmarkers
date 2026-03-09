@@ -3,6 +3,7 @@ import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, Check
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
 import type { I18n, Sex } from "../types.ts";
+import { errorMessage } from "../lib/utils.ts";
 
 interface SettingsViewProps {
   i18n: I18n;
@@ -106,7 +107,7 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
       setEditing(false);
       onUpdated();
     } catch (e) {
-      setError((e as Error).message);
+      setError(errorMessage(e));
     } finally {
       setSaving(false);
     }
@@ -117,7 +118,7 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
       await api.deleteProfile(profile.id);
       onDeleted(profile.id);
     } catch (e) {
-      setError((e as Error).message);
+      setError(errorMessage(e));
     }
   };
 
@@ -144,7 +145,7 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
           />
           <select
             value={sex}
-            onChange={(e) => setSex(e.target.value as Sex)}
+            onChange={(e) => { const v = e.target.value; if (v === "M" || v === "F") setSex(v); }}
             className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="M">{t("sexMale")}</option>
@@ -261,7 +262,7 @@ function ChangeNameForm({ t, currentName }: { t: (key: string) => string; curren
       setStatus("saved");
       setTimeout(() => setStatus("idle"), 2000);
     } catch (err) {
-      setError((err as Error).message);
+      setError(errorMessage(err));
       setStatus("error");
       setTimeout(() => setStatus("idle"), 3000);
     }
@@ -306,7 +307,7 @@ function ChangeEmailForm({ t, currentEmail }: { t: (key: string) => string; curr
       setEmail("");
       setTimeout(() => setStatus("idle"), 2000);
     } catch (err) {
-      setError((err as Error).message);
+      setError(errorMessage(err));
       setStatus("error");
       setTimeout(() => setStatus("idle"), 3000);
     }
@@ -353,7 +354,7 @@ function ChangePasswordForm({ t }: { t: (key: string) => string }) {
       setNewPassword("");
       setTimeout(() => setStatus("idle"), 2000);
     } catch (err) {
-      setError((err as Error).message);
+      setError(errorMessage(err));
       setStatus("error");
       setTimeout(() => setStatus("idle"), 3000);
     }

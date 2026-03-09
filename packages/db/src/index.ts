@@ -39,6 +39,8 @@ export type {
   I18n,
 } from "./types";
 
+export { isLang, errorMessage } from "./types";
+
 export {
   isOutOfRange,
   analyzeTrend,
@@ -82,7 +84,7 @@ export async function listProfiles(authUserId: string): Promise<ProfileSummary[]
     .from(profiles)
     .where(eq(profiles.authUserId, authUserId))
     .orderBy(profiles.displayOrder, profiles.name);
-  return rows as ProfileSummary[];
+  return rows;
 }
 
 export async function getProfile(
@@ -612,12 +614,12 @@ export async function batchAddResults(
   if (!data.entries.length) return { inserted: 0, skipped: 0 };
 
   // Ensure profile_biomarkers associations exist
-  const pbValues = data.entries.map((e) => ({
+  const pbValues: { profileId: number; biomarkerId: string; unit: string | null; refMin: number | null; refMax: number | null }[] = data.entries.map((e) => ({
     profileId: data.profile_id,
     biomarkerId: e.biomarker_id,
-    unit: null as string | null,
-    refMin: null as number | null,
-    refMax: null as number | null,
+    unit: null,
+    refMin: null,
+    refMax: null,
   }));
   await db.insert(profileBiomarkers).values(pbValues).onConflictDoNothing();
 

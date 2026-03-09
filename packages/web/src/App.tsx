@@ -15,7 +15,9 @@ import Loading from "./components/Loading.tsx";
 import AddLabVisit from "./components/AddLabVisit.tsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.tsx";
 import TermsOfService from "./components/TermsOfService.tsx";
-import type { UserData, Lang, Route, Sex } from "./types.ts";
+import type { UserData, Route, Sex } from "./types.ts";
+import { isLang, errorMessage } from "./lib/utils.ts";
+import type { Lang } from "@openmarkers/db";
 
 function getInitialTheme(): "dark" | "light" {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
@@ -43,6 +45,14 @@ setTokenProvider(async () => {
   }
 });
 
+interface ImportData { user: { name: string }; [key: string]: unknown }
+function isImportData(data: unknown): data is ImportData {
+  if (typeof data !== "object" || data === null || !("user" in data)) return false;
+  const { user } = data;
+  if (typeof user !== "object" || user === null || !("name" in user)) return false;
+  return typeof user.name === "string";
+}
+
 const EMPTY_USER_DATA: UserData = {
   user: { id: 0, name: "", dateOfBirth: "", sex: "M" },
   categories: [],
@@ -51,7 +61,10 @@ const EMPTY_USER_DATA: UserData = {
 export default function App() {
   const queryClient = useQueryClient();
   const [theme, setTheme] = useState(getInitialTheme);
-  const [lang, setLang] = useState<Lang>(() => (localStorage.getItem("lang") as Lang) || "en");
+  const [lang, setLang] = useState<Lang>(() => {
+    const saved = localStorage.getItem("lang");
+    return isLang(saved) ? saved : "en";
+  });
   const [route, setRoute] = useState(getRouteFromPath);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isDemo, setIsDemo] = useState(false);
@@ -174,8 +187,8 @@ export default function App() {
   const setDemoMode = useCallback(
     (demo: boolean) => {
       if (demo && !demoData) {
-        import("../data/demo.json").then((m) => {
-          setDemoData(m.default as unknown as UserData);
+        import("../data/demo.json").then((m: { default: UserData }) => {
+          setDemoData(m.default);
           setIsDemo(true);
           navigateTo("/");
         });
@@ -199,7 +212,7 @@ export default function App() {
   }, []);
 
 
-  const [importPending, setImportPending] = useState<{ data: unknown; name: string } | null>(null);
+  const [importPending, setImportPending] = useState<{ data: ImportData; name: string } | null>(null);
   const [importName, setImportName] = useState("");
   const [importing, setImporting] = useState(false);
   const [addLabVisitProfileId, setAddLabVisitProfileId] = useState<number | null>(null);
@@ -226,16 +239,15 @@ export default function App() {
           setImporting(false);
           return;
         }
-        const obj = data as { user?: { name?: string } };
-        if (!obj?.user?.name) {
+        if (!isImportData(data)) {
           alert(i18n.t("importError"));
           setImporting(false);
           return;
         }
         const check = await api.checkImport(data);
         if (check.exists) {
-          setImportPending({ data, name: obj.user!.name! });
-          setImportName(obj.user!.name! + " (2)");
+          setImportPending({ data, name: data.user.name });
+          setImportName(data.user.name + " (2)");
           setImporting(false);
         } else {
           const r = await api.importProfile(data);
@@ -259,8 +271,7 @@ export default function App() {
   const confirmImport = useCallback(() => {
     if (!importPending) return;
     setImporting(true);
-    const data = importPending.data as { user: { name: string } };
-    data.user.name = importName;
+    const data = { ...importPending.data, user: { ...importPending.data.user, name: importName } };
     api.importProfile(data).then(async (r) => {
       setImportPending(null);
       const pd = await api.getProfile(r.profile_id);
@@ -547,7 +558,7 @@ function GettingStarted({
       const profile = await api.createProfile({ name: name.trim(), date_of_birth: dob, sex });
       onCreated(profile.id);
     } catch (err: unknown) {
-      setError((err as Error).message || "Failed to create profile");
+      setError(errorMessage(err));
     } finally {
       setLoading(false);
     }

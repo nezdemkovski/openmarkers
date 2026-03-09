@@ -39,8 +39,9 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     throw new Error("Unauthorized");
   }
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error((body as { error?: string }).error || `HTTP ${res.status}`);
+    const body: Record<string, unknown> = await res.json().catch(() => ({}));
+    const message = typeof body.error === "string" ? body.error : `HTTP ${res.status}`;
+    throw new Error(message);
   }
   return res.json();
 }

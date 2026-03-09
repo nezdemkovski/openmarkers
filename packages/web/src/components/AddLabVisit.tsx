@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { X, ChevronDown, Search } from "lucide-react";
 import { api } from "../lib/api.ts";
 import type { I18n } from "../types.ts";
+import { errorMessage } from "../lib/utils.ts";
 import type { DbBiomarker } from "@openmarkers/db";
 
 interface AddLabVisitProps {
@@ -95,7 +96,7 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
       await api.batchResults({ profile_id: profileId, date, entries });
       onSuccess();
     } catch (e: unknown) {
-      setError((e as Error).message || "Failed to save results");
+      setError(errorMessage(e));
       setSubmitting(false);
     }
   };

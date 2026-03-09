@@ -2,7 +2,8 @@ import { useState } from "react";
 import { authClient } from "../lib/auth-client";
 import { LineChart, HeartPulse, FlaskConical, Bot, ShieldCheck, Github, Play, Languages, Sun, Moon } from "lucide-react";
 import { LANGS } from "../i18n";
-import type { I18n, Lang } from "../types";
+import { isLang, errorMessage } from "../lib/utils";
+import type { I18n } from "../types";
 
 interface AuthPageProps {
   onAuthenticated: () => void;
@@ -49,7 +50,7 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
       }
       onAuthenticated();
     } catch (err: unknown) {
-      setError((err as Error).message || "Authentication failed");
+      setError(errorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -69,7 +70,7 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
           <Languages className="w-4 h-4" />
           <select
             value={lang}
-            onChange={(e) => onChangeLang(e.target.value as Lang)}
+            onChange={(e) => { const v = e.target.value; if (isLang(v)) onChangeLang(v); }}
             className="text-xs bg-transparent border-none focus:outline-none cursor-pointer text-gray-500 dark:text-gray-400"
           >
             {LANGS.map((l) => (

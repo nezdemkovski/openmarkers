@@ -30,7 +30,8 @@ import {
   sexEnum,
   biomarkerTypeEnum,
 } from "@openmarkers/db";
-import type { Lang } from "@openmarkers/db";
+import { isLang, errorMessage } from "@openmarkers/db";
+
 import { createMcpHandler } from "@openmarkers/mcp-server";
 import { handleASMetadata, handleRSMetadata, handleRegister, handleAuthorize, handleToken, handleOAuthPreflight } from "./oauth.ts";
 import { join, resolve } from "node:path";
@@ -410,7 +411,8 @@ export function startWebServer(opts: {
       if (method === "GET" && promptMatch) {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const lang = (url.searchParams.get("lang") as Lang) || "en";
+        const langParam = url.searchParams.get("lang");
+        const lang = isLang(langParam) ? langParam : "en";
         const result = await getAnalysisPromptForProfile(
           Number(promptMatch[1]),
           auth.userId,
@@ -544,7 +546,7 @@ export function startWebServer(opts: {
           const result = await batchAddResults(auth.userId, body);
           return json(result, 201);
         } catch (e: unknown) {
-          return error((e as Error).message || "Failed to add results", 403);
+          return error(errorMessage(e) || "Failed to add results", 403);
         }
       }
 
@@ -559,7 +561,7 @@ export function startWebServer(opts: {
           return json(result, 201);
         } catch (e: unknown) {
           return error(
-            (e as Error).message || "Failed to add result",
+            errorMessage(e) || "Failed to add result",
             403,
           );
         }
