@@ -7,6 +7,7 @@ import {
   integer,
   uuid,
   timestamp,
+  bigint,
   primaryKey,
   unique,
 } from "drizzle-orm/pg-core";
@@ -86,3 +87,30 @@ export const profileBiomarkers = pgTable(
   },
   (t) => [primaryKey({ columns: [t.profileId, t.biomarkerId] })],
 );
+
+// ---- OAuth tables (for MCP authentication) ----
+
+export const oauthClients = pgTable("oauth_clients", {
+  clientId: text("client_id").primaryKey(),
+  clientSecret: text("client_secret").notNull().default(""),
+  redirectUris: text("redirect_uris").notNull().default("[]"), // JSON array
+  clientName: text("client_name"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const oauthAuthCodes = pgTable("oauth_auth_codes", {
+  code: text("code").primaryKey(),
+  clientId: text("client_id").notNull(),
+  redirectUri: text("redirect_uri").notNull(),
+  codeChallenge: text("code_challenge").notNull(),
+  neonSessionToken: text("neon_session_token").notNull(),
+  neonSessionCookie: text("neon_session_cookie").notNull(),
+  expiresAt: bigint("expires_at", { mode: "number" }).notNull(),
+});
+
+export const oauthRefreshTokens = pgTable("oauth_refresh_tokens", {
+  token: text("token").primaryKey(),
+  clientId: text("client_id").notNull(),
+  neonSessionCookie: text("neon_session_cookie").notNull(),
+  expiresAt: bigint("expires_at", { mode: "number" }).notNull(),
+});

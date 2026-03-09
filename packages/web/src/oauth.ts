@@ -1,42 +1,17 @@
-import { verifyToken } from "@openmarkers/db";
 import { renderLoginPage } from "./oauth-login.ts";
+import { db } from "@openmarkers/db/src/db";
+import { oauthClients, oauthAuthCodes, oauthRefreshTokens } from "@openmarkers/db/src/schema/app";
+import { eq, lt } from "drizzle-orm";
 
 const NEON_AUTH_BASE_URL = process.env.NEON_AUTH_BASE_URL!;
 
-// --- In-memory stores ---
-
-interface AuthCode {
-  codeChallenge: string;
-  clientId: string;
-  redirectUri: string;
-  neonSessionToken: string; // JWT from Neon Auth
-  neonSessionCookie: string; // session cookie for refresh
-  expiresAt: number;
-}
-
-interface RegisteredClient {
-  clientId: string;
-  clientSecret: string;
-  redirectUris: string[];
-  clientName?: string;
-  registeredAt: number;
-}
-
-interface StoredRefreshToken {
-  neonSessionCookie: string;
-  clientId: string;
-  expiresAt: number;
-}
-
-const authCodes = new Map<string, AuthCode>();
-const registeredClients = new Map<string, RegisteredClient>();
-const refreshTokens = new Map<string, StoredRefreshToken>();
-
 // Cleanup expired entries every 60s
-setInterval(() => {
+setInterval(async () => {
   const now = Date.now();
-  for (const [k, v] of authCodes) if (v.expiresAt < now) authCodes.delete(k);
-  for (const [k, v] of refreshTokens) if (v.expiresAt < now) refreshTokens.delete(k);
+  try {
+    await db.delete(oauthAuthCodes).where(lt(oauthAuthCodes.expiresAt, now));
+    await db.delete(oauthRefreshTokens).where(lt(oauthRefreshTokens.expiresAt, now));
+  } catch { /* ignore cleanup errors */ }
 }, 60_000);
 
 // --- Neon Auth server-side sign-in ---
@@ -68,7 +43,6 @@ async function signInViaNeonAuth(
     }
 
     // Step 2: Build session cookie from the token
-    // Also check set-cookie headers as fallback
     const setCookies = signInRes.headers.getSetCookie();
     const headerCookie = setCookies
       .map((c) => c.split(";")[0])
@@ -113,7 +87,6 @@ async function refreshViaNeonAuth(sessionCookie: string): Promise<string | null>
   }
 }
 
-
 // --- PKCE verification ---
 
 async function verifyPkce(codeVerifier: string, codeChallenge: string): Promise<boolean> {
@@ -140,6 +113,30 @@ function getBaseUrl(req: Request): string {
   const proto = req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
   const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || url.host;
   return `${proto}://${host}`;
+}
+
+// --- DB helpers ---
+
+async function ensureClient(clientId: string, redirectUri?: string) {
+  if (!clientId) return;
+  const existing = await db.select().from(oauthClients).where(eq(oauthClients.clientId, clientId)).limit(1);
+  if (existing.length > 0) {
+    // Add redirect_uri if not already present
+    if (redirectUri) {
+      const uris: string[] = JSON.parse(existing[0].redirectUris);
+      if (!uris.includes(redirectUri)) {
+        uris.push(redirectUri);
+        await db.update(oauthClients).set({ redirectUris: JSON.stringify(uris) }).where(eq(oauthClients.clientId, clientId));
+      }
+    }
+    return;
+  }
+  await db.insert(oauthClients).values({
+    clientId,
+    clientSecret: "",
+    redirectUris: JSON.stringify(redirectUri ? [redirectUri] : []),
+  });
+  console.info("[oauth] Client registered:", clientId);
 }
 
 // --- OAuth Handlers ---
@@ -193,20 +190,18 @@ export function handleRegister(req: Request): Response | Promise<Response> {
         return Response.json({ error: "redirect_uris is required" }, { status: 400, headers: CORS_HEADERS });
       }
 
-      const client: RegisteredClient = {
+      await db.insert(oauthClients).values({
         clientId,
         clientSecret,
-        redirectUris,
+        redirectUris: JSON.stringify(redirectUris),
         clientName,
-        registeredAt: Date.now(),
-      };
-      registeredClients.set(clientId, client);
+      });
       console.info("[oauth] Client registered:", clientId, clientName || "");
 
       return Response.json({
         client_id: clientId,
         client_secret: clientSecret,
-        client_id_issued_at: Math.floor(client.registeredAt / 1000),
+        client_id_issued_at: Math.floor(Date.now() / 1000),
         redirect_uris: redirectUris,
         client_name: clientName,
         grant_types: ["authorization_code", "refresh_token"],
@@ -223,7 +218,6 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
   const url = new URL(req.url);
 
   if (req.method === "GET") {
-    // Render login page
     const clientId = url.searchParams.get("client_id") || "";
     const redirectUri = url.searchParams.get("redirect_uri") || "";
     const codeChallenge = url.searchParams.get("code_challenge") || "";
@@ -231,20 +225,18 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const state = url.searchParams.get("state") || "";
     const scope = url.searchParams.get("scope") || "";
 
-    // Validate client
-    const client = registeredClients.get(clientId);
-    if (!client) {
-      return new Response("Unknown client", { status: 400 });
-    }
-    if (!client.redirectUris.includes(redirectUri)) {
-      return new Response("Invalid redirect_uri", { status: 400 });
-    }
     if (!codeChallenge || codeChallengeMethod !== "S256") {
       return new Response("PKCE S256 is required", { status: 400 });
     }
+    if (!redirectUri) {
+      return new Response("redirect_uri is required", { status: 400 });
+    }
 
-    const html = renderLoginPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope });
-    return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+    return (async () => {
+      await ensureClient(clientId, redirectUri);
+      const html = renderLoginPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope });
+      return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+    })();
   }
 
   // POST — form submission
@@ -259,11 +251,7 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const state = formData.get("state") as string;
     const scope = formData.get("scope") as string;
 
-    // Validate client again
-    const client = registeredClients.get(clientId);
-    if (!client || !client.redirectUris.includes(redirectUri)) {
-      return new Response("Invalid client", { status: 400 });
-    }
+    await ensureClient(clientId, redirectUri);
 
     // Authenticate via Neon Auth
     const authResult = await signInViaNeonAuth(email, password);
@@ -275,15 +263,16 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
       return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
     }
 
-    // Generate authorization code
+    // Generate authorization code and store in DB
     const code = generateCode();
-    authCodes.set(code, {
+    await db.insert(oauthAuthCodes).values({
+      code,
       codeChallenge,
       clientId,
       redirectUri,
       neonSessionToken: authResult.jwt,
       neonSessionCookie: authResult.sessionCookie,
-      expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes
+      expiresAt: Date.now() + 5 * 60 * 1000,
     });
 
     // Redirect back to MCP client
@@ -316,19 +305,17 @@ export function handleToken(req: Request): Response | Promise<Response> {
     const grantType = params.get("grant_type");
     const clientId = params.get("client_id") || "";
 
-    // Validate client exists
-    const client = registeredClients.get(clientId);
-    if (!client) {
-      return Response.json({ error: "invalid_client" }, { status: 401, headers: CORS_HEADERS });
-    }
+    await ensureClient(clientId);
 
     if (grantType === "authorization_code") {
       const code = params.get("code") || "";
       const codeVerifier = params.get("code_verifier") || "";
 
-      const stored = authCodes.get(code);
+      // Look up auth code from DB
+      const rows = await db.select().from(oauthAuthCodes).where(eq(oauthAuthCodes.code, code)).limit(1);
+      const stored = rows[0];
       if (!stored || stored.clientId !== clientId || stored.expiresAt < Date.now()) {
-        authCodes.delete(code);
+        if (stored) await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
         return Response.json({ error: "invalid_grant" }, { status: 400, headers: CORS_HEADERS });
       }
 
@@ -339,19 +326,20 @@ export function handleToken(req: Request): Response | Promise<Response> {
       // Verify PKCE
       const pkceValid = await verifyPkce(codeVerifier, stored.codeChallenge);
       if (!pkceValid) {
-        authCodes.delete(code);
+        await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
         return Response.json({ error: "invalid_grant", error_description: "PKCE verification failed" }, { status: 400, headers: CORS_HEADERS });
       }
 
       // Delete auth code (one-time use)
-      authCodes.delete(code);
+      await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
 
-      // Generate refresh token
+      // Generate refresh token and store in DB
       const refreshToken = generateCode();
-      refreshTokens.set(refreshToken, {
+      await db.insert(oauthRefreshTokens).values({
+        token: refreshToken,
         neonSessionCookie: stored.neonSessionCookie,
         clientId,
-        expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days
+        expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
       });
 
       // Calculate expires_in from JWT
@@ -373,25 +361,27 @@ export function handleToken(req: Request): Response | Promise<Response> {
 
     } else if (grantType === "refresh_token") {
       const refreshToken = params.get("refresh_token") || "";
-      const stored = refreshTokens.get(refreshToken);
+      const rows = await db.select().from(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, refreshToken)).limit(1);
+      const stored = rows[0];
       if (!stored || stored.clientId !== clientId || stored.expiresAt < Date.now()) {
-        refreshTokens.delete(refreshToken);
+        if (stored) await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, refreshToken));
         return Response.json({ error: "invalid_grant" }, { status: 400, headers: CORS_HEADERS });
       }
 
       // Get fresh JWT from Neon Auth
       const newJwt = await refreshViaNeonAuth(stored.neonSessionCookie);
       if (!newJwt) {
-        refreshTokens.delete(refreshToken);
+        await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, refreshToken));
         console.warn("[oauth] Token refresh failed — session expired for client:", clientId);
         return Response.json({ error: "invalid_grant", error_description: "Session expired. Please re-authorize." }, { status: 400, headers: CORS_HEADERS });
       }
       console.info("[oauth] Token refreshed for client:", clientId);
 
       // Rotate refresh token
-      refreshTokens.delete(refreshToken);
+      await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, refreshToken));
       const newRefreshToken = generateCode();
-      refreshTokens.set(newRefreshToken, {
+      await db.insert(oauthRefreshTokens).values({
+        token: newRefreshToken,
         neonSessionCookie: stored.neonSessionCookie,
         clientId,
         expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
