@@ -35,9 +35,14 @@ Per-package `.env` files (not at root — Turborepo best practice):
 Monorepo with bun workspaces + Turborepo. Three packages:
 
 ```
+Dockerfile                          — Multi-stage Alpine build for production
+fly.toml                            — Fly.io deployment config (fra region)
 turbo.json                          — Turborepo task config (build, dev, dev:api, format)
 drizzle.config.ts                   — Drizzle Kit config (schema + DB URL)
 .env.example                        — Root env template (DATABASE_URL for drizzle-kit)
+data/
+├── schema.json                     — JSON schema for lab data import format
+└── demo.json                       — Demo data for "Try Demo" feature
 packages/
 ├── db/                             — Postgres database + business logic (@openmarkers/db)
 │   └── src/
@@ -81,7 +86,7 @@ Auth tables (managed by Neon Auth in `neon_auth` schema):
 - **neon_auth.user** — id, email, name (referenced as FK)
 
 Application tables:
-- **profiles** — id (serial PK), auth_user_id (FK → neon_auth.user.id), name, date_of_birth, sex, UNIQUE(auth_user_id, name)
+- **profiles** — id (serial PK), auth_user_id (FK → neon_auth.user.id), name, date_of_birth, sex, display_order, UNIQUE(auth_user_id, name)
 - **categories** — id (text PK)
 - **biomarkers** — id (text PK), category_id, unit, ref_min, ref_max, type
 - **profile_biomarkers** — per-profile ref range overrides (profile_id, biomarker_id, unit, ref_min, ref_max)
@@ -118,8 +123,11 @@ All routes require `Authorization: Bearer <jwt>` (except static files).
 | POST | `/api/profiles` | Create profile |
 | PATCH | `/api/profiles/:id` | Update profile |
 | DELETE | `/api/profiles/:id` | Delete profile and all their data |
+| PUT | `/api/profiles/reorder` | Reorder profiles (display_order) |
 | GET | `/api/categories` | List category IDs |
 | GET | `/api/biomarkers?category_id=` | List biomarker metadata |
+| POST | `/api/biomarkers` | Create biomarker |
+| PATCH | `/api/biomarkers/:id` | Update biomarker |
 | GET | `/api/results?profile_id=&...` | Filtered results |
 | POST | `/api/results` | Add result |
 | PATCH | `/api/results/:id` | Update result |
@@ -135,6 +143,7 @@ All routes require `Authorization: Bearer <jwt>` (except static files).
 | GET | `/api/profiles/:id/correlations` | Correlated biomarker panels |
 | GET | `/api/profiles/:id/biological-age` | PhenoAge biological age |
 | GET | `/api/profiles/:id/analysis-prompt?lang=` | AI analysis prompt |
+| DELETE | `/api/account` | Delete all user profiles and data |
 | POST | `/mcp` | MCP endpoint (requires Bearer JWT) |
 
 ### Data Model
