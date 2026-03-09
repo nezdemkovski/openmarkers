@@ -15,6 +15,14 @@ import Loading from "./components/Loading.tsx";
 import AddLabVisit from "./components/AddLabVisit.tsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.tsx";
 import TermsOfService from "./components/TermsOfService.tsx";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { DatePicker } from "@/components/ui/date-picker";
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { UserData, Route, Sex } from "./types.ts";
 import { isLang, errorMessage } from "./lib/utils.ts";
 import type { Lang } from "@openmarkers/db";
@@ -66,7 +74,6 @@ export default function App() {
     return isLang(saved) ? saved : "en";
   });
   const [route, setRoute] = useState(getRouteFromPath);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isDemo, setIsDemo] = useState(false);
   const [demoData, setDemoData] = useState<UserData | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // null = checking
@@ -293,7 +300,6 @@ export default function App() {
   const sidebarNavigate = useCallback(
     (id: string | null) => {
       navigate(id);
-      setSidebarOpen(false);
     },
     [navigate],
   );
@@ -398,14 +404,13 @@ export default function App() {
   const category = route.view === "category" ? displayData.categories.find((c) => c.id === route.id) : null;
 
   return (
-    <>
+    <TooltipProvider>
       <Loading visible={false} />
-      <div className="flex min-h-screen">
+      <SidebarProvider className="overflow-x-hidden">
         <Sidebar
           categories={displayData.categories}
           activeRoute={route}
           onNavigate={sidebarNavigate}
-          open={sidebarOpen}
           isDark={isDark}
           onToggleTheme={toggleTheme}
           lang={lang}
@@ -421,14 +426,12 @@ export default function App() {
           authEmail={authEmail}
           onSignOut={handleSignOut}
         />
-        <main className="flex-1 min-w-0">
-          <header className="md:hidden sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center z-30">
-            <button className="mr-3 p-1" onClick={() => setSidebarOpen(true)}>
-              <MenuIcon />
-            </button>
+        <SidebarInset className="min-w-0 overflow-x-hidden">
+          <header className="md:hidden sticky top-0 bg-background border-b px-4 py-3 flex items-center z-30">
+            <SidebarTrigger className="mr-3" />
             <h1 className="text-lg font-bold">OpenMarkers</h1>
           </header>
-          <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto">
+          <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto min-w-0 w-full">
             {route.view === "settings" && !isDemo ? (
               <SettingsView
                 i18n={i18n}
@@ -470,40 +473,29 @@ export default function App() {
               />
             )}
           </div>
-        </main>
-      </div>
-      {sidebarOpen && (
-        <div className="fixed inset-0 bg-black/30 z-30 md:hidden" onClick={() => setSidebarOpen(false)} />
-      )}
-      {importPending && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full p-6 space-y-4">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">{i18n.t("importConflictTitle")}</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{i18n.t("importConflictMessage").replace("{name}", importPending.name)}</p>
-            <input
-              type="text"
-              value={importName}
-              onChange={(e) => setImportName(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setImportPending(null)}
-                className="px-4 py-2 text-sm rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                {i18n.t("importCancel")}
-              </button>
-              <button
-                onClick={confirmImport}
-                disabled={!importName.trim()}
-                className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
-              >
-                {i18n.t("importRename")}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+        </SidebarInset>
+      </SidebarProvider>
+      <Dialog open={!!importPending} onOpenChange={(open) => { if (!open) setImportPending(null); }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{i18n.t("importConflictTitle")}</DialogTitle>
+            <DialogDescription>{importPending ? i18n.t("importConflictMessage").replace("{name}", importPending.name) : ""}</DialogDescription>
+          </DialogHeader>
+          <Input
+            type="text"
+            value={importName}
+            onChange={(e) => setImportName(e.target.value)}
+          />
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setImportPending(null)}>
+              {i18n.t("importCancel")}
+            </Button>
+            <Button onClick={confirmImport} disabled={!importName.trim()}>
+              {i18n.t("importRename")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       {addLabVisitProfileId !== null && (
         <AddLabVisit
           profileId={addLabVisitProfileId}
@@ -520,7 +512,7 @@ export default function App() {
           }}
         />
       )}
-    </>
+    </TooltipProvider>
   );
 }
 
@@ -580,27 +572,28 @@ function GettingStarted({
   return (
     <div className="max-w-lg mx-auto pt-8 md:pt-16">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t(hasActiveProfile ? "addYourData" : "allResults")}</h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t(hasActiveProfile ? "addYourDataDesc" : "getStartedDesc")}</p>
+        <h2 className="text-2xl font-bold text-foreground">{t(hasActiveProfile ? "addYourData" : "allResults")}</h2>
+        <p className="text-sm text-muted-foreground mt-1">{t(hasActiveProfile ? "addYourDataDesc" : "getStartedDesc")}</p>
       </div>
 
       <div className="space-y-3">
         {/* Add lab visit — only when profile exists */}
         {hasActiveProfile && (
-          <button
+          <Button
+            variant="outline"
             onClick={() => onAddLabVisit(activeProfileId)}
-            className="w-full flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm hover:border-blue-300 dark:hover:border-blue-600 transition-colors text-left"
+            className="w-full flex items-center gap-4 rounded-xl p-5 h-auto shadow-sm hover:border-ring text-left"
           >
-            <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
-              <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
+              <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
             </div>
             <div>
-              <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("addLabVisit")}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("addLabVisitDesc")}</div>
+              <div className="text-sm font-semibold text-foreground">{t("addLabVisit")}</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{t("addLabVisitDesc")}</div>
             </div>
-          </button>
+          </Button>
         )}
 
         {/* Import data */}
@@ -608,10 +601,11 @@ function GettingStarted({
 
         {/* Create new profile — only when no profile exists */}
         {!hasActiveProfile && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-            <button
+          <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+            <Button
+              variant="ghost"
               onClick={() => setShowCreate(!showCreate)}
-              className="w-full flex items-center gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left"
+              className="w-full flex items-center gap-4 p-5 h-auto rounded-none text-left"
             >
               <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
                 <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -619,62 +613,51 @@ function GettingStarted({
                 </svg>
               </div>
               <div className="flex-1">
-                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("createProfile")}</div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("createProfileDesc")}</div>
+                <div className="text-sm font-semibold text-foreground">{t("createProfile")}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{t("createProfileDesc")}</div>
               </div>
-              <svg className={`w-4 h-4 text-gray-400 transition-transform ${showCreate ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 text-muted-foreground/60 transition-transform ${showCreate ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
-            </button>
+            </Button>
             {showCreate && (
-              <form onSubmit={handleCreate} className="px-5 pb-5 space-y-3 border-t border-gray-100 dark:border-gray-700 pt-4">
-                <input
+              <form onSubmit={handleCreate} className="px-5 pb-5 space-y-3 border-t border-border pt-4">
+                <Input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder={t("profileName")}
                   required
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <input
-                  type="date"
+                <DatePicker
                   value={dob}
-                  onChange={(e) => setDob(e.target.value)}
-                  required
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={setDob}
+                  placeholder={t("dateOfBirth")}
                 />
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setSex("M")}
-                    className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${
-                      sex === "M"
-                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                        : "border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400"
-                    }`}
-                  >
+                <ToggleGroup
+                  variant="outline"
+                  value={sex ? [sex] : []}
+                  onValueChange={(val) => {
+                    const picked = (val as string[]).find((v) => v !== sex);
+                    if (picked === "M" || picked === "F") setSex(picked);
+                  }}
+                  className="w-full"
+                >
+                  <ToggleGroupItem value="M" className="flex-1">
                     {t("sexMale")}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSex("F")}
-                    className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${
-                      sex === "F"
-                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                        : "border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400"
-                    }`}
-                  >
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="F" className="flex-1">
                     {t("sexFemale")}
-                  </button>
-                </div>
+                  </ToggleGroupItem>
+                </ToggleGroup>
                 {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
-                <button
+                <Button
                   type="submit"
                   disabled={loading || !name.trim() || !dob}
-                  className="w-full py-2 px-4 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                  className="w-full"
                 >
                   {loading ? "..." : t("createProfile")}
-                </button>
+                </Button>
               </form>
             )}
           </div>
@@ -687,13 +670,6 @@ function GettingStarted({
   );
 }
 
-function MenuIcon() {
-  return (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  );
-}
 
 const SCHEMA_URL = "https://openmarkers.app/schema.json";
 
@@ -735,25 +711,28 @@ Here are my lab results:
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <button
+    <Button
+      variant="outline"
+      size="xs"
       onClick={() => {
         navigator.clipboard.writeText(text);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }}
-      className="absolute top-2 right-2 px-2 py-1 text-xs rounded border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+      className="absolute top-2 right-2"
     >
       {copied ? <CheckCheck className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
-    </button>
+    </Button>
   );
 }
 
 function ImportButton({ importing, onClick, t }: { importing: boolean; onClick: () => void; t: (key: string) => string }) {
   return (
-    <button
+    <Button
+      variant="outline"
       onClick={onClick}
       disabled={importing}
-      className="w-full flex items-center gap-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm hover:border-blue-300 dark:hover:border-blue-600 transition-colors text-left disabled:opacity-60"
+      className="w-full flex items-center gap-4 rounded-xl p-5 h-auto shadow-sm hover:border-ring text-left"
     >
       <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
         {importing ? (
@@ -768,12 +747,12 @@ function ImportButton({ importing, onClick, t }: { importing: boolean; onClick: 
         )}
       </div>
       <div>
-        <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+        <div className="text-sm font-semibold text-foreground">
           {importing ? t("importingData") : t("import")}
         </div>
-        <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("importDesc")}</div>
+        <div className="text-xs text-muted-foreground mt-0.5">{t("importDesc")}</div>
       </div>
-    </button>
+    </Button>
   );
 }
 
@@ -782,43 +761,42 @@ function AiImportSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left"
-      >
-        <div className="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
-          <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-          </svg>
-        </div>
-        <div className="flex-1">
-          <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("aiImport")}</div>
-          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("aiImportDesc")}</div>
-        </div>
-        <svg className={`w-4 h-4 text-gray-400 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-      {open && (
-        <div className="px-5 pb-5 border-t border-gray-100 dark:border-gray-700 pt-4 space-y-3">
-          <p className="text-sm text-gray-600 dark:text-gray-400">{t("aiImportInstructions")}</p>
-          <div className="relative">
-            <pre className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-xs text-gray-700 dark:text-gray-300 font-mono whitespace-pre-wrap max-h-48 overflow-y-auto">{AI_PROMPT.trim()}</pre>
-            <CopyButton text={AI_PROMPT} />
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+        <CollapsibleTrigger className="w-full flex items-center gap-4 p-5 hover:bg-muted transition-colors text-left">
+          <div className="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
+            <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+            </svg>
           </div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">{t("aiImportThen")}</p>
-          <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-3 space-y-1.5">
-            <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{t("schemaTip")}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{t("schemaTipDesc")}</p>
+          <div className="flex-1">
+            <div className="text-sm font-semibold text-foreground">{t("aiImport")}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">{t("aiImportDesc")}</div>
+          </div>
+          <svg className={`w-4 h-4 text-muted-foreground/60 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <div className="px-5 pb-5 border-t border-border pt-4 space-y-3">
+            <p className="text-sm text-muted-foreground">{t("aiImportInstructions")}</p>
             <div className="relative">
-              <pre className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-xs text-gray-900 dark:text-gray-100 font-mono">{`"$schema": "${SCHEMA_URL}"`}</pre>
-              <CopyButton text={`"$schema": "${SCHEMA_URL}"`} />
+              <pre className="px-3 py-2 rounded-lg border border-border bg-muted text-xs text-foreground/80 font-mono whitespace-pre-wrap max-h-48 overflow-y-auto">{AI_PROMPT.trim()}</pre>
+              <CopyButton text={AI_PROMPT} />
+            </div>
+            <p className="text-xs text-muted-foreground">{t("aiImportThen")}</p>
+            <div className="rounded-lg border border-border bg-muted p-3 space-y-1.5">
+              <p className="text-xs font-medium text-foreground/80">{t("schemaTip")}</p>
+              <p className="text-xs text-muted-foreground">{t("schemaTipDesc")}</p>
+              <div className="relative">
+                <pre className="px-3 py-2 rounded-lg border border-border bg-card text-xs text-foreground font-mono">{`"$schema": "${SCHEMA_URL}"`}</pre>
+                <CopyButton text={`"$schema": "${SCHEMA_URL}"`} />
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
   );
 }
 
@@ -834,46 +812,45 @@ function McpSetupSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
   }, null, 2);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-4 p-5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-left"
-      >
-        <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center shrink-0">
-          <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+        <CollapsibleTrigger className="w-full flex items-center gap-4 p-5 hover:bg-muted transition-colors text-left">
+          <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
+            <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <div className="text-sm font-semibold text-foreground">{t("mcpSetup")}</div>
+            <div className="text-xs text-muted-foreground mt-0.5">{t("mcpSetupDesc")}</div>
+          </div>
+          <svg className={`w-4 h-4 text-muted-foreground/60 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
-        </div>
-        <div className="flex-1">
-          <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("mcpSetup")}</div>
-          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t("mcpSetupDesc")}</div>
-        </div>
-        <svg className={`w-4 h-4 text-gray-400 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-      {open && (
-        <div className="px-5 pb-5 border-t border-gray-100 dark:border-gray-700 pt-4 space-y-3">
-          <p className="text-sm text-gray-600 dark:text-gray-400">{t("mcpSetupInstructions")}</p>
-          <div className="relative">
-            <pre className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 font-mono overflow-x-auto">{mcpConfig}</pre>
-            <CopyButton text={mcpConfig} />
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <div className="px-5 pb-5 border-t border-border pt-4 space-y-3">
+            <p className="text-sm text-muted-foreground">{t("mcpSetupInstructions")}</p>
+            <div className="relative">
+              <pre className="px-3 py-2 rounded-lg border border-border bg-muted text-sm text-foreground font-mono overflow-x-auto">{mcpConfig}</pre>
+              <CopyButton text={mcpConfig} />
+            </div>
+            <p className="text-sm text-muted-foreground">{t("mcpSetupAuth")}</p>
+            <div className="text-xs text-muted-foreground space-y-2">
+              <p className="font-medium text-foreground/80">{t("mcpSetupToolsTitle")}</p>
+              <ul className="list-disc pl-4 space-y-0.5">
+                <li><span className="font-mono text-muted-foreground">import_profile_data</span> — {t("mcpToolImport")}</li>
+                <li><span className="font-mono text-muted-foreground">get_schema</span> — {t("mcpToolSchema")}</li>
+                <li><span className="font-mono text-muted-foreground">add_result</span> — {t("mcpToolAddResult")}</li>
+                <li><span className="font-mono text-muted-foreground">get_profile</span> — {t("mcpToolGetProfile")}</li>
+                <li><span className="font-mono text-muted-foreground">get_trends</span> — {t("mcpToolTrends")}</li>
+                <li><span className="font-mono text-muted-foreground">get_analysis_prompt</span> — {t("mcpToolAnalysis")}</li>
+              </ul>
+              <p className="text-muted-foreground/60">{t("mcpToolsMore")}</p>
+            </div>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">{t("mcpSetupAuth")}</p>
-          <div className="text-xs text-gray-500 dark:text-gray-400 space-y-2">
-            <p className="font-medium text-gray-700 dark:text-gray-300">{t("mcpSetupToolsTitle")}</p>
-            <ul className="list-disc pl-4 space-y-0.5">
-              <li><span className="font-mono text-gray-600 dark:text-gray-300">import_profile_data</span> — {t("mcpToolImport")}</li>
-              <li><span className="font-mono text-gray-600 dark:text-gray-300">get_schema</span> — {t("mcpToolSchema")}</li>
-              <li><span className="font-mono text-gray-600 dark:text-gray-300">add_result</span> — {t("mcpToolAddResult")}</li>
-              <li><span className="font-mono text-gray-600 dark:text-gray-300">get_profile</span> — {t("mcpToolGetProfile")}</li>
-              <li><span className="font-mono text-gray-600 dark:text-gray-300">get_trends</span> — {t("mcpToolTrends")}</li>
-              <li><span className="font-mono text-gray-600 dark:text-gray-300">get_analysis_prompt</span> — {t("mcpToolAnalysis")}</li>
-            </ul>
-            <p className="text-gray-400 dark:text-gray-500">{t("mcpToolsMore")}</p>
-          </div>
-        </div>
-      )}
-    </div>
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
   );
 }

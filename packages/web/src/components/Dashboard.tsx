@@ -1,13 +1,38 @@
 import { useMemo, useState, useRef, useEffect } from "react";
-import { TriangleAlert, CircleCheck, Clock, ChevronDown, Link2 } from "lucide-react";
+import { TriangleAlert, CircleCheck, Clock, ChevronDown, Link2, ChevronRight } from "lucide-react";
 import CategoryView from "./CategoryView.tsx";
 import AiAnalysis from "./AiAnalysis.tsx";
 import BioAgeCard from "./BioAgeCard.tsx";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { daysSinceLastTest, getRelevantCorrelations } from "@openmarkers/db/src/analytics";
 import { calculatePhenoAge } from "@openmarkers/db/src/bioage";
 import type { Category, UserData, I18n, Lang, Biomarker, DaysSinceResult } from "../types.ts";
 
-const PLACEHOLDER_STYLE = { minHeight: 200 };
+function CategorySkeleton({ count }: { count: number }) {
+  return (
+    <div className="space-y-4 mb-8">
+      <div className="space-y-1">
+        <Skeleton className="h-6 w-48" />
+        <Skeleton className="h-4 w-64" />
+      </div>
+      {Array.from({ length: Math.min(count, 3) }, (_, i) => (
+        <div key={i} className="rounded-xl border border-border p-4 space-y-3">
+          <div className="flex items-start justify-between">
+            <div className="space-y-1.5">
+              <Skeleton className="h-4 w-40" />
+              <Skeleton className="h-3 w-28" />
+            </div>
+            <Skeleton className="h-5 w-20 rounded-full" />
+          </div>
+          <Skeleton className="h-3 w-full max-w-sm" />
+          <Skeleton className="h-48 w-full rounded-lg" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function LazyCategory({ category, isDark, i18n, profileId, onMutate }: { category: Category; isDark: boolean; i18n: I18n; profileId?: number; onMutate?: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -41,7 +66,7 @@ function LazyCategory({ category, isDark, i18n, profileId, onMutate }: { categor
       {visible ? (
         <CategoryView category={category} isDark={isDark} i18n={i18n} profileId={profileId} onMutate={onMutate} />
       ) : (
-        <div style={PLACEHOLDER_STYLE} />
+        <CategorySkeleton count={category.biomarkers.length} />
       )}
     </div>
   );
@@ -74,33 +99,54 @@ interface RemindersSectionProps {
 
 function RemindersSection({ reminders, tCat, t, onNavigate }: RemindersSectionProps) {
   const [open, setOpen] = useState(false);
+  const sorted = useMemo(() => [...reminders].sort((a, b) => (b.days ?? 0) - (a.days ?? 0)), [reminders]);
+
   return (
-    <div className="mb-6">
+    <div className="mb-6 rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 overflow-hidden">
       <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center gap-2.5 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-700/50 rounded-lg px-4 py-3 hover:bg-amber-100 dark:hover:bg-amber-950/30 transition-colors"
+        type="button"
+        className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted/50 transition-colors"
+        onClick={() => setOpen(!open)}
       >
-        <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-        <span className="text-sm font-medium text-amber-900 dark:text-amber-200 flex-1 text-left">
-          {reminders.length} {t("overdueCategories")}
-        </span>
-        <ChevronDown className={`w-4 h-4 text-amber-500 transition-transform ${open ? "rotate-180" : ""}`} />
+        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/40 shrink-0">
+          <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold text-foreground">
+            {reminders.length} {t("overdueCategories")}
+          </p>
+          <p className="text-xs text-muted-foreground">{t("overdueDesc")}</p>
+        </div>
+        <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
+
       {open && (
-        <div className="mt-2 space-y-1.5">
-          {reminders.map((r) => (
-            <div
-              key={r.categoryId}
-              className="flex items-center gap-3 bg-amber-50/50 dark:bg-amber-950/10 border border-amber-100 dark:border-amber-800/30 rounded-lg px-4 py-2.5 cursor-pointer hover:bg-amber-100 dark:hover:bg-amber-950/20 transition-colors"
-              onClick={() => onNavigate(r.categoryId)}
-            >
-              <div className="flex-1 min-w-0">
-                <span className="text-sm text-amber-900 dark:text-amber-200">{tCat(r.categoryId, "name")}</span>
-                <span className="text-xs text-amber-600 dark:text-amber-400 ml-2">{formatDaysAgo(r.days!, t)}</span>
-              </div>
-              <span className="badge-red text-xs">{t("overdue")}</span>
-            </div>
-          ))}
+        <div className="border-t border-border divide-y divide-border">
+          {sorted.map((r) => {
+            const days = r.days!;
+            const months = Math.floor(days / 30);
+            const severity = days > 365 ? "high" : days > 270 ? "medium" : "low";
+
+            return (
+              <button
+                type="button"
+                key={r.categoryId}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-muted/50 transition-colors group"
+                onClick={() => onNavigate(r.categoryId)}
+              >
+                <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                  severity === "high" ? "bg-destructive" : severity === "medium" ? "bg-amber-500" : "bg-amber-400 dark:bg-amber-600"
+                }`} />
+                <span className="flex-1 text-sm text-foreground break-words min-w-0">{tCat(r.categoryId, "name")}</span>
+                <span className={`text-xs tabular-nums ${
+                  severity === "high" ? "text-destructive font-medium" : "text-muted-foreground"
+                }`}>
+                  {months > 0 ? `${months} ${t("monthsAgo")}` : `${days} ${t("daysAgo")}`}
+                </span>
+                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
@@ -145,8 +191,8 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
   return (
     <>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t("allResults")}</h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("allResultsDesc")}</p>
+        <h2 className="text-2xl font-bold text-foreground">{t("allResults")}</h2>
+        <p className="text-sm text-muted-foreground mt-1">{t("allResultsDesc")}</p>
       </div>
 
       <AiAnalysis userData={userData} lang={lang} i18n={i18n} profileId={profileId} />
@@ -161,9 +207,9 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
           const outCount = countOutOfRange(cat);
           const border =
             outCount > 0
-              ? "border-red-300 dark:border-red-500/50 hover:border-red-400 dark:hover:border-red-400"
-              : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600";
-          const bg = outCount > 0 ? "bg-red-50/50 dark:bg-red-950/20" : "bg-white dark:bg-gray-800";
+              ? "border-destructive/40 hover:border-destructive/60"
+              : "border-border hover:border-ring";
+          const bg = outCount > 0 ? "bg-destructive/5" : "bg-card";
 
           return (
             <div
@@ -171,26 +217,32 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
               className={`${bg} rounded-xl border ${border} p-4 shadow-sm cursor-pointer transition-colors`}
               onClick={() => onNavigate(cat.id)}
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+              <div className="flex items-start gap-2">
+                <div className="shrink-0 mt-0.5">
                   {outCount > 0 ? (
-                    <TriangleAlert className="w-4 h-4 text-red-500 dark:text-red-400" />
+                    <TriangleAlert className="w-4 h-4 text-destructive" />
                   ) : (
                     <CircleCheck className="w-4 h-4 text-green-500 dark:text-green-400" />
                   )}
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{tCat(cat.id, "name")}</h3>
                 </div>
-                {outCount > 0 ? (
-                  <span className="badge-red">
-                    {outCount} {t("flagged")}
-                  </span>
-                ) : (
-                  <span className="badge-green">{t("allOk")}</span>
-                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-sm font-semibold text-foreground break-words min-w-0">{tCat(cat.id, "name")}</h3>
+                    <div className="shrink-0">
+                      {outCount > 0 ? (
+                        <Badge variant="destructive">
+                          {outCount} {t("flagged")}
+                        </Badge>
+                      ) : (
+                        <Badge variant="success">{t("allOk")}</Badge>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    {total} {total !== 1 ? t("biomarkers") : t("biomarker")}
+                  </p>
+                </div>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {total} {total !== 1 ? t("biomarkers") : t("biomarker")}
-              </p>
             </div>
           );
         })}
@@ -198,11 +250,11 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
 
       {correlations.length > 0 && (
         <div className="mb-8">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
             <Link2 className="w-5 h-5" />
             {t("correlations")}
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t("correlationsDesc")}</p>
+          <p className="text-sm text-muted-foreground mb-4">{t("correlationsDesc")}</p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {correlations.map((group) => {
               const bios = group.matched.map((id) => bioLookup[id]).filter(Boolean);
@@ -216,18 +268,18 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
               }).length;
 
               return (
-                <div
+                <Card
                   key={group.id}
-                  className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm"
+                  className="p-4"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t(group.id)}</h4>
+                    <h4 className="text-sm font-semibold text-foreground">{t(group.id)}</h4>
                     {outCount > 0 ? (
-                      <span className="badge-red">
+                      <Badge variant="destructive">
                         {outCount} {t("flagged")}
-                      </span>
+                      </Badge>
                     ) : (
-                      <span className="badge-green">{t("allOk")}</span>
+                      <Badge variant="success">{t("allOk")}</Badge>
                     )}
                   </div>
                   <div className="space-y-1.5">
@@ -247,12 +299,12 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
                       return (
                         <div key={bio.id} className="flex items-center justify-between text-sm">
                           <span
-                            className={`${out ? "text-red-700 dark:text-red-400" : "text-gray-700 dark:text-gray-300"}`}
+                            className={`${out ? "text-destructive" : "text-foreground"}`}
                           >
                             {tBio(bio.id, "name")}
                           </span>
                           <span
-                            className={`font-mono text-xs ${out ? "font-bold text-red-700 dark:text-red-400" : "text-gray-500 dark:text-gray-400"}`}
+                            className={`font-mono text-xs ${out ? "font-bold text-destructive" : "text-muted-foreground"}`}
                           >
                             {formatted}
                             {bio.unit ? ` ${bio.unit}` : ""}
@@ -261,7 +313,7 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
                       );
                     })}
                   </div>
-                </div>
+                </Card>
               );
             })}
           </div>

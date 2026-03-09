@@ -2,8 +2,15 @@ import { useState } from "react";
 import { authClient } from "../lib/auth-client";
 import { LineChart, HeartPulse, FlaskConical, Bot, ShieldCheck, Github, Play, Languages, Sun, Moon } from "lucide-react";
 import { LANGS } from "../i18n";
-import { isLang, errorMessage } from "../lib/utils";
+import { errorMessage } from "../lib/utils";
 import type { I18n } from "../types";
+import type { Lang } from "@openmarkers/db";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface AuthPageProps {
   onAuthenticated: () => void;
@@ -57,54 +64,56 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       {/* Language selector */}
-      <div className="absolute top-4 right-4 flex items-center gap-3 text-gray-400 dark:text-gray-500">
-        <button
+      <div className="absolute top-4 right-4 flex items-center gap-3 text-muted-foreground/60">
+        <Button
+          variant="ghost"
+          size="icon-sm"
           onClick={onToggleTheme}
-          className="p-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-500 dark:text-gray-400"
         >
           {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-        </button>
+        </Button>
         <div className="flex items-center gap-1.5">
           <Languages className="w-4 h-4" />
-          <select
-            value={lang}
-            onChange={(e) => { const v = e.target.value; if (isLang(v)) onChangeLang(v); }}
-            className="text-xs bg-transparent border-none focus:outline-none cursor-pointer text-gray-500 dark:text-gray-400"
-          >
-            {LANGS.map((l) => (
-              <option key={l.code} value={l.code}>{l.nativeName}</option>
-            ))}
-          </select>
+          <Select value={lang} onValueChange={(v) => onChangeLang(v as Lang)}>
+            <SelectTrigger className="h-auto border-none bg-transparent px-1 py-0 text-xs text-muted-foreground dark:bg-transparent dark:hover:bg-transparent focus-visible:ring-0 focus-visible:border-transparent">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {LANGS.map((l) => (
+                <SelectItem key={l.code} value={l.code}>{l.nativeName}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-12 md:py-20">
         {/* Hero */}
         <div className="text-center mb-10 md:mb-14">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
             OpenMarkers
           </h1>
-          <p className="mt-3 text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+          <p className="mt-3 text-lg md:text-xl text-muted-foreground max-w-xl mx-auto">
             {t("heroSubtitle")}
           </p>
-          <div className="mt-4 flex items-center justify-center gap-4 text-xs text-gray-400 dark:text-gray-500">
+          <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground/60">
             <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{t("heroBadgeOpenSource")}</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-blue-500" />{t("heroBadgeBiomarkers")}</span>
+            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-primary" />{t("heroBadgeBiomarkers")}</span>
             <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-violet-500" />{t("heroBadgeMcp")}</span>
           </div>
         </div>
 
         {/* Demo CTA — most prominent action */}
         <div className="max-w-md mx-auto mb-10 md:mb-14">
-          <button
+          <Button
             onClick={onDemo}
-            className="w-full py-3 px-5 rounded-xl bg-violet-600 dark:bg-violet-600 text-white font-medium hover:bg-violet-700 dark:hover:bg-violet-500 transition-colors flex items-center justify-center gap-2 shadow-sm"
+            className="w-full py-3 px-5 h-auto rounded-xl bg-violet-600 dark:bg-violet-600 text-white font-medium hover:bg-violet-700 dark:hover:bg-violet-500 shadow-sm"
           >
             <Play className="w-4 h-4" />
             {t("heroDemoButton")}
-          </button>
+          </Button>
         </div>
 
         {/* Main content: features + form */}
@@ -145,92 +154,114 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
 
           {/* Right: auth form */}
           <div className="space-y-4">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-4">
-              <div className="flex rounded-lg bg-gray-100 dark:bg-gray-700 p-0.5">
-                <button
-                  onClick={() => { setTab("signup"); setError(""); }}
-                  className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                    tab === "signup"
-                      ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm"
-                      : "text-gray-500 dark:text-gray-400"
-                  }`}
-                >
-                  {t("authSignUp") || "Sign Up"}
-                </button>
-                <button
-                  onClick={() => { setTab("login"); setError(""); }}
-                  className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                    tab === "login"
-                      ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm"
-                      : "text-gray-500 dark:text-gray-400"
-                  }`}
-                >
-                  {t("authLogin") || "Log In"}
-                </button>
-              </div>
+            <div className="bg-card rounded-xl shadow-sm border border-border p-6 space-y-4">
+              <Tabs value={tab} onValueChange={(v) => { setTab(v as "login" | "signup"); setError(""); }}>
+                <TabsList className="w-full">
+                  <TabsTrigger value="signup">
+                    {t("authSignUp") || "Sign Up"}
+                  </TabsTrigger>
+                  <TabsTrigger value="login">
+                    {t("authLogin") || "Log In"}
+                  </TabsTrigger>
+                </TabsList>
 
-              <form onSubmit={handleSubmit} className="space-y-3">
-                {tab === "signup" && (
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={t("authName") || "Name"}
-                    autoComplete="name"
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                )}
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("authEmail") || "Email"}
-                  required
-                  autoComplete="email"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t("authPassword") || "Password"}
-                  required
-                  minLength={8}
-                  autoComplete={tab === "signup" ? "new-password" : "current-password"}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <TabsContent value="signup">
+                  <form onSubmit={handleSubmit} className="space-y-3">
+                    <div>
+                      <Input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder={t("authName") || "Name"}
+                        autoComplete="name"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder={t("authEmail") || "Email"}
+                        required
+                        autoComplete="email"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder={t("authPassword") || "Password"}
+                        required
+                        minLength={8}
+                        autoComplete="new-password"
+                      />
+                    </div>
 
-                {tab === "signup" && (
-                  <label className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
-                    <input
-                      type="checkbox"
-                      checked={consent}
-                      onChange={(e) => setConsent(e.target.checked)}
-                      className="mt-0.5 rounded border-gray-300 dark:border-gray-600"
-                    />
-                    <span>{t("authConsent") || "I agree to store my blood test results and lab data"}</span>
-                  </label>
-                )}
+                    <Label className="flex items-start gap-2 text-xs text-muted-foreground font-normal">
+                      <Checkbox
+                        checked={consent}
+                        onCheckedChange={(checked) => setConsent(checked === true)}
+                        className="mt-0.5"
+                      />
+                      <span>{t("authConsent") || "I agree to store my blood test results and lab data"}</span>
+                    </Label>
 
-                {error && (
-                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-                )}
+                    {error && (
+                      <p className="text-sm text-destructive">{error}</p>
+                    )}
 
-                <button
-                  type="submit"
-                  disabled={loading || (tab === "signup" && !consent)}
-                  className="w-full py-2.5 px-4 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
-                >
-                  {loading
-                    ? "..."
-                    : tab === "login"
-                      ? t("authLogin") || "Log In"
-                      : t("authSignUp") || "Sign Up"}
-                </button>
-              </form>
+                    <Button
+                      type="submit"
+                      disabled={loading || !consent}
+                      className="w-full h-9"
+                    >
+                      {loading ? "..." : t("authSignUp") || "Sign Up"}
+                    </Button>
+                  </form>
+                </TabsContent>
+
+                <TabsContent value="login">
+                  <form onSubmit={handleSubmit} className="space-y-3">
+                    <div>
+                      <Input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder={t("authEmail") || "Email"}
+                        required
+                        autoComplete="email"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder={t("authPassword") || "Password"}
+                        required
+                        minLength={8}
+                        autoComplete="current-password"
+                      />
+                    </div>
+
+                    {error && (
+                      <p className="text-sm text-destructive">{error}</p>
+                    )}
+
+                    <Button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full h-9"
+                    >
+                      {loading ? "..." : t("authLogin") || "Log In"}
+                    </Button>
+                  </form>
+                </TabsContent>
+              </Tabs>
             </div>
 
-            <div className="text-center text-xs text-gray-400 dark:text-gray-500 space-y-1">
+            <div className="text-center text-xs text-muted-foreground/60 space-y-1">
               <p>{t("authDisclaimer") || "This is not a medical device or healthcare service. Not medical advice."}</p>
               <p>
                 <a href="/privacy" className="hover:underline">Privacy Policy</a>
@@ -251,7 +282,7 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
 }
 
 const colorMap = {
-  blue: "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
+  blue: "bg-muted text-foreground",
   rose: "bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400",
   emerald: "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400",
   violet: "bg-violet-50 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400",
@@ -265,8 +296,8 @@ function Feature({ icon, title, desc, color }: { icon: React.ReactNode; title: s
         {icon}
       </div>
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{desc}</p>
+        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+        <p className="text-sm text-muted-foreground mt-0.5">{desc}</p>
       </div>
     </div>
   );

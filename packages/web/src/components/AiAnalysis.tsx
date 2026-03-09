@@ -5,6 +5,9 @@ import { api } from "../lib/api.ts";
 import { buildPrompt } from "@openmarkers/db/src/promptBuilder";
 import { makeI18n } from "@openmarkers/db/src/i18n";
 import type { UserData, I18n, Lang } from "../types.ts";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 
 interface AiAnalysisProps {
   userData: UserData;
@@ -39,84 +42,90 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
 
   return (
     <div className="mb-6">
-      <div className="bg-linear-to-r from-violet-50 to-blue-50 dark:from-violet-950/30 dark:to-blue-950/30 border border-violet-200 dark:border-violet-700/50 rounded-xl p-4 shadow-sm">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+      <Card className="bg-linear-to-r from-violet-50 to-violet-50/50 dark:from-violet-950/30 dark:to-violet-950/15 border-violet-200 dark:border-violet-700/50 p-4">
+        <Collapsible open={showPreview} onOpenChange={setShowPreview}>
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-lg bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-foreground">{t("aiAnalysis")}</h3>
+                <p className="text-xs text-muted-foreground">
+                  {t("aiAnalysisDesc")
+                    .split("{mcpLink}")
+                    .map((part, i) =>
+                      i === 0 ? (
+                        part
+                      ) : (
+                        <span key={i}>
+                          {profileId != null ? (
+                            <a
+                              href="/settings"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                history.pushState(null, "", "/settings");
+                                window.dispatchEvent(new PopStateEvent("popstate"));
+                                setTimeout(
+                                  () => document.getElementById("mcp")?.scrollIntoView({ behavior: "smooth" }),
+                                  100,
+                                );
+                              }}
+                              className="text-violet-600 dark:text-violet-400 hover:underline"
+                            >
+                              {t("aiAnalysisSetupMcp")}
+                            </a>
+                          ) : (
+                            t("aiAnalysisSetupMcp")
+                          )}
+                          {part}
+                        </span>
+                      ),
+                    )}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t("aiAnalysis")}</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                {t("aiAnalysisDesc")
-                  .split("{mcpLink}")
-                  .map((part, i) =>
-                    i === 0 ? (
-                      part
-                    ) : (
-                      <span key={i}>
-                        {profileId != null ? (
-                          <a
-                            href="/settings"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              history.pushState(null, "", "/settings");
-                              window.dispatchEvent(new PopStateEvent("popstate"));
-                              setTimeout(
-                                () => document.getElementById("mcp")?.scrollIntoView({ behavior: "smooth" }),
-                                100,
-                              );
-                            }}
-                            className="text-violet-600 dark:text-violet-400 hover:underline"
-                          >
-                            {t("aiAnalysisSetupMcp")}
-                          </a>
-                        ) : (
-                          t("aiAnalysisSetupMcp")
-                        )}
-                        {part}
-                      </span>
-                    ),
-                  )}
-              </p>
+            <div className="flex items-center gap-2">
+              <CollapsibleTrigger
+                render={
+                  <Button variant="outline" size="sm">
+                    <FileText className="w-3.5 h-3.5" />
+                    {showPreview ? t("hidePrompt") : t("showPrompt")}
+                  </Button>
+                }
+              />
+              <Button
+                size="sm"
+                onClick={handleCopy}
+                disabled={!prompt}
+                className="bg-violet-600 hover:bg-violet-700 text-white"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    {t("copied")}
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    {t("copyPrompt")}
+                  </>
+                )}
+              </Button>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowPreview((v) => !v)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              {showPreview ? t("hidePrompt") : t("showPrompt")}
-            </button>
-            <button
-              onClick={handleCopy}
-              disabled={!prompt}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-violet-600 hover:bg-violet-700 text-white transition-colors disabled:opacity-50"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-3.5 h-3.5" />
-                  {t("copied")}
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5" />
-                  {t("copyPrompt")}
-                </>
-              )}
-            </button>
-          </div>
-        </div>
 
-        {showPreview && prompt && (
-          <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 max-h-96 overflow-y-auto">
-            <pre className="text-xs text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-mono leading-relaxed">
-              {prompt}
-            </pre>
-          </div>
-        )}
-      </div>
+          <CollapsibleContent>
+            {prompt && (
+              <Card className="mt-4 p-4 max-h-96 overflow-y-auto overflow-x-hidden">
+                <pre className="text-xs text-muted-foreground whitespace-pre-wrap break-words font-mono leading-relaxed">
+                  {prompt}
+                </pre>
+              </Card>
+            )}
+          </CollapsibleContent>
+        </Collapsible>
+      </Card>
     </div>
   );
 }

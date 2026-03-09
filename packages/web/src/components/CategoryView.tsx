@@ -22,8 +22,8 @@ export default memo(function CategoryView({ category, isDark, i18n, profileId, o
   return (
     <>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{tCat(category.id, "name")}</h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{tCat(category.id, "description")}</p>
+        <h2 className="text-2xl font-bold text-foreground">{tCat(category.id, "name")}</h2>
+        <p className="text-sm text-muted-foreground mt-1">{tCat(category.id, "description")}</p>
       </div>
       {quantitative.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">

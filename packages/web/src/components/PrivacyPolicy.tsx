@@ -1,18 +1,20 @@
+import { Button } from "@/components/ui/button";
+
 interface PrivacyPolicyProps {
   onBack: () => void;
 }
 
 export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 py-8">
+    <div className="min-h-screen bg-background px-4 py-8">
       <div className="max-w-2xl mx-auto space-y-6">
-        <button onClick={onBack} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">&larr; Back</button>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Privacy Policy</h1>
-        <p className="text-xs text-gray-500 dark:text-gray-400">Last updated: March 2026</p>
+        <Button variant="link" onClick={onBack} className="text-sm text-primary p-0 h-auto">&larr; Back</Button>
+        <h1 className="text-2xl font-bold text-foreground">Privacy Policy</h1>
+        <p className="text-xs text-muted-foreground">Last updated: March 2026</p>
 
-        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4 text-gray-700 dark:text-gray-300">
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4 text-foreground/80">
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">What We Collect</h2>
+            <h2 className="text-lg font-semibold text-foreground">What We Collect</h2>
             <p>When you create an account, we store:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li><strong>Account data</strong> — email address, display name, hashed password (managed by Neon Auth)</li>
@@ -23,7 +25,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">How We Use Your Data</h2>
+            <h2 className="text-lg font-semibold text-foreground">How We Use Your Data</h2>
             <p>Your data is used exclusively to provide the service:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li>Displaying your lab results and biomarker trends</li>
@@ -34,7 +36,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">MCP (AI Integration)</h2>
+            <h2 className="text-lg font-semibold text-foreground">MCP (AI Integration)</h2>
             <p>OpenMarkers provides an MCP endpoint that you can connect to AI assistants (Claude, ChatGPT, etc.). When you do this:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li>The AI assistant requests your data through the MCP endpoint using your authentication token</li>
@@ -44,7 +46,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Data Storage & Security</h2>
+            <h2 className="text-lg font-semibold text-foreground">Data Storage & Security</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>Data is stored in Neon Postgres (encrypted at rest and in transit)</li>
               <li>Authentication uses JWT tokens with RS256 signature verification</li>
@@ -54,7 +56,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Your Rights</h2>
+            <h2 className="text-lg font-semibold text-foreground">Your Rights</h2>
             <p>You can exercise these rights at any time from the Settings page:</p>
             <ul className="list-disc pl-5 space-y-1">
               <li><strong>Access</strong> — view all your data in the app</li>
@@ -65,18 +67,18 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Cookies</h2>
+            <h2 className="text-lg font-semibold text-foreground">Cookies</h2>
             <p>We use a single session cookie set by Neon Auth for authentication purposes only. We do not use tracking cookies, analytics cookies, or advertising cookies.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Data Retention</h2>
+            <h2 className="text-lg font-semibold text-foreground">Data Retention</h2>
             <p>Your data is stored as long as your account exists. When you delete your account, all profiles, biomarker data, and results are permanently removed from our database.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Contact</h2>
-            <p>For privacy-related questions, open an issue on our <a href="https://github.com/nezdemkovski/openmarkers" className="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">GitHub repository</a>.</p>
+            <h2 className="text-lg font-semibold text-foreground">Contact</h2>
+            <p>For privacy-related questions, open an issue on our <a href="https://github.com/nezdemkovski/openmarkers" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">GitHub repository</a>.</p>
           </section>
         </div>
       </div>

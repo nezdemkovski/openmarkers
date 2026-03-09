@@ -1,6 +1,11 @@
 import { useState, useMemo } from "react";
 import { ArrowUpRight, ArrowDownRight, Minus, TriangleAlert, CircleCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { getAllDates, compareDates as compareDatesLocal } from "@openmarkers/db/src/analytics";
 import type { Category, I18n, ComparisonRow } from "../types.ts";
 
@@ -12,10 +17,49 @@ function formatDate(dateStr: string): string {
   });
 }
 
+function formatDateShort(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "2-digit",
+  });
+}
+
 interface ComparisonViewProps {
   categories: Category[];
   isDark: boolean;
   i18n: I18n;
+}
+
+function getDelta(row: ComparisonRow) {
+  let deltaStr = "";
+  let deltaColor = "text-muted-foreground";
+  let DeltaIcon: LucideIcon = Minus;
+
+  if (row.delta != null) {
+    const abs = Math.abs(row.delta);
+    const pctAbs = row.deltaPct != null ? Math.abs(row.deltaPct) : null;
+    deltaStr = `${row.delta > 0 ? "+" : ""}${Number.isInteger(row.delta) ? row.delta : +row.delta.toPrecision(3)}`;
+    if (pctAbs != null && pctAbs >= 0.5) {
+      deltaStr += ` (${row.delta > 0 ? "+" : ""}${row.deltaPct!.toFixed(1)}%)`;
+    }
+
+    if (abs < 0.001) {
+      deltaColor = "text-muted-foreground";
+      DeltaIcon = Minus;
+    } else if (!row.out1 && row.out2) {
+      deltaColor = "text-destructive";
+      DeltaIcon = row.delta > 0 ? ArrowUpRight : ArrowDownRight;
+    } else if (row.out1 && !row.out2) {
+      deltaColor = "text-green-600 dark:text-green-400";
+      DeltaIcon = row.delta > 0 ? ArrowUpRight : ArrowDownRight;
+    } else {
+      deltaColor = "text-muted-foreground";
+      DeltaIcon = row.delta > 0 ? ArrowUpRight : ArrowDownRight;
+    }
+  }
+
+  return { deltaStr, deltaColor, DeltaIcon };
 }
 
 export default function ComparisonView({ categories, isDark, i18n }: ComparisonViewProps) {
@@ -55,137 +99,153 @@ export default function ComparisonView({ categories, isDark, i18n }: ComparisonV
   return (
     <>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t("comparison")}</h2>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("comparisonDesc")}</p>
+        <h2 className="text-2xl font-bold text-foreground">{t("comparison")}</h2>
+        <p className="text-sm text-muted-foreground mt-1">{t("comparisonDesc")}</p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm mb-6">
-        <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("from")}</label>
-            <select
-              value={activeDate1}
-              onChange={(e) => setDate1(e.target.value)}
-              className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm px-3 py-1.5 text-gray-900 dark:text-gray-100"
-            >
-              {dates.map((d) => (
-                <option key={d} value={d}>
-                  {formatDate(d)}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("to")}</label>
-            <select
-              value={activeDate2}
-              onChange={(e) => setDate2(e.target.value)}
-              className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm px-3 py-1.5 text-gray-900 dark:text-gray-100"
-            >
-              {dates.map((d) => (
-                <option key={d} value={d}>
-                  {formatDate(d)}
-                </option>
-              ))}
-            </select>
-          </div>
-          {rows.length > 0 && (
-            <div className="flex items-center gap-3 ml-auto text-xs">
-              {improved > 0 && (
-                <span className="badge-green">
-                  {improved} {t("improved")}
-                </span>
-              )}
-              {worsened > 0 && (
-                <span className="badge-red">
-                  {worsened} {t("worsened")}
-                </span>
-              )}
+      <Card className="mb-6 py-0">
+        <CardContent className="p-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <div className="grid grid-cols-[auto_1fr] items-center gap-2">
+              <Label className="shrink-0">{t("from")}</Label>
+              <Select value={activeDate1} onValueChange={(v) => setDate1(v)}>
+                <SelectTrigger className="!w-full sm:!w-fit">
+                  <SelectValue placeholder={t("from")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {dates.map((d) => (
+                    <SelectItem key={d} value={d}>
+                      {formatDate(d)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          )}
-        </div>
-      </div>
+            <div className="grid grid-cols-[auto_1fr] items-center gap-2">
+              <Label className="shrink-0">{t("to")}</Label>
+              <Select value={activeDate2} onValueChange={(v) => setDate2(v)}>
+                <SelectTrigger className="!w-full sm:!w-fit">
+                  <SelectValue placeholder={t("to")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {dates.map((d) => (
+                    <SelectItem key={d} value={d}>
+                      {formatDate(d)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {rows.length > 0 && (
+              <div className="flex items-center gap-3 sm:ml-auto text-xs">
+                {improved > 0 && (
+                  <Badge variant="success">
+                    {improved} {t("improved")}
+                  </Badge>
+                )}
+                {worsened > 0 && (
+                  <Badge variant="destructive">
+                    {worsened} {t("worsened")}
+                  </Badge>
+                )}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
-      {activeDate1 === activeDate2 && <div className="text-center text-sm text-gray-400 py-8">{t("selectDifferentDates")}</div>}
+      {activeDate1 === activeDate2 && <div className="text-center text-sm text-muted-foreground py-8">{t("selectDifferentDates")}</div>}
 
       {grouped.map(([catId, catRows]) => (
-        <div
-          key={catId}
-          className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden mb-4"
-        >
-          <div className="px-4 py-2.5 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+        <Card key={catId} className="mb-4 overflow-hidden py-0 gap-0">
+          <div className="px-4 py-2.5 bg-muted border-b border-border">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               {tCat(catId, "name")}
             </span>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700 text-xs text-gray-500 dark:text-gray-400">
-                  <th className="px-4 py-2 text-left font-medium">{t("test")}</th>
-                  <th className="px-4 py-2 text-right font-medium">{formatDate(activeDate1)}</th>
-                  <th className="px-4 py-2 text-right font-medium">{formatDate(activeDate2)}</th>
-                  <th className="px-4 py-2 text-right font-medium">{t("change")}</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+
+          {/* Desktop table */}
+          <div className="hidden sm:block overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="px-4 py-2 text-left font-medium">{t("test")}</TableHead>
+                  <TableHead className="px-4 py-2 text-right font-medium whitespace-nowrap">{formatDate(activeDate1)}</TableHead>
+                  <TableHead className="px-4 py-2 text-right font-medium whitespace-nowrap">{formatDate(activeDate2)}</TableHead>
+                  <TableHead className="px-4 py-2 text-right font-medium">{t("change")}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {catRows.map((row) => {
-                  let deltaStr = "";
-                  let deltaColor = "text-gray-400";
-                  let DeltaIcon: LucideIcon = Minus;
-
-                  if (row.delta != null) {
-                    const abs = Math.abs(row.delta);
-                    const pctAbs = row.deltaPct != null ? Math.abs(row.deltaPct) : null;
-                    deltaStr = `${row.delta > 0 ? "+" : ""}${Number.isInteger(row.delta) ? row.delta : +row.delta.toPrecision(3)}`;
-                    if (pctAbs != null && pctAbs >= 0.5) {
-                      deltaStr += ` (${row.delta > 0 ? "+" : ""}${row.deltaPct!.toFixed(1)}%)`;
-                    }
-
-                    if (abs < 0.001) {
-                      deltaColor = "text-gray-400";
-                      DeltaIcon = Minus;
-                    } else if (!row.out1 && row.out2) {
-                      deltaColor = "text-red-600 dark:text-red-400";
-                      DeltaIcon = row.delta > 0 ? ArrowUpRight : ArrowDownRight;
-                    } else if (row.out1 && !row.out2) {
-                      deltaColor = "text-green-600 dark:text-green-400";
-                      DeltaIcon = row.delta > 0 ? ArrowUpRight : ArrowDownRight;
-                    } else {
-                      deltaColor = "text-gray-500 dark:text-gray-400";
-                      DeltaIcon = row.delta > 0 ? ArrowUpRight : ArrowDownRight;
-                    }
-                  }
-
+                  const { deltaStr, deltaColor, DeltaIcon } = getDelta(row);
                   return (
-                    <tr key={row.biomarkerId}>
-                      <td className="px-4 py-2.5">
-                        <div className="text-sm text-gray-900 dark:text-gray-100">{tBio(row.biomarkerId, "name")}</div>
-                        <div className="text-xs text-gray-400 dark:text-gray-500">{row.biomarkerId}</div>
-                      </td>
-                      <td
-                        className={`px-4 py-2.5 text-right text-sm font-mono ${row.out1 ? "text-red-700 dark:text-red-400 font-bold" : "text-gray-700 dark:text-gray-300"}`}
+                    <TableRow key={row.biomarkerId}>
+                      <TableCell className="px-4 py-2.5">
+                        <div className="text-sm text-foreground">{tBio(row.biomarkerId, "name")}</div>
+                        <div className="text-xs text-muted-foreground">{row.biomarkerId}</div>
+                      </TableCell>
+                      <TableCell
+                        className={`px-4 py-2.5 text-right text-sm font-mono whitespace-nowrap ${row.out1 ? "text-destructive font-bold" : "text-foreground"}`}
                       >
                         {fmtVal(row.v1, row.unit)}
-                      </td>
-                      <td
-                        className={`px-4 py-2.5 text-right text-sm font-mono ${row.out2 ? "text-red-700 dark:text-red-400 font-bold" : "text-gray-700 dark:text-gray-300"}`}
+                      </TableCell>
+                      <TableCell
+                        className={`px-4 py-2.5 text-right text-sm font-mono whitespace-nowrap ${row.out2 ? "text-destructive font-bold" : "text-foreground"}`}
                       >
                         {fmtVal(row.v2, row.unit)}
-                      </td>
-                      <td className={`px-4 py-2.5 text-right text-sm font-mono ${deltaColor}`}>
+                      </TableCell>
+                      <TableCell className={`px-4 py-2.5 text-right text-sm font-mono whitespace-nowrap ${deltaColor}`}>
                         <span className="inline-flex items-center gap-1">
                           {deltaStr && <DeltaIcon className="w-3.5 h-3.5" />}
                           {deltaStr || "\u2014"}
                         </span>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   );
                 })}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
-        </div>
+
+          {/* Mobile card list */}
+          <div className="sm:hidden divide-y divide-border">
+            {catRows.map((row) => {
+              const { deltaStr, deltaColor, DeltaIcon } = getDelta(row);
+              return (
+                <div key={row.biomarkerId} className="px-4 py-3 space-y-1.5">
+                  <div className="flex items-start gap-2">
+                    <div className="shrink-0 mt-0.5">
+                      {row.out2 ? (
+                        <TriangleAlert className="w-3.5 h-3.5 text-destructive" />
+                      ) : (
+                        <CircleCheck className="w-3.5 h-3.5 text-green-500 dark:text-green-400" />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-foreground">{tBio(row.biomarkerId, "name")}</div>
+                      <div className="text-xs text-muted-foreground">{row.biomarkerId}</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 pl-[22px] text-sm">
+                    <span className={`font-mono ${row.out1 ? "text-destructive font-bold" : "text-muted-foreground"}`}>
+                      {fmtVal(row.v1)}
+                    </span>
+                    <span className="text-muted-foreground/40">{"\u2192"}</span>
+                    <span className={`font-mono ${row.out2 ? "text-destructive font-bold" : "text-foreground"}`}>
+                      {fmtVal(row.v2, row.unit)}
+                    </span>
+                    {deltaStr && (
+                      <span className={`ml-auto font-mono text-xs inline-flex items-center gap-0.5 ${deltaColor}`}>
+                        <DeltaIcon className="w-3 h-3" />
+                        {deltaStr}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
       ))}
     </>
   );

@@ -15,6 +15,9 @@ import {
 import { isOutOfRange, analyzeTrend } from "@openmarkers/db/src/analytics";
 import ResultEditor from "./ResultEditor.tsx";
 import type { Biomarker, I18n, TrendResult } from "../types.ts";
+import { cn } from "@/lib/utils";
+import { Tooltip as UiTooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("en-GB", {
@@ -42,15 +45,15 @@ function CustomTooltip({ active, payload, biomarker, t }: CustomTooltipProps) {
   if (biomarker.refMax != null) refParts.push(`Max: ${biomarker.refMax}`);
 
   return (
-    <div className="bg-gray-800 dark:bg-gray-700 text-white text-xs rounded-lg px-3 py-2 shadow-lg">
+    <div className="bg-popover text-popover-foreground text-xs rounded-lg px-3 py-2 shadow-lg border border-border">
       <p className="font-medium">{formatDate(date)}</p>
       <p className="mt-1">
         {formatted}
         {biomarker.unit ? ` ${biomarker.unit}` : ""}
-        <span className={out ? " text-red-300" : " text-green-300"}> ({out ? t("outOfRange") : t("normal")})</span>
+        <span className={out ? " text-destructive" : " text-green-600 dark:text-green-400"}> ({out ? t("outOfRange") : t("normal")})</span>
       </p>
       {refParts.length > 0 && (
-        <p className="mt-0.5 text-gray-300">
+        <p className="mt-0.5 text-muted-foreground">
           {t("ref")}: {refParts.join(" \u2013 ")}
         </p>
       )}
@@ -105,15 +108,15 @@ function TrendBadge({ trend, t }: TrendBadgeProps) {
   } else if (improving === true) {
     color = "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/30";
   } else if (improving === false) {
-    color = "text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/30";
+    color = "text-destructive bg-destructive/10";
   } else {
-    color = "text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700";
+    color = "text-muted-foreground bg-muted";
   }
 
   const Icon: LucideIcon = trendWarning ? AlertTriangle : direction === "up" ? TrendingUp : TrendingDown;
 
   return (
-    <span className={`inline-flex items-center gap-1 text-xs font-medium px-1.5 py-0.5 rounded ${color}`}>
+    <span className={`mt-1 inline-flex items-center gap-1 text-xs font-medium px-1.5 py-0.5 rounded ${color}`}>
       <Icon className="w-3 h-3 shrink-0" />
       <span>
         {lastStr} {t("sinceLast")}
@@ -183,61 +186,76 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
 
   const isWarning = trend?.trendWarning && !out;
   const cardBorder = out
-    ? "border-red-300 dark:border-red-500/50"
+    ? "border-destructive/40"
     : isWarning
       ? "border-amber-300 dark:border-amber-500/50"
-      : "border-gray-200 dark:border-gray-700";
+      : "border-border";
   const cardBg = out
-    ? "bg-red-50/50 dark:bg-red-950/20"
+    ? "bg-destructive/5"
     : isWarning
       ? "bg-amber-50/50 dark:bg-amber-950/20"
-      : "bg-white dark:bg-gray-800";
+      : "bg-card";
 
   const tickColor = isDark ? "#9ca3af" : "#6b7280";
   const gridColor = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)";
   const tickStyle = useMemo(() => ({ fontSize: 11, fill: tickColor }), [tickColor]);
+  const lineColor = isDark ? "hsl(0 0% 70%)" : "hsl(0 0% 35%)";
+
+  const descriptionText = tBio(biomarker.id, "description");
 
   return (
-    <div className={`chart-card ${cardBg} rounded-xl border ${cardBorder} p-4 shadow-sm`}>
-      <div className="flex items-start justify-between mb-1">
-        <div className="flex items-center gap-1.5">
-          {out ? (
-            <TriangleAlert className="w-4 h-4 text-red-500 dark:text-red-400 shrink-0" />
-          ) : isWarning ? (
-            <AlertTriangle className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0" />
-          ) : (
-            <CircleCheck className="w-4 h-4 text-green-500 dark:text-green-400 shrink-0" />
-          )}
-          <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{tBio(biomarker.id, "name")}</h3>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+    <div className={cn("chart-card rounded-xl border p-4 shadow-sm", cardBg, cardBorder)}>
+      <div className="mb-1">
+        <div className="flex items-start gap-1.5">
+          <div className="shrink-0 mt-0.5">
+            {out ? (
+              <TriangleAlert className="w-4 h-4 text-destructive" />
+            ) : isWarning ? (
+              <AlertTriangle className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+            ) : (
+              <CircleCheck className="w-4 h-4 text-green-500 dark:text-green-400" />
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="text-sm font-semibold text-foreground break-words min-w-0">{tBio(biomarker.id, "name")}</h3>
+              {out ? (
+                <span className="shrink-0 inline-flex items-center gap-1 text-sm font-mono font-bold text-destructive bg-destructive/10 px-2 py-0.5 rounded-md">
+                  {latestStr}
+                </span>
+              ) : (
+                <span className="shrink-0 text-sm font-mono text-foreground">{latestStr}</span>
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">
               {biomarker.id}
               {biomarker.unit ? ` \u00b7 ${biomarker.unit}` : ""}
               {refStr ? ` \u00b7 ${t("ref")}: ${refStr}` : ""}
             </p>
+            <TrendBadge trend={trend} t={t} />
           </div>
         </div>
-        <div className="text-right shrink-0 ml-2 flex items-center gap-1.5">
-          <TrendBadge trend={trend} t={t} />
-          {out ? (
-            <span className="inline-flex items-center gap-1 text-sm font-mono font-bold text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/40 px-2 py-0.5 rounded-md">
-              {latestStr}
-            </span>
-          ) : (
-            <span className="text-sm font-mono text-gray-700 dark:text-gray-300">{latestStr}</span>
-          )}
-        </div>
       </div>
-      <div className={`bio-desc mb-3${clamped ? " clamped" : ""}`}>
-        <p ref={descRef} className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-          {tBio(biomarker.id, "description")}
-        </p>
-        {clamped && <div className="bio-desc-full">{tBio(biomarker.id, "description")}</div>}
+      <div className="mb-3">
+        {clamped ? (
+          <UiTooltip>
+            <TooltipTrigger render={<p />} ref={descRef} className="text-xs text-muted-foreground line-clamp-2 cursor-default">
+              {descriptionText}
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-sm">
+              {descriptionText}
+            </TooltipContent>
+          </UiTooltip>
+        ) : (
+          <p ref={descRef} className="text-xs text-muted-foreground line-clamp-2">
+            {descriptionText}
+          </p>
+        )}
       </div>
       {biomarker.note && (
-        <div className="flex items-start gap-1.5 mb-3 px-2.5 py-1.5 rounded-md bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/50">
-          <Info className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400 shrink-0 mt-0.5" />
-          <p className="text-xs text-blue-700 dark:text-blue-300">{biomarker.note}</p>
+        <div className="flex items-start gap-1.5 mb-3 px-2.5 py-1.5 rounded-md bg-muted border border-border">
+          <Info className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
+          <p className="text-xs text-muted-foreground">{biomarker.note}</p>
         </div>
       )}
       <div className="h-48">
@@ -299,7 +317,7 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
               <Line
                 type="monotone"
                 dataKey="value"
-                stroke="rgb(59, 130, 246)"
+                stroke={lineColor}
                 strokeWidth={2}
                 dot={<CustomDot biomarker={biomarker} />}
                 activeDot={ACTIVE_DOT}
@@ -307,12 +325,12 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <div className="flex items-center justify-center h-full text-sm text-gray-400">No data</div>
+          <div className="flex items-center justify-center h-full text-sm text-muted-foreground">No data</div>
         )}
       </div>
       {profileId != null && onMutate && (
         <div className="mt-2 text-right">
-          <button onClick={() => setEditing(true)} className="text-xs text-blue-500 dark:text-blue-400 hover:underline">{t("editResultsLink")}</button>
+          <Button variant="link" size="sm" onClick={() => setEditing(true)} className="text-xs text-muted-foreground">{t("editResultsLink")}</Button>
         </div>
       )}
       {editing && profileId != null && onMutate && (

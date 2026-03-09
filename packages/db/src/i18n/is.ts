@@ -48,6 +48,7 @@ const is: TranslationData = {
     monthsAgo: "mánuðum síðan",
     overdue: "tímabært",
     overdueCategories: "flokkar tímabærir til mælingar",
+    overdueDesc: "Sumar prófanir hafa ekki verið uppfærðar í nokkurn tíma",
     sinceLast: "frá síðustu",
     overall: "heild",
     personalRange: "Þitt svið",

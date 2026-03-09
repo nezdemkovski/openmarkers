@@ -48,6 +48,7 @@ const en: TranslationData = {
     monthsAgo: "months ago",
     overdue: "overdue",
     overdueCategories: "categories overdue for testing",
+    overdueDesc: "Some tests haven't been updated in a while",
     sinceLast: "since last",
     overall: "overall",
     personalRange: "Your range",

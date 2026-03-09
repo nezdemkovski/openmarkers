@@ -48,6 +48,7 @@ const cs: TranslationData = {
     monthsAgo: "měsíců",
     overdue: "k obnovení",
     overdueCategories: "kategorií k obnovení testů",
+    overdueDesc: "Některé testy nebyly delší dobu aktualizovány",
     sinceLast: "od posl.",
     overall: "celkem",
     personalRange: "Váš rozsah",

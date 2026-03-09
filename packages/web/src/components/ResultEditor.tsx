@@ -1,7 +1,22 @@
 import { useState } from "react";
-import { X, Pencil, Trash2, Plus, Check, XIcon } from "lucide-react";
+import { Pencil, Trash2, Plus, Check, XIcon } from "lucide-react";
 import { api } from "../lib/api.ts";
 import type { Biomarker, I18n } from "../types.ts";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
 interface ResultEditorProps {
   biomarker: Biomarker;
@@ -10,8 +25,6 @@ interface ResultEditorProps {
   onClose: () => void;
   onMutate: () => void;
 }
-
-const INPUT_CLASS = "w-full px-2 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500";
 
 export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMutate }: ResultEditorProps) {
   const { t, tBio } = i18n;
@@ -24,6 +37,7 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
   const [newDate, setNewDate] = useState("");
   const [newValue, setNewValue] = useState("");
   const [busy, setBusy] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   function startEdit(id: number, date: string, value: number | string) {
     setEditingId(id);
@@ -51,13 +65,13 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
   }
 
   async function handleDelete(id: number) {
-    if (!confirm(t("deleteResultConfirm"))) return;
     setBusy(true);
     try {
       await api.deleteResult(id);
     } finally {
       setBusy(false);
     }
+    setDeleteId(null);
     onMutate();
   }
 
@@ -76,128 +90,143 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-lg w-full max-h-[80vh] flex flex-col"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-          <div>
-            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">{tBio(biomarker.id, "name")}</h2>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+    <>
+      <Dialog open onOpenChange={(open) => { if (!open) onClose(); }}>
+        <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-lg max-h-[80vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle>{tBio(biomarker.id, "name")}</DialogTitle>
+            <p className="text-xs text-muted-foreground">
               {biomarker.id}{biomarker.unit ? ` \u00b7 ${biomarker.unit}` : ""}
             </p>
+          </DialogHeader>
+
+          <div className="flex-1 overflow-y-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t("resultDate")}</TableHead>
+                  <TableHead>{t("resultValue")}</TableHead>
+                  <TableHead className="w-20" />
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sorted.map((r) => (
+                  <TableRow key={r.id ?? r.date}>
+                    {editingId === r.id ? (
+                      <>
+                        <TableCell className="pr-2">
+                          <DatePicker
+                            value={editDate}
+                            onChange={setEditDate}
+                          />
+                        </TableCell>
+                        <TableCell className="pr-2">
+                          <Input
+                            type={isQual ? "text" : "number"}
+                            step="any"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                          />
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-1">
+                            <Button
+                              size="icon-sm"
+                              variant="ghost"
+                              onClick={saveEdit}
+                              disabled={busy}
+                              className="text-green-600 dark:text-green-400"
+                            >
+                              <Check className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="icon-sm"
+                              variant="ghost"
+                              onClick={cancelEdit}
+                            >
+                              <XIcon className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </>
+                    ) : (
+                      <>
+                        <TableCell className="pr-2 text-sm text-muted-foreground">{r.date}</TableCell>
+                        <TableCell className="pr-2 text-sm font-mono">{r.value}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-1">
+                            <Button
+                              size="icon-sm"
+                              variant="ghost"
+                              onClick={() => r.id != null && startEdit(r.id, r.date, r.value)}
+                            >
+                              <Pencil className="w-3.5 h-3.5" />
+                            </Button>
+                            <Button
+                              size="icon-sm"
+                              variant="ghost"
+                              onClick={() => r.id != null && setDeleteId(r.id)}
+                              disabled={busy}
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </>
+                    )}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
-          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
 
-        <div className="flex-1 overflow-y-auto px-5 py-3">
-          <table className="w-full">
-            <thead>
-              <tr className="text-xs text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
-                <th className="text-left pb-2 font-medium">{t("resultDate")}</th>
-                <th className="text-left pb-2 font-medium">{t("resultValue")}</th>
-                <th className="pb-2 w-20"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {sorted.map((r) => (
-                <tr key={r.id ?? r.date} className="border-b border-gray-100 dark:border-gray-700/50">
-                  {editingId === r.id ? (
-                    <>
-                      <td className="py-2 pr-2">
-                        <input
-                          type="date"
-                          value={editDate}
-                          onChange={(e) => setEditDate(e.target.value)}
-                          className={INPUT_CLASS}
-                        />
-                      </td>
-                      <td className="py-2 pr-2">
-                        <input
-                          type={isQual ? "text" : "number"}
-                          step="any"
-                          value={editValue}
-                          onChange={(e) => setEditValue(e.target.value)}
-                          className={INPUT_CLASS}
-                        />
-                      </td>
-                      <td className="py-2 text-right">
-                        <div className="flex justify-end gap-1">
-                          <button
-                            onClick={saveEdit}
-                            disabled={busy}
-                            className="p-1 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/30 rounded disabled:opacity-50"
-                          >
-                            <Check className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={cancelEdit}
-                            className="p-1 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                          >
-                            <XIcon className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </>
-                  ) : (
-                    <>
-                      <td className="py-2 pr-2 text-sm text-gray-700 dark:text-gray-300">{r.date}</td>
-                      <td className="py-2 pr-2 text-sm font-mono text-gray-900 dark:text-gray-100">{r.value}</td>
-                      <td className="py-2 text-right">
-                        <div className="flex justify-end gap-1">
-                          <button
-                            onClick={() => r.id != null && startEdit(r.id, r.date, r.value)}
-                            className="p-1 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded"
-                          >
-                            <Pencil className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => r.id != null && handleDelete(r.id)}
-                            disabled={busy}
-                            className="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded disabled:opacity-50"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+          <div className="border-t pt-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <DatePicker
+                value={newDate}
+                onChange={setNewDate}
+                className="flex-1 min-w-[120px]"
+              />
+              <Input
+                type={isQual ? "text" : "number"}
+                step="any"
+                value={newValue}
+                onChange={(e) => setNewValue(e.target.value)}
+                placeholder={t("resultValue")}
+                className="flex-1 min-w-[80px]"
+              />
+              <Button
+                size="sm"
+                onClick={handleAdd}
+                disabled={busy || !newDate || !newValue}
+              >
+                <Plus className="w-4 h-4" />
+                {t("addResult")}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
-        <div className="px-5 py-3 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center gap-2">
-            <input
-              type="date"
-              value={newDate}
-              onChange={(e) => setNewDate(e.target.value)}
-              className={`flex-1 ${INPUT_CLASS}`}
-            />
-            <input
-              type={isQual ? "text" : "number"}
-              step="any"
-              value={newValue}
-              onChange={(e) => setNewValue(e.target.value)}
-              placeholder={t("resultValue")}
-              className={`flex-1 ${INPUT_CLASS}`}
-            />
-            <button
-              onClick={handleAdd}
-              disabled={busy || !newDate || !newValue}
-              className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+      <AlertDialog open={deleteId !== null} onOpenChange={(open) => { if (!open) setDeleteId(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("deleteResultConfirm")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("deleteResultConfirm")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => deleteId !== null && handleDelete(deleteId)}
             >
-              <Plus className="w-4 h-4" />
-              {t("addResult")}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+              {t("delete")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

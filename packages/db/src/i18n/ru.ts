@@ -48,6 +48,7 @@ const ru: TranslationData = {
     monthsAgo: "мес. назад",
     overdue: "просрочено",
     overdueCategories: "категорий просрочено",
+    overdueDesc: "Некоторые анализы давно не обновлялись",
     sinceLast: "с посл.",
     overall: "всего",
     personalRange: "Ваш диапазон",
