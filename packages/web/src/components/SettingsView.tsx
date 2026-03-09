@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown } from "lucide-react";
+import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck } from "lucide-react";
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
 import type { I18n } from "../types.ts";
@@ -33,6 +33,7 @@ export default function SettingsView({
       <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t("settings")}</h1>
 
       <ProfilesSection t={t} profiles={profiles} onProfileUpdated={onProfileUpdated} onProfileDeleted={onProfileDeleted} onProfilesReordered={onProfilesReordered} onExport={onExport} />
+      <McpSection t={t} />
       <AccountSection t={t} authEmail={authEmail} />
       <DangerZoneSection t={t} onDeleteAccount={onDeleteAccount} />
     </div>
@@ -386,6 +387,64 @@ function ChangePasswordForm({ t }: { t: (key: string) => string }) {
       </div>
       {status === "error" && <p className="text-xs text-red-600 dark:text-red-400">{error}</p>}
     </form>
+  );
+}
+
+function McpSection({ t }: { t: (key: string) => string }) {
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  const mcpUrl = `${window.location.origin}/mcp`;
+
+  const mcpConfig = JSON.stringify({
+    mcpServers: {
+      openmarkers: {
+        type: "http",
+        url: mcpUrl,
+      },
+    },
+  }, null, 2);
+
+  const copyToClipboard = async (text: string, field: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
+  };
+
+  return (
+    <section className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 space-y-4">
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{t("settingsMcp")}</h2>
+      <p className="text-sm text-gray-600 dark:text-gray-400">{t("settingsMcpDesc")}</p>
+
+      <div className="space-y-3">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t("settingsMcpEndpoint")}</label>
+          <div className="flex items-center gap-2">
+            <code className="flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 font-mono truncate">{mcpUrl}</code>
+            <button
+              onClick={() => copyToClipboard(mcpUrl, "url")}
+              className="shrink-0 px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              {copiedField === "url" ? <CheckCheck className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t("settingsMcpConfigDesc")}</label>
+          <div className="relative">
+            <pre className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-sm text-gray-900 dark:text-gray-100 font-mono overflow-x-auto">{mcpConfig}</pre>
+            <button
+              onClick={() => copyToClipboard(mcpConfig, "config")}
+              className="absolute top-2 right-2 px-2 py-1 text-xs rounded border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              {copiedField === "config" ? <CheckCheck className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p className="text-xs text-gray-500 dark:text-gray-400">{t("settingsMcpTools")}</p>
+    </section>
   );
 }
 

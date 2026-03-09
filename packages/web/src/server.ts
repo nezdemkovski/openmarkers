@@ -28,6 +28,7 @@ import {
 } from "@openmarkers/db";
 import type { Lang } from "@openmarkers/db";
 import { createMcpHandler } from "@openmarkers/mcp-server";
+import { handleASMetadata, handleRSMetadata, handleRegister, handleAuthorize, handleToken, handleOAuthPreflight } from "./oauth.ts";
 import { join } from "node:path";
 import { existsSync } from "node:fs";
 
@@ -82,6 +83,49 @@ export function startWebServer(opts: {
       const url = new URL(req.url);
       const path = url.pathname;
       const method = req.method;
+      const start = Date.now();
+
+      try {
+        const res = await handleRequest(req, url, path, method);
+        const ms = Date.now() - start;
+        // Log errors and slow requests (>3s)
+        if (res.status >= 400) {
+          console.warn(`${method} ${path} ${res.status} ${ms}ms`);
+        } else if (ms > 3000) {
+          console.warn(`${method} ${path} ${res.status} ${ms}ms (slow)`);
+        }
+        return res;
+      } catch (e) {
+        console.error(`${method} ${path} 500 ${Date.now() - start}ms`, e);
+        return error("Internal server error", 500);
+      }
+    },
+  });
+
+  async function handleRequest(req: Request, url: URL, path: string, method: string): Promise<Response> {
+      // --- OAuth 2.1 endpoints (no auth required) ---
+
+      // OAuth metadata discovery
+      if (method === "GET" && path === "/.well-known/oauth-authorization-server")
+        return handleASMetadata(req);
+      if (method === "GET" && (path === "/.well-known/oauth-protected-resource/mcp" || path === "/.well-known/oauth-protected-resource"))
+        return handleRSMetadata(req);
+
+      // Dynamic client registration
+      if (path === "/register") {
+        if (method === "OPTIONS") return handleOAuthPreflight();
+        if (method === "POST") return handleRegister(req);
+      }
+
+      // Authorization endpoint (login page)
+      if (path === "/authorize" && (method === "GET" || method === "POST"))
+        return handleAuthorize(req);
+
+      // Token endpoint
+      if (path === "/token") {
+        if (method === "OPTIONS") return handleOAuthPreflight();
+        if (method === "POST") return handleToken(req);
+      }
 
       // CORS preflight
       if (method === "OPTIONS") {
@@ -95,10 +139,21 @@ export function startWebServer(opts: {
         });
       }
 
-      // MCP endpoint — requires auth
+      // MCP endpoint — requires auth (with OAuth discovery headers)
       if (path === "/mcp" && mcpHandler) {
         const auth = await requireAuth(req);
-        if (!authResult(auth)) return auth;
+        if (!authResult(auth)) {
+          const proto = req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
+          const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || url.host;
+          const baseUrl = `${proto}://${host}`;
+          return new Response(JSON.stringify({ error: "Unauthorized" }), {
+            status: 401,
+            headers: {
+              "Content-Type": "application/json",
+              "WWW-Authenticate": `Bearer resource_metadata="${baseUrl}/.well-known/oauth-protected-resource"`,
+            },
+          });
+        }
         return mcpHandler(req, auth.userId);
       }
 
@@ -453,8 +508,7 @@ export function startWebServer(opts: {
       }
 
       return error("Not found", 404);
-    },
-  });
+  }
 }
 
 // Auto-start when run directly
