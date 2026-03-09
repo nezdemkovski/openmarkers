@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { compareDatesForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpText, mcpError } from "../index";
 
 export function registerCompareDates(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -16,10 +17,9 @@ export function registerCompareDates(server: McpServer, authUserId: string) {
     },
     async ({ profile_id, date1, date2 }) => {
       const rows = await compareDatesForProfile(profile_id, authUserId, date1, date2);
-      if (!rows) return { content: [{ type: "text" as const, text: "Profile not found" }], isError: true };
-      if (rows.length === 0)
-        return { content: [{ type: "text" as const, text: "No overlapping results found for these dates" }] };
-      return { content: [{ type: "text" as const, text: JSON.stringify(rows, null, 2) }] };
+      if (!rows) return mcpError("Profile not found");
+      if (rows.length === 0) return mcpText("No overlapping results found for these dates");
+      return mcpJson(rows);
     },
   );
 }

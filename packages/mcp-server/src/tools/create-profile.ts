@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { createProfile } from "@openmarkers/db";
+import { createProfile, sexEnum } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson } from "../index";
 
 export function registerCreateProfile(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -10,12 +11,9 @@ export function registerCreateProfile(server: McpServer, authUserId: string) {
       inputSchema: z.object({
         name: z.string().describe("Profile name (e.g. person's name)"),
         date_of_birth: z.string().describe("Date of birth (YYYY-MM-DD)"),
-        sex: z.enum(["M", "F"]).describe("Biological sex"),
+        sex: sexEnum.describe("Biological sex"),
       }),
     },
-    async (input) => {
-      const profile = await createProfile(authUserId, input);
-      return { content: [{ type: "text" as const, text: JSON.stringify(profile, null, 2) }] };
-    },
+    async (input) => mcpJson(await createProfile(authUserId, input)),
   );
 }

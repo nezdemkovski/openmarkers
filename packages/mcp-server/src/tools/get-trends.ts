@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getTrendsForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpText, mcpError } from "../index";
 
 export function registerGetTrends(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -16,10 +17,9 @@ export function registerGetTrends(server: McpServer, authUserId: string) {
     },
     async ({ profile_id, biomarker_id, category_id }) => {
       const trends = await getTrendsForProfile(profile_id, authUserId, { biomarker_id, category_id });
-      if (!trends) return { content: [{ type: "text" as const, text: "Profile not found" }], isError: true };
-      if (trends.length === 0)
-        return { content: [{ type: "text" as const, text: "No trends available (need at least 2 results per biomarker)" }] };
-      return { content: [{ type: "text" as const, text: JSON.stringify(trends, null, 2) }] };
+      if (!trends) return mcpError("Profile not found");
+      if (trends.length === 0) return mcpText("No trends available (need at least 2 results per biomarker)");
+      return mcpJson(trends);
     },
   );
 }

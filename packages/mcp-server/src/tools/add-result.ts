@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { addResult } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpError } from "../index";
 
 export function registerAddResult(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -16,10 +17,9 @@ export function registerAddResult(server: McpServer, authUserId: string) {
     },
     async (input) => {
       try {
-        const result = await addResult(authUserId, input);
-        return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
+        return mcpJson(await addResult(authUserId, input));
       } catch (e: unknown) {
-        return { content: [{ type: "text" as const, text: (e as Error).message }], isError: true };
+        return mcpError(e instanceof Error ? e.message : "Failed to add result");
       }
     },
   );

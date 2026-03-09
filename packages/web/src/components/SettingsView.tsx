@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck } from "lucide-react";
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
-import type { I18n } from "../types.ts";
+import type { I18n, Sex } from "../types.ts";
 
 interface SettingsViewProps {
   i18n: I18n;
@@ -144,7 +144,7 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
           />
           <select
             value={sex}
-            onChange={(e) => setSex(e.target.value as "M" | "F")}
+            onChange={(e) => setSex(e.target.value as Sex)}
             className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="M">{t("sexMale")}</option>

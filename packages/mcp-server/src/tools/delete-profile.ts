@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { deleteProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpText, mcpError } from "../index";
 
 export function registerDeleteProfile(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -13,8 +14,8 @@ export function registerDeleteProfile(server: McpServer, authUserId: string) {
     },
     async ({ profile_id }) => {
       const deleted = await deleteProfile(profile_id, authUserId);
-      if (!deleted) return { content: [{ type: "text" as const, text: "Profile not found" }], isError: true };
-      return { content: [{ type: "text" as const, text: "Profile deleted successfully" }] };
+      if (!deleted) return mcpError("Profile not found");
+      return mcpText("Profile deleted successfully");
     },
   );
 }

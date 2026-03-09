@@ -15,7 +15,7 @@ import Loading from "./components/Loading.tsx";
 import AddLabVisit from "./components/AddLabVisit.tsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.tsx";
 import TermsOfService from "./components/TermsOfService.tsx";
-import type { UserData, Lang, Route } from "./types.ts";
+import type { UserData, Lang, Route, Sex } from "./types.ts";
 
 function getInitialTheme(): "dark" | "light" {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
@@ -534,7 +534,7 @@ function GettingStarted({
   const [showCreate, setShowCreate] = useState(false);
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [sex, setSex] = useState<"M" | "F">("M");
+  const [sex, setSex] = useState<Sex>("M");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 

@@ -26,6 +26,9 @@ import {
   getBiologicalAgeForProfile,
   getAnalysisPromptForProfile,
   verifyToken,
+  importDataSchema,
+  sexEnum,
+  biomarkerTypeEnum,
 } from "@openmarkers/db";
 import type { Lang } from "@openmarkers/db";
 import { createMcpHandler } from "@openmarkers/mcp-server";
@@ -38,29 +41,29 @@ import { z } from "zod";
 
 const MAX_BODY_SIZE = 5 * 1024 * 1024; // 5MB
 
-const dateString = z.string().regex(/^(\d{4}-\d{2}-\d{2})?$/, "Must be YYYY-MM-DD format or empty");
+const dateString = z.union([z.string().date(), z.literal("")]);
 
 const profileCreateSchema = z.object({
   name: z.string().min(1).max(200),
   date_of_birth: dateString,
-  sex: z.enum(["M", "F"]),
+  sex: sexEnum,
 });
 
 const profileUpdateSchema = z.object({
   name: z.string().min(1).max(200).optional(),
   date_of_birth: dateString.optional(),
-  sex: z.enum(["M", "F"]).optional(),
+  sex: sexEnum.optional(),
 }).refine(data => Object.keys(data).length > 0, "At least one field is required");
 
 const resultCreateSchema = z.object({
   profile_id: z.number().int().positive(),
   biomarker_id: z.string().min(1).max(200),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD format"),
+  date: z.string().date(),
   value: z.union([z.number(), z.string().min(1).max(200)]),
 });
 
 const resultUpdateSchema = z.object({
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD format").optional(),
+  date: z.string().date().optional(),
   value: z.union([z.number(), z.string().min(1).max(200)]).optional(),
 }).refine(data => Object.keys(data).length > 0, "At least one field is required");
 
@@ -70,7 +73,7 @@ const biomarkerCreateSchema = z.object({
   unit: z.string().max(50).nullish(),
   ref_min: z.number().nullish(),
   ref_max: z.number().nullish(),
-  type: z.enum(["quantitative", "qualitative"]).optional(),
+  type: biomarkerTypeEnum.optional(),
 });
 
 const biomarkerUpdateSchema = z.object({
@@ -81,33 +84,11 @@ const biomarkerUpdateSchema = z.object({
 
 const batchResultsSchema = z.object({
   profile_id: z.number().int().positive(),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Must be YYYY-MM-DD format"),
+  date: z.string().date(),
   entries: z.array(z.object({
     biomarker_id: z.string().min(1).max(200),
     value: z.union([z.number(), z.string().min(1).max(200)]),
   })).min(1).max(500),
-});
-
-const importDataSchema = z.object({
-  user: z.object({
-    name: z.string().min(1).max(200),
-    dateOfBirth: z.string().optional(),
-    sex: z.enum(["M", "F"]).optional(),
-  }),
-  categories: z.array(z.object({
-    id: z.string().min(1).max(200),
-    biomarkers: z.array(z.object({
-      id: z.string().min(1).max(200),
-      unit: z.string().max(50).nullish(),
-      refMin: z.number().nullish(),
-      refMax: z.number().nullish(),
-      type: z.enum(["quantitative", "qualitative"]).optional(),
-      results: z.array(z.object({
-        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-        value: z.union([z.number(), z.string().max(200)]),
-      })).max(10000),
-    })).max(500),
-  })).max(100),
 });
 
 const reorderSchema = z.object({
@@ -190,7 +171,8 @@ export function startWebServer(opts: {
 }) {
   const { port, mcpHandler } = opts;
   const publicDir = opts.publicDir ?? join(import.meta.dir, "..", "dist");
-  const hasFrontend = existsSync(join(publicDir, "index.html"));
+  const resolvedPublicDir = resolve(publicDir);
+  const hasFrontend = existsSync(join(resolvedPublicDir, "index.html"));
 
   return Bun.serve({
     port,
@@ -626,9 +608,9 @@ export function startWebServer(opts: {
       if (method === "POST" && path === "/api/import/check") {
         const auth = await requireAuth(req);
         if (!authResult(auth)) return auth;
-        const body = await req.json();
-        const name = body?.user?.name;
-        if (!name) return error("Missing user.name");
+        const body = await parseBody(req, z.object({ user: z.object({ name: z.string().min(1).max(200) }) }));
+        if (isResponse(body)) return body;
+        const name = body.user.name;
         const existing = await findProfileByName(auth.userId, name);
         return json({
           exists: !!existing,
@@ -651,17 +633,17 @@ export function startWebServer(opts: {
       // --- Static file serving (production) ---
       if (hasFrontend) {
         const filePath = resolve(
-          publicDir,
+          resolvedPublicDir,
           path === "/" ? "index.html" : path.slice(1),
         );
         // Prevent path traversal — ensure resolved path stays within publicDir
-        if (!filePath.startsWith(resolve(publicDir))) {
+        if (!filePath.startsWith(resolvedPublicDir)) {
           return error("Forbidden", 403);
         }
         const file = Bun.file(filePath);
         if (await file.exists()) return new Response(file, { headers: SECURITY_HEADERS });
         // SPA fallback
-        return new Response(Bun.file(join(publicDir, "index.html")), { headers: SECURITY_HEADERS });
+        return new Response(Bun.file(join(resolvedPublicDir, "index.html")), { headers: SECURITY_HEADERS });
       }
 
       return error("Not found", 404);

@@ -1,9 +1,13 @@
+export type Sex = "M" | "F";
+export type BiomarkerType = "quantitative" | "qualitative";
+export type TrendDirection = "up" | "down" | "stable";
+
 export interface DbProfile {
   id: number;
   auth_user_id: string;
   name: string;
   date_of_birth: string;
-  sex: "M" | "F";
+  sex: Sex;
   created_at: string;
   updated_at: string;
 }
@@ -18,7 +22,7 @@ export interface DbBiomarker {
   unit: string | null;
   ref_min: number | null;
   ref_max: number | null;
-  type: "quantitative" | "qualitative";
+  type: BiomarkerType;
 }
 
 export interface DbResult {
@@ -34,7 +38,7 @@ export interface ProfileSummary {
   id: number;
   name: string;
   dateOfBirth: string;
-  sex: "M" | "F";
+  sex: Sex;
 }
 
 export interface BiomarkerResult {
@@ -45,7 +49,7 @@ export interface BiomarkerResult {
 
 export interface Biomarker {
   id: string;
-  type?: "qualitative" | "quantitative";
+  type?: BiomarkerType;
   unit?: string | null;
   refMin?: number | null;
   refMax?: number | null;
@@ -63,13 +67,13 @@ export interface UserData {
     id: number;
     name: string;
     dateOfBirth: string;
-    sex: "M" | "F";
+    sex: Sex;
   };
   categories: Category[];
 }
 
 export interface TrendResult {
-  direction: "up" | "down" | "stable";
+  direction: TrendDirection;
   rateChange: number;
   overallChange: number | null;
   trendWarning: boolean;
@@ -79,7 +83,7 @@ export interface TrendResult {
 export interface BiomarkerTrend {
   biomarkerId: string;
   categoryId: string;
-  direction: "up" | "down" | "stable";
+  direction: TrendDirection;
   rateChange: number;
   overallChange: number | null;
   trendWarning: boolean;

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getAnalysisPromptForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpText, mcpError } from "../index";
 
 export function registerGetAnalysisPrompt(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -15,8 +16,8 @@ export function registerGetAnalysisPrompt(server: McpServer, authUserId: string)
     },
     async ({ profile_id, lang }) => {
       const prompt = await getAnalysisPromptForProfile(profile_id, authUserId, lang);
-      if (!prompt) return { content: [{ type: "text" as const, text: "Profile not found" }], isError: true };
-      return { content: [{ type: "text" as const, text: prompt }] };
+      if (!prompt) return mcpError("Profile not found");
+      return mcpText(prompt);
     },
   );
 }

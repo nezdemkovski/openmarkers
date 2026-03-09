@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getProfileData } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpError } from "../index";
 
 export function registerGetProfile(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -13,8 +14,8 @@ export function registerGetProfile(server: McpServer, authUserId: string) {
     },
     async ({ profile_id }) => {
       const data = await getProfileData(profile_id, authUserId);
-      if (!data) return { content: [{ type: "text" as const, text: "Profile not found" }] };
-      return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
+      if (!data) return mcpError("Profile not found");
+      return mcpJson(data);
     },
   );
 }

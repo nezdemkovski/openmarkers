@@ -2,12 +2,12 @@ import { z } from "zod";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpText, mcpError } from "../index";
 
 let cachedSchema: string | null = null;
 
-function loadSchema(): string {
+function loadSchema(): string | null {
   if (cachedSchema) return cachedSchema;
-  // Try multiple paths to find schema.json
   const paths = [
     join(import.meta.dir, "..", "..", "..", "..", "data", "schema.json"),
     join(process.cwd(), "data", "schema.json"),
@@ -18,7 +18,7 @@ function loadSchema(): string {
       return cachedSchema;
     } catch {}
   }
-  return JSON.stringify({ error: "schema.json not found" });
+  return null;
 }
 
 export function registerGetSchema(server: McpServer) {
@@ -32,8 +32,10 @@ export function registerGetSchema(server: McpServer) {
         "then use add_result or import_user_data to store the data.",
       inputSchema: z.object({}),
     },
-    async () => ({
-      content: [{ type: "text" as const, text: loadSchema() }],
-    }),
+    async () => {
+      const schema = loadSchema();
+      if (!schema) return mcpError("schema.json not found");
+      return mcpText(schema);
+    },
   );
 }

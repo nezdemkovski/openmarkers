@@ -1,8 +1,10 @@
+import type { Sex } from "../../types";
+
 export interface ProfileSummary {
   id: number;
   name: string;
   dateOfBirth: string;
-  sex: "M" | "F";
+  sex: Sex;
 }
 
 let getToken: (() => Promise<string | null>) | null = null;
@@ -63,14 +65,14 @@ function del<T>(path: string): Promise<T> {
 
 export const api = {
   listProfiles: () => request<ProfileSummary[]>("/api/profiles"),
-  createProfile: (data: { name: string; date_of_birth: string; sex: "M" | "F" }) =>
+  createProfile: (data: { name: string; date_of_birth: string; sex: Sex }) =>
     post<{ id: number; name: string }>("/api/profiles", data),
   getProfile: (id: number) => request<import("../types.ts").UserData>(`/api/profiles/${id}`),
   exportProfile: (id: number) => request<object>(`/api/profiles/${id}/export`),
   checkImport: (data: unknown) =>
     post<{ exists: boolean; user: { id: number; name: string } | null }>("/api/import/check", data),
   importProfile: (data: unknown) => post<{ ok: boolean; profile_id: number }>("/api/import", data),
-  updateProfile: (id: number, data: Partial<{ name: string; date_of_birth: string; sex: "M" | "F" }>) =>
+  updateProfile: (id: number, data: Partial<{ name: string; date_of_birth: string; sex: Sex }>) =>
     patch<{ id: number; name: string }>(`/api/profiles/${id}`, data),
   deleteProfile: (id: number) => del<{ ok: boolean }>(`/api/profiles/${id}`),
   reorderProfiles: (profileIds: number[]) =>

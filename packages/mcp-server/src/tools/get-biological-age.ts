@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getBiologicalAgeForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpText, mcpError } from "../index";
 
 export function registerGetBiologicalAge(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -14,17 +15,12 @@ export function registerGetBiologicalAge(server: McpServer, authUserId: string) 
     },
     async ({ profile_id }) => {
       const results = await getBiologicalAgeForProfile(profile_id, authUserId);
-      if (results === undefined) return { content: [{ type: "text" as const, text: "Profile not found" }], isError: true };
+      if (results === undefined) return mcpError("Profile not found");
       if (results.length === 0)
-        return {
-          content: [
-            {
-              type: "text" as const,
-              text: "Not enough biomarkers for PhenoAge calculation. Required: S-ALB, S-CREA, P-P-GLU, B-lymf, B-MCV, B-RDW, S-ALP, B-WBC, and S-hsCRP or S-CRP.",
-            },
-          ],
-        };
-      return { content: [{ type: "text" as const, text: JSON.stringify(results, null, 2) }] };
+        return mcpText(
+          "Not enough biomarkers for PhenoAge calculation. Required: S-ALB, S-CREA, P-P-GLU, B-lymf, B-MCV, B-RDW, S-ALP, B-WBC, and S-hsCRP or S-CRP.",
+        );
+      return mcpJson(results);
     },
   );
 }

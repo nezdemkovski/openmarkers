@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getBiomarker } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpError } from "../index";
 
 export function registerGetBiomarker(server: McpServer) {
   server.registerTool(
@@ -13,8 +14,8 @@ export function registerGetBiomarker(server: McpServer) {
     },
     async ({ biomarker_id }) => {
       const b = await getBiomarker(biomarker_id);
-      if (!b) return { content: [{ type: "text" as const, text: "Biomarker not found" }] };
-      return { content: [{ type: "text" as const, text: JSON.stringify(b, null, 2) }] };
+      if (!b) return mcpError("Biomarker not found");
+      return mcpJson(b);
     },
   );
 }

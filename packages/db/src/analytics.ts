@@ -68,10 +68,6 @@ export function analyzeTrend(
   return { direction, rateChange, overallChange: hasOverall ? overallChange : null, trendWarning, improving };
 }
 
-export function personalBaseline(): null {
-  return null;
-}
-
 export const CORRELATION_GROUPS: CorrelationGroup[] = [
   {
     id: "iron_panel",

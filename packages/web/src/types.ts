@@ -1,4 +1,7 @@
 export type {
+  Sex,
+  BiomarkerType,
+  TrendDirection,
   BiomarkerResult,
   Biomarker,
   Category,
@@ -18,11 +21,13 @@ export type {
   I18n,
 } from "@openmarkers/db/src/types";
 
+import type { Sex } from "@openmarkers/db/src/types";
+
 export interface User {
   id?: number;
   name: string;
   dateOfBirth?: string;
-  sex?: "M" | "F";
+  sex?: Sex;
 }
 
 export interface Route {

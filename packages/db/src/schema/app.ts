@@ -32,7 +32,7 @@ export const profiles = pgTable(
       .references(() => neonAuthUser.id, { onDelete: "cascade" }),
     name: text("name").notNull(),
     dateOfBirth: text("date_of_birth").notNull(),
-    sex: text("sex").notNull(),
+    sex: text("sex", { enum: ["M", "F"] }).notNull(),
     displayOrder: integer("display_order").notNull().default(0),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
@@ -52,7 +52,7 @@ export const biomarkers = pgTable("biomarkers", {
   unit: text("unit"),
   refMin: doublePrecision("ref_min"),
   refMax: doublePrecision("ref_max"),
-  type: text("type").notNull().default("quantitative"),
+  type: text("type", { enum: ["quantitative", "qualitative"] }).notNull().default("quantitative"),
 });
 
 export const results = pgTable(

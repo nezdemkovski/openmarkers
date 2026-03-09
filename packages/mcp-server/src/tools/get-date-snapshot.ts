@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getSnapshotForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpText, mcpError } from "../index";
 
 export function registerGetDateSnapshot(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -15,10 +16,9 @@ export function registerGetDateSnapshot(server: McpServer, authUserId: string) {
     },
     async ({ profile_id, date }) => {
       const snapshot = await getSnapshotForProfile(profile_id, authUserId, date);
-      if (!snapshot) return { content: [{ type: "text" as const, text: "Profile not found" }], isError: true };
-      if (snapshot.length === 0)
-        return { content: [{ type: "text" as const, text: `No results found for date ${date}` }] };
-      return { content: [{ type: "text" as const, text: JSON.stringify(snapshot, null, 2) }] };
+      if (!snapshot) return mcpError("Profile not found");
+      if (snapshot.length === 0) return mcpText(`No results found for date ${date}`);
+      return mcpJson(snapshot);
     },
   );
 }

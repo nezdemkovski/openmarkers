@@ -1,3 +1,4 @@
+import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { registerListProfiles } from "./tools/list-profiles";
@@ -25,6 +26,18 @@ import { registerCompareDates } from "./tools/compare-dates";
 import { registerGetTrends } from "./tools/get-trends";
 import { registerGetDaysSinceLastTest } from "./tools/get-days-since-last-test";
 import { registerGetCorrelations } from "./tools/get-correlations";
+
+export function mcpJson(data: unknown): CallToolResult {
+  return { content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
+}
+
+export function mcpText(message: string): CallToolResult {
+  return { content: [{ type: "text", text: message }] };
+}
+
+export function mcpError(message: string): CallToolResult {
+  return { content: [{ type: "text", text: message }], isError: true };
+}
 
 export function createMcpServer(authUserId: string): McpServer {
   const server = new McpServer({ name: "openmarkers", version: "1.0.0" });

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getCorrelationsForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpText, mcpError } from "../index";
 
 export function registerGetCorrelations(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -14,10 +15,9 @@ export function registerGetCorrelations(server: McpServer, authUserId: string) {
     },
     async ({ profile_id }) => {
       const correlations = await getCorrelationsForProfile(profile_id, authUserId);
-      if (!correlations) return { content: [{ type: "text" as const, text: "Profile not found" }], isError: true };
-      if (correlations.length === 0)
-        return { content: [{ type: "text" as const, text: "No correlated panels found for this profile's data" }] };
-      return { content: [{ type: "text" as const, text: JSON.stringify(correlations, null, 2) }] };
+      if (!correlations) return mcpError("Profile not found");
+      if (correlations.length === 0) return mcpText("No correlated panels found for this profile's data");
+      return mcpJson(correlations);
     },
   );
 }

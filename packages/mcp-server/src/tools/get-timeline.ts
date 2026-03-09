@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getTimelineForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpError } from "../index";
 
 export function registerGetTimeline(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -13,12 +14,8 @@ export function registerGetTimeline(server: McpServer, authUserId: string) {
     },
     async ({ profile_id }) => {
       const dates = await getTimelineForProfile(profile_id, authUserId);
-      if (!dates) return { content: [{ type: "text" as const, text: "Profile not found" }], isError: true };
-      return {
-        content: [
-          { type: "text" as const, text: JSON.stringify({ dates, count: dates.length }, null, 2) },
-        ],
-      };
+      if (!dates) return mcpError("Profile not found");
+      return mcpJson({ dates, count: dates.length });
     },
   );
 }

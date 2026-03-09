@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { updateResult } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { mcpJson, mcpError } from "../index";
 
 export function registerUpdateResult(server: McpServer, authUserId: string) {
   server.registerTool(
@@ -15,8 +16,8 @@ export function registerUpdateResult(server: McpServer, authUserId: string) {
     },
     async ({ result_id, ...data }) => {
       const result = await updateResult(authUserId, result_id, data);
-      if (!result) return { content: [{ type: "text" as const, text: "Result not found" }] };
-      return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
+      if (!result) return mcpError("Result not found");
+      return mcpJson(result);
     },
   );
 }

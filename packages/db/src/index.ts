@@ -13,10 +13,15 @@ import type {
   DbResult,
   ProfileSummary,
   UserData,
+  Sex,
+  BiomarkerType,
 } from "./types";
 
 export type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData };
 export type {
+  Sex,
+  BiomarkerType,
+  TrendDirection,
   BiomarkerResult,
   Biomarker,
   Category,
@@ -37,7 +42,6 @@ export type {
 export {
   isOutOfRange,
   analyzeTrend,
-  personalBaseline,
   CORRELATION_GROUPS,
   getAllDates,
   getDateSnapshot,
@@ -52,6 +56,7 @@ export { buildPrompt } from "./promptBuilder";
 export { verifyToken } from "./auth";
 export { db } from "./db";
 export * as oauthStore from "./oauth-store";
+export { importDataSchema, sexEnum, biomarkerTypeEnum } from "./validation";
 
 export {
   getTimelineForProfile,
@@ -90,20 +95,12 @@ export async function getProfile(
     .where(and(eq(profiles.id, profileId), eq(profiles.authUserId, authUserId)))
     .limit(1);
   if (!row) return undefined;
-  return {
-    id: row.id,
-    auth_user_id: row.authUserId,
-    name: row.name,
-    date_of_birth: row.dateOfBirth,
-    sex: row.sex as "M" | "F",
-    created_at: row.createdAt?.toISOString() ?? "",
-    updated_at: row.updatedAt?.toISOString() ?? "",
-  };
+  return toProfile(row);
 }
 
 export async function createProfile(
   authUserId: string,
-  data: { name: string; date_of_birth: string; sex: "M" | "F" },
+  data: { name: string; date_of_birth: string; sex: Sex },
 ): Promise<DbProfile> {
   const [row] = await db
     .insert(profiles)
@@ -114,21 +111,13 @@ export async function createProfile(
       sex: data.sex,
     })
     .returning();
-  return {
-    id: row.id,
-    auth_user_id: row.authUserId,
-    name: row.name,
-    date_of_birth: row.dateOfBirth,
-    sex: row.sex as "M" | "F",
-    created_at: row.createdAt?.toISOString() ?? "",
-    updated_at: row.updatedAt?.toISOString() ?? "",
-  };
+  return toProfile(row);
 }
 
 export async function updateProfile(
   profileId: number,
   authUserId: string,
-  data: Partial<{ name: string; date_of_birth: string; sex: "M" | "F" }>,
+  data: Partial<{ name: string; date_of_birth: string; sex: Sex }>,
 ): Promise<DbProfile | undefined> {
   const existing = await getProfile(profileId, authUserId);
   if (!existing) return undefined;
@@ -144,15 +133,7 @@ export async function updateProfile(
     .where(and(eq(profiles.id, profileId), eq(profiles.authUserId, authUserId)))
     .returning();
   if (!row) return undefined;
-  return {
-    id: row.id,
-    auth_user_id: row.authUserId,
-    name: row.name,
-    date_of_birth: row.dateOfBirth,
-    sex: row.sex as "M" | "F",
-    created_at: row.createdAt?.toISOString() ?? "",
-    updated_at: row.updatedAt?.toISOString() ?? "",
-  };
+  return toProfile(row);
 }
 
 export async function deleteProfile(
@@ -188,12 +169,16 @@ export async function findProfileByName(
     .where(and(eq(profiles.authUserId, authUserId), eq(profiles.name, name)))
     .limit(1);
   if (!row) return undefined;
+  return toProfile(row);
+}
+
+function toProfile(row: typeof profiles.$inferSelect): DbProfile {
   return {
     id: row.id,
     auth_user_id: row.authUserId,
     name: row.name,
     date_of_birth: row.dateOfBirth,
-    sex: row.sex as "M" | "F",
+    sex: row.sex,
     created_at: row.createdAt?.toISOString() ?? "",
     updated_at: row.updatedAt?.toISOString() ?? "",
   };
@@ -242,7 +227,7 @@ export async function createBiomarker(data: {
   unit?: string | null;
   ref_min?: number | null;
   ref_max?: number | null;
-  type?: "quantitative" | "qualitative";
+  type?: BiomarkerType;
 }): Promise<DbBiomarker> {
   await ensureCategory(data.category_id);
   const [row] = await db
@@ -292,7 +277,7 @@ function toBiomarker(row: typeof biomarkers.$inferSelect): DbBiomarker {
     unit: row.unit,
     ref_min: row.refMin,
     ref_max: row.refMax,
-    type: row.type as "quantitative" | "qualitative",
+    type: row.type,
   };
 }
 
@@ -494,7 +479,7 @@ export async function getProfileData(
             ...(refMin != null ? { refMin } : {}),
             ...(refMax != null ? { refMax } : {}),
             ...(b.type !== "quantitative"
-              ? { type: b.type as "qualitative" | "quantitative" }
+              ? { type: b.type }
               : {}),
             results: ress,
           };
@@ -510,7 +495,7 @@ export async function getProfileData(
       id: profile.id,
       name: profile.name,
       dateOfBirth: profile.date_of_birth,
-      sex: profile.sex as "M" | "F",
+      sex: profile.sex,
     },
     categories: userCategories,
   };
@@ -534,7 +519,7 @@ function parseNumericValue(value: string): number | string {
 // ---- Import from JSON ----
 
 interface JsonUserData {
-  user: { name: string; dateOfBirth?: string; sex?: "M" | "F" };
+  user: { name: string; dateOfBirth?: string; sex?: Sex };
   categories: {
     id: string;
     biomarkers: {
@@ -542,7 +527,7 @@ interface JsonUserData {
       unit?: string | null;
       refMin?: number | null;
       refMax?: number | null;
-      type?: "quantitative" | "qualitative";
+      type?: BiomarkerType;
       results: { date: string; value: number | string }[];
     }[];
   }[];
