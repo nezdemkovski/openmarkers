@@ -76,7 +76,7 @@ OpenMarkers can be self-hosted using Docker. The app runs in a single container 
 
 ### Setup
 
-1. Clone the repo and create a `.env` file:
+1. Clone the repo:
 
 ```bash
 git clone https://github.com/nezdemkovski/openmarkers.git
@@ -104,6 +104,18 @@ docker compose up -d
 ```
 
 The app will be available at `http://localhost:3000`.
+
+> **Note:** `VITE_NEON_AUTH_URL` is embedded into the frontend at build time. The `docker-compose.yml` builds the image locally with your value. If you use a pre-built image, make sure it was built with the correct auth URL for your Neon project.
+
+### Using a pre-built image
+
+Docker images are published to GitHub Container Registry on every release:
+
+```bash
+docker pull ghcr.io/nezdemkovski/openmarkers:latest
+```
+
+Since `VITE_NEON_AUTH_URL` is baked in at build time, the pre-built image uses the official openmarkers.app auth endpoint. To self-host with your own Neon project, build locally using `docker compose up -d` instead.
 
 ### Updating
 
