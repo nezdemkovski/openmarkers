@@ -1,0 +1,13 @@
+services:
+  openmarkers:
+    build:
+      context: .
+      args:
+        VITE_NEON_AUTH_URL: ${VITE_NEON_AUTH_URL}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - NEON_AUTH_BASE_URL=${NEON_AUTH_BASE_URL}
+    restart: unless-stopped

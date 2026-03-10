@@ -65,7 +65,54 @@ Upload a PDF or paste lab results text into Claude Code. Claude will:
 2. Map your lab test names to biomarker IDs
 3. Use `add_result` or `import_profile_data` to store the data
 
-## Deployment
+## Self-Hosting with Docker
+
+OpenMarkers can be self-hosted using Docker. The app runs in a single container — you just need a [Neon](https://neon.tech) account (free tier works) for Postgres and authentication.
+
+### Prerequisites
+
+1. [Docker](https://docs.docker.com/get-docker/) installed
+2. A Neon project with [Neon Auth](https://neon.tech/docs/guides/neon-auth) enabled — this gives you all three required env vars
+
+### Setup
+
+1. Clone the repo and create a `.env` file:
+
+```bash
+git clone https://github.com/nezdemkovski/openmarkers.git
+cd openmarkers
+```
+
+2. Create a `.env` file in the project root:
+
+```env
+DATABASE_URL=postgresql://user:pass@ep-xxx.region.aws.neon.tech/neondb?sslmode=require
+NEON_AUTH_BASE_URL=https://ep-xxx.neonauth.region.aws.neon.tech/neondb/auth
+VITE_NEON_AUTH_URL=https://ep-xxx.neonauth.region.aws.neon.tech/neondb/auth
+```
+
+3. Push the database schema:
+
+```bash
+bun run db:push
+```
+
+4. Start the app:
+
+```bash
+docker compose up -d
+```
+
+The app will be available at `http://localhost:3000`.
+
+### Updating
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+## Deployment on Fly.io
 
 Production deployment uses Docker on Fly.io:
 
