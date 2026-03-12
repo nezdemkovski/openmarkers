@@ -57,7 +57,10 @@ export async function ensureClient(clientId: string, redirectUri?: string): Prom
       const uris: string[] = JSON.parse(existing.redirectUris);
       if (!uris.includes(redirectUri)) {
         uris.push(redirectUri);
-        await db.update(oauthClients).set({ redirectUris: JSON.stringify(uris) }).where(eq(oauthClients.clientId, clientId));
+        await db
+          .update(oauthClients)
+          .set({ redirectUris: JSON.stringify(uris) })
+          .where(eq(oauthClients.clientId, clientId));
       }
     }
     return;

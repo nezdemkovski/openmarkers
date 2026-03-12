@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { authClient } from "../lib/auth-client";
-import { LineChart, HeartPulse, FlaskConical, Bot, ShieldCheck, Github, Play, Languages, Sun, Moon } from "lucide-react";
+import {
+  LineChart,
+  HeartPulse,
+  FlaskConical,
+  Bot,
+  ShieldCheck,
+  Github,
+  Play,
+  Languages,
+  Sun,
+  Moon,
+} from "lucide-react";
 import { LANGS } from "../i18n";
 import { errorMessage } from "../lib/utils";
 import type { I18n } from "../types";
@@ -22,7 +33,15 @@ interface AuthPageProps {
   onToggleTheme: () => void;
 }
 
-export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChangeLang, isDark, onToggleTheme }: AuthPageProps) {
+export default function AuthPage({
+  onAuthenticated,
+  onDemo,
+  i18n,
+  lang,
+  onChangeLang,
+  isDark,
+  onToggleTheme,
+}: AuthPageProps) {
   const { t } = i18n;
   const [tab, setTab] = useState<"login" | "signup">("signup");
   const [email, setEmail] = useState("");
@@ -67,11 +86,7 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
     <div className="min-h-screen bg-background">
       {/* Language selector */}
       <div className="absolute top-4 right-4 flex items-center gap-3 text-muted-foreground/60">
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          onClick={onToggleTheme}
-        >
+        <Button variant="ghost" size="icon-sm" onClick={onToggleTheme}>
           {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </Button>
         <div className="flex items-center gap-1.5">
@@ -82,7 +97,9 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
             </SelectTrigger>
             <SelectContent>
               {LANGS.map((l) => (
-                <SelectItem key={l.code} value={l.code}>{l.nativeName}</SelectItem>
+                <SelectItem key={l.code} value={l.code}>
+                  {l.nativeName}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -92,16 +109,21 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
       <div className="max-w-5xl mx-auto px-4 py-12 md:py-20">
         {/* Hero */}
         <div className="text-center mb-10 md:mb-14">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
-            OpenMarkers
-          </h1>
-          <p className="mt-3 text-lg md:text-xl text-muted-foreground max-w-xl mx-auto">
-            {t("heroSubtitle")}
-          </p>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">OpenMarkers</h1>
+          <p className="mt-3 text-lg md:text-xl text-muted-foreground max-w-xl mx-auto">{t("heroSubtitle")}</p>
           <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground/60">
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{t("heroBadgeOpenSource")}</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-primary" />{t("heroBadgeBiomarkers")}</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-violet-500" />{t("heroBadgeMcp")}</span>
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              {t("heroBadgeOpenSource")}
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+              {t("heroBadgeBiomarkers")}
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+              {t("heroBadgeMcp")}
+            </span>
           </div>
         </div>
 
@@ -155,14 +177,16 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
           {/* Right: auth form */}
           <div className="space-y-4">
             <div className="bg-card rounded-xl shadow-sm border border-border p-6 space-y-4">
-              <Tabs value={tab} onValueChange={(v) => { setTab(v as "login" | "signup"); setError(""); }}>
+              <Tabs
+                value={tab}
+                onValueChange={(v) => {
+                  setTab(v as "login" | "signup");
+                  setError("");
+                }}
+              >
                 <TabsList className="w-full">
-                  <TabsTrigger value="signup">
-                    {t("authSignUp") || "Sign Up"}
-                  </TabsTrigger>
-                  <TabsTrigger value="login">
-                    {t("authLogin") || "Log In"}
-                  </TabsTrigger>
+                  <TabsTrigger value="signup">{t("authSignUp") || "Sign Up"}</TabsTrigger>
+                  <TabsTrigger value="login">{t("authLogin") || "Log In"}</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="signup">
@@ -207,15 +231,9 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
                       <span>{t("authConsent") || "I agree to store my blood test results and lab data"}</span>
                     </Label>
 
-                    {error && (
-                      <p className="text-sm text-destructive">{error}</p>
-                    )}
+                    {error && <p className="text-sm text-destructive">{error}</p>}
 
-                    <Button
-                      type="submit"
-                      disabled={loading || !consent}
-                      className="w-full h-9"
-                    >
+                    <Button type="submit" disabled={loading || !consent} className="w-full h-9">
                       {loading ? "..." : t("authSignUp") || "Sign Up"}
                     </Button>
                   </form>
@@ -245,15 +263,9 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
                       />
                     </div>
 
-                    {error && (
-                      <p className="text-sm text-destructive">{error}</p>
-                    )}
+                    {error && <p className="text-sm text-destructive">{error}</p>}
 
-                    <Button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full h-9"
-                    >
+                    <Button type="submit" disabled={loading} className="w-full h-9">
                       {loading ? "..." : t("authLogin") || "Log In"}
                     </Button>
                   </form>
@@ -264,11 +276,20 @@ export default function AuthPage({ onAuthenticated, onDemo, i18n, lang, onChange
             <div className="text-center text-xs text-muted-foreground/60 space-y-1">
               <p>{t("authDisclaimer") || "This is not a medical device or healthcare service. Not medical advice."}</p>
               <p>
-                <a href="/privacy" className="hover:underline">Privacy Policy</a>
+                <a href="/privacy" className="hover:underline">
+                  Privacy Policy
+                </a>
                 {" · "}
-                <a href="/terms" className="hover:underline">Terms of Service</a>
+                <a href="/terms" className="hover:underline">
+                  Terms of Service
+                </a>
                 {" · "}
-                <a href="https://github.com/nezdemkovski/openmarkers" target="_blank" rel="noopener noreferrer" className="hover:underline inline-flex items-center gap-1">
+                <a
+                  href="https://github.com/nezdemkovski/openmarkers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline inline-flex items-center gap-1"
+                >
                   <Github className="w-3 h-3" />
                   GitHub
                 </a>
@@ -289,12 +310,20 @@ const colorMap = {
   amber: "bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400",
 } as const;
 
-function Feature({ icon, title, desc, color }: { icon: React.ReactNode; title: string; desc: string; color: keyof typeof colorMap }) {
+function Feature({
+  icon,
+  title,
+  desc,
+  color,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+  color: keyof typeof colorMap;
+}) {
   return (
     <div className="flex gap-4">
-      <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${colorMap[color]}`}>
-        {icon}
-      </div>
+      <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${colorMap[color]}`}>{icon}</div>
       <div>
         <h3 className="text-sm font-semibold text-foreground">{title}</h3>
         <p className="text-sm text-muted-foreground mt-0.5">{desc}</p>

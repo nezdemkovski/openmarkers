@@ -2,10 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { importProfileData, isDbEmpty } from "./index";
 
-export async function seedFromJsonFiles(
-  dataDir: string,
-  authUserId: string,
-): Promise<void> {
+export async function seedFromJsonFiles(dataDir: string, authUserId: string): Promise<void> {
   if (!(await isDbEmpty())) return;
 
   const usersDir = join(dataDir, "users");

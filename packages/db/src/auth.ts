@@ -12,9 +12,7 @@ function getJWKS() {
   return jwks;
 }
 
-export async function verifyToken(
-  token: string,
-): Promise<{ userId: string; email: string } | null> {
+export async function verifyToken(token: string): Promise<{ userId: string; email: string } | null> {
   try {
     const { payload } = await jwtVerify(token, getJWKS());
     if (!payload.sub) return null;

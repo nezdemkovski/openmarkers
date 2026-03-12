@@ -50,7 +50,10 @@ function CustomTooltip({ active, payload, biomarker, t }: CustomTooltipProps) {
       <p className="mt-1">
         {formatted}
         {biomarker.unit ? ` ${biomarker.unit}` : ""}
-        <span className={out ? " text-destructive" : " text-green-600 dark:text-green-400"}> ({out ? t("outOfRange") : t("normal")})</span>
+        <span className={out ? " text-destructive" : " text-green-600 dark:text-green-400"}>
+          {" "}
+          ({out ? t("outOfRange") : t("normal")})
+        </span>
       </p>
       {refParts.length > 0 && (
         <p className="mt-0.5 text-muted-foreground">
@@ -175,7 +178,17 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
     const _minVal = Math.min(...allValues);
     const _maxVal = Math.max(...allValues);
     const _padding = (_maxVal - _minVal) * 0.2 || _maxVal * 0.1 || 1;
-    return { latest: _latest, out: _out, trend: _trend, latestStr: _latestStr, refStr: _refStr, data: _data, minVal: _minVal, maxVal: _maxVal, padding: _padding };
+    return {
+      latest: _latest,
+      out: _out,
+      trend: _trend,
+      latestStr: _latestStr,
+      refStr: _refStr,
+      data: _data,
+      minVal: _minVal,
+      maxVal: _maxVal,
+      padding: _padding,
+    };
   }, [biomarker]);
 
   useEffect(() => {
@@ -190,11 +203,7 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
     : isWarning
       ? "border-amber-300 dark:border-amber-500/50"
       : "border-border";
-  const cardBg = out
-    ? "bg-destructive/5"
-    : isWarning
-      ? "bg-amber-50/50 dark:bg-amber-950/20"
-      : "bg-card";
+  const cardBg = out ? "bg-destructive/5" : isWarning ? "bg-amber-50/50 dark:bg-amber-950/20" : "bg-card";
 
   const tickColor = isDark ? "#9ca3af" : "#6b7280";
   const gridColor = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)";
@@ -218,7 +227,9 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
-              <h3 className="text-sm font-semibold text-foreground break-words min-w-0">{tBio(biomarker.id, "name")}</h3>
+              <h3 className="text-sm font-semibold text-foreground break-words min-w-0">
+                {tBio(biomarker.id, "name")}
+              </h3>
               {out ? (
                 <span className="shrink-0 inline-flex items-center gap-1 text-sm font-mono font-bold text-destructive bg-destructive/10 px-2 py-0.5 rounded-md">
                   {latestStr}
@@ -239,7 +250,11 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
       <div className="mb-3">
         {clamped ? (
           <UiTooltip>
-            <TooltipTrigger render={<p />} ref={descRef} className="text-xs text-muted-foreground line-clamp-2 cursor-default">
+            <TooltipTrigger
+              render={<p />}
+              ref={descRef}
+              className="text-xs text-muted-foreground line-clamp-2 cursor-default"
+            >
               {descriptionText}
             </TooltipTrigger>
             <TooltipContent side="bottom" className="max-w-sm">
@@ -263,12 +278,7 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={CHART_MARGIN}>
               <CartesianGrid vertical={false} stroke={gridColor} />
-              <XAxis
-                dataKey="date"
-                tickFormatter={formatXTick}
-                tick={tickStyle}
-                {...AXIS_COMMON}
-              />
+              <XAxis dataKey="date" tickFormatter={formatXTick} tick={tickStyle} {...AXIS_COMMON} />
               <YAxis
                 domain={[minVal - padding, maxVal + padding]}
                 tickFormatter={formatYTick}
@@ -330,7 +340,9 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
       </div>
       {profileId != null && onMutate && (
         <div className="mt-2 text-right">
-          <Button variant="link" size="sm" onClick={() => setEditing(true)} className="text-xs text-muted-foreground">{t("editResultsLink")}</Button>
+          <Button variant="link" size="sm" onClick={() => setEditing(true)} className="text-xs text-muted-foreground">
+            {t("editResultsLink")}
+          </Button>
         </div>
       )}
       {editing && profileId != null && onMutate && (
@@ -339,7 +351,10 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
           profileId={profileId}
           i18n={i18n}
           onClose={() => setEditing(false)}
-          onMutate={() => { onMutate(); setEditing(false); }}
+          onMutate={() => {
+            onMutate();
+            setEditing(false);
+          }}
         />
       )}
     </div>

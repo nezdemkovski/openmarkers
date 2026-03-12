@@ -24,14 +24,14 @@ const cs: TranslationData = {
     export: "Exportovat data",
     import: "Importovat data",
     importConflictTitle: "Uživatel již existuje",
-    importConflictMessage: "Uživatel \"{name}\" již existuje. Zadejte nové jméno nebo zrušte.",
+    importConflictMessage: 'Uživatel "{name}" již existuje. Zadejte nové jméno nebo zrušte.',
     importRename: "Importovat",
     importCancel: "Zrušit",
     importError: "Chyba importu",
     importInvalidJson: "Neplatný JSON soubor.",
     deleteUser: "Smazat uživatele",
     deleteUserTitle: "Smazat uživatele",
-    deleteUserMessage: "Opravdu chcete smazat \"{name}\"? Všechna data budou trvale odstraněna.",
+    deleteUserMessage: 'Opravdu chcete smazat "{name}"? Všechna data budou trvale odstraněna.',
     deleteUserConfirm: "Smazat",
     comparisonDesc: "Porovnejte výsledky dvou odběrů vedle sebe.",
     snapshot: "Snímek",
@@ -60,7 +60,8 @@ const cs: TranslationData = {
     thyroid_panel: "Štítná žláza",
     kidney_panel: "Ledvinový panel",
     aiAnalysis: "AI Analýza",
-    aiAnalysisDesc: "{mcpLink} pro průběžnou AI analýzu, nebo zkopírujte tento prompt do libovolného AI asistenta pro jednorázový přehled.",
+    aiAnalysisDesc:
+      "{mcpLink} pro průběžnou AI analýzu, nebo zkopírujte tento prompt do libovolného AI asistenta pro jednorázový přehled.",
     aiAnalysisSetupMcp: "Nastavte MCP server",
     copyPrompt: "Kopírovat prompt",
     copied: "Zkopírováno!",
@@ -115,10 +116,12 @@ const cs: TranslationData = {
     addYourDataDesc: "Váš profil je připraven. Přidejte první výsledky z odběrů.",
     aiImport: "Vytvořit soubor pro import pomocí AI",
     aiImportDesc: "Máte PDF nebo laboratorní zprávu? Pomocí AI ji převeďte na soubor k importu.",
-    aiImportInstructions: "Zkopírujte prompt níže a vložte ho do ChatGPT, Claude nebo jiného AI asistenta spolu s vašimi výsledky (text, foto nebo PDF). Vygeneruje vám JSON soubor.",
+    aiImportInstructions:
+      "Zkopírujte prompt níže a vložte ho do ChatGPT, Claude nebo jiného AI asistenta spolu s vašimi výsledky (text, foto nebo PDF). Vygeneruje vám JSON soubor.",
     aiImportThen: "Uložte výstup jako .json soubor a nahrajte ho pomocí Import výše.",
     schemaTip: "Tip: Přidejte pole $schema pro automatické doplňování a validaci",
-    schemaTipDesc: "Přidejte tento řádek na začátek JSON souboru pro automatické doplňování a kontrolu chyb ve VS Code a dalších editorech:",
+    schemaTipDesc:
+      "Přidejte tento řádek na začátek JSON souboru pro automatické doplňování a kontrolu chyb ve VS Code a dalších editorech:",
     mcpSetup: "MCP Server",
     mcpSetupDesc: "Připojte AI asistenta přímo k OpenMarkers.",
     mcpSetupInstructions: "Přidejte toto do konfigurace MCP vašeho AI klienta (Claude Desktop, Cursor apod.):",
@@ -156,7 +159,8 @@ const cs: TranslationData = {
     settingsDateOfBirth: "Datum narození",
     settingsSex: "Pohlaví",
     settingsMcp: "AI Asistent (MCP)",
-    settingsMcpDesc: "Připojte Claude, ChatGPT nebo jakéhokoli AI asistenta kompatibilního s MCP k vašim datům biomarkerů.",
+    settingsMcpDesc:
+      "Připojte Claude, ChatGPT nebo jakéhokoli AI asistenta kompatibilního s MCP k vašim datům biomarkerů.",
     settingsMcpEndpoint: "MCP Endpoint",
     settingsMcpToken: "Váš Auth Token",
     settingsMcpCopied: "Zkopírováno!",
@@ -174,15 +178,20 @@ const cs: TranslationData = {
     heroBadgeMcp: "AI přes MCP",
     heroDemoButton: "Zkusit demo — bez registrace",
     featureChartsTitle: "Grafy a trendy",
-    featureChartsDesc: "Vizualizujte každý biomarker v čase pomocí interaktivních grafů. Referenční rozsahy zobrazeny přímo, abyste na první pohled viděli odchylky.",
+    featureChartsDesc:
+      "Vizualizujte každý biomarker v čase pomocí interaktivních grafů. Referenční rozsahy zobrazeny přímo, abyste na první pohled viděli odchylky.",
     featureBioAgeTitle: "Biologický věk",
-    featureBioAgeDesc: "Vypočítejte svůj biologický věk z 9 krevních biomarkerů pomocí vzorce PhenoAge. Porovnejte, jak vaše tělo stárne oproti skutečnému věku.",
+    featureBioAgeDesc:
+      "Vypočítejte svůj biologický věk z 9 krevních biomarkerů pomocí vzorce PhenoAge. Porovnejte, jak vaše tělo stárne oproti skutečnému věku.",
     featureBiomarkersTitle: "100+ biomarkerů",
-    featureBiomarkersDesc: "Od základní biochemie po hormony, hematologii, štítnou žlázu, železo, lipidy a další. Importujte výsledky jako JSON — data zůstávají vaše.",
+    featureBiomarkersDesc:
+      "Od základní biochemie po hormony, hematologii, štítnou žlázu, železo, lipidy a další. Importujte výsledky jako JSON — data zůstávají vaše.",
     featureAiTitle: "AI přes MCP",
-    featureAiDesc: "Připojte Claude, ChatGPT nebo jakéhokoli AI asistenta k vašim datům přes MCP. Získejte personalizované zdravotní poznatky z vaší historie.",
+    featureAiDesc:
+      "Připojte Claude, ChatGPT nebo jakéhokoli AI asistenta k vašim datům přes MCP. Získejte personalizované zdravotní poznatky z vaší historie.",
     featurePrivacyTitle: "Soukromé a open source",
-    featurePrivacyDesc: "Vaše data nikdy nesdílíme s třetími stranami. Žádné sledování, žádná analytika. Plně open source — hostujte si sami pro plnou kontrolu.",
+    featurePrivacyDesc:
+      "Vaše data nikdy nesdílíme s třetími stranami. Žádné sledování, žádná analytika. Plně open source — hostujte si sami pro plnou kontrolu.",
   },
   categories: {
     basic_biochemistry: {

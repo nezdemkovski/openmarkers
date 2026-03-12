@@ -9,18 +9,30 @@ export const importDataSchema = z.object({
     dateOfBirth: z.string().date().optional(),
     sex: sexEnum.optional(),
   }),
-  categories: z.array(z.object({
-    id: z.string().min(1).max(200),
-    biomarkers: z.array(z.object({
-      id: z.string().min(1).max(200),
-      unit: z.string().max(50).nullish(),
-      refMin: z.number().nullish(),
-      refMax: z.number().nullish(),
-      type: biomarkerTypeEnum.optional(),
-      results: z.array(z.object({
-        date: z.string().date(),
-        value: z.union([z.number(), z.string().max(200)]),
-      })).max(10000),
-    })).max(500),
-  })).max(100),
+  categories: z
+    .array(
+      z.object({
+        id: z.string().min(1).max(200),
+        biomarkers: z
+          .array(
+            z.object({
+              id: z.string().min(1).max(200),
+              unit: z.string().max(50).nullish(),
+              refMin: z.number().nullish(),
+              refMax: z.number().nullish(),
+              type: biomarkerTypeEnum.optional(),
+              results: z
+                .array(
+                  z.object({
+                    date: z.string().date(),
+                    value: z.union([z.number(), z.string().max(200)]),
+                  }),
+                )
+                .max(10000),
+            }),
+          )
+          .max(500),
+      }),
+    )
+    .max(100),
 });

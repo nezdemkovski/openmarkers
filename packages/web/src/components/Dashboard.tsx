@@ -34,7 +34,19 @@ function CategorySkeleton({ count }: { count: number }) {
   );
 }
 
-function LazyCategory({ category, isDark, i18n, profileId, onMutate }: { category: Category; isDark: boolean; i18n: I18n; profileId?: number; onMutate?: () => void }) {
+function LazyCategory({
+  category,
+  isDark,
+  i18n,
+  profileId,
+  onMutate,
+}: {
+  category: Category;
+  isDark: boolean;
+  i18n: I18n;
+  profileId?: number;
+  onMutate?: () => void;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [prevCategory, setPrevCategory] = useState(category);
@@ -117,7 +129,9 @@ function RemindersSection({ reminders, tCat, t, onNavigate }: RemindersSectionPr
           </p>
           <p className="text-xs text-muted-foreground">{t("overdueDesc")}</p>
         </div>
-        <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       {open && (
@@ -134,13 +148,21 @@ function RemindersSection({ reminders, tCat, t, onNavigate }: RemindersSectionPr
                 className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-muted/50 transition-colors group"
                 onClick={() => onNavigate(r.categoryId)}
               >
-                <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                  severity === "high" ? "bg-destructive" : severity === "medium" ? "bg-amber-500" : "bg-amber-400 dark:bg-amber-600"
-                }`} />
+                <div
+                  className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                    severity === "high"
+                      ? "bg-destructive"
+                      : severity === "medium"
+                        ? "bg-amber-500"
+                        : "bg-amber-400 dark:bg-amber-600"
+                  }`}
+                />
                 <span className="flex-1 text-sm text-foreground break-words min-w-0">{tCat(r.categoryId, "name")}</span>
-                <span className={`text-xs tabular-nums ${
-                  severity === "high" ? "text-destructive font-medium" : "text-muted-foreground"
-                }`}>
+                <span
+                  className={`text-xs tabular-nums ${
+                    severity === "high" ? "text-destructive font-medium" : "text-muted-foreground"
+                  }`}
+                >
                   {months > 0 ? `${months} ${t("monthsAgo")}` : `${days} ${t("daysAgo")}`}
                 </span>
                 <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
@@ -164,7 +186,16 @@ interface DashboardProps {
   onMutate?: () => void;
 }
 
-export default function Dashboard({ userData, categories, onNavigate, isDark, lang, i18n, profileId, onMutate }: DashboardProps) {
+export default function Dashboard({
+  userData,
+  categories,
+  onNavigate,
+  isDark,
+  lang,
+  i18n,
+  profileId,
+  onMutate,
+}: DashboardProps) {
   const { t, tCat, tBio } = i18n;
 
   const reminders = useMemo(() => {
@@ -206,9 +237,7 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
           const total = cat.biomarkers.length;
           const outCount = countOutOfRange(cat);
           const border =
-            outCount > 0
-              ? "border-destructive/40 hover:border-destructive/60"
-              : "border-border hover:border-ring";
+            outCount > 0 ? "border-destructive/40 hover:border-destructive/60" : "border-border hover:border-ring";
           const bg = outCount > 0 ? "bg-destructive/5" : "bg-card";
 
           return (
@@ -227,7 +256,9 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-sm font-semibold text-foreground break-words min-w-0">{tCat(cat.id, "name")}</h3>
+                    <h3 className="text-sm font-semibold text-foreground break-words min-w-0">
+                      {tCat(cat.id, "name")}
+                    </h3>
                     <div className="shrink-0">
                       {outCount > 0 ? (
                         <Badge variant="destructive">
@@ -268,10 +299,7 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
               }).length;
 
               return (
-                <Card
-                  key={group.id}
-                  className="p-4"
-                >
+                <Card key={group.id} className="p-4">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-sm font-semibold text-foreground">{t(group.id)}</h4>
                     {outCount > 0 ? (
@@ -298,9 +326,7 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
 
                       return (
                         <div key={bio.id} className="flex items-center justify-between text-sm">
-                          <span
-                            className={`${out ? "text-destructive" : "text-foreground"}`}
-                          >
+                          <span className={`${out ? "text-destructive" : "text-foreground"}`}>
                             {tBio(bio.id, "name")}
                           </span>
                           <span
@@ -321,7 +347,14 @@ export default function Dashboard({ userData, categories, onNavigate, isDark, la
       )}
 
       {categories.map((cat) => (
-        <LazyCategory key={cat.id} category={cat} isDark={isDark} i18n={i18n} profileId={profileId} onMutate={onMutate} />
+        <LazyCategory
+          key={cat.id}
+          category={cat}
+          isDark={isDark}
+          i18n={i18n}
+          profileId={profileId}
+          onMutate={onMutate}
+        />
       ))}
     </>
   );

@@ -52,7 +52,9 @@ export const biomarkers = pgTable("biomarkers", {
   unit: text("unit"),
   refMin: doublePrecision("ref_min"),
   refMax: doublePrecision("ref_max"),
-  type: text("type", { enum: ["quantitative", "qualitative"] }).notNull().default("quantitative"),
+  type: text("type", { enum: ["quantitative", "qualitative"] })
+    .notNull()
+    .default("quantitative"),
 });
 
 export const results = pgTable(

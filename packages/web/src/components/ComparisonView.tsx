@@ -74,7 +74,10 @@ export default function ComparisonView({ categories, isDark, i18n }: ComparisonV
   const activeDate2 = date2 || (dates.length >= 2 ? dates[dates.length - 1] : "");
 
   const rows = useMemo(
-    () => (activeDate1 && activeDate2 && activeDate1 !== activeDate2 ? compareDatesLocal(categories, activeDate1, activeDate2) : []),
+    () =>
+      activeDate1 && activeDate2 && activeDate1 !== activeDate2
+        ? compareDatesLocal(categories, activeDate1, activeDate2)
+        : [],
     [categories, activeDate1, activeDate2],
   );
 
@@ -154,7 +157,9 @@ export default function ComparisonView({ categories, isDark, i18n }: ComparisonV
         </CardContent>
       </Card>
 
-      {activeDate1 === activeDate2 && <div className="text-center text-sm text-muted-foreground py-8">{t("selectDifferentDates")}</div>}
+      {activeDate1 === activeDate2 && (
+        <div className="text-center text-sm text-muted-foreground py-8">{t("selectDifferentDates")}</div>
+      )}
 
       {grouped.map(([catId, catRows]) => (
         <Card key={catId} className="mb-4 overflow-hidden py-0 gap-0">
@@ -170,8 +175,12 @@ export default function ComparisonView({ categories, isDark, i18n }: ComparisonV
               <TableHeader>
                 <TableRow>
                   <TableHead className="px-4 py-2 text-left font-medium">{t("test")}</TableHead>
-                  <TableHead className="px-4 py-2 text-right font-medium whitespace-nowrap">{formatDate(activeDate1)}</TableHead>
-                  <TableHead className="px-4 py-2 text-right font-medium whitespace-nowrap">{formatDate(activeDate2)}</TableHead>
+                  <TableHead className="px-4 py-2 text-right font-medium whitespace-nowrap">
+                    {formatDate(activeDate1)}
+                  </TableHead>
+                  <TableHead className="px-4 py-2 text-right font-medium whitespace-nowrap">
+                    {formatDate(activeDate2)}
+                  </TableHead>
                   <TableHead className="px-4 py-2 text-right font-medium">{t("change")}</TableHead>
                 </TableRow>
               </TableHeader>

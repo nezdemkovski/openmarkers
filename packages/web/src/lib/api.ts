@@ -98,7 +98,9 @@ export const api = {
   deleteResult: (id: number) => del<{ ok: boolean }>(`/api/results/${id}`),
   getTimeline: (profileId: number) => request<string[]>(`/api/profiles/${profileId}/timeline`),
   getSnapshot: (profileId: number, date: string) =>
-    request<import("../types.ts").SnapshotItem[]>(`/api/profiles/${profileId}/snapshot?date=${encodeURIComponent(date)}`),
+    request<import("../types.ts").SnapshotItem[]>(
+      `/api/profiles/${profileId}/snapshot?date=${encodeURIComponent(date)}`,
+    ),
   getTrends: (profileId: number, opts?: { biomarker_id?: string; category_id?: string }) => {
     const params = new URLSearchParams();
     if (opts?.biomarker_id) params.set("biomarker_id", opts.biomarker_id);

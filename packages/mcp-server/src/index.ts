@@ -76,10 +76,7 @@ export function createMcpServer(authUserId: string): McpServer {
   return server;
 }
 
-export function createMcpHandler(): (
-  req: Request,
-  authUserId: string,
-) => Promise<Response> {
+export function createMcpHandler(): (req: Request, authUserId: string) => Promise<Response> {
   return async (req: Request, authUserId: string) => {
     const transport = new WebStandardStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,

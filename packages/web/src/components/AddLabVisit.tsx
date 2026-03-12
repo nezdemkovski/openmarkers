@@ -5,19 +5,10 @@ import { api } from "../lib/api.ts";
 import type { I18n } from "../types.ts";
 import { errorMessage } from "../lib/utils.ts";
 import type { DbBiomarker } from "@openmarkers/db";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -65,9 +56,7 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
     const result = new Map<string, DbBiomarker[]>();
     for (const [catId, bios] of grouped) {
       const filtered = bios.filter(
-        (b) =>
-          tBio(b.id, "name").toLowerCase().includes(q) ||
-          b.id.toLowerCase().includes(q),
+        (b) => tBio(b.id, "name").toLowerCase().includes(q) || b.id.toLowerCase().includes(q),
       );
       if (filtered.length > 0) result.set(catId, filtered);
     }
@@ -118,7 +107,12 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
   };
 
   return (
-    <Dialog open onOpenChange={(open) => { if (!open) onClose(); }}>
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <DialogContent className="w-full max-w-xl flex flex-col h-[90vh] p-0" showCloseButton={false}>
         {/* Header */}
         <DialogHeader className="px-5 py-4 border-b border-border">
@@ -127,11 +121,7 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
 
         {/* Date + Search */}
         <div className="px-5 py-3 border-b border-border flex items-center gap-3">
-          <DatePicker
-            value={date}
-            onChange={setDate}
-            className="w-auto"
-          />
+          <DatePicker value={date} onChange={setDate} className="w-auto" />
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -159,13 +149,9 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
                 <Collapsible key={catId} open={isOpen} onOpenChange={() => toggleCat(catId)}>
                   <div className="border-b border-border last:border-b-0">
                     <CollapsibleTrigger className="w-full flex items-center justify-between px-5 py-2.5 hover:bg-muted/50 transition-colors">
-                      <span className="text-sm font-semibold text-foreground">
-                        {tCat(catId, "name")}
-                      </span>
+                      <span className="text-sm font-semibold text-foreground">{tCat(catId, "name")}</span>
                       <div className="flex items-center gap-2">
-                        {catFilled > 0 && (
-                          <Badge variant="default">{catFilled}</Badge>
-                        )}
+                        {catFilled > 0 && <Badge variant="default">{catFilled}</Badge>}
                         <ChevronDown
                           className={`w-4 h-4 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
                         />
@@ -204,10 +190,7 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
             <Button variant="ghost" onClick={onClose}>
               {t("importCancel")}
             </Button>
-            <Button
-              onClick={handleSubmit}
-              disabled={submitting || !date || filledCount === 0}
-            >
+            <Button onClick={handleSubmit} disabled={submitting || !date || filledCount === 0}>
               {submitting ? t("addLabVisitSaving") : t("addLabVisitSubmit")}
             </Button>
           </div>
@@ -233,25 +216,17 @@ function BiomarkerRow({
 
   return (
     <div className="flex items-center gap-3 py-1.5 group">
-      <Label className="flex-1 min-w-0 text-sm text-foreground truncate cursor-default font-normal">
-        {name}
-      </Label>
+      <Label className="flex-1 min-w-0 text-sm text-foreground truncate cursor-default font-normal">{name}</Label>
       <div className="flex items-center gap-1.5 shrink-0">
         <Input
           type={isQual ? "text" : "number"}
           step="any"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`w-24 px-2 py-1 h-auto text-sm text-right ${
-            hasValue
-              ? "border-primary"
-              : ""
-          }`}
+          className={`w-24 px-2 py-1 h-auto text-sm text-right ${hasValue ? "border-primary" : ""}`}
           placeholder={isQual ? "—" : "0.0"}
         />
-        <span className="text-xs text-muted-foreground/60 w-20 truncate">
-          {biomarker.unit || ""}
-        </span>
+        <span className="text-xs text-muted-foreground/60 w-20 truncate">{biomarker.unit || ""}</span>
       </div>
     </div>
   );

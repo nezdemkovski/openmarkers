@@ -36,10 +36,7 @@ export default function TimelineView({ categories, isDark, i18n }: TimelineViewP
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const activeDate = selectedDate ?? dates[dates.length - 1] ?? null;
 
-  const snapshot = useMemo(
-    () => (activeDate ? getDateSnapshot(categories, activeDate) : []),
-    [categories, activeDate],
-  );
+  const snapshot = useMemo(() => (activeDate ? getDateSnapshot(categories, activeDate) : []), [categories, activeDate]);
 
   const grouped = useMemo(() => {
     const map: Record<string, SnapshotItem[]> = {};
@@ -95,11 +92,7 @@ export default function TimelineView({ categories, isDark, i18n }: TimelineViewP
             className="w-max"
           >
             {dates.map((d) => (
-              <ToggleGroupItem
-                key={d}
-                value={d}
-                className="flex flex-col items-center gap-1 px-3 py-2 h-auto"
-              >
+              <ToggleGroupItem key={d} value={d} className="flex flex-col items-center gap-1 px-3 py-2 h-auto">
                 <Calendar className="w-3.5 h-3.5" />
                 <span>{formatShort(d)}</span>
               </ToggleGroupItem>
@@ -164,9 +157,7 @@ export default function TimelineView({ categories, isDark, i18n }: TimelineViewP
                           </span>
                           <span
                             className={`text-sm font-mono shrink-0 ${
-                              item.outOfRange
-                                ? "font-bold text-destructive"
-                                : "text-foreground"
+                              item.outOfRange ? "font-bold text-destructive" : "text-foreground"
                             }`}
                           >
                             {formatted}

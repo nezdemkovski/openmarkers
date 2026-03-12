@@ -39,7 +39,14 @@ export default function SettingsView({
     <div className="max-w-2xl mx-auto space-y-6">
       <h1 className="text-2xl font-bold text-foreground">{t("settings")}</h1>
 
-      <ProfilesSection t={t} profiles={profiles} onProfileUpdated={onProfileUpdated} onProfileDeleted={onProfileDeleted} onProfilesReordered={onProfilesReordered} onExport={onExport} />
+      <ProfilesSection
+        t={t}
+        profiles={profiles}
+        onProfileUpdated={onProfileUpdated}
+        onProfileDeleted={onProfileDeleted}
+        onProfilesReordered={onProfilesReordered}
+        onExport={onExport}
+      />
       <McpSection t={t} />
       <AccountSection t={t} authEmail={authEmail} />
       <DangerZoneSection t={t} onDeleteAccount={onDeleteAccount} />
@@ -47,7 +54,14 @@ export default function SettingsView({
   );
 }
 
-function ProfilesSection({ t, profiles, onProfileUpdated, onProfileDeleted, onProfilesReordered, onExport }: {
+function ProfilesSection({
+  t,
+  profiles,
+  onProfileUpdated,
+  onProfileDeleted,
+  onProfilesReordered,
+  onExport,
+}: {
   t: (key: string) => string;
   profiles: ProfileSummary[];
   onProfileUpdated: () => void;
@@ -92,7 +106,15 @@ function ProfilesSection({ t, profiles, onProfileUpdated, onProfileDeleted, onPr
   );
 }
 
-function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMoveDown }: {
+function ProfileRow({
+  profile,
+  t,
+  onUpdated,
+  onDeleted,
+  onExport,
+  onMoveUp,
+  onMoveDown,
+}: {
   profile: ProfileSummary;
   t: (key: string) => string;
   onUpdated: () => void;
@@ -139,18 +161,9 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
   if (editing) {
     return (
       <div className="border border-primary rounded-lg p-4 space-y-3">
-        <Input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder={t("profileName")}
-        />
+        <Input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("profileName")} />
         <div className="flex gap-2">
-          <DatePicker
-            value={dob}
-            onChange={setDob}
-            className="flex-1"
-          />
+          <DatePicker value={dob} onChange={setDob} className="flex-1" />
           <ToggleGroup
             variant="outline"
             value={[sex]}
@@ -168,15 +181,16 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
           <Button
             variant="ghost"
             size="icon-sm"
-            onClick={() => { setEditing(false); setName(profile.name); setDob(profile.dateOfBirth); setSex(profile.sex); }}
+            onClick={() => {
+              setEditing(false);
+              setName(profile.name);
+              setDob(profile.dateOfBirth);
+              setSex(profile.sex);
+            }}
           >
             <X className="w-4 h-4" />
           </Button>
-          <Button
-            size="sm"
-            onClick={handleSave}
-            disabled={saving || !name.trim()}
-          >
+          <Button size="sm" onClick={handleSave} disabled={saving || !name.trim()}>
             <Check className="w-4 h-4" />
           </Button>
         </div>
@@ -188,20 +202,10 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
     <div className="flex items-center gap-2 sm:gap-3 p-3 rounded-lg border border-border hover:bg-muted transition-colors">
       {(onMoveUp || onMoveDown) && (
         <div className="flex flex-col gap-0.5 shrink-0">
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            onClick={onMoveUp}
-            disabled={!onMoveUp}
-          >
+          <Button variant="ghost" size="icon-xs" onClick={onMoveUp} disabled={!onMoveUp}>
             <ChevronUp className="w-3.5 h-3.5" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            onClick={onMoveDown}
-            disabled={!onMoveDown}
-          >
+          <Button variant="ghost" size="icon-xs" onClick={onMoveDown} disabled={!onMoveDown}>
             <ChevronDown className="w-3.5 h-3.5" />
           </Button>
         </div>
@@ -221,7 +225,13 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
         </Button>
         {confirmDelete ? (
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon-sm" onClick={handleDelete} className="text-destructive hover:bg-destructive/10" title={t("deleteUserConfirm")}>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={handleDelete}
+              className="text-destructive hover:bg-destructive/10"
+              title={t("deleteUserConfirm")}
+            >
               <Check className="w-4 h-4" />
             </Button>
             <Button variant="ghost" size="icon-sm" onClick={() => setConfirmDelete(false)}>
@@ -229,7 +239,13 @@ function ProfileRow({ profile, t, onUpdated, onDeleted, onExport, onMoveUp, onMo
             </Button>
           </div>
         ) : (
-          <Button variant="ghost" size="icon-sm" onClick={() => setConfirmDelete(true)} className="hover:text-destructive" title={t("deleteUser")}>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => setConfirmDelete(true)}
+            className="hover:text-destructive"
+            title={t("deleteUser")}
+          >
             <Trash2 className="w-4 h-4" />
           </Button>
         )}
@@ -253,9 +269,7 @@ function AccountSection({ t, authEmail }: { t: (key: string) => string; authEmai
         <CardTitle>{t("settingsAccount")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
-        {authEmail && (
-          <div className="text-sm text-muted-foreground">{authEmail}</div>
-        )}
+        {authEmail && <div className="text-sm text-muted-foreground">{authEmail}</div>}
         <ChangeNameForm t={t} currentName={authName} />
         <ChangeEmailForm t={t} currentEmail={authEmail} />
         <ChangePasswordForm t={t} />
@@ -299,11 +313,7 @@ function ChangeNameForm({ t, currentName }: { t: (key: string) => string; curren
           placeholder={t("authName")}
           className="flex-1"
         />
-        <Button
-          type="submit"
-          size="sm"
-          disabled={!name.trim() || status === "saving"}
-        >
+        <Button type="submit" size="sm" disabled={!name.trim() || status === "saving"}>
           {status === "saving" ? "..." : status === "saved" ? t("settingsSaved") : t("settingsSave")}
         </Button>
       </div>
@@ -344,11 +354,7 @@ function ChangeEmailForm({ t, currentEmail }: { t: (key: string) => string; curr
           placeholder={currentEmail || t("settingsNewEmail")}
           className="flex-1"
         />
-        <Button
-          type="submit"
-          size="sm"
-          disabled={!email.trim() || status === "saving"}
-        >
+        <Button type="submit" size="sm" disabled={!email.trim() || status === "saving"}>
           {status === "saving" ? "..." : status === "saved" ? t("settingsSaved") : t("settingsSave")}
         </Button>
       </div>
@@ -397,11 +403,7 @@ function ChangePasswordForm({ t }: { t: (key: string) => string }) {
           placeholder={t("settingsNewPassword")}
           className="flex-1"
         />
-        <Button
-          type="submit"
-          size="sm"
-          disabled={!currentPassword || !newPassword || status === "saving"}
-        >
+        <Button type="submit" size="sm" disabled={!currentPassword || !newPassword || status === "saving"}>
           {status === "saving" ? "..." : status === "saved" ? t("settingsSaved") : t("settingsSave")}
         </Button>
       </div>
@@ -415,14 +417,18 @@ function McpSection({ t }: { t: (key: string) => string }) {
 
   const mcpUrl = `${window.location.origin}/mcp`;
 
-  const mcpConfig = JSON.stringify({
-    mcpServers: {
-      openmarkers: {
-        type: "http",
-        url: mcpUrl,
+  const mcpConfig = JSON.stringify(
+    {
+      mcpServers: {
+        openmarkers: {
+          type: "http",
+          url: mcpUrl,
+        },
       },
     },
-  }, null, 2);
+    null,
+    2,
+  );
 
   const copyToClipboard = async (text: string, field: string) => {
     await navigator.clipboard.writeText(text);
@@ -442,13 +448,15 @@ function McpSection({ t }: { t: (key: string) => string }) {
           <div>
             <Label className="mb-1">{t("settingsMcpEndpoint")}</Label>
             <div className="flex items-center gap-2">
-              <code className="flex-1 px-3 py-2 rounded-lg border border-input bg-muted text-sm font-mono truncate">{mcpUrl}</code>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => copyToClipboard(mcpUrl, "url")}
-              >
-                {copiedField === "url" ? <CheckCheck className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+              <code className="flex-1 px-3 py-2 rounded-lg border border-input bg-muted text-sm font-mono truncate">
+                {mcpUrl}
+              </code>
+              <Button variant="outline" size="sm" onClick={() => copyToClipboard(mcpUrl, "url")}>
+                {copiedField === "url" ? (
+                  <CheckCheck className="w-4 h-4 text-green-600" />
+                ) : (
+                  <Copy className="w-4 h-4" />
+                )}
               </Button>
             </div>
           </div>
@@ -456,14 +464,20 @@ function McpSection({ t }: { t: (key: string) => string }) {
           <div>
             <Label className="mb-1">{t("settingsMcpConfigDesc")}</Label>
             <div className="relative">
-              <pre className="px-3 py-2 rounded-lg border border-input bg-muted text-sm font-mono overflow-x-auto">{mcpConfig}</pre>
+              <pre className="px-3 py-2 rounded-lg border border-input bg-muted text-sm font-mono overflow-x-auto">
+                {mcpConfig}
+              </pre>
               <Button
                 variant="outline"
                 size="xs"
                 className="absolute top-2 right-2"
                 onClick={() => copyToClipboard(mcpConfig, "config")}
               >
-                {copiedField === "config" ? <CheckCheck className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedField === "config" ? (
+                  <CheckCheck className="w-3.5 h-3.5 text-green-600" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5" />
+                )}
               </Button>
             </div>
           </div>
@@ -500,11 +514,7 @@ function DangerZoneSection({ t, onDeleteAccount }: { t: (key: string) => string;
             placeholder={t("settingsDeleteAccountConfirm")}
             className="flex-1 focus-visible:border-destructive focus-visible:ring-destructive/50"
           />
-          <Button
-            variant="destructive"
-            onClick={handleDelete}
-            disabled={confirmText !== "DELETE" || deleting}
-          >
+          <Button variant="destructive" onClick={handleDelete} disabled={confirmText !== "DELETE" || deleting}>
             {deleting ? "..." : t("settingsDeleteAccount")}
           </Button>
         </div>

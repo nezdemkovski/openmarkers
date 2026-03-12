@@ -92,7 +92,10 @@ export function calculatePhenoAge(categories: Category[], dateOfBirth: string): 
 
     for (const id of REQUIRED_IDS) {
       const hit = latestBefore(id, date);
-      if (hit == null) { missing = true; break; }
+      if (hit == null) {
+        missing = true;
+        break;
+      }
       vals[id] = hit.value;
       valDates[id] = hit.date;
     }
@@ -107,7 +110,12 @@ export function calculatePhenoAge(categories: Category[], dateOfBirth: string): 
     let crpBioId: string | undefined;
     for (const id of CRP_IDS) {
       const hit = latestBefore(id, date);
-      if (hit != null) { crpRaw = hit.value; crpDate = hit.date; crpBioId = id; break; }
+      if (hit != null) {
+        crpRaw = hit.value;
+        crpDate = hit.date;
+        crpBioId = id;
+        break;
+      }
     }
     if (crpRaw == null) continue;
 

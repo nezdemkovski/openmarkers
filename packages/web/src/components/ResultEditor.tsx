@@ -91,12 +91,18 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
 
   return (
     <>
-      <Dialog open onOpenChange={(open) => { if (!open) onClose(); }}>
+      <Dialog
+        open
+        onOpenChange={(open) => {
+          if (!open) onClose();
+        }}
+      >
         <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-lg max-h-[80vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>{tBio(biomarker.id, "name")}</DialogTitle>
             <p className="text-xs text-muted-foreground">
-              {biomarker.id}{biomarker.unit ? ` \u00b7 ${biomarker.unit}` : ""}
+              {biomarker.id}
+              {biomarker.unit ? ` \u00b7 ${biomarker.unit}` : ""}
             </p>
           </DialogHeader>
 
@@ -115,10 +121,7 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
                     {editingId === r.id ? (
                       <>
                         <TableCell className="pr-2">
-                          <DatePicker
-                            value={editDate}
-                            onChange={setEditDate}
-                          />
+                          <DatePicker value={editDate} onChange={setEditDate} />
                         </TableCell>
                         <TableCell className="pr-2">
                           <Input
@@ -139,11 +142,7 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
                             >
                               <Check className="w-4 h-4" />
                             </Button>
-                            <Button
-                              size="icon-sm"
-                              variant="ghost"
-                              onClick={cancelEdit}
-                            >
+                            <Button size="icon-sm" variant="ghost" onClick={cancelEdit}>
                               <XIcon className="w-4 h-4" />
                             </Button>
                           </div>
@@ -182,11 +181,7 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
 
           <div className="border-t pt-3">
             <div className="flex flex-wrap items-center gap-2">
-              <DatePicker
-                value={newDate}
-                onChange={setNewDate}
-                className="flex-1 min-w-[120px]"
-              />
+              <DatePicker value={newDate} onChange={setNewDate} className="flex-1 min-w-[120px]" />
               <Input
                 type={isQual ? "text" : "number"}
                 step="any"
@@ -195,11 +190,7 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
                 placeholder={t("resultValue")}
                 className="flex-1 min-w-[80px]"
               />
-              <Button
-                size="sm"
-                onClick={handleAdd}
-                disabled={busy || !newDate || !newValue}
-              >
+              <Button size="sm" onClick={handleAdd} disabled={busy || !newDate || !newValue}>
                 <Plus className="w-4 h-4" />
                 {t("addResult")}
               </Button>
@@ -208,20 +199,20 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
         </DialogContent>
       </Dialog>
 
-      <AlertDialog open={deleteId !== null} onOpenChange={(open) => { if (!open) setDeleteId(null); }}>
+      <AlertDialog
+        open={deleteId !== null}
+        onOpenChange={(open) => {
+          if (!open) setDeleteId(null);
+        }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("deleteResultConfirm")}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("deleteResultConfirm")}
-            </AlertDialogDescription>
+            <AlertDialogDescription>{t("deleteResultConfirm")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-            <AlertDialogAction
-              variant="destructive"
-              onClick={() => deleteId !== null && handleDelete(deleteId)}
-            >
+            <AlertDialogAction variant="destructive" onClick={() => deleteId !== null && handleDelete(deleteId)}>
               {t("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>

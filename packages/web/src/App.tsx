@@ -16,7 +16,14 @@ import AddLabVisit from "./components/AddLabVisit.tsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.tsx";
 import TermsOfService from "./components/TermsOfService.tsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
@@ -53,7 +60,10 @@ setTokenProvider(async () => {
   }
 });
 
-interface ImportData { user: { name: string }; [key: string]: unknown }
+interface ImportData {
+  user: { name: string };
+  [key: string]: unknown;
+}
 function isImportData(data: unknown): data is ImportData {
   if (typeof data !== "object" || data === null || !("user" in data)) return false;
   const { user } = data;
@@ -169,15 +179,18 @@ export default function App() {
     setRoute(getRouteFromPath());
   }, []);
 
-  const navigate = useCallback((target: string | null) => {
-    if (target === null) {
-      navigateTo("/");
-    } else if (target === "timeline" || target === "compare" || target === "settings") {
-      navigateTo(`/${target}`);
-    } else {
-      navigateTo(`/category/${target}`);
-    }
-  }, [navigateTo]);
+  const navigate = useCallback(
+    (target: string | null) => {
+      if (target === null) {
+        navigateTo("/");
+      } else if (target === "timeline" || target === "compare" || target === "settings") {
+        navigateTo(`/${target}`);
+      } else {
+        navigateTo(`/category/${target}`);
+      }
+    },
+    [navigateTo],
+  );
 
   const changeProfile = useCallback(
     (idx: number) => {
@@ -194,8 +207,8 @@ export default function App() {
   const setDemoMode = useCallback(
     (demo: boolean) => {
       if (demo && !demoData) {
-        import("../data/demo.json").then((m: { default: UserData }) => {
-          setDemoData(m.default);
+        import("../data/demo.json").then(({ default: data }) => {
+          setDemoData(data);
           setIsDemo(true);
           navigateTo("/");
         });
@@ -218,20 +231,22 @@ export default function App() {
     });
   }, []);
 
-
   const [importPending, setImportPending] = useState<{ data: ImportData; name: string } | null>(null);
   const [importName, setImportName] = useState("");
   const [importing, setImporting] = useState(false);
   const [addLabVisitProfileId, setAddLabVisitProfileId] = useState<number | null>(null);
 
-  const switchToProfile = useCallback((profileId: number) => {
-    queryClient.invalidateQueries({ queryKey: ["profiles"] });
-    queryClient.invalidateQueries({ queryKey: ["profile", profileId] });
-    setActiveProfileId(profileId);
-    localStorage.setItem("activeProfileId", String(profileId));
-    setIsDemo(false);
-    navigateTo("/");
-  }, [queryClient, navigateTo]);
+  const switchToProfile = useCallback(
+    (profileId: number) => {
+      queryClient.invalidateQueries({ queryKey: ["profiles"] });
+      queryClient.invalidateQueries({ queryKey: ["profile", profileId] });
+      setActiveProfileId(profileId);
+      localStorage.setItem("activeProfileId", String(profileId));
+      setIsDemo(false);
+      navigateTo("/");
+    },
+    [queryClient, navigateTo],
+  );
 
   const handleImport = useCallback(
     async (file: File) => {
@@ -279,17 +294,20 @@ export default function App() {
     if (!importPending) return;
     setImporting(true);
     const data = { ...importPending.data, user: { ...importPending.data.user, name: importName } };
-    api.importProfile(data).then(async (r) => {
-      setImportPending(null);
-      const pd = await api.getProfile(r.profile_id);
-      queryClient.setQueryData(["profile", r.profile_id], pd);
-      await queryClient.invalidateQueries({ queryKey: ["profiles"] });
-      setActiveProfileId(r.profile_id);
-      localStorage.setItem("activeProfileId", String(r.profile_id));
-      setIsDemo(false);
-      setImporting(false);
-      navigateTo("/");
-    }).catch(() => setImporting(false));
+    api
+      .importProfile(data)
+      .then(async (r) => {
+        setImportPending(null);
+        const pd = await api.getProfile(r.profile_id);
+        queryClient.setQueryData(["profile", r.profile_id], pd);
+        await queryClient.invalidateQueries({ queryKey: ["profiles"] });
+        setActiveProfileId(r.profile_id);
+        localStorage.setItem("activeProfileId", String(r.profile_id));
+        setIsDemo(false);
+        setImporting(false);
+        navigateTo("/");
+      })
+      .catch(() => setImporting(false));
   }, [importPending, importName, queryClient, navigateTo]);
 
   const changeLang = useCallback((l: Lang) => {
@@ -318,40 +336,49 @@ export default function App() {
     });
   }, [queryClient, navigateTo]);
 
-  const handleExportProfile = useCallback((profileId: number) => {
-    api.exportProfile(profileId).then((data) => {
-      const p = profileList.find((u) => u.id === profileId);
-      const userName = p?.name?.toLowerCase().replace(/\s+/g, "_") ?? "profile";
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${userName}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-  }, [profileList]);
+  const handleExportProfile = useCallback(
+    (profileId: number) => {
+      api.exportProfile(profileId).then((data) => {
+        const p = profileList.find((u) => u.id === profileId);
+        const userName = p?.name?.toLowerCase().replace(/\s+/g, "_") ?? "profile";
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${userName}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    },
+    [profileList],
+  );
 
-  const handleProfilesReordered = useCallback((profileIds: number[]) => {
-    api.reorderProfiles(profileIds).then(() => {
-      queryClient.invalidateQueries({ queryKey: ["profiles"] });
-    });
-  }, [queryClient]);
+  const handleProfilesReordered = useCallback(
+    (profileIds: number[]) => {
+      api.reorderProfiles(profileIds).then(() => {
+        queryClient.invalidateQueries({ queryKey: ["profiles"] });
+      });
+    },
+    [queryClient],
+  );
 
-  const handleProfileDeleted = useCallback((profileId: number) => {
-    queryClient.invalidateQueries({ queryKey: ["profiles"] }).then(() => {
-      const remaining = profileList.filter((u) => u.id !== profileId);
-      if (activeProfileId === profileId) {
-        if (remaining.length > 0) {
-          setActiveProfileId(remaining[0].id);
-          localStorage.setItem("activeProfileId", String(remaining[0].id));
-        } else {
-          setActiveProfileId(null);
-          localStorage.removeItem("activeProfileId");
+  const handleProfileDeleted = useCallback(
+    (profileId: number) => {
+      queryClient.invalidateQueries({ queryKey: ["profiles"] }).then(() => {
+        const remaining = profileList.filter((u) => u.id !== profileId);
+        if (activeProfileId === profileId) {
+          if (remaining.length > 0) {
+            setActiveProfileId(remaining[0].id);
+            localStorage.setItem("activeProfileId", String(remaining[0].id));
+          } else {
+            setActiveProfileId(null);
+            localStorage.removeItem("activeProfileId");
+          }
         }
-      }
-    });
-  }, [queryClient, profileList, activeProfileId]);
+      });
+    },
+    [queryClient, profileList, activeProfileId],
+  );
 
   const handleSignOut = useCallback(() => {
     authClient.signOut().then(() => {
@@ -422,7 +449,9 @@ export default function App() {
           isDemo={isDemo}
           onSetDemo={setDemoMode}
           onImport={handleImport}
-          onAddLabVisit={activeProfileId != null && !isDemo ? () => setAddLabVisitProfileId(activeProfileId) : undefined}
+          onAddLabVisit={
+            activeProfileId != null && !isDemo ? () => setAddLabVisitProfileId(activeProfileId) : undefined
+          }
           authEmail={authEmail}
           onSignOut={handleSignOut}
         />
@@ -455,7 +484,13 @@ export default function App() {
                 activeProfileId={activeProfileId}
               />
             ) : route.view === "category" && category ? (
-              <CategoryView category={category} isDark={isDark} i18n={i18n} profileId={isDemo ? undefined : (activeProfileId ?? undefined)} onMutate={isDemo ? undefined : handleResultMutate} />
+              <CategoryView
+                category={category}
+                isDark={isDark}
+                i18n={i18n}
+                profileId={isDemo ? undefined : (activeProfileId ?? undefined)}
+                onMutate={isDemo ? undefined : handleResultMutate}
+              />
             ) : route.view === "timeline" ? (
               <TimelineView categories={displayData.categories} isDark={isDark} i18n={i18n} />
             ) : route.view === "compare" ? (
@@ -475,17 +510,20 @@ export default function App() {
           </div>
         </SidebarInset>
       </SidebarProvider>
-      <Dialog open={!!importPending} onOpenChange={(open) => { if (!open) setImportPending(null); }}>
+      <Dialog
+        open={!!importPending}
+        onOpenChange={(open) => {
+          if (!open) setImportPending(null);
+        }}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>{i18n.t("importConflictTitle")}</DialogTitle>
-            <DialogDescription>{importPending ? i18n.t("importConflictMessage").replace("{name}", importPending.name) : ""}</DialogDescription>
+            <DialogDescription>
+              {importPending ? i18n.t("importConflictMessage").replace("{name}", importPending.name) : ""}
+            </DialogDescription>
           </DialogHeader>
-          <Input
-            type="text"
-            value={importName}
-            onChange={(e) => setImportName(e.target.value)}
-          />
+          <Input type="text" value={importName} onChange={(e) => setImportName(e.target.value)} />
           <DialogFooter>
             <Button variant="ghost" onClick={() => setImportPending(null)}>
               {i18n.t("importCancel")}
@@ -573,7 +611,9 @@ function GettingStarted({
     <div className="max-w-lg mx-auto pt-8 md:pt-16">
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-foreground">{t(hasActiveProfile ? "addYourData" : "allResults")}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t(hasActiveProfile ? "addYourDataDesc" : "getStartedDesc")}</p>
+        <p className="text-sm text-muted-foreground mt-1">
+          {t(hasActiveProfile ? "addYourDataDesc" : "getStartedDesc")}
+        </p>
       </div>
 
       <div className="space-y-3">
@@ -585,7 +625,13 @@ function GettingStarted({
             className="w-full flex items-center gap-4 rounded-xl p-5 h-auto shadow-sm hover:border-ring text-left"
           >
             <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
-              <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg
+                className="w-5 h-5 text-foreground"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
             </div>
@@ -608,7 +654,13 @@ function GettingStarted({
               className="w-full flex items-center gap-4 p-5 h-auto rounded-none text-left"
             >
               <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
-                <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <svg
+                  className="w-5 h-5 text-green-600 dark:text-green-400"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
               </div>
@@ -616,7 +668,13 @@ function GettingStarted({
                 <div className="text-sm font-semibold text-foreground">{t("createProfile")}</div>
                 <div className="text-xs text-muted-foreground mt-0.5">{t("createProfileDesc")}</div>
               </div>
-              <svg className={`w-4 h-4 text-muted-foreground/60 transition-transform ${showCreate ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <svg
+                className={`w-4 h-4 text-muted-foreground/60 transition-transform ${showCreate ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </Button>
@@ -629,11 +687,7 @@ function GettingStarted({
                   placeholder={t("profileName")}
                   required
                 />
-                <DatePicker
-                  value={dob}
-                  onChange={setDob}
-                  placeholder={t("dateOfBirth")}
-                />
+                <DatePicker value={dob} onChange={setDob} placeholder={t("dateOfBirth")} />
                 <ToggleGroup
                   variant="outline"
                   value={sex ? [sex] : []}
@@ -651,11 +705,7 @@ function GettingStarted({
                   </ToggleGroupItem>
                 </ToggleGroup>
                 {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
-                <Button
-                  type="submit"
-                  disabled={loading || !name.trim() || !dob}
-                  className="w-full"
-                >
+                <Button type="submit" disabled={loading || !name.trim() || !dob} className="w-full">
                   {loading ? "..." : t("createProfile")}
                 </Button>
               </form>
@@ -669,7 +719,6 @@ function GettingStarted({
     </div>
   );
 }
-
 
 const SCHEMA_URL = "https://openmarkers.app/schema.json";
 
@@ -726,7 +775,15 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-function ImportButton({ importing, onClick, t }: { importing: boolean; onClick: () => void; t: (key: string) => string }) {
+function ImportButton({
+  importing,
+  onClick,
+  t,
+}: {
+  importing: boolean;
+  onClick: () => void;
+  t: (key: string) => string;
+}) {
   return (
     <Button
       variant="outline"
@@ -741,15 +798,23 @@ function ImportButton({ importing, onClick, t }: { importing: boolean; onClick: 
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
         ) : (
-          <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          <svg
+            className="w-5 h-5 text-green-600 dark:text-green-400"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+            />
           </svg>
         )}
       </div>
       <div>
-        <div className="text-sm font-semibold text-foreground">
-          {importing ? t("importingData") : t("import")}
-        </div>
+        <div className="text-sm font-semibold text-foreground">{importing ? t("importingData") : t("import")}</div>
         <div className="text-xs text-muted-foreground mt-0.5">{t("importDesc")}</div>
       </div>
     </Button>
@@ -765,15 +830,31 @@ function AiImportSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
       <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
         <CollapsibleTrigger className="w-full flex items-center gap-4 p-5 hover:bg-muted transition-colors text-left">
           <div className="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
-            <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+            <svg
+              className="w-5 h-5 text-purple-600 dark:text-purple-400"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+              />
             </svg>
           </div>
           <div className="flex-1">
             <div className="text-sm font-semibold text-foreground">{t("aiImport")}</div>
             <div className="text-xs text-muted-foreground mt-0.5">{t("aiImportDesc")}</div>
           </div>
-          <svg className={`w-4 h-4 text-muted-foreground/60 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <svg
+            className={`w-4 h-4 text-muted-foreground/60 transition-transform ${open ? "rotate-180" : ""}`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
         </CollapsibleTrigger>
@@ -781,7 +862,9 @@ function AiImportSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
           <div className="px-5 pb-5 border-t border-border pt-4 space-y-3">
             <p className="text-sm text-muted-foreground">{t("aiImportInstructions")}</p>
             <div className="relative">
-              <pre className="px-3 py-2 rounded-lg border border-border bg-muted text-xs text-foreground/80 font-mono whitespace-pre-wrap max-h-48 overflow-y-auto">{AI_PROMPT.trim()}</pre>
+              <pre className="px-3 py-2 rounded-lg border border-border bg-muted text-xs text-foreground/80 font-mono whitespace-pre-wrap max-h-48 overflow-y-auto">
+                {AI_PROMPT.trim()}
+              </pre>
               <CopyButton text={AI_PROMPT} />
             </div>
             <p className="text-xs text-muted-foreground">{t("aiImportThen")}</p>
@@ -804,27 +887,47 @@ function McpSetupSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
   const { t } = i18n;
   const [open, setOpen] = useState(false);
 
-  const mcpConfig = JSON.stringify({
-    "openmarkers": {
-      "type": "http",
-      "url": "https://openmarkers.app/mcp",
-    }
-  }, null, 2);
+  const mcpConfig = JSON.stringify(
+    {
+      openmarkers: {
+        type: "http",
+        url: "https://openmarkers.app/mcp",
+      },
+    },
+    null,
+    2,
+  );
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
       <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
         <CollapsibleTrigger className="w-full flex items-center gap-4 p-5 hover:bg-muted transition-colors text-left">
           <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
-            <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+            <svg
+              className="w-5 h-5 text-muted-foreground"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+              />
             </svg>
           </div>
           <div className="flex-1">
             <div className="text-sm font-semibold text-foreground">{t("mcpSetup")}</div>
             <div className="text-xs text-muted-foreground mt-0.5">{t("mcpSetupDesc")}</div>
           </div>
-          <svg className={`w-4 h-4 text-muted-foreground/60 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <svg
+            className={`w-4 h-4 text-muted-foreground/60 transition-transform ${open ? "rotate-180" : ""}`}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
         </CollapsibleTrigger>
@@ -832,19 +935,33 @@ function McpSetupSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
           <div className="px-5 pb-5 border-t border-border pt-4 space-y-3">
             <p className="text-sm text-muted-foreground">{t("mcpSetupInstructions")}</p>
             <div className="relative">
-              <pre className="px-3 py-2 rounded-lg border border-border bg-muted text-sm text-foreground font-mono overflow-x-auto">{mcpConfig}</pre>
+              <pre className="px-3 py-2 rounded-lg border border-border bg-muted text-sm text-foreground font-mono overflow-x-auto">
+                {mcpConfig}
+              </pre>
               <CopyButton text={mcpConfig} />
             </div>
             <p className="text-sm text-muted-foreground">{t("mcpSetupAuth")}</p>
             <div className="text-xs text-muted-foreground space-y-2">
               <p className="font-medium text-foreground/80">{t("mcpSetupToolsTitle")}</p>
               <ul className="list-disc pl-4 space-y-0.5">
-                <li><span className="font-mono text-muted-foreground">import_profile_data</span> — {t("mcpToolImport")}</li>
-                <li><span className="font-mono text-muted-foreground">get_schema</span> — {t("mcpToolSchema")}</li>
-                <li><span className="font-mono text-muted-foreground">add_result</span> — {t("mcpToolAddResult")}</li>
-                <li><span className="font-mono text-muted-foreground">get_profile</span> — {t("mcpToolGetProfile")}</li>
-                <li><span className="font-mono text-muted-foreground">get_trends</span> — {t("mcpToolTrends")}</li>
-                <li><span className="font-mono text-muted-foreground">get_analysis_prompt</span> — {t("mcpToolAnalysis")}</li>
+                <li>
+                  <span className="font-mono text-muted-foreground">import_profile_data</span> — {t("mcpToolImport")}
+                </li>
+                <li>
+                  <span className="font-mono text-muted-foreground">get_schema</span> — {t("mcpToolSchema")}
+                </li>
+                <li>
+                  <span className="font-mono text-muted-foreground">add_result</span> — {t("mcpToolAddResult")}
+                </li>
+                <li>
+                  <span className="font-mono text-muted-foreground">get_profile</span> — {t("mcpToolGetProfile")}
+                </li>
+                <li>
+                  <span className="font-mono text-muted-foreground">get_trends</span> — {t("mcpToolTrends")}
+                </li>
+                <li>
+                  <span className="font-mono text-muted-foreground">get_analysis_prompt</span> — {t("mcpToolAnalysis")}
+                </li>
               </ul>
               <p className="text-muted-foreground/60">{t("mcpToolsMore")}</p>
             </div>

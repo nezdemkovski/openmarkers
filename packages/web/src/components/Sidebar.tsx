@@ -1,8 +1,28 @@
 import { useRef } from "react";
-import { Sun, Moon, Languages, ChevronDown, ChevronRight, Clock, GitCompareArrows, FlaskConical, X, Upload, Settings, LogOut, PlusCircle, LayoutDashboard } from "lucide-react";
+import {
+  Sun,
+  Moon,
+  Languages,
+  ChevronDown,
+  ChevronRight,
+  Clock,
+  GitCompareArrows,
+  FlaskConical,
+  X,
+  Upload,
+  Settings,
+  LogOut,
+  PlusCircle,
+  LayoutDashboard,
+} from "lucide-react";
 import type { Category, I18n, Lang, UserData, Route } from "../types.ts";
 import { LANGS } from "../i18n.ts";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
@@ -107,21 +127,13 @@ export default function Sidebar({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" side="bottom">
                 {LANGS.map((l) => (
-                  <DropdownMenuItem
-                    key={l.code}
-                    onClick={() => onChangeLang(l.code)}
-                  >
+                  <DropdownMenuItem key={l.code} onClick={() => onChangeLang(l.code)}>
                     {l.nativeName}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={onToggleTheme}
-              title="Toggle theme"
-            >
+            <Button variant="ghost" size="icon-sm" onClick={onToggleTheme} title="Toggle theme">
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
           </div>
@@ -192,10 +204,7 @@ export default function Sidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={activeRoute.view === "dashboard"}
-                  onClick={() => onNavigate(null)}
-                >
+                <SidebarMenuButton isActive={activeRoute.view === "dashboard"} onClick={() => onNavigate(null)}>
                   <LayoutDashboard className="w-4 h-4" />
                   <span>{t("viewAll")}</span>
                 </SidebarMenuButton>
@@ -222,9 +231,13 @@ export default function Sidebar({
                             >
                               <span className="flex-1 text-left">{tCat(cat.id, "name")}</span>
                               {outCount > 0 ? (
-                                <Badge variant="destructive" className="shrink-0 ml-auto">{outCount}</Badge>
+                                <Badge variant="destructive" className="shrink-0 ml-auto">
+                                  {outCount}
+                                </Badge>
                               ) : (
-                                <Badge variant="success" className="shrink-0 ml-auto">{t("ok")}</Badge>
+                                <Badge variant="success" className="shrink-0 ml-auto">
+                                  {t("ok")}
+                                </Badge>
                               )}
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
@@ -243,19 +256,13 @@ export default function Sidebar({
         <SidebarSeparator />
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              isActive={activeRoute.view === "timeline"}
-              onClick={() => onNavigate("timeline")}
-            >
+            <SidebarMenuButton isActive={activeRoute.view === "timeline"} onClick={() => onNavigate("timeline")}>
               <Clock className="w-4 h-4" />
               <span>{t("timeline")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              isActive={activeRoute.view === "compare"}
-              onClick={() => onNavigate("compare")}
-            >
+            <SidebarMenuButton isActive={activeRoute.view === "compare"} onClick={() => onNavigate("compare")}>
               <GitCompareArrows className="w-4 h-4" />
               <span>{t("comparison")}</span>
             </SidebarMenuButton>
@@ -289,10 +296,7 @@ export default function Sidebar({
           )}
           {!isDemo && (
             <SidebarMenuItem>
-              <SidebarMenuButton
-                onClick={() => onSetDemo(true)}
-                className="text-amber-600 dark:text-amber-400"
-              >
+              <SidebarMenuButton onClick={() => onSetDemo(true)} className="text-amber-600 dark:text-amber-400">
                 <FlaskConical className="w-4 h-4" />
                 <span>Demo</span>
               </SidebarMenuButton>
@@ -300,10 +304,7 @@ export default function Sidebar({
           )}
           {!isDemo && (
             <SidebarMenuItem>
-              <SidebarMenuButton
-                isActive={activeRoute.view === "settings"}
-                onClick={() => onNavigate("settings")}
-              >
+              <SidebarMenuButton isActive={activeRoute.view === "settings"} onClick={() => onNavigate("settings")}>
                 <Settings className="w-4 h-4" />
                 <span>{t("settings")}</span>
               </SidebarMenuButton>
@@ -311,16 +312,9 @@ export default function Sidebar({
           )}
           {onSignOut && (
             <>
-              {authEmail && (
-                <div className="px-2.5 py-1 text-xs text-sidebar-foreground/40 truncate">
-                  {authEmail}
-                </div>
-              )}
+              {authEmail && <div className="px-2.5 py-1 text-xs text-sidebar-foreground/40 truncate">{authEmail}</div>}
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={onSignOut}
-                  className="text-sidebar-foreground/60"
-                >
+                <SidebarMenuButton onClick={onSignOut} className="text-sidebar-foreground/60">
                   <LogOut className="w-4 h-4" />
                   <span>{t("authSignOut") || "Sign Out"}</span>
                 </SidebarMenuButton>

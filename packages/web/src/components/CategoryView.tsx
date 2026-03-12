@@ -32,7 +32,9 @@ export default memo(function CategoryView({ category, isDark, i18n, profileId, o
           ))}
         </div>
       )}
-      {qualitative.length > 0 && <QualitativeTable biomarkers={qualitative} i18n={i18n} profileId={profileId} onMutate={onMutate} />}
+      {qualitative.length > 0 && (
+        <QualitativeTable biomarkers={qualitative} i18n={i18n} profileId={profileId} onMutate={onMutate} />
+      )}
     </>
   );
 });

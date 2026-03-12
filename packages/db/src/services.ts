@@ -20,10 +20,7 @@ import type {
   Lang,
 } from "./types";
 
-export async function getTimelineForProfile(
-  profileId: number,
-  authUserId: string,
-): Promise<string[] | undefined> {
+export async function getTimelineForProfile(profileId: number, authUserId: string): Promise<string[] | undefined> {
   const data = await getProfileData(profileId, authUserId);
   if (!data) return undefined;
   return getAllDates(data.categories);

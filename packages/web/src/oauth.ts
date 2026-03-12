@@ -138,7 +138,6 @@ function getBaseUrl(req: Request): string {
   return `${proto}://${host}`;
 }
 
-
 // --- OAuth Handlers ---
 
 const CORS_HEADERS = {
@@ -149,28 +148,34 @@ const CORS_HEADERS = {
 
 export function handleASMetadata(req: Request): Response {
   const baseUrl = getBaseUrl(req);
-  return Response.json({
-    issuer: baseUrl,
-    authorization_endpoint: `${baseUrl}/authorize`,
-    token_endpoint: `${baseUrl}/token`,
-    registration_endpoint: `${baseUrl}/register`,
-    response_types_supported: ["code"],
-    grant_types_supported: ["authorization_code", "refresh_token"],
-    token_endpoint_auth_methods_supported: ["client_secret_post", "none"],
-    code_challenge_methods_supported: ["S256"],
-    scopes_supported: ["openid", "profile"],
-  }, { headers: CORS_HEADERS });
+  return Response.json(
+    {
+      issuer: baseUrl,
+      authorization_endpoint: `${baseUrl}/authorize`,
+      token_endpoint: `${baseUrl}/token`,
+      registration_endpoint: `${baseUrl}/register`,
+      response_types_supported: ["code"],
+      grant_types_supported: ["authorization_code", "refresh_token"],
+      token_endpoint_auth_methods_supported: ["client_secret_post", "none"],
+      code_challenge_methods_supported: ["S256"],
+      scopes_supported: ["openid", "profile"],
+    },
+    { headers: CORS_HEADERS },
+  );
 }
 
 export function handleRSMetadata(req: Request): Response {
   const baseUrl = getBaseUrl(req);
-  return Response.json({
-    resource: `${baseUrl}/mcp`,
-    authorization_servers: [baseUrl],
-    scopes_supported: ["openid", "profile"],
-    bearer_methods_supported: ["header"],
-    resource_name: "OpenMarkers MCP Server",
-  }, { headers: CORS_HEADERS });
+  return Response.json(
+    {
+      resource: `${baseUrl}/mcp`,
+      authorization_servers: [baseUrl],
+      scopes_supported: ["openid", "profile"],
+      bearer_methods_supported: ["header"],
+      resource_name: "OpenMarkers MCP Server",
+    },
+    { headers: CORS_HEADERS },
+  );
 }
 
 export function handleRegister(req: Request): Response | Promise<Response> {
@@ -193,16 +198,19 @@ export function handleRegister(req: Request): Response | Promise<Response> {
       await oauthStore.registerClient({ clientId, clientSecret, redirectUris, clientName });
       console.info("[oauth] Client registered:", clientId, clientName || "");
 
-      return Response.json({
-        client_id: clientId,
-        client_secret: clientSecret,
-        client_id_issued_at: Math.floor(Date.now() / 1000),
-        redirect_uris: redirectUris,
-        client_name: clientName,
-        grant_types: ["authorization_code", "refresh_token"],
-        response_types: ["code"],
-        token_endpoint_auth_method: "client_secret_post",
-      }, { status: 201, headers: CORS_HEADERS });
+      return Response.json(
+        {
+          client_id: clientId,
+          client_secret: clientSecret,
+          client_id_issued_at: Math.floor(Date.now() / 1000),
+          redirect_uris: redirectUris,
+          client_name: clientName,
+          grant_types: ["authorization_code", "refresh_token"],
+          response_types: ["code"],
+          token_endpoint_auth_method: "client_secret_post",
+        },
+        { status: 201, headers: CORS_HEADERS },
+      );
     } catch {
       return Response.json({ error: "invalid_request" }, { status: 400, headers: CORS_HEADERS });
     }
@@ -252,7 +260,12 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const authResult = await signInViaNeonAuth(email, password);
     if (!authResult) {
       const html = renderLoginPage({
-        clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope,
+        clientId,
+        redirectUri,
+        codeChallenge,
+        codeChallengeMethod,
+        state,
+        scope,
         error: "Invalid email or password.",
       });
       return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
@@ -314,14 +327,20 @@ export function handleToken(req: Request): Response | Promise<Response> {
       }
 
       if (stored.redirectUri !== params.get("redirect_uri")) {
-        return Response.json({ error: "invalid_grant", error_description: "redirect_uri mismatch" }, { status: 400, headers: CORS_HEADERS });
+        return Response.json(
+          { error: "invalid_grant", error_description: "redirect_uri mismatch" },
+          { status: 400, headers: CORS_HEADERS },
+        );
       }
 
       // Verify PKCE
       const pkceValid = verifyPkce(codeVerifier, stored.codeChallenge);
       if (!pkceValid) {
         await oauthStore.deleteAuthCode(code);
-        return Response.json({ error: "invalid_grant", error_description: "PKCE verification failed" }, { status: 400, headers: CORS_HEADERS });
+        return Response.json(
+          { error: "invalid_grant", error_description: "PKCE verification failed" },
+          { status: 400, headers: CORS_HEADERS },
+        );
       }
 
       // Delete auth code (one-time use)
@@ -343,16 +362,20 @@ export function handleToken(req: Request): Response | Promise<Response> {
         if (payload.exp) {
           expiresIn = Math.max(1, payload.exp - Math.floor(Date.now() / 1000));
         }
-      } catch { /* use default */ }
+      } catch {
+        /* use default */
+      }
 
       console.info("[oauth] Token issued for client:", clientId, "expires_in:", expiresIn);
-      return Response.json({
-        access_token: stored.neonSessionToken,
-        token_type: "bearer",
-        expires_in: expiresIn,
-        refresh_token: refreshToken,
-      }, { headers: CORS_HEADERS });
-
+      return Response.json(
+        {
+          access_token: stored.neonSessionToken,
+          token_type: "bearer",
+          expires_in: expiresIn,
+          refresh_token: refreshToken,
+        },
+        { headers: CORS_HEADERS },
+      );
     } else if (grantType === "refresh_token") {
       const refreshToken = params.get("refresh_token") || "";
       const stored = await oauthStore.getRefreshToken(refreshToken);
@@ -367,7 +390,10 @@ export function handleToken(req: Request): Response | Promise<Response> {
       if (!newJwt) {
         await oauthStore.deleteRefreshToken(refreshToken);
         console.warn("[oauth] Token refresh failed — session expired for client:", clientId);
-        return Response.json({ error: "invalid_grant", error_description: "Session expired. Please re-authorize." }, { status: 400, headers: CORS_HEADERS });
+        return Response.json(
+          { error: "invalid_grant", error_description: "Session expired. Please re-authorize." },
+          { status: 400, headers: CORS_HEADERS },
+        );
       }
       console.info("[oauth] Token refreshed for client:", clientId);
 
@@ -387,15 +413,19 @@ export function handleToken(req: Request): Response | Promise<Response> {
         if (payload.exp) {
           expiresIn = Math.max(1, payload.exp - Math.floor(Date.now() / 1000));
         }
-      } catch { /* use default */ }
+      } catch {
+        /* use default */
+      }
 
-      return Response.json({
-        access_token: newJwt,
-        token_type: "bearer",
-        expires_in: expiresIn,
-        refresh_token: newRefreshToken,
-      }, { headers: CORS_HEADERS });
-
+      return Response.json(
+        {
+          access_token: newJwt,
+          token_type: "bearer",
+          expires_in: expiresIn,
+          refresh_token: newRefreshToken,
+        },
+        { headers: CORS_HEADERS },
+      );
     } else {
       return Response.json({ error: "unsupported_grant_type" }, { status: 400, headers: CORS_HEADERS });
     }

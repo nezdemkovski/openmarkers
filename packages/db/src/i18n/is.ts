@@ -24,14 +24,14 @@ const is: TranslationData = {
     export: "Flytja út gögn",
     import: "Flytja inn gögn",
     importConflictTitle: "Notandi er þegar til",
-    importConflictMessage: "Notandi að nafni \"{name}\" er þegar til. Sláðu inn nýtt nafn eða hættu við.",
+    importConflictMessage: 'Notandi að nafni "{name}" er þegar til. Sláðu inn nýtt nafn eða hættu við.',
     importRename: "Flytja inn",
     importCancel: "Hætta við",
     importError: "Innflutningsvilla",
     importInvalidJson: "Ógild JSON skrá.",
     deleteUser: "Eyða notanda",
     deleteUserTitle: "Eyða notanda",
-    deleteUserMessage: "Ertu viss um að þú viljir eyða \"{name}\"? Öll gögn verða fjarlægð varanlega.",
+    deleteUserMessage: 'Ertu viss um að þú viljir eyða "{name}"? Öll gögn verða fjarlægð varanlega.',
     deleteUserConfirm: "Eyða",
     comparisonDesc: "Berðu saman niðurstöður milli tveggja rannsóknardaga hlið við hlið.",
     snapshot: "Skyndimynd",
@@ -60,7 +60,8 @@ const is: TranslationData = {
     thyroid_panel: "Skjaldkirtilsflokkur",
     kidney_panel: "Nýrnaflokkur",
     aiAnalysis: "Gervigreindargreining",
-    aiAnalysisDesc: "{mcpLink} fyrir áframhaldandi gervigreindargreiningu, eða afritaðu þessa kvaðningu í hvaða gervigreindaraðstoðarmann sem er fyrir einstaka yfirferð.",
+    aiAnalysisDesc:
+      "{mcpLink} fyrir áframhaldandi gervigreindargreiningu, eða afritaðu þessa kvaðningu í hvaða gervigreindaraðstoðarmann sem er fyrir einstaka yfirferð.",
     aiAnalysisSetupMcp: "Settu upp MCP-þjóninn",
     copyPrompt: "Afrita kvaðningu",
     copied: "Afritað!",
@@ -115,10 +116,12 @@ const is: TranslationData = {
     addYourDataDesc: "Prófíllinn þinn er tilbúinn. Bættu við fyrstu rannsóknarniðurstöðunum.",
     aiImport: "Búa til innflutningsskrá með AI",
     aiImportDesc: "Ertu með PDF eða rannsóknarskýrslu? Notaðu AI til að búa til skrá til innflutnings.",
-    aiImportInstructions: "Afritaðu promptið hér að neðan og límdu í ChatGPT, Claude eða annan AI aðstoðarmann ásamt niðurstöðum (texti, mynd eða PDF). Hann býr til JSON-skrá fyrir þig.",
+    aiImportInstructions:
+      "Afritaðu promptið hér að neðan og límdu í ChatGPT, Claude eða annan AI aðstoðarmann ásamt niðurstöðum (texti, mynd eða PDF). Hann býr til JSON-skrá fyrir þig.",
     aiImportThen: "Vistaðu úttakið sem .json skrá og notaðu Flytja inn hér að ofan.",
     schemaTip: "Ábending: Bættu við $schema reit fyrir sjálfvirka útfyllingu og villuleit",
-    schemaTipDesc: "Bættu þessari línu efst í JSON-skrána til að fá sjálfvirka útfyllingu og villuprófun í VS Code og öðrum ritlum:",
+    schemaTipDesc:
+      "Bættu þessari línu efst í JSON-skrána til að fá sjálfvirka útfyllingu og villuprófun í VS Code og öðrum ritlum:",
     mcpSetup: "MCP Þjónn",
     mcpSetupDesc: "Tengdu AI aðstoðarmann beint við OpenMarkers.",
     mcpSetupInstructions: "Bættu þessu við MCP stillingar AI biðlarans þíns (Claude Desktop, Cursor o.fl.):",
@@ -174,21 +177,25 @@ const is: TranslationData = {
     heroBadgeMcp: "AI gegnum MCP",
     heroDemoButton: "Prófa kynningu — enginn reikningur þarf",
     featureChartsTitle: "Gröf og þróun",
-    featureChartsDesc: "Sjónrændu hvert lífmerki yfir tíma með gagnvirkum gröfum. Viðmiðunarbil sýnd beint svo þú sérð frávik í fljótu bragði.",
+    featureChartsDesc:
+      "Sjónrændu hvert lífmerki yfir tíma með gagnvirkum gröfum. Viðmiðunarbil sýnd beint svo þú sérð frávik í fljótu bragði.",
     featureBioAgeTitle: "Líffræðilegur aldur",
-    featureBioAgeDesc: "Reiknaðu líffræðilegan aldur þinn út frá 9 blóðlífmerkjum með PhenoAge formúlunni. Sjáðu hvernig líkaminn þinn eldist miðað við raunverulegan aldur.",
+    featureBioAgeDesc:
+      "Reiknaðu líffræðilegan aldur þinn út frá 9 blóðlífmerkjum með PhenoAge formúlunni. Sjáðu hvernig líkaminn þinn eldist miðað við raunverulegan aldur.",
     featureBiomarkersTitle: "100+ lífmerki",
-    featureBiomarkersDesc: "Frá grunnlífefnafræði til hormóna, blóðfræði, skjaldkirtils, járns, fitu og fleira. Flytjið inn niðurstöður sem JSON — gögnin eru alltaf þín.",
+    featureBiomarkersDesc:
+      "Frá grunnlífefnafræði til hormóna, blóðfræði, skjaldkirtils, járns, fitu og fleira. Flytjið inn niðurstöður sem JSON — gögnin eru alltaf þín.",
     featureAiTitle: "AI gegnum MCP",
-    featureAiDesc: "Tengdu Claude, ChatGPT eða hvaða AI-aðstoðarmann sem er við gögnin þín gegnum MCP. Fáðu persónulega heilsufræðilega innsýn úr rannsóknarsögu þinni.",
+    featureAiDesc:
+      "Tengdu Claude, ChatGPT eða hvaða AI-aðstoðarmann sem er við gögnin þín gegnum MCP. Fáðu persónulega heilsufræðilega innsýn úr rannsóknarsögu þinni.",
     featurePrivacyTitle: "Einkalíf og opinn hugbúnaður",
-    featurePrivacyDesc: "Gögnin þín eru aldrei deild með þriðju aðilum. Engin mælitæki, engin greining. Fullkomlega opinn hugbúnaður — hýstu sjálfur fyrir fulla stjórn.",
+    featurePrivacyDesc:
+      "Gögnin þín eru aldrei deild með þriðju aðilum. Engin mælitæki, engin greining. Fullkomlega opinn hugbúnaður — hýstu sjálfur fyrir fulla stjórn.",
   },
   categories: {
     basic_biochemistry: {
       name: "Grunnlífefnafræði",
-      description:
-        "Grunnblóðefnafræðirannsókn sem mælir nýrnastarfsemi, saltbúskap, lifrarensím, prótín og fitu.",
+      description: "Grunnblóðefnafræðirannsókn sem mælir nýrnastarfsemi, saltbúskap, lifrarensím, prótín og fitu.",
     },
     diabetology: {
       name: "Sykursýkisfræði",
@@ -417,18 +424,15 @@ const is: TranslationData = {
     },
     "B-neu": {
       name: "Daufkyrningar (%)",
-      description:
-        "Hlutfall hvítra blóðkorna sem eru daufkyrningar - fyrstu viðbragðsaðilar við bakteríusýkingum.",
+      description: "Hlutfall hvítra blóðkorna sem eru daufkyrningar - fyrstu viðbragðsaðilar við bakteríusýkingum.",
     },
     "B-lymf": {
       name: "Eitilfrumur (%)",
-      description:
-        "Hlutfall hvítra blóðkorna sem eru eitilfrumur - lykill að aðlögunarónæmi (T-frumur, B-frumur).",
+      description: "Hlutfall hvítra blóðkorna sem eru eitilfrumur - lykill að aðlögunarónæmi (T-frumur, B-frumur).",
     },
     "B-mono": {
       name: "Einkyrningar (%)",
-      description:
-        "Hlutfall hvítra blóðkorna sem eru einkyrningar - taka þátt í langvinnri bólgu og ónæmisvörnum.",
+      description: "Hlutfall hvítra blóðkorna sem eru einkyrningar - taka þátt í langvinnri bólgu og ónæmisvörnum.",
     },
     "B-eo": {
       name: "Súrkyrningar (%)",
@@ -437,13 +441,11 @@ const is: TranslationData = {
     },
     "B-baso": {
       name: "Baskyrningar (%)",
-      description:
-        "Sjaldgæfasta tegund hvítra blóðkorna. Taka þátt í ofnæmis- og bólguviðbrögðum.",
+      description: "Sjaldgæfasta tegund hvítra blóðkorna. Taka þátt í ofnæmis- og bólguviðbrögðum.",
     },
     "B-NEabs": {
       name: "Daufkyrningar (heildarfjöldi)",
-      description:
-        "Heildarfjöldi daufkyrninga. Gildi undir 2,0 eru vægt lág; undir 1,0 eykur sýkingarhættu verulega.",
+      description: "Heildarfjöldi daufkyrninga. Gildi undir 2,0 eru vægt lág; undir 1,0 eykur sýkingarhættu verulega.",
     },
     "B-LYabs": {
       name: "Eitilfrumur (heildarfjöldi)",
@@ -457,8 +459,7 @@ const is: TranslationData = {
     },
     "B-EOabs": {
       name: "Súrkyrningar (heildarfjöldi)",
-      description:
-        "Heildarfjöldi súrkyrninga. Hækkað við ofnæmissjúkdóma, sníkjudýrasýkingar og súrkyrníngaraskanir.",
+      description: "Heildarfjöldi súrkyrninga. Hækkað við ofnæmissjúkdóma, sníkjudýrasýkingar og súrkyrníngaraskanir.",
     },
     "B-BAabs": {
       name: "Baskyrningar (heildarfjöldi)",
@@ -477,8 +478,7 @@ const is: TranslationData = {
     },
     "C-QT": {
       name: "Prótrombíntími (sekúndur)",
-      description:
-        "Tími í sekúndum þar til blóð storknast um ytri storknunarleiðina.",
+      description: "Tími í sekúndum þar til blóð storknast um ytri storknunarleiðina.",
     },
     "C-APTTr": {
       name: "APTT hlutfall",
@@ -512,8 +512,7 @@ const is: TranslationData = {
     },
     "S-aTSH": {
       name: "Anti-TSH viðtakamótefni (TRAb)",
-      description:
-        "Mótefni gegn TSH viðtaka. Hækkuð í Basedow-sjúkdómi (sjálfsofnæmisofvirkni skjaldkirtils).",
+      description: "Mótefni gegn TSH viðtaka. Hækkuð í Basedow-sjúkdómi (sjálfsofnæmisofvirkni skjaldkirtils).",
     },
     "S-aTG": {
       name: "Anti-týróglóbúlínmótefni",
@@ -537,18 +536,15 @@ const is: TranslationData = {
     },
     "U-BILI": {
       name: "Þvagbílirúbín",
-      description:
-        "Bílirúbín í þvagi. Venjulega fjarverandi - nærvera bendir til lifrar- eða gallvegssjúkdóms.",
+      description: "Bílirúbín í þvagi. Venjulega fjarverandi - nærvera bendir til lifrar- eða gallvegssjúkdóms.",
     },
     "U-UBG": {
       name: "Úróbílínógen",
-      description:
-        "Niðurbrotsefni bílirúbíns. Lítið magn er eðlilegt. Hækkað í blóðleysigulu eða lifrarsjúkdómi.",
+      description: "Niðurbrotsefni bílirúbíns. Lítið magn er eðlilegt. Hækkað í blóðleysigulu eða lifrarsjúkdómi.",
     },
     "U-PH": {
       name: "Þvag-pH",
-      description:
-        "Sýrustig þvags. Eðlilegt svið 4,5-8,0. Hefur áhrif af mataræði, lyfjum og efnaskiptasjúkdómum.",
+      description: "Sýrustig þvags. Eðlilegt svið 4,5-8,0. Hefur áhrif af mataræði, lyfjum og efnaskiptasjúkdómum.",
     },
     "U-KREV": {
       name: "Blóð í þvagi",
@@ -557,8 +553,7 @@ const is: TranslationData = {
     },
     "U-LEUC": {
       name: "Hvít blóðkorn í þvagi",
-      description:
-        "Hvít blóðkorn í þvagi. Venjulega fjarverandi. Nærvera bendir til þvagfærasýkingar eða nýrnabólgu.",
+      description: "Hvít blóðkorn í þvagi. Venjulega fjarverandi. Nærvera bendir til þvagfærasýkingar eða nýrnabólgu.",
     },
     "U-KETO": {
       name: "Ketónefni í þvagi",
@@ -572,8 +567,7 @@ const is: TranslationData = {
     },
     "U-HUST": {
       name: "Eðlisþyngd þvags",
-      description:
-        "Mælir þéttni þvags. Endurspeglar vökvastöðu og styrkingareiginleika nýrna.",
+      description: "Mælir þéttni þvags. Endurspeglar vökvastöðu og styrkingareiginleika nýrna.",
     },
     "U-EPPL": {
       name: "Þekjufrumur",
@@ -582,13 +576,11 @@ const is: TranslationData = {
     },
     "U-ERY": {
       name: "Rauð blóðkorn í þvagi (smásjá)",
-      description:
-        "Rauð blóðkorn séð undir smásjá. Nákvæmara en þvagstikupróf. Hækkað fjöldi krefst rannsóknar.",
+      description: "Rauð blóðkorn séð undir smásjá. Nákvæmara en þvagstikupróf. Hækkað fjöldi krefst rannsóknar.",
     },
     "U-LEUKU": {
       name: "Hvít blóðkorn í þvagi (smásjá)",
-      description:
-        "Hvít blóðkorn séð undir smásjá. Hækkað fjöldi bendir til þvagfærasýkingar eða nýrnabólgu.",
+      description: "Hvít blóðkorn séð undir smásjá. Hækkað fjöldi bendir til þvagfærasýkingar eða nýrnabólgu.",
     },
     "U-UBAKT": {
       name: "Bakteríur í þvagi",
@@ -597,23 +589,19 @@ const is: TranslationData = {
     },
     "S-MorbilliG": {
       name: "Mislingamótefni IgG",
-      description:
-        "IgG mótefni gegn mislingaveiru. Sýnir ónæmi vegna bólusetningu eða fyrri sýkingar.",
+      description: "IgG mótefni gegn mislingaveiru. Sýnir ónæmi vegna bólusetningu eða fyrri sýkingar.",
     },
     "S-Tetanus": {
       name: "Stífkrampamótefni",
-      description:
-        "IgG mótefni gegn stífkrampatoxíni. Mælir ónæmi vegna bólusetningar.",
+      description: "IgG mótefni gegn stífkrampatoxíni. Mælir ónæmi vegna bólusetningar.",
     },
     "MDRD-UreaAlb": {
       name: "eGFR (MDRD með þvagefni og albúmíni)",
-      description:
-        "Önnur aðferð til mats á nýrnastarfsemi með MDRD formúlu ásamt þvagefni og albúmíni.",
+      description: "Önnur aðferð til mats á nýrnastarfsemi með MDRD formúlu ásamt þvagefni og albúmíni.",
     },
     "S-FIB4": {
       name: "FIB-4 vísitala",
-      description:
-        "Ónæðingslegt trefjagildi reiknað úr aldri, AST, ALT og blóðflögum. Áætlar hættu á lifrartrefjun.",
+      description: "Ónæðingslegt trefjagildi reiknað úr aldri, AST, ALT og blóðflögum. Áætlar hættu á lifrartrefjun.",
     },
     "S-AMS": {
       name: "Amýlasi í sermi",
@@ -632,8 +620,7 @@ const is: TranslationData = {
     },
     "S-Transferin": {
       name: "Transferrín",
-      description:
-        "Járnflutningsprótín í blóði. Hækkað þegar líkaminn þarfnast meiri járns (járnskortur).",
+      description: "Járnflutningsprótín í blóði. Hækkað þegar líkaminn þarfnast meiri járns (járnskortur).",
     },
     "S-TransSat": {
       name: "Transferrínmettun",
@@ -647,8 +634,7 @@ const is: TranslationData = {
     },
     "S-UIBC": {
       name: "UIBC (Ómettaður járnbindingargeta)",
-      description:
-        "Tiltæk járnbindingargeta transferríns. Hækkuð við járnskort.",
+      description: "Tiltæk járnbindingargeta transferríns. Hækkuð við járnskort.",
     },
     "S-TIBC": {
       name: "TIBC (Heilderjárnbindingargeta)",
@@ -662,28 +648,23 @@ const is: TranslationData = {
     },
     "S-Anti-tTg-IgA": {
       name: "Anti-tTG IgA (Vefjatransglútamínasi)",
-      description:
-        "Aðalskimunarmótefni fyrir cölíakíu. Hækkuð gildi benda til ónæmisviðbragða gegn glúten.",
+      description: "Aðalskimunarmótefni fyrir cölíakíu. Hækkuð gildi benda til ónæmisviðbragða gegn glúten.",
     },
     "B-MPV": {
       name: "Meðalrúmmál blóðflagna",
-      description:
-        "Meðalstærð blóðflagna. Stærri blóðflögur eru yngri og virkari.",
+      description: "Meðalstærð blóðflagna. Stærri blóðflögur eru yngri og virkari.",
     },
     "SL-AHI": {
       name: "Öndunarhlévísitala (AHI)",
-      description:
-        "Fjöldi öndunarhléa og öndunardýpta á klukkustund í svefni. Aðalmælikvarði á alvarleika kæfisvefns.",
+      description: "Fjöldi öndunarhléa og öndunardýpta á klukkustund í svefni. Aðalmælikvarði á alvarleika kæfisvefns.",
     },
     "SL-OA": {
       name: "Teppu-öndunarhléáföll",
-      description:
-        "Teppu-öndunarhléáföll á klukkustund - algjör lokun loftvega í >=10 sekúndur í svefni.",
+      description: "Teppu-öndunarhléáföll á klukkustund - algjör lokun loftvega í >=10 sekúndur í svefni.",
     },
     "SL-HY": {
       name: "Öndunardýpt",
-      description:
-        "Hluta-teppuatburðir á klukkustund - minnkað loftflæði (>=30%) með súrefnisfalli eða vaknun.",
+      description: "Hluta-teppuatburðir á klukkustund - minnkað loftflæði (>=30%) með súrefnisfalli eða vaknun.",
     },
     "SL-MA": {
       name: "Blönduð öndunarhléáföll",
@@ -692,33 +673,27 @@ const is: TranslationData = {
     },
     "SL-CA": {
       name: "Miðtaugar öndunarhléáföll",
-      description:
-        "Atburðir á klukkustund þar sem heilinn hættir tímabundið að senda öndunarmerkingar.",
+      description: "Atburðir á klukkustund þar sem heilinn hættir tímabundið að senda öndunarmerkingar.",
     },
     "SL-ODI": {
       name: "Súrefnisfallsvísitala (ODI)",
-      description:
-        "Fjöldi >=3% súrefnisfallsatburða á klukkustund. Tengist vel AHI.",
+      description: "Fjöldi >=3% súrefnisfallsatburða á klukkustund. Tengist vel AHI.",
     },
     "SL-SpO2min": {
       name: "Lágmarks SpO2",
-      description:
-        "Lægsta súrefnismettun skráð á nóttunni. Gildi undir 90% eru klínískt mikilvæg.",
+      description: "Lægsta súrefnismettun skráð á nóttunni. Gildi undir 90% eru klínískt mikilvæg.",
     },
     "SL-SpO2avg": {
       name: "Meðal SpO2",
-      description:
-        "Meðalsúrefnismettun yfir allan svefntímann. Eðlilegt >=94%.",
+      description: "Meðalsúrefnismettun yfir allan svefntímann. Eðlilegt >=94%.",
     },
     "SL-T90": {
       name: "Tími undir 90% SpO2",
-      description:
-        "Hlutfall heildarstefntíma með súrefnismettun undir 90%. Eðlilegt <1%.",
+      description: "Hlutfall heildarstefntíma með súrefnismettun undir 90%. Eðlilegt <1%.",
     },
     "SL-SFI": {
       name: "Hroturstíðnivísitala (SFI)",
-      description:
-        "Hlutfall svefntíma sem varið er í hrotum.",
+      description: "Hlutfall svefntíma sem varið er í hrotum.",
     },
     "B-HbA1c": {
       name: "HbA1c (Sykrað blóðrauði)",
@@ -727,8 +702,7 @@ const is: TranslationData = {
     },
     "S-INS": {
       name: "Fastandi insúlín",
-      description:
-        "Insúlín losað af briskirtlinum til að stjórna blóðsykri. Fastandi gildi sýna insúlínviðnám.",
+      description: "Insúlín losað af briskirtlinum til að stjórna blóðsykri. Fastandi gildi sýna insúlínviðnám.",
     },
     "S-DHEA": {
       name: "DHEA-S",
@@ -752,8 +726,7 @@ const is: TranslationData = {
     },
     "S-TNF": {
       name: "TNF-alfa (Æxlisdrepandi þáttur)",
-      description:
-        "Lykil bólgubotni sem tekur þátt í kerfisbólgu og ónæmisstjórnun.",
+      description: "Lykil bólgubotni sem tekur þátt í kerfisbólgu og ónæmisstjórnun.",
     },
     "S-S100B": {
       name: "S-100B prótín",
@@ -762,18 +735,15 @@ const is: TranslationData = {
     },
     "S-ApoA1": {
       name: "Apólípóprótín A1 (Apo-A1)",
-      description:
-        "Aðalprótínhluti HDL agna. Nákvæmari mælikvarði á HDL agnir og þar með hjarta- og æðavernd.",
+      description: "Aðalprótínhluti HDL agna. Nákvæmari mælikvarði á HDL agnir og þar með hjarta- og æðavernd.",
     },
     "S-LDLP": {
       name: "LDL agnafjöldi (LDL-P)",
-      description:
-        "Telur raunverulegan fjölda LDL agna. Nákvæmari mælikvarði á LDL-drifna hjarta- og æðaáhættu.",
+      description: "Telur raunverulegan fjölda LDL agna. Nákvæmari mælikvarði á LDL-drifna hjarta- og æðaáhættu.",
     },
     "S-oxLDL": {
       name: "Oxaðað LDL (oxLDL)",
-      description:
-        "LDL kólesteról sem hefur skemmst vegna oxunar. Mælir beint oxunarstreitu og bólgu.",
+      description: "LDL kólesteról sem hefur skemmst vegna oxunar. Mælir beint oxunarstreitu og bólgu.",
     },
     "S-Lpa": {
       name: "Lípóprótín(a) [Lp(a)]",
@@ -802,13 +772,11 @@ const is: TranslationData = {
     },
     "S-CAC": {
       name: "CAC stig (Kransæðakalk)",
-      description:
-        "Sneiðmyndamæling á kalksöfnun í kransæðum. Stig 0 er fullkomið. Hærri stig mæla æðakölkunarbyrði.",
+      description: "Sneiðmyndamæling á kalksöfnun í kransæðum. Stig 0 er fullkomið. Hærri stig mæla æðakölkunarbyrði.",
     },
     "S-TelL": {
       name: "Litningaendahettulengd",
-      description:
-        "Mælir verndarhetturnar á litningum sem styttast með aldri. Endurspeglar frumuöldrun.",
+      description: "Mælir verndarhetturnar á litningum sem styttast með aldri. Endurspeglar frumuöldrun.",
     },
     "S-HCY": {
       name: "Hómócysteín",
@@ -822,8 +790,7 @@ const is: TranslationData = {
     },
     "S-DBIL": {
       name: "Beint bílirúbín (samtengt)",
-      description:
-        "Bílirúbín unnið af lifur. Sértækt hækkað við gallvegsstíflu eða lifrarsjúkdóm.",
+      description: "Bílirúbín unnið af lifur. Sértækt hækkað við gallvegsstíflu eða lifrarsjúkdóm.",
     },
     "S-ApoB": {
       name: "Apólípóprótín B (ApoB)",
@@ -837,8 +804,7 @@ const is: TranslationData = {
     },
     "S-Ca": {
       name: "Kalsíum",
-      description:
-        "Nauðsynlegt steinefni fyrir bein, vöðvasamdrátt, taugaboð og blóðstorknun.",
+      description: "Nauðsynlegt steinefni fyrir bein, vöðvasamdrátt, taugaboð og blóðstorknun.",
     },
     "S-P": {
       name: "Fosfór (Fosfat)",
@@ -852,13 +818,11 @@ const is: TranslationData = {
     },
     "S-FOL": {
       name: "Fólsýra",
-      description:
-        "B-vítamín nauðsynlegt fyrir DNA-efnasmíðar og myndun rauðra blóðkorna. Mikilvægt á meðgöngu.",
+      description: "B-vítamín nauðsynlegt fyrir DNA-efnasmíðar og myndun rauðra blóðkorna. Mikilvægt á meðgöngu.",
     },
     "S-fT3": {
       name: "Frjálst T3 (Þríjoðþýrónín)",
-      description:
-        "Virkasta skjaldkirtilshormónið - T4 er breytt í T3 í vefjum.",
+      description: "Virkasta skjaldkirtilshormónið - T4 er breytt í T3 í vefjum.",
     },
     "S-E2": {
       name: "Estradíól (E2)",
@@ -867,8 +831,7 @@ const is: TranslationData = {
     },
     "S-CORT": {
       name: "Kórtísól",
-      description:
-        "Aðalstreituhormón nýrnahettna. Fylgir dagssveiflumynstri (hátt á morgni, lágt á kvöldi).",
+      description: "Aðalstreituhormón nýrnahettna. Fylgir dagssveiflumynstri (hátt á morgni, lágt á kvöldi).",
     },
     "S-IGF1": {
       name: "IGF-1 (Insúlínlíkur vaxtarþáttur 1)",
@@ -887,18 +850,15 @@ const is: TranslationData = {
     },
     "S-LH": {
       name: "LH (Gulbúshormón)",
-      description:
-        "Heiladingulshormón sem örvar testósterónframleiðslu hjá körlum og egglos hjá konum.",
+      description: "Heiladingulshormón sem örvar testósterónframleiðslu hjá körlum og egglos hjá konum.",
     },
     "S-FSH": {
       name: "FSH (Eggbúsörvandi hormón)",
-      description:
-        "Heiladingulshormón sem stýrir æxlunarvirkni. Hjá körlum örvar sæðismyndun.",
+      description: "Heiladingulshormón sem stýrir æxlunarvirkni. Hjá körlum örvar sæðismyndun.",
     },
     "B-RET": {
       name: "Frumstæð rauð blóðkorn",
-      description:
-        "Ung rauð blóðkorn nýkomin úr beinmerg. Hækkuð gildi benda til virkrar rauðkornamyndunar.",
+      description: "Ung rauð blóðkorn nýkomin úr beinmerg. Hækkuð gildi benda til virkrar rauðkornamyndunar.",
     },
     "S-IgG": {
       name: "IgG (Ónæmisglóbúlín G)",
@@ -912,8 +872,7 @@ const is: TranslationData = {
     },
     "S-IgE": {
       name: "IgE (Ónæmisglóbúlín E)",
-      description:
-        "Mótefni tengt ofnæmisviðbrögðum og sníkjudýravörnum. Hækkað við ofnæmi, astma og exemi.",
+      description: "Mótefni tengt ofnæmisviðbrögðum og sníkjudýravörnum. Hækkað við ofnæmi, astma og exemi.",
     },
     "S-HOMA": {
       name: "HOMA-IR (Insúlínviðnámsvísitala)",
@@ -927,33 +886,27 @@ const is: TranslationData = {
     },
     "S-FAI": {
       name: "Frjáls andrógensvísitala",
-      description:
-        "Reiknað hlutfall heildartestósteróns og SHBG sem áætlar lífvirkt testósterón.",
+      description: "Reiknað hlutfall heildartestósteróns og SHBG sem áætlar lífvirkt testósterón.",
     },
     "S-PTH": {
       name: "PTH (Kalkkirtilshormón)",
-      description:
-        "Hormón sem stýrir kalsíum- og fosfórjafnvægi. Hækkað við D-vítamínskort eða kalkkirtilsofvirkni.",
+      description: "Hormón sem stýrir kalsíum- og fosfórjafnvægi. Hækkað við D-vítamínskort eða kalkkirtilsofvirkni.",
     },
     "S-Cai": {
       name: "Jónað kalsíum",
-      description:
-        "Lífvirkt form kalsíums í blóði, ekki bundið próteinum. Nákvæmara en heildarkalsíum.",
+      description: "Lífvirkt form kalsíums í blóði, ekki bundið próteinum. Nákvæmara en heildarkalsíum.",
     },
     "S-Cpep": {
       name: "C-peptíð",
-      description:
-        "Aukaafurð insúlínframleiðslu. Mælir innræna insúlínframleiðslu óháð ytri insúlíni.",
+      description: "Aukaafurð insúlínframleiðslu. Mælir innræna insúlínframleiðslu óháð ytri insúlíni.",
     },
     "S-PROG": {
       name: "Prógesterón",
-      description:
-        "Sterahormón sem tekur aðallega þátt í tíðahring og þungun.",
+      description: "Sterahormón sem tekur aðallega þátt í tíðahring og þungun.",
     },
     "S-LIST": {
       name: "Frjáls testósterónvísitala (LIST)",
-      description:
-        "Reiknuð vísitala frjáls testósteróns. Hærra gildi bendir til meira lífvirks testósteróns.",
+      description: "Reiknuð vísitala frjáls testósteróns. Hærra gildi bendir til meira lífvirks testósteróns.",
     },
   },
 };

@@ -24,14 +24,14 @@ const en: TranslationData = {
     export: "Export Data",
     import: "Import Data",
     importConflictTitle: "User Already Exists",
-    importConflictMessage: "A user named \"{name}\" already exists. Enter a new name or cancel.",
+    importConflictMessage: 'A user named "{name}" already exists. Enter a new name or cancel.',
     importRename: "Import",
     importCancel: "Cancel",
     importError: "Import Error",
     importInvalidJson: "Invalid JSON file.",
     deleteUser: "Delete User",
     deleteUserTitle: "Delete User",
-    deleteUserMessage: "Are you sure you want to delete \"{name}\"? All their data will be permanently removed.",
+    deleteUserMessage: 'Are you sure you want to delete "{name}"? All their data will be permanently removed.',
     deleteUserConfirm: "Delete",
     comparisonDesc: "Compare results between two lab dates side by side.",
     snapshot: "Snapshot",
@@ -60,7 +60,8 @@ const en: TranslationData = {
     thyroid_panel: "Thyroid Panel",
     kidney_panel: "Kidney Panel",
     aiAnalysis: "AI Analysis",
-    aiAnalysisDesc: "{mcpLink} for ongoing AI-powered analysis, or copy this prompt into any AI assistant for a one-time review.",
+    aiAnalysisDesc:
+      "{mcpLink} for ongoing AI-powered analysis, or copy this prompt into any AI assistant for a one-time review.",
     aiAnalysisSetupMcp: "Set up the MCP server",
     copyPrompt: "Copy Prompt",
     copied: "Copied!",
@@ -115,14 +116,17 @@ const en: TranslationData = {
     addYourDataDesc: "Your profile is ready. Add your first lab results to get started.",
     aiImport: "Create Import File with AI",
     aiImportDesc: "Have a PDF or lab report? Use AI to convert it into a file you can import here.",
-    aiImportInstructions: "Copy the prompt below and paste it into ChatGPT, Claude, or any AI assistant along with your lab results (text, photo, or PDF). It will generate a JSON file for you.",
+    aiImportInstructions:
+      "Copy the prompt below and paste it into ChatGPT, Claude, or any AI assistant along with your lab results (text, photo, or PDF). It will generate a JSON file for you.",
     aiImportThen: "Save the output as a .json file and use Import Data above to upload it.",
     schemaTip: "Tip: Add a $schema field for autocomplete and validation",
-    schemaTipDesc: "Add this line to the top of your JSON file to get autocomplete and error checking in VS Code and other editors:",
+    schemaTipDesc:
+      "Add this line to the top of your JSON file to get autocomplete and error checking in VS Code and other editors:",
     mcpSetup: "MCP Server",
     mcpSetupDesc: "Connect an AI assistant directly to OpenMarkers for ongoing access.",
     mcpSetupInstructions: "Add this to your AI client's MCP configuration (Claude Desktop, Cursor, etc.):",
-    mcpSetupAuth: "Your AI client will authenticate via OAuth when it first connects — just approve the login in your browser.",
+    mcpSetupAuth:
+      "Your AI client will authenticate via OAuth when it first connects — just approve the login in your browser.",
     mcpSetupToolsTitle: "Key tools available:",
     mcpToolImport: "Bulk import structured lab data as JSON",
     mcpToolSchema: "Get all supported biomarker IDs, units, and reference ranges",
@@ -165,7 +169,8 @@ const en: TranslationData = {
     settingsMcpCopyConfig: "Copy Config",
     settingsMcpTokenDesc: "This token expires periodically. Copy a fresh one before configuring your AI client.",
     settingsMcpConfigDesc: "Add this to your AI client's MCP configuration:",
-    settingsMcpTools: "Tools available: list profiles, get trends, biological age, correlations, AI analysis prompts, and more.",
+    settingsMcpTools:
+      "Tools available: list profiles, get trends, biological age, correlations, AI analysis prompts, and more.",
     authConsent: "I agree to store my blood test results and lab data",
     authDisclaimer: "This is not a medical device or healthcare service. Not medical advice.",
     heroSubtitle: "Your lab results, visualized. Spot trends your doctor might miss.",
@@ -174,15 +179,20 @@ const en: TranslationData = {
     heroBadgeMcp: "AI-ready via MCP",
     heroDemoButton: "Try Demo — no account needed",
     featureChartsTitle: "Charts & Trends",
-    featureChartsDesc: "Visualize every biomarker over time with interactive charts. Reference ranges shown inline so you can spot what's out of range at a glance.",
+    featureChartsDesc:
+      "Visualize every biomarker over time with interactive charts. Reference ranges shown inline so you can spot what's out of range at a glance.",
     featureBioAgeTitle: "Biological Age",
-    featureBioAgeDesc: "Calculate your biological age from 9 blood biomarkers using the Levine PhenoAge formula. See how your body is aging vs. your actual age.",
+    featureBioAgeDesc:
+      "Calculate your biological age from 9 blood biomarkers using the Levine PhenoAge formula. See how your body is aging vs. your actual age.",
     featureBiomarkersTitle: "100+ Biomarkers",
-    featureBiomarkersDesc: "From basic biochemistry to hormones, hematology, thyroid, iron, lipids, and more. Import your lab results as JSON — all data stays yours.",
+    featureBiomarkersDesc:
+      "From basic biochemistry to hormones, hematology, thyroid, iron, lipids, and more. Import your lab results as JSON — all data stays yours.",
     featureAiTitle: "AI-Ready via MCP",
-    featureAiDesc: "Connect Claude, ChatGPT, or any AI assistant to your data via MCP. Get personalized health insights from your own lab history.",
+    featureAiDesc:
+      "Connect Claude, ChatGPT, or any AI assistant to your data via MCP. Get personalized health insights from your own lab history.",
     featurePrivacyTitle: "Private & Open Source",
-    featurePrivacyDesc: "Your data is never shared with third parties. No tracking, no analytics. Fully open source — self-host if you want full control.",
+    featurePrivacyDesc:
+      "Your data is never shared with third parties. No tracking, no analytics. Fully open source — self-host if you want full control.",
   },
   categories: {
     basic_biochemistry: {

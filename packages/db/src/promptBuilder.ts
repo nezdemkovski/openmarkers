@@ -140,7 +140,9 @@ export function buildPrompt(userData: UserData, enI18n: I18n, lang: Lang): strin
       lines.push("");
       for (const r of bioAgeResults) {
         const sign = r.delta > 0 ? "+" : "";
-        lines.push(`- ${r.date}: PhenoAge **${r.phenoAge}** (chrono ${r.chronoAge}, delta ${sign}${r.delta}) | mortality ${r.mortalityScore}% | DNAm age ${r.dnamAge}`);
+        lines.push(
+          `- ${r.date}: PhenoAge **${r.phenoAge}** (chrono ${r.chronoAge}, delta ${sign}${r.delta}) | mortality ${r.mortalityScore}% | DNAm age ${r.dnamAge}`,
+        );
       }
       const latest = bioAgeResults[bioAgeResults.length - 1];
       lines.push("");

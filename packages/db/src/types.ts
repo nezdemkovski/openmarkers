@@ -64,7 +64,7 @@ export interface Category {
 
 export interface UserData {
   user: {
-    id: number;
+    id?: number;
     name: string;
     dateOfBirth: string;
     sex: Sex;
