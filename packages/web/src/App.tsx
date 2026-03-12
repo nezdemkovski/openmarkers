@@ -15,6 +15,7 @@ import Loading from "./components/Loading.tsx";
 import AddLabVisit from "./components/AddLabVisit.tsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.tsx";
 import TermsOfService from "./components/TermsOfService.tsx";
+import PublicProfile from "./components/PublicProfile.tsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   Dialog,
@@ -42,13 +43,16 @@ function getRouteFromPath(): Route {
   const path = window.location.pathname;
   if (path === "/privacy") return { view: "privacy" };
   if (path === "/terms") return { view: "terms" };
-  if (path === "/timeline") return { view: "timeline" };
-  if (path === "/compare") return { view: "compare" };
-  if (path === "/settings") return { view: "settings" };
-  if (path === "/new-profile") return { view: "new-profile" };
-  const match = path.match(/^\/category\/(.+)$/);
+  const publicMatch = path.match(/^\/p\/([^/]+)$/);
+  if (publicMatch) return { view: "public-profile", id: decodeURIComponent(publicMatch[1]) };
+  if (path === "/app/timeline") return { view: "timeline" };
+  if (path === "/app/compare") return { view: "compare" };
+  if (path === "/app/settings") return { view: "settings" };
+  if (path === "/app/new-profile") return { view: "new-profile" };
+  const match = path.match(/^\/app\/category\/(.+)$/);
   if (match) return { view: "category", id: decodeURIComponent(match[1]) };
-  return { view: "dashboard" };
+  if (path.startsWith("/app")) return { view: "dashboard" };
+  return { view: "home" };
 }
 
 // Set up token provider for API calls
@@ -184,11 +188,11 @@ export default function App() {
   const navigate = useCallback(
     (target: string | null) => {
       if (target === null) {
-        navigateTo("/");
+        navigateTo("/app");
       } else if (target === "timeline" || target === "compare" || target === "settings") {
-        navigateTo(`/${target}`);
+        navigateTo(`/app/${target}`);
       } else {
-        navigateTo(`/category/${target}`);
+        navigateTo(`/app/category/${target}`);
       }
     },
     [navigateTo],
@@ -201,7 +205,7 @@ export default function App() {
       setActiveProfileId(profile.id);
       setIsDemo(false);
       localStorage.setItem("activeProfileId", String(profile.id));
-      navigateTo("/");
+      navigateTo("/app");
     },
     [profileList, navigateTo],
   );
@@ -212,12 +216,12 @@ export default function App() {
         import("../data/demo.json").then(({ default: data }) => {
           setDemoData(data);
           setIsDemo(true);
-          navigateTo("/");
+          navigateTo("/app");
         });
         return;
       }
       setIsDemo(demo);
-      navigateTo("/");
+      navigateTo("/app");
     },
     [demoData, navigateTo],
   );
@@ -245,7 +249,7 @@ export default function App() {
       setActiveProfileId(profileId);
       localStorage.setItem("activeProfileId", String(profileId));
       setIsDemo(false);
-      navigateTo("/");
+      navigateTo("/app");
     },
     [queryClient, navigateTo],
   );
@@ -282,7 +286,7 @@ export default function App() {
           localStorage.setItem("activeProfileId", String(r.profile_id));
           setIsDemo(false);
           setImporting(false);
-          navigateTo("/");
+          navigateTo("/app");
         }
       } catch (e) {
         console.error("[import] failed:", e);
@@ -307,7 +311,7 @@ export default function App() {
         localStorage.setItem("activeProfileId", String(r.profile_id));
         setIsDemo(false);
         setImporting(false);
-        navigateTo("/");
+        navigateTo("/app");
       })
       .catch(() => setImporting(false));
   }, [importPending, importName, queryClient, navigateTo]);
@@ -403,12 +407,11 @@ export default function App() {
   if (route.view === "privacy") return <PrivacyPolicy onBack={() => window.history.back()} />;
   if (route.view === "terms") return <TermsOfService onBack={() => window.history.back()} />;
 
-  // Still checking auth — show loading if user was previously logged in, otherwise landing page
-  const maybeReturningUser = isAuthenticated === null && localStorage.getItem("wasAuthenticated");
-  if (maybeReturningUser) return <Loading visible={true} text={i18n.t("loading")} />;
+  // Public profile — accessible without auth
+  if (route.view === "public-profile" && route.id) return <PublicProfile handle={route.id} />;
 
-  // Not authenticated and not in demo mode -> show landing page
-  if (isAuthenticated !== true && !isDemo) {
+  // Homepage — always accessible
+  if (route.view === "home") {
     return (
       <AuthPage
         onAuthenticated={() => {
@@ -416,6 +419,7 @@ export default function App() {
             setIsAuthenticated(true);
             setAuthEmail(result?.data?.user?.email ?? null);
             localStorage.setItem("wasAuthenticated", "1");
+            navigateTo("/app");
           });
         }}
         onDemo={() => setDemoMode(true)}
@@ -426,6 +430,13 @@ export default function App() {
         onToggleTheme={toggleTheme}
       />
     );
+  }
+
+  // App routes require auth (or demo mode)
+  if (isAuthenticated === null) return <Loading visible={true} text={i18n.t("loading")} />;
+  if (isAuthenticated !== true && !isDemo) {
+    navigateTo("/");
+    return null;
   }
 
   if (!displayData) return <Loading visible={true} text={i18n.t("loading")} />;
@@ -453,7 +464,7 @@ export default function App() {
           onAddLabVisit={
             activeProfileId != null && !isDemo ? () => setAddLabVisitProfileId(activeProfileId) : undefined
           }
-          onCreateProfile={!isDemo ? () => navigateTo("/new-profile") : undefined}
+          onCreateProfile={!isDemo ? () => navigateTo("/app/new-profile") : undefined}
           authEmail={authEmail}
           onSignOut={handleSignOut}
         />
@@ -474,7 +485,7 @@ export default function App() {
                 authEmail={authEmail}
                 onDeleteAccount={handleDeleteAccount}
                 onExport={handleExportProfile}
-                onCreateProfile={() => navigateTo("/new-profile")}
+                onCreateProfile={() => navigateTo("/app/new-profile")}
                 onImport={handleImport}
               />
             ) : showGettingStarted ? (

@@ -29,6 +29,10 @@ import {
   importDataSchema,
   sexEnum,
   biomarkerTypeEnum,
+  publicHandleSchema,
+  checkHandleAvailability,
+  getPublicProfileByHandle,
+  listPublicProfiles,
 } from "@openmarkers/db";
 import { isLang, errorMessage } from "@openmarkers/db";
 
@@ -62,6 +66,8 @@ const profileUpdateSchema = z
     name: z.string().min(1).max(200).optional(),
     date_of_birth: dateString.optional(),
     sex: sexEnum.optional(),
+    is_public: z.boolean().optional(),
+    public_handle: publicHandleSchema.nullable().optional(),
   })
   .refine((data) => Object.keys(data).length > 0, "At least one field is required");
 
@@ -260,6 +266,19 @@ export function startWebServer(opts: {
       return error("Schema not found", 404);
     }
 
+    // GET /api/public — list all public profiles (no auth)
+    if (method === "GET" && path === "/api/public") {
+      return json(await listPublicProfiles());
+    }
+
+    // GET /api/public/:handle — public profile (no auth)
+    const publicHandleMatch = path.match(/^\/api\/public\/([a-z0-9][a-z0-9-]*[a-z0-9]|[a-z0-9]{1,2})$/);
+    if (method === "GET" && publicHandleMatch) {
+      const data = await getPublicProfileByHandle(publicHandleMatch[1]);
+      if (!data) return error("Profile not found", 404);
+      return json(data);
+    }
+
     // CORS preflight
     if (method === "OPTIONS") {
       return new Response(null, {
@@ -298,6 +317,17 @@ export function startWebServer(opts: {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
       return json(await listProfiles(auth.userId));
+    }
+
+    // GET /api/handle-available?handle=&profile_id=
+    if (method === "GET" && path === "/api/handle-available") {
+      const auth = await requireAuth(req);
+      if (!authResult(auth)) return auth;
+      const handle = url.searchParams.get("handle");
+      if (!handle) return error("handle is required");
+      const profileId = url.searchParams.get("profile_id");
+      const available = await checkHandleAvailability(handle, profileId ? Number(profileId) : undefined);
+      return json({ available });
     }
 
     // GET /api/profiles/:id/export

@@ -192,6 +192,20 @@ const is: TranslationData = {
     featurePrivacyTitle: "Einkalíf og opinn hugbúnaður",
     featurePrivacyDesc:
       "Gögnin þín eru aldrei deild með þriðju aðilum. Engin mælitæki, engin greining. Fullkomlega opinn hugbúnaður — hýstu sjálfur fyrir fulla stjórn.",
+    shareProfile: "Deila prófíl",
+    shareProfileDesc: "Gerðu þennan prófíl opinberan á sérsniðnu vefslóð. Allir með hlekkinn geta skoðað gögnin.",
+    publicHandle: "Auðkenni",
+    publicHandlePlaceholder: "heilsa-min",
+    publicHandleAvailable: "Laust",
+    publicHandleTaken: "Þegar í notkun",
+    publicHandleInvalid: "3–40 stafir, lágstafir, tölur, bandstrik",
+    publicProfileUrl: "Opinber vefslóð",
+    publicProfileTitle: "Heilsuprófíll — {name}",
+    publicProfilePoweredBy: "Keyrt af OpenMarkers",
+    publicProfileNotFound: "Prófíll fannst ekki",
+    publicProfileNotFoundDesc: "Þessi prófíll er ekki til eða er ekki opinber.",
+    openProfiles: "Opinberir prófílar",
+    openProfilesDesc: "Fólk sem deilir lífmerkjagögnum sínum opinberlega.",
   },
   categories: {
     basic_biochemistry: {

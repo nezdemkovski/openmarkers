@@ -110,7 +110,17 @@ export default function Sidebar({
       <SidebarHeader className="p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-bold text-sidebar-foreground">{t("appName")}</h1>
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                history.pushState(null, "", "/");
+                window.dispatchEvent(new PopStateEvent("popstate"));
+              }}
+              className="text-lg font-bold text-sidebar-foreground hover:opacity-80"
+            >
+              {t("appName")}
+            </a>
             <p className="text-xs text-sidebar-foreground/50 mt-0.5">{t("subtitle")}</p>
           </div>
           <div className="flex items-center gap-1">

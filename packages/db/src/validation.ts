@@ -2,6 +2,11 @@ import { z } from "zod";
 
 export const sexEnum = z.enum(["M", "F"]);
 export const biomarkerTypeEnum = z.enum(["quantitative", "qualitative"]);
+export const publicHandleSchema = z
+  .string()
+  .min(3)
+  .max(40)
+  .regex(/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/, "Lowercase alphanumeric and hyphens, must start/end with alphanumeric");
 
 export const importDataSchema = z.object({
   user: z.object({

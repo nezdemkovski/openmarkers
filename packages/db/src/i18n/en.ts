@@ -194,6 +194,20 @@ const en: TranslationData = {
     featurePrivacyTitle: "Private & Open Source",
     featurePrivacyDesc:
       "Your data is never shared with third parties. No tracking, no analytics. Fully open source — self-host if you want full control.",
+    shareProfile: "Share Profile",
+    shareProfileDesc: "Make this profile publicly visible at a custom URL. Anyone with the link can view your data.",
+    publicHandle: "Handle",
+    publicHandlePlaceholder: "my-health",
+    publicHandleAvailable: "Available",
+    publicHandleTaken: "Already taken",
+    publicHandleInvalid: "3-40 chars, lowercase letters, numbers, hyphens",
+    publicProfileUrl: "Public URL",
+    publicProfileTitle: "{name}'s Health Profile",
+    publicProfilePoweredBy: "Powered by OpenMarkers",
+    publicProfileNotFound: "Profile not found",
+    publicProfileNotFoundDesc: "This profile doesn't exist or isn't public.",
+    openProfiles: "Open Profiles",
+    openProfilesDesc: "People who share their biomarker data publicly.",
   },
   categories: {
     basic_biochemistry: {

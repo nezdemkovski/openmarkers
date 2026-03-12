@@ -8,6 +8,8 @@ export interface DbProfile {
   name: string;
   date_of_birth: string;
   sex: Sex;
+  is_public: boolean;
+  public_handle: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -39,6 +41,8 @@ export interface ProfileSummary {
   name: string;
   dateOfBirth: string;
   sex: Sex;
+  isPublic: boolean;
+  publicHandle: string | null;
 }
 
 export interface BiomarkerResult {

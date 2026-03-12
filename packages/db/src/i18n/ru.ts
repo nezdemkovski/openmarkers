@@ -193,6 +193,20 @@ const ru: TranslationData = {
     featurePrivacyTitle: "Приватность и открытый код",
     featurePrivacyDesc:
       "Ваши данные никогда не передаются третьим лицам. Никакого отслеживания и аналитики. Полностью открытый код — разверните у себя для полного контроля.",
+    shareProfile: "Поделиться профилем",
+    shareProfileDesc: "Сделайте профиль публичным по уникальной ссылке. Любой сможет просмотреть данные.",
+    publicHandle: "Идентификатор",
+    publicHandlePlaceholder: "moe-zdorovie",
+    publicHandleAvailable: "Доступен",
+    publicHandleTaken: "Уже занят",
+    publicHandleInvalid: "3–40 символов, строчные буквы, цифры, дефисы",
+    publicProfileUrl: "Публичная ссылка",
+    publicProfileTitle: "Профиль здоровья — {name}",
+    publicProfilePoweredBy: "Работает на OpenMarkers",
+    publicProfileNotFound: "Профиль не найден",
+    publicProfileNotFoundDesc: "Этот профиль не существует или не является публичным.",
+    openProfiles: "Открытые профили",
+    openProfilesDesc: "Люди, которые делятся своими данными публично.",
   },
   categories: {
     basic_biochemistry: {

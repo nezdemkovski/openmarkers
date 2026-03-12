@@ -193,6 +193,20 @@ const cs: TranslationData = {
     featurePrivacyTitle: "Soukromé a open source",
     featurePrivacyDesc:
       "Vaše data nikdy nesdílíme s třetími stranami. Žádné sledování, žádná analytika. Plně open source — hostujte si sami pro plnou kontrolu.",
+    shareProfile: "Sdílet profil",
+    shareProfileDesc: "Zveřejněte tento profil na vlastní URL. Kdokoli s odkazem uvidí vaše data.",
+    publicHandle: "Identifikátor",
+    publicHandlePlaceholder: "moje-zdravi",
+    publicHandleAvailable: "Dostupný",
+    publicHandleTaken: "Již obsazený",
+    publicHandleInvalid: "3–40 znaků, malá písmena, čísla, pomlčky",
+    publicProfileUrl: "Veřejná URL",
+    publicProfileTitle: "Zdravotní profil — {name}",
+    publicProfilePoweredBy: "Provozuje OpenMarkers",
+    publicProfileNotFound: "Profil nenalezen",
+    publicProfileNotFoundDesc: "Tento profil neexistuje nebo není veřejný.",
+    openProfiles: "Otevřené profily",
+    openProfilesDesc: "Lidé, kteří sdílejí svá data veřejně.",
   },
   categories: {
     basic_biochemistry: {

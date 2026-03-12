@@ -44,7 +44,7 @@ export { buildPrompt } from "./promptBuilder";
 export { verifyToken } from "./auth";
 export { db } from "./db";
 export * as oauthStore from "./oauth-store";
-export { importDataSchema, sexEnum, biomarkerTypeEnum } from "./validation";
+export { importDataSchema, sexEnum, biomarkerTypeEnum, publicHandleSchema } from "./validation";
 
 export {
   getTimelineForProfile,
@@ -66,6 +66,8 @@ export async function listProfiles(authUserId: string): Promise<ProfileSummary[]
       name: profiles.name,
       dateOfBirth: profiles.dateOfBirth,
       sex: profiles.sex,
+      isPublic: profiles.isPublic,
+      publicHandle: profiles.publicHandle,
     })
     .from(profiles)
     .where(eq(profiles.authUserId, authUserId))
@@ -102,7 +104,7 @@ export async function createProfile(
 export async function updateProfile(
   profileId: number,
   authUserId: string,
-  data: Partial<{ name: string; date_of_birth: string; sex: Sex }>,
+  data: Partial<{ name: string; date_of_birth: string; sex: Sex; is_public: boolean; public_handle: string | null }>,
 ): Promise<DbProfile | undefined> {
   const existing = await getProfile(profileId, authUserId);
   if (!existing) return undefined;
@@ -111,6 +113,8 @@ export async function updateProfile(
   if (data.name !== undefined) updates.name = data.name;
   if (data.date_of_birth !== undefined) updates.dateOfBirth = data.date_of_birth;
   if (data.sex !== undefined) updates.sex = data.sex;
+  if (data.is_public !== undefined) updates.isPublic = data.is_public;
+  if (data.public_handle !== undefined) updates.publicHandle = data.public_handle;
 
   const [row] = await db
     .update(profiles)
@@ -155,6 +159,8 @@ function toProfile(row: typeof profiles.$inferSelect): DbProfile {
     name: row.name,
     date_of_birth: row.dateOfBirth,
     sex: row.sex,
+    is_public: row.isPublic,
+    public_handle: row.publicHandle,
     created_at: row.createdAt?.toISOString() ?? "",
     updated_at: row.updatedAt?.toISOString() ?? "",
   };
@@ -362,75 +368,14 @@ function toResult(row: typeof results.$inferSelect): DbResult {
 // ---- getProfileData (reassemble frontend shape) ----
 
 export async function getProfileData(profileId: number, authUserId: string): Promise<UserData | undefined> {
-  const profile = await getProfile(profileId, authUserId);
-  if (!profile) return undefined;
-
-  const allCategories = await listCategories();
-  const allBiomarkerRows = await db.select().from(biomarkers);
-  const allResults = await db
+  const [profileRow] = await db
     .select()
-    .from(results)
-    .where(eq(results.profileId, profileId))
-    .orderBy(results.biomarkerId, results.date);
+    .from(profiles)
+    .where(and(eq(profiles.id, profileId), eq(profiles.authUserId, authUserId)))
+    .limit(1);
+  if (!profileRow) return undefined;
 
-  // Load per-profile ref ranges
-  const overrideRows = await db.select().from(profileBiomarkers).where(eq(profileBiomarkers.profileId, profileId));
-  const overrideMap = new Map(
-    overrideRows.map((o) => [o.biomarkerId, { unit: o.unit, ref_min: o.refMin, ref_max: o.refMax }]),
-  );
-
-  const resultsByBiomarker = new Map<string, (typeof results.$inferSelect)[]>();
-  for (const r of allResults) {
-    const arr = resultsByBiomarker.get(r.biomarkerId);
-    if (arr) arr.push(r);
-    else resultsByBiomarker.set(r.biomarkerId, [r]);
-  }
-
-  const biomarkersByCategory = new Map<string, (typeof biomarkers.$inferSelect)[]>();
-  for (const b of allBiomarkerRows) {
-    const arr = biomarkersByCategory.get(b.categoryId);
-    if (arr) arr.push(b);
-    else biomarkersByCategory.set(b.categoryId, [b]);
-  }
-
-  const userCategories = allCategories
-    .map((catId) => {
-      const bios = (biomarkersByCategory.get(catId) || [])
-        .map((b) => {
-          const ress = (resultsByBiomarker.get(b.id) || []).map((r) => ({
-            id: r.id,
-            date: r.date,
-            value: b.type === "qualitative" ? r.value : parseNumericValue(r.value),
-          }));
-          if (ress.length === 0) return null;
-          const override = overrideMap.get(b.id);
-          const unit = override?.unit ?? b.unit;
-          const refMin = override?.ref_min ?? b.refMin;
-          const refMax = override?.ref_max ?? b.refMax;
-          return {
-            id: b.id,
-            ...(unit != null ? { unit } : {}),
-            ...(refMin != null ? { refMin } : {}),
-            ...(refMax != null ? { refMax } : {}),
-            ...(b.type !== "quantitative" ? { type: b.type } : {}),
-            results: ress,
-          };
-        })
-        .filter((b) => b !== null);
-      if (bios.length === 0) return null;
-      return { id: catId, biomarkers: bios };
-    })
-    .filter((c) => c !== null);
-
-  return {
-    user: {
-      id: profile.id,
-      name: profile.name,
-      dateOfBirth: profile.date_of_birth,
-      sex: profile.sex,
-    },
-    categories: userCategories,
-  };
+  return assembleProfileData(profileId, profileRow);
 }
 
 export async function exportProfileData(profileId: number, authUserId: string): Promise<object | undefined> {
@@ -585,6 +530,114 @@ export async function batchAddResults(
     })
     .returning({ id: results.id });
   return { inserted: upserted.length, skipped: data.entries.length - upserted.length };
+}
+
+// ---- Public profiles ----
+
+export async function checkHandleAvailability(
+  handle: string,
+  excludeProfileId?: number,
+): Promise<boolean> {
+  const conditions = [eq(profiles.publicHandle, handle)];
+  if (excludeProfileId) {
+    conditions.push(sql`${profiles.id} != ${excludeProfileId}`);
+  }
+  const [row] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(profiles)
+    .where(and(...conditions));
+  return Number(row?.count ?? 0) === 0;
+}
+
+export async function listPublicProfiles(): Promise<{ name: string; handle: string }[]> {
+  const rows = await db
+    .select({ name: profiles.name, handle: profiles.publicHandle })
+    .from(profiles)
+    .where(and(eq(profiles.isPublic, true), sql`${profiles.publicHandle} IS NOT NULL`))
+    .orderBy(profiles.name);
+  return rows.map((r) => ({ name: r.name, handle: r.handle! }));
+}
+
+export async function getPublicProfileByHandle(handle: string): Promise<UserData | undefined> {
+  const [profile] = await db
+    .select()
+    .from(profiles)
+    .where(and(eq(profiles.publicHandle, handle), eq(profiles.isPublic, true)))
+    .limit(1);
+  if (!profile) return undefined;
+
+  return assembleProfileData(profile.id, profile);
+}
+
+async function assembleProfileData(
+  profileId: number,
+  profileRow: typeof profiles.$inferSelect,
+): Promise<UserData> {
+  const allCategories = await listCategories();
+  const allBiomarkerRows = await db.select().from(biomarkers);
+  const allResults = await db
+    .select()
+    .from(results)
+    .where(eq(results.profileId, profileId))
+    .orderBy(results.biomarkerId, results.date);
+
+  const overrideRows = await db.select().from(profileBiomarkers).where(eq(profileBiomarkers.profileId, profileId));
+  const overrideMap = new Map(
+    overrideRows.map((o) => [o.biomarkerId, { unit: o.unit, ref_min: o.refMin, ref_max: o.refMax }]),
+  );
+
+  const resultsByBiomarker = new Map<string, (typeof results.$inferSelect)[]>();
+  for (const r of allResults) {
+    const arr = resultsByBiomarker.get(r.biomarkerId);
+    if (arr) arr.push(r);
+    else resultsByBiomarker.set(r.biomarkerId, [r]);
+  }
+
+  const biomarkersByCategory = new Map<string, (typeof biomarkers.$inferSelect)[]>();
+  for (const b of allBiomarkerRows) {
+    const arr = biomarkersByCategory.get(b.categoryId);
+    if (arr) arr.push(b);
+    else biomarkersByCategory.set(b.categoryId, [b]);
+  }
+
+  const userCategories = allCategories
+    .map((catId) => {
+      const bios = (biomarkersByCategory.get(catId) || [])
+        .map((b) => {
+          const ress = (resultsByBiomarker.get(b.id) || []).map((r) => ({
+            id: r.id,
+            date: r.date,
+            value: b.type === "qualitative" ? r.value : parseNumericValue(r.value),
+          }));
+          if (ress.length === 0) return null;
+          const override = overrideMap.get(b.id);
+          const unit = override?.unit ?? b.unit;
+          const refMin = override?.ref_min ?? b.refMin;
+          const refMax = override?.ref_max ?? b.refMax;
+          return {
+            id: b.id,
+            ...(unit != null ? { unit } : {}),
+            ...(refMin != null ? { refMin } : {}),
+            ...(refMax != null ? { refMax } : {}),
+            ...(b.type !== "quantitative" ? { type: b.type } : {}),
+            results: ress,
+          };
+        })
+        .filter((b) => b !== null);
+      if (bios.length === 0) return null;
+      return { id: catId, biomarkers: bios };
+    })
+    .filter((c) => c !== null);
+
+  return {
+    user: {
+      id: profileRow.id,
+      name: profileRow.name,
+      dateOfBirth: profileRow.dateOfBirth,
+      sex: profileRow.sex,
+    },
+    categories: userCategories,
+  };
 }
 
 export async function isDbEmpty(): Promise<boolean> {

@@ -8,6 +8,7 @@ import {
   uuid,
   timestamp,
   bigint,
+  boolean,
   primaryKey,
   unique,
 } from "drizzle-orm/pg-core";
@@ -34,6 +35,8 @@ export const profiles = pgTable(
     dateOfBirth: text("date_of_birth").notNull(),
     sex: text("sex", { enum: ["M", "F"] }).notNull(),
     displayOrder: integer("display_order").notNull().default(0),
+    isPublic: boolean("is_public").notNull().default(false),
+    publicHandle: text("public_handle").unique(),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
   },

@@ -5,6 +5,8 @@ export interface ProfileSummary {
   name: string;
   dateOfBirth: string;
   sex: Sex;
+  isPublic: boolean;
+  publicHandle: string | null;
 }
 
 let getToken: (() => Promise<string | null>) | null = null;
@@ -73,8 +75,10 @@ export const api = {
   checkImport: (data: unknown) =>
     post<{ exists: boolean; user: { id: number; name: string } | null }>("/api/import/check", data),
   importProfile: (data: unknown) => post<{ ok: boolean; profile_id: number }>("/api/import", data),
-  updateProfile: (id: number, data: Partial<{ name: string; date_of_birth: string; sex: Sex }>) =>
-    patch<{ id: number; name: string }>(`/api/profiles/${id}`, data),
+  updateProfile: (
+    id: number,
+    data: Partial<{ name: string; date_of_birth: string; sex: Sex; is_public: boolean; public_handle: string | null }>,
+  ) => patch<{ id: number; name: string }>(`/api/profiles/${id}`, data),
   deleteProfile: (id: number) => del<{ ok: boolean }>(`/api/profiles/${id}`),
   reorderProfiles: (profileIds: number[]) =>
     request<{ ok: boolean }>("/api/profiles/reorder", {
@@ -120,4 +124,16 @@ export const api = {
     request<import("../types.ts").PhenoAgeResult[]>(`/api/profiles/${profileId}/biological-age`),
   getAnalysisPrompt: (profileId: number, lang: string) =>
     request<{ prompt: string }>(`/api/profiles/${profileId}/analysis-prompt?lang=${encodeURIComponent(lang)}`),
+  checkHandleAvailability: (handle: string, profileId?: number) => {
+    const params = new URLSearchParams({ handle });
+    if (profileId) params.set("profile_id", String(profileId));
+    return request<{ available: boolean }>(`/api/handle-available?${params}`);
+  },
+  getPublicProfile: (handle: string) =>
+    fetch(`/api/public/${encodeURIComponent(handle)}`).then((res) => {
+      if (!res.ok) return null;
+      return res.json() as Promise<import("../types.ts").UserData>;
+    }),
+  listPublicProfiles: () =>
+    fetch("/api/public").then((res) => res.json() as Promise<{ name: string; handle: string }[]>),
 };
