@@ -113,9 +113,17 @@ export default function AuthPage({
   const ready = profiles !== null && isAuthenticated !== undefined;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute -top-24 -right-24 w-[600px] h-[600px] rounded-full bg-emerald-200/30 dark:bg-emerald-400/5 blur-[100px]" />
+        <div className="absolute top-1/3 -left-32 w-[500px] h-[500px] rounded-full bg-violet-200/50 dark:bg-violet-400/5 blur-[100px]" />
+        <div className="absolute -bottom-20 right-1/4 w-[450px] h-[450px] rounded-full bg-sky-200/50 dark:bg-blue-400/4 blur-[100px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_var(--color-border)_1px,_transparent_0)] [background-size:32px_32px] opacity-[0.3] dark:opacity-[0.07]" />
+      </div>
+
       {/* Nav */}
-      <nav className="bg-background/80 backdrop-blur-lg border-b border-border/60 dark:border-border/30">
+      <nav className="relative bg-background/60 backdrop-blur-xl border-b border-border/60 dark:border-border/30">
         <div className="max-w-5xl mx-auto px-5 lg:px-0 h-12 flex items-center justify-between">
           <span className="text-lg font-bold text-foreground">OpenMarkers</span>
           <div className="flex items-center gap-1">
@@ -133,7 +141,7 @@ export default function AuthPage({
       </nav>
 
       {/* Main — vertically centered */}
-      <main className="flex-1 flex items-center justify-center px-5 py-10 sm:py-16">
+      <main className="relative flex-1 flex items-center justify-center px-5 py-10 sm:py-16">
         <div className="w-full max-w-5xl">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             {/* Left — message */}
