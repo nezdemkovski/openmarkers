@@ -1,7 +1,4 @@
 import {
-  Sun,
-  Moon,
-  Languages,
   ChevronDown,
   ChevronRight,
   Clock,
@@ -14,7 +11,6 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import type { Category, I18n, Lang, UserData, Route } from "../types.ts";
-import { LANGS } from "../i18n.ts";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -22,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import ThemeLangControls from "./ThemeLangControls";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
@@ -123,27 +120,7 @@ export default function Sidebar({
             </a>
             <p className="text-xs text-sidebar-foreground/50 mt-0.5">{t("subtitle")}</p>
           </div>
-          <div className="flex items-center gap-1">
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                className="flex items-center gap-1 p-1.5 rounded-lg text-sidebar-foreground/50 hover:bg-sidebar-accent transition-colors text-xs font-semibold"
-                title="Language"
-              >
-                <Languages className="w-4 h-4" />
-                <span>{lang.toUpperCase()}</span>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" side="bottom">
-                {LANGS.map((l) => (
-                  <DropdownMenuItem key={l.code} onClick={() => onChangeLang(l.code)}>
-                    {l.nativeName}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Button variant="ghost" size="icon-sm" onClick={onToggleTheme} title="Toggle theme">
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
-          </div>
+          <ThemeLangControls isDark={isDark} onToggleTheme={onToggleTheme} lang={lang} onChangeLang={onChangeLang} />
         </div>
 
         {isDemo ? (

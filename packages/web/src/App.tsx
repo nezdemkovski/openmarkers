@@ -428,6 +428,7 @@ export default function App() {
         onChangeLang={changeLang}
         isDark={isDark}
         onToggleTheme={toggleTheme}
+        isAuthenticated={isAuthenticated === true}
       />
     );
   }

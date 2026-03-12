@@ -5,10 +5,7 @@ import { isLang } from "../lib/utils.ts";
 import Dashboard from "./Dashboard.tsx";
 import Loading from "./Loading.tsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Sun, Moon, Languages } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { LANGS } from "../i18n.ts";
+import ThemeLangControls from "./ThemeLangControls";
 import type { UserData } from "../types.ts";
 import type { Lang } from "@openmarkers/db";
 
@@ -70,26 +67,7 @@ export default function PublicProfile({ handle }: { handle: string }) {
               {i18n.t("publicProfileTitle").replace("{name}", data.user.name)}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-muted-foreground/60">
-            <Button variant="ghost" size="icon-sm" onClick={toggleTheme}>
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </Button>
-            <div className="flex items-center gap-1.5">
-              <Languages className="w-4 h-4" />
-              <Select value={lang} onValueChange={(v) => setLang(v as Lang)}>
-                <SelectTrigger className="h-auto border-none bg-transparent px-1 py-0 text-xs text-muted-foreground dark:bg-transparent focus-visible:ring-0">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {LANGS.map((l) => (
-                    <SelectItem key={l.code} value={l.code}>
-                      {l.nativeName}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+          <ThemeLangControls isDark={isDark} onToggleTheme={toggleTheme} lang={lang} onChangeLang={setLang} />
         </header>
         <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto">
           <Dashboard
