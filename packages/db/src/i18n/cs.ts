@@ -192,7 +192,9 @@ const cs: TranslationData = {
     landingStep2Desc: "Sledujte každý biomarker v čase s interaktivními grafy a referenčními rozsahy.",
     landingStep3Title: "Získejte přehledy",
     landingStep3Desc: "Biologický věk, analýza trendů, korelace — nebo připojte jakékoli AI přes MCP.",
-    heroDemoButton: "Zkusit demo — bez registrace",
+    heroDemoButton: "Prozkoumat s ukázkovými daty",
+    heroMcpDesc: "Připojte jakéhokoli AI asistenta k vašim biomarkerům přes MCP",
+    heroCliComingSoon: "CLI — již brzy",
     featureChartsTitle: "Grafy a trendy",
     featureChartsDesc:
       "Vizualizujte každý biomarker v čase pomocí interaktivních grafů. Referenční rozsahy zobrazeny přímo, abyste na první pohled viděli odchylky.",

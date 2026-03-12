@@ -635,6 +635,7 @@ async function assembleProfileData(
       name: profileRow.name,
       dateOfBirth: profileRow.dateOfBirth,
       sex: profileRow.sex,
+      publicHandle: profileRow.isPublic ? profileRow.publicHandle : null,
     },
     categories: userCategories,
   };

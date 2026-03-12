@@ -31,6 +31,6 @@ export interface User {
 }
 
 export interface Route {
-  view: "home" | "dashboard" | "category" | "timeline" | "compare" | "settings" | "privacy" | "terms" | "new-profile" | "public-profile";
+  view: "home" | "dashboard" | "category" | "timeline" | "compare" | "settings" | "privacy" | "terms" | "new-profile" | "public-profile" | "profiles";
   id?: string;
 }

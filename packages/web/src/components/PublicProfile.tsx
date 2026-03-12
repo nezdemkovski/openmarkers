@@ -45,7 +45,7 @@ export default function PublicProfile({ handle }: { handle: string }) {
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-bold text-foreground">{i18n.t("publicProfileNotFound")}</h1>
           <p className="text-muted-foreground">{i18n.t("publicProfileNotFoundDesc")}</p>
-          <a href="/" className="text-sm text-primary hover:underline inline-block mt-4">
+          <a href="/" className="text-lg font-bold text-foreground hover:opacity-80 inline-block mt-4">
             OpenMarkers
           </a>
         </div>

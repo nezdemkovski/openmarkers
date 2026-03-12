@@ -72,6 +72,7 @@ export interface UserData {
     name: string;
     dateOfBirth: string;
     sex: Sex;
+    publicHandle?: string | null;
   };
   categories: Category[];
 }

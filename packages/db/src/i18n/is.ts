@@ -191,7 +191,9 @@ const is: TranslationData = {
     landingStep2Desc: "Sjáðu hvert lífmerki yfir tíma með gagnvirkum gröfum og viðmiðunarsviðum.",
     landingStep3Title: "Fáðu innsýn",
     landingStep3Desc: "Líffræðilegur aldur, þróunargreining, fylgni — eða tengdu hvaða AI sem er gegnum MCP.",
-    heroDemoButton: "Prófa kynningu — enginn reikningur þarf",
+    heroDemoButton: "Skoða með sýnigögnum",
+    heroMcpDesc: "Tengdu hvaða AI aðstoðarmann sem er við lífmerkjagögnin þín gegnum MCP",
+    heroCliComingSoon: "CLI — væntanlegt",
     featureChartsTitle: "Gröf og þróun",
     featureChartsDesc:
       "Sjónrændu hvert lífmerki yfir tíma með gagnvirkum gröfum. Viðmiðunarbil sýnd beint svo þú sérð frávik í fljótu bragði.",

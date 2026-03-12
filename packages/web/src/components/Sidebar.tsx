@@ -9,6 +9,7 @@ import {
   LogOut,
   PlusCircle,
   LayoutDashboard,
+  Globe,
 } from "lucide-react";
 import type { Category, I18n, Lang, UserData, Route } from "../types.ts";
 import {
@@ -149,9 +150,14 @@ export default function Sidebar({
                   </div>
                   <div className="flex-1 text-left min-w-0">
                     <div className="text-sm font-medium text-sidebar-foreground truncate">{activeUser.name}</div>
-                    {activeUser.dateOfBirth && (
+                    {activeUser.publicHandle ? (
+                      <div className="text-[11px] text-sidebar-foreground/40 flex items-center gap-1 truncate">
+                        <Globe className="w-3 h-3 shrink-0" />
+                        /p/{activeUser.publicHandle}
+                      </div>
+                    ) : activeUser.dateOfBirth ? (
                       <div className="text-xs text-sidebar-foreground/40">{activeUser.dateOfBirth}</div>
-                    )}
+                    ) : null}
                   </div>
                   <ChevronDown className="w-4 h-4 text-sidebar-foreground/40 shrink-0" />
                 </DropdownMenuTrigger>

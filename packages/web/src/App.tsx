@@ -16,6 +16,7 @@ import AddLabVisit from "./components/AddLabVisit.tsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.tsx";
 import TermsOfService from "./components/TermsOfService.tsx";
 import PublicProfile from "./components/PublicProfile.tsx";
+import PublicProfilesList from "./components/PublicProfilesList.tsx";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   Dialog,
@@ -45,6 +46,7 @@ function getRouteFromPath(): Route {
   if (path === "/terms") return { view: "terms" };
   const publicMatch = path.match(/^\/p\/([^/]+)$/);
   if (publicMatch) return { view: "public-profile", id: decodeURIComponent(publicMatch[1]) };
+  if (path === "/profiles") return { view: "profiles" };
   if (path === "/app/timeline") return { view: "timeline" };
   if (path === "/app/compare") return { view: "compare" };
   if (path === "/app/settings") return { view: "settings" };
@@ -409,6 +411,9 @@ export default function App() {
 
   // Public profile — accessible without auth
   if (route.view === "public-profile" && route.id) return <PublicProfile handle={route.id} />;
+
+  // Public profiles list — accessible without auth
+  if (route.view === "profiles") return <PublicProfilesList />;
 
   // Homepage — always accessible
   if (route.view === "home") {
