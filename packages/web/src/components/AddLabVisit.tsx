@@ -113,7 +113,7 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
         if (!open) onClose();
       }}
     >
-      <DialogContent className="w-full max-w-xl flex flex-col h-[90vh] p-0" showCloseButton={false}>
+      <DialogContent className="w-full max-w-3xl flex flex-col h-[90vh] p-0" showCloseButton={false}>
         {/* Header */}
         <DialogHeader className="px-5 py-4 border-b border-border">
           <DialogTitle className="text-lg font-bold">{t("addLabVisit")}</DialogTitle>

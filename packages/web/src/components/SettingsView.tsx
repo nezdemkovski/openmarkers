@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck } from "lucide-react";
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
@@ -255,14 +255,6 @@ function ProfileRow({
 }
 
 function AccountSection({ t, authEmail }: { t: (key: string) => string; authEmail: string | null }) {
-  const [authName, setAuthName] = useState<string | null>(null);
-
-  useEffect(() => {
-    authClient.getSession().then((result) => {
-      setAuthName(result?.data?.user?.name ?? null);
-    });
-  }, []);
-
   return (
     <Card>
       <CardHeader>
@@ -270,55 +262,10 @@ function AccountSection({ t, authEmail }: { t: (key: string) => string; authEmai
       </CardHeader>
       <CardContent className="space-y-5">
         {authEmail && <div className="text-sm text-muted-foreground">{authEmail}</div>}
-        <ChangeNameForm t={t} currentName={authName} />
         <ChangeEmailForm t={t} currentEmail={authEmail} />
         <ChangePasswordForm t={t} />
       </CardContent>
     </Card>
-  );
-}
-
-function ChangeNameForm({ t, currentName }: { t: (key: string) => string; currentName: string | null }) {
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (currentName !== null) setName(currentName);
-  }, [currentName]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim()) return;
-    setStatus("saving");
-    try {
-      await authClient.updateUser({ name: name.trim() });
-      setStatus("saved");
-      setTimeout(() => setStatus("idle"), 2000);
-    } catch (err) {
-      setError(errorMessage(err));
-      setStatus("error");
-      setTimeout(() => setStatus("idle"), 3000);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-2">
-      <Label>{t("settingsChangeName")}</Label>
-      <div className="flex gap-2">
-        <Input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder={t("authName")}
-          className="flex-1"
-        />
-        <Button type="submit" size="sm" disabled={!name.trim() || status === "saving"}>
-          {status === "saving" ? "..." : status === "saved" ? t("settingsSaved") : t("settingsSave")}
-        </Button>
-      </div>
-      {status === "error" && <p className="text-xs text-destructive">{error}</p>}
-    </form>
   );
 }
 

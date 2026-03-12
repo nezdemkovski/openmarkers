@@ -46,7 +46,6 @@ export default function AuthPage({
   const [tab, setTab] = useState<"login" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -61,7 +60,7 @@ export default function AuthPage({
         const result = await authClient.signUp.email({
           email,
           password,
-          name: name || email.split("@")[0],
+          name: email.split("@")[0],
         });
         if (result.error) {
           setError(result.error.message || "Sign up failed");
@@ -191,15 +190,6 @@ export default function AuthPage({
 
                 <TabsContent value="signup">
                   <form onSubmit={handleSubmit} className="space-y-3">
-                    <div>
-                      <Input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder={t("authName") || "Name"}
-                        autoComplete="name"
-                      />
-                    </div>
                     <div>
                       <Input
                         type="email"

@@ -622,7 +622,7 @@ function GettingStarted({
           <Button
             variant="outline"
             onClick={() => onAddLabVisit(activeProfileId)}
-            className="w-full flex items-center gap-4 rounded-xl p-5 h-auto shadow-sm hover:border-ring text-left"
+            className="w-full flex items-center justify-start gap-4 rounded-xl p-5 h-auto shadow-sm hover:border-ring text-left"
           >
             <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
               <svg
@@ -789,7 +789,7 @@ function ImportButton({
       variant="outline"
       onClick={onClick}
       disabled={importing}
-      className="w-full flex items-center gap-4 rounded-xl p-5 h-auto shadow-sm hover:border-ring text-left"
+      className="w-full flex items-center justify-start gap-4 rounded-xl p-5 h-auto shadow-sm hover:border-ring text-left"
     >
       <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
         {importing ? (
@@ -872,7 +872,7 @@ function AiImportSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
               <p className="text-xs font-medium text-foreground/80">{t("schemaTip")}</p>
               <p className="text-xs text-muted-foreground">{t("schemaTipDesc")}</p>
               <div className="relative">
-                <pre className="px-3 py-2 rounded-lg border border-border bg-card text-xs text-foreground font-mono">{`"$schema": "${SCHEMA_URL}"`}</pre>
+                <pre className="px-3 py-2 rounded-lg border border-border bg-card text-xs text-foreground font-mono overflow-x-auto">{`"$schema": "${SCHEMA_URL}"`}</pre>
                 <CopyButton text={`"$schema": "${SCHEMA_URL}"`} />
               </div>
             </div>
