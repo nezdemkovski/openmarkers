@@ -113,14 +113,14 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
         if (!open) onClose();
       }}
     >
-      <DialogContent className="w-full max-w-3xl flex flex-col h-[90vh] p-0" showCloseButton={false}>
+      <DialogContent className="w-full min-w-[min(640px,100vw)] max-w-5xl flex flex-col h-[90vh] p-0" showCloseButton={false}>
         {/* Header */}
         <DialogHeader className="px-5 py-4 border-b border-border">
           <DialogTitle className="text-lg font-bold">{t("addLabVisit")}</DialogTitle>
         </DialogHeader>
 
         {/* Date + Search */}
-        <div className="px-5 py-3 border-b border-border flex items-center gap-3">
+        <div className="px-5 py-3 border-b border-border flex flex-col sm:flex-row sm:items-center gap-3">
           <DatePicker value={date} onChange={setDate} className="w-auto" />
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -216,8 +216,9 @@ function BiomarkerRow({
 
   return (
     <div className="flex items-center gap-3 py-1.5 group">
-      <Label className="flex-1 min-w-0 text-sm text-foreground truncate cursor-default font-normal">{name}</Label>
+      <Label className="flex-1 min-w-0 text-sm text-foreground cursor-default font-normal">{name}</Label>
       <div className="flex items-center gap-1.5 shrink-0">
+        <span className="text-xs text-muted-foreground/60 w-20 truncate text-right">{biomarker.unit || ""}</span>
         <Input
           type={isQual ? "text" : "number"}
           step="any"
@@ -226,7 +227,6 @@ function BiomarkerRow({
           className={`w-24 px-2 py-1 h-auto text-sm text-right ${hasValue ? "border-primary" : ""}`}
           placeholder={isQual ? "—" : "0.0"}
         />
-        <span className="text-xs text-muted-foreground/60 w-20 truncate">{biomarker.unit || ""}</span>
       </div>
     </div>
   );
