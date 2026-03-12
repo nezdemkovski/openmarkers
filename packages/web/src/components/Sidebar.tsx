@@ -263,18 +263,22 @@ export default function Sidebar({
       <SidebarFooter>
         <SidebarSeparator />
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton isActive={activeRoute.view === "timeline"} onClick={() => onNavigate("timeline")}>
-              <Clock className="w-4 h-4" />
-              <span>{t("timeline")}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton isActive={activeRoute.view === "compare"} onClick={() => onNavigate("compare")}>
-              <GitCompareArrows className="w-4 h-4" />
-              <span>{t("comparison")}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          {categories.length > 0 && (
+            <>
+              <SidebarMenuItem>
+                <SidebarMenuButton isActive={activeRoute.view === "timeline"} onClick={() => onNavigate("timeline")}>
+                  <Clock className="w-4 h-4" />
+                  <span>{t("timeline")}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton isActive={activeRoute.view === "compare"} onClick={() => onNavigate("compare")}>
+                  <GitCompareArrows className="w-4 h-4" />
+                  <span>{t("comparison")}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </>
+          )}
           {!isDemo && onImport && (
             <SidebarMenuItem>
               <input

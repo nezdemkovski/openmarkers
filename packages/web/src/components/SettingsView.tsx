@@ -227,11 +227,11 @@ function ProfileRow({
           {profile.dateOfBirth} · {profile.sex === "M" ? t("sexMale") : t("sexFemale")}
         </div>
       </div>
-      <div className="flex items-center shrink-0">
-        <Button variant="ghost" size="icon-sm" onClick={handleExport} title={t("export")}>
+      <div className="flex items-center gap-1.5 shrink-0">
+        <Button variant="outline" size="icon-sm" onClick={handleExport} title={t("export")}>
           <Download className="w-4 h-4" />
         </Button>
-        <Button variant="ghost" size="icon-sm" onClick={() => setEditing(true)} title={t("settingsEditProfile")}>
+        <Button variant="outline" size="icon-sm" onClick={() => setEditing(true)} title={t("settingsEditProfile")}>
           <Pencil className="w-4 h-4" />
         </Button>
         {confirmDelete ? (
@@ -251,10 +251,10 @@ function ProfileRow({
           </div>
         ) : (
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon-sm"
             onClick={() => setConfirmDelete(true)}
-            className="hover:text-destructive"
+            className="hover:text-destructive hover:border-destructive/40"
             title={t("deleteUser")}
           >
             <Trash2 className="w-4 h-4" />
