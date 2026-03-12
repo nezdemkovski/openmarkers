@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import {
   Sun,
   Moon,
@@ -9,7 +8,6 @@ import {
   GitCompareArrows,
   FlaskConical,
   X,
-  Upload,
   Settings,
   LogOut,
   PlusCircle,
@@ -79,7 +77,6 @@ interface SidebarProps {
   onChangeProfile: (idx: number) => void;
   isDemo: boolean;
   onSetDemo: (demo: boolean) => void;
-  onImport?: (file: File) => void;
   onAddLabVisit?: () => void;
   onCreateProfile?: () => void;
   authEmail?: string | null;
@@ -100,15 +97,12 @@ export default function Sidebar({
   onChangeProfile,
   isDemo,
   onSetDemo,
-  onImport,
   onAddLabVisit,
   onCreateProfile,
   authEmail,
   onSignOut,
 }: SidebarProps) {
   const { t, tCat } = i18n;
-  const importRef = useRef<HTMLInputElement>(null);
-
   const activeUser = profiles[activeProfileIdx]?.user;
 
   return (
@@ -284,25 +278,6 @@ export default function Sidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </>
-          )}
-          {!isDemo && onImport && (
-            <SidebarMenuItem>
-              <input
-                ref={importRef}
-                type="file"
-                accept=".json"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) onImport(file);
-                  e.target.value = "";
-                }}
-              />
-              <SidebarMenuButton onClick={() => importRef.current?.click()}>
-                <Upload className="w-4 h-4" />
-                <span>{t("import")}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
           )}
           {!isDemo && (
             <SidebarMenuItem>

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck, PlusCircle } from "lucide-react";
+import { useRef } from "react";
+import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck, PlusCircle, Upload } from "lucide-react";
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
 import type { I18n, Sex } from "../types.ts";
@@ -22,6 +23,7 @@ interface SettingsViewProps {
   onDeleteAccount: () => void;
   onExport: (profileId: number) => void;
   onCreateProfile?: () => void;
+  onImport?: (file: File) => void;
 }
 
 export default function SettingsView({
@@ -34,6 +36,7 @@ export default function SettingsView({
   onDeleteAccount,
   onExport,
   onCreateProfile,
+  onImport,
 }: SettingsViewProps) {
   const { t } = i18n;
 
@@ -50,6 +53,7 @@ export default function SettingsView({
         onExport={onExport}
         onCreateProfile={onCreateProfile}
       />
+      {onImport && <ImportSection t={t} onImport={onImport} />}
       <McpSection t={t} />
       <AccountSection t={t} authEmail={authEmail} />
       <DangerZoneSection t={t} onDeleteAccount={onDeleteAccount} />
@@ -366,6 +370,36 @@ function ChangePasswordForm({ t }: { t: (key: string) => string }) {
       </div>
       {status === "error" && <p className="text-xs text-destructive">{error}</p>}
     </form>
+  );
+}
+
+function ImportSection({ t, onImport }: { t: (key: string) => string; onImport: (file: File) => void }) {
+  const importRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{t("import")}</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm text-muted-foreground">{t("importSettingsDesc")}</p>
+        <input
+          ref={importRef}
+          type="file"
+          accept=".json"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) onImport(file);
+            e.target.value = "";
+          }}
+        />
+        <Button variant="outline" onClick={() => importRef.current?.click()}>
+          <Upload className="w-4 h-4" />
+          {t("importSelectFile")}
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
 

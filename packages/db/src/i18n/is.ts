@@ -102,6 +102,8 @@ const is: TranslationData = {
     sexFemale: "Kona",
     importingData: "Flyt inn...",
     importDesc: "Hlaðið upp JSON-skrá með rannsóknarniðurstöðum.",
+    importSettingsDesc: "Flytjið inn rannsóknarniðurstöður úr JSON-skrá. Nýr prófíll verður búinn til með innfluttum gögnum — núverandi prófílar verða ekki fyrir áhrifum.",
+    importSelectFile: "Velja JSON-skrá",
     demoDesc: "Skoðið forritið með sýnigögnum.",
     addLabVisit: "Bæta við rannsókn",
     addLabVisitDesc: "Sláðu inn niðurstöður úr blóðrannsókn handvirkt.",

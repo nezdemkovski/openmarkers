@@ -102,6 +102,8 @@ const en: TranslationData = {
     sexFemale: "Female",
     importingData: "Importing...",
     importDesc: "Upload a JSON file with your lab results.",
+    importSettingsDesc: "Import lab results from a JSON file. This will create a new profile with the imported data — your existing profiles won't be affected.",
+    importSelectFile: "Select JSON File",
     demoDesc: "Explore the app with sample data.",
     addLabVisit: "Add Lab Visit",
     addLabVisitDesc: "Enter results from a blood test manually.",

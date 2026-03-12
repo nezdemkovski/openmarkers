@@ -450,7 +450,6 @@ export default function App() {
           onChangeProfile={changeProfile}
           isDemo={isDemo}
           onSetDemo={setDemoMode}
-          onImport={handleImport}
           onAddLabVisit={
             activeProfileId != null && !isDemo ? () => setAddLabVisitProfileId(activeProfileId) : undefined
           }
@@ -476,6 +475,7 @@ export default function App() {
                 onDeleteAccount={handleDeleteAccount}
                 onExport={handleExportProfile}
                 onCreateProfile={() => navigateTo("/new-profile")}
+                onImport={handleImport}
               />
             ) : showGettingStarted ? (
               <GettingStarted

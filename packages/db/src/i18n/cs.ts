@@ -102,6 +102,8 @@ const cs: TranslationData = {
     sexFemale: "Žena",
     importingData: "Importuji...",
     importDesc: "Nahrajte JSON soubor s laboratorními výsledky.",
+    importSettingsDesc: "Importujte laboratorní výsledky z JSON souboru. Vytvoří se nový profil s importovanými daty — stávající profily nebudou ovlivněny.",
+    importSelectFile: "Vybrat JSON soubor",
     demoDesc: "Prozkoumejte aplikaci se vzorovými daty.",
     addLabVisit: "Přidat odběr",
     addLabVisitDesc: "Zadejte výsledky z krevního odběru ručně.",
