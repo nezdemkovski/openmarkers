@@ -194,7 +194,7 @@ export default function AuthPage({
                                 <span className="text-[11px] text-muted-foreground/30 tabular-nums font-medium">{i + 1}</span>
                               </td>
                               <td className="py-2.5 pr-2">
-                                <a href={`/p/${p.handle}`} className="flex items-center gap-2.5">
+                                <a href={`/p/${p.handle}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5">
                                   <div className={`w-7 h-7 rounded-full bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} flex items-center justify-center text-white text-[11px] font-bold shrink-0`}>
                                     {p.name.charAt(0).toUpperCase()}
                                   </div>
@@ -202,7 +202,7 @@ export default function AuthPage({
                                 </a>
                               </td>
                               <td className="py-2.5 pr-4 text-right">
-                                <a href={`/p/${p.handle}`} className="text-[11px] text-muted-foreground/35 font-mono group-hover:text-muted-foreground/60 transition-colors">
+                                <a href={`/p/${p.handle}`} target="_blank" rel="noopener noreferrer" className="text-[11px] text-muted-foreground/35 font-mono group-hover:text-muted-foreground/60 transition-colors">
                                   /p/{p.handle}
                                 </a>
                               </td>

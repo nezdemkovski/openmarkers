@@ -1,4 +1,4 @@
-import { FlaskConical } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 interface LoadingProps {
   visible: boolean;
@@ -10,7 +10,7 @@ export default function Loading({ visible, text }: LoadingProps) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[100] bg-background">
       <div className="text-center">
-        <FlaskConical className="w-16 h-16 mx-auto text-muted-foreground/50 animate-pulse" />
+        <Loader2 className="w-8 h-8 mx-auto text-muted-foreground/30 animate-spin" />
         {text && <p className="mt-4 text-sm text-muted-foreground">{text}</p>}
       </div>
     </div>
