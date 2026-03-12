@@ -79,6 +79,8 @@ const cs: TranslationData = {
     dnamAgeDesc: "Odhad DNA metylace",
     dnamMortality: "DNAm mortalita",
     dnamMortalityDesc: "Riziko dle DNAm",
+    bioAgeLocked: "Přidejte chybějící markery pro odemknutí",
+    bioAgeLockedMarkers: "Chybějící markery",
     editResults: "Upravit v\u00fdsledky",
     editResultsLink: "upravit v\u00fdsledky",
     addResult: "P\u0159idat",

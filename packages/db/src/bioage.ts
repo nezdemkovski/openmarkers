@@ -45,6 +45,21 @@ export function chronoAge(dateOfBirth: string, testDate: string): number {
   return age;
 }
 
+export function getMissingPhenoAgeMarkers(categories: Category[]): string[] {
+  const available = new Set<string>();
+  for (const cat of categories) {
+    for (const bio of cat.biomarkers) {
+      if (bio.results.length > 0) available.add(bio.id);
+    }
+  }
+  const missing: string[] = [];
+  for (const id of REQUIRED_IDS) {
+    if (!available.has(id)) missing.push(id);
+  }
+  if (!CRP_IDS.some((id) => available.has(id))) missing.push("CRP");
+  return missing;
+}
+
 export function calculatePhenoAge(categories: Category[], dateOfBirth: string): PhenoAgeResult[] {
   // Collect sorted date→value entries and ref ranges for each relevant biomarker
   const bioEntries = new Map<string, { date: string; value: number }[]>();

@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine, CartesianGrid, ResponsiveContainer } from "recharts";
-import { HeartPulse, ChevronDown } from "lucide-react";
+import { HeartPulse, ChevronDown, Lock } from "lucide-react";
 import type { PhenoAgeResult, PhenoAgeScore, I18n } from "../types.ts";
 import { Card } from "@/components/ui/card";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
@@ -101,13 +101,52 @@ interface BioAgeCardProps {
   results: PhenoAgeResult[];
   isDark: boolean;
   i18n: I18n;
+  missingMarkers?: string[];
 }
 
-export default memo(function BioAgeCard({ results, isDark, i18n }: BioAgeCardProps) {
+export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers = [] }: BioAgeCardProps) {
   const [open, setOpen] = useState(false);
-  if (results.length === 0) return null;
+  const { t, tBio } = i18n;
 
-  const { t } = i18n;
+  if (results.length === 0) {
+    if (missingMarkers.length === 0) return null;
+
+    return (
+      <Card className="mb-6 p-4 relative overflow-hidden">
+        <div className="select-none" aria-hidden="true">
+          <div className="blur-[6px] opacity-40 pointer-events-none">
+            <div className="flex items-center gap-2 mb-1">
+              <HeartPulse className="w-5 h-5 text-rose-500" />
+              <h3 className="text-sm font-semibold text-foreground">{t("bioAge")}</h3>
+              <span className="text-xs text-muted-foreground ml-auto">{t("chronoAge")}: --</span>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 items-center text-center mt-3">
+              <Stat label={t("bioAge")} value="--" sub="-- years" />
+              <Stat label={t("mortalityScore")} value="--%"sub={t("mortalityScoreDesc")} />
+              <div className="col-span-2 sm:col-span-1 h-16 bg-muted/30 rounded" />
+              <Stat label={t("dnamAge")} value="--" sub={t("dnamAgeDesc")} />
+              <Stat label={t("dnamMortality")} value="--%"sub={t("dnamMortalityDesc")} />
+            </div>
+          </div>
+        </div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <Lock className="w-5 h-5 text-muted-foreground mb-2" />
+          <p className="text-sm font-medium text-foreground">{t("bioAgeLocked")}</p>
+          <div className="flex flex-wrap justify-center gap-1.5 mt-2 max-w-xs">
+            {missingMarkers.map((id) => (
+              <span
+                key={id}
+                className="text-[11px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium"
+              >
+                {tBio(id, "name") || id}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
   const latest = results[results.length - 1];
   const delta = latest.delta;
   const absDelta = Math.abs(delta);

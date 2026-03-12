@@ -79,6 +79,8 @@ const is: TranslationData = {
     dnamAgeDesc: "DNA metýleringaráætlun",
     dnamMortality: "DNAm dánartíðni",
     dnamMortalityDesc: "DNAm-undirstaða áhætta",
+    bioAgeLocked: "Bættu við merkjum til að opna",
+    bioAgeLockedMarkers: "Vantar merki",
     editResults: "Breyta niðurstöðum",
     editResultsLink: "breyta niðurstöðum",
     addResult: "Bæta við",

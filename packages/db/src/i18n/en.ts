@@ -79,6 +79,8 @@ const en: TranslationData = {
     dnamAgeDesc: "DNA Methylation est.",
     dnamMortality: "DNAm Mortality",
     dnamMortalityDesc: "DNAm-based risk",
+    bioAgeLocked: "Add missing markers to unlock",
+    bioAgeLockedMarkers: "Missing markers",
     editResults: "Edit Results",
     editResultsLink: "edit results",
     addResult: "Add",

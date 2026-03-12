@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { daysSinceLastTest, getRelevantCorrelations } from "@openmarkers/db/src/analytics";
-import { calculatePhenoAge } from "@openmarkers/db/src/bioage";
+import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "@openmarkers/db/src/bioage";
 import type { Category, UserData, I18n, Lang, Biomarker, DaysSinceResult } from "../types.ts";
 
 function CategorySkeleton({ count }: { count: number }) {
@@ -207,6 +207,11 @@ export default function Dashboard({
     return calculatePhenoAge(categories, userData.user.dateOfBirth);
   }, [categories, userData.user.dateOfBirth]);
 
+  const missingBioAgeMarkers = useMemo(() => {
+    if (!userData.user.dateOfBirth) return [];
+    return getMissingPhenoAgeMarkers(categories);
+  }, [categories, userData.user.dateOfBirth]);
+
   const correlations = useMemo(() => {
     return getRelevantCorrelations(categories);
   }, [categories]);
@@ -228,7 +233,7 @@ export default function Dashboard({
 
       <AiAnalysis userData={userData} lang={lang} i18n={i18n} profileId={profileId} />
 
-      <BioAgeCard results={bioAgeResults} isDark={isDark} i18n={i18n} />
+      <BioAgeCard results={bioAgeResults} isDark={isDark} i18n={i18n} missingMarkers={missingBioAgeMarkers} />
 
       {reminders.length > 0 && <RemindersSection reminders={reminders} tCat={tCat} t={t} onNavigate={onNavigate} />}
 

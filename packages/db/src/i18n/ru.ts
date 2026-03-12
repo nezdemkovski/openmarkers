@@ -79,6 +79,8 @@ const ru: TranslationData = {
     dnamAgeDesc: "По метилированию ДНК",
     dnamMortality: "DNAm смертность",
     dnamMortalityDesc: "Риск по DNAm",
+    bioAgeLocked: "Добавьте недостающие маркеры для разблокировки",
+    bioAgeLockedMarkers: "Недостающие маркеры",
     editResults: "Редактировать результаты",
     editResultsLink: "редактировать",
     addResult: "Добавить",
