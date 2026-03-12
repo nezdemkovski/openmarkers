@@ -192,7 +192,7 @@ const en: TranslationData = {
     heroBadgeMcp: "AI-ready via MCP",
     heroDemoButton: "Explore with sample data",
     heroMcpDesc: "Connect any AI assistant to your biomarker data via MCP",
-    heroCliDesc: "Manage your data from the terminal — works great with AI agents",
+    heroCliDesc: "Manage your data from the terminal — works great with {openClawLink} and similar personal agents",
     landingFeaturesHeading: "Everything you need to track your health",
     landingHowItWorks: "How it works",
     landingStep1Title: "Upload your results",

@@ -190,7 +190,11 @@ export default function AuthPage({
                 <div className="flex items-start gap-2.5 text-xs text-muted-foreground/80 dark:text-muted-foreground/60">
                   <Terminal className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                   <div>
-                    <p>{t("heroCliDesc")}</p>
+                    <p>
+                      {t("heroCliDesc").split("{openClawLink}").map((part, i) =>
+                        i === 0 ? part : <span key={i}><a href="https://openclaw.ai/" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-foreground underline underline-offset-2 transition-colors">OpenClaw</a>{part}</span>
+                      )}
+                    </p>
                     <button onClick={() => copyText("brew install nezdemkovski/tap/openmarkers", "cli")} className="mt-1 flex items-center gap-1.5 group/copy">
                       <code className="text-[11px] text-muted-foreground/60 dark:text-muted-foreground/40 font-mono">brew install nezdemkovski/tap/openmarkers</code>
                       {copied === "cli" ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3 opacity-0 group-hover/copy:opacity-60 transition-opacity" />}

@@ -198,7 +198,7 @@ const is: TranslationData = {
     landingStep3Desc: "Líffræðilegur aldur, þróunargreining, fylgni — eða tengdu hvaða AI sem er gegnum MCP.",
     heroDemoButton: "Skoða með sýnigögnum",
     heroMcpDesc: "Tengdu hvaða AI aðstoðarmann sem er við lífmerkjagögnin þín gegnum MCP",
-    heroCliDesc: "Stjórnaðu gögnunum úr skipanalínu — virkar vel með AI-þjónum",
+    heroCliDesc: "Stjórnaðu gögnunum úr skipanalínu — virkar vel með {openClawLink} og svipuðum persónulegum þjónum",
     featureChartsTitle: "Gröf og þróun",
     featureChartsDesc:
       "Sjónrændu hvert lífmerki yfir tíma með gagnvirkum gröfum. Viðmiðunarbil sýnd beint svo þú sérð frávik í fljótu bragði.",

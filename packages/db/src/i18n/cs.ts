@@ -199,7 +199,7 @@ const cs: TranslationData = {
     landingStep3Desc: "Biologický věk, analýza trendů, korelace — nebo připojte jakékoli AI přes MCP.",
     heroDemoButton: "Prozkoumat s ukázkovými daty",
     heroMcpDesc: "Připojte jakéhokoli AI asistenta k vašim biomarkerům přes MCP",
-    heroCliDesc: "Spravujte data z terminálu — skvěle funguje s AI agenty",
+    heroCliDesc: "Spravujte data z terminálu — skvěle funguje s {openClawLink} a podobnými osobními agenty",
     featureChartsTitle: "Grafy a trendy",
     featureChartsDesc:
       "Vizualizujte každý biomarker v čase pomocí interaktivních grafů. Referenční rozsahy zobrazeny přímo, abyste na první pohled viděli odchylky.",
