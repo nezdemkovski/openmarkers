@@ -164,7 +164,7 @@ export default function App() {
   }, [profileList, activeProfileId]);
 
   const hasNoProfiles = isAuthenticated && !isDemo && profileListLoaded && profileList.length === 0;
-  const showGettingStarted = !isDemo && (hasNoProfiles || (profileData && profileData.categories.length === 0));
+  const showGettingStarted = !isDemo && (hasNoProfiles || creatingProfile || (profileData && profileData.categories.length === 0));
   const displayData = isDemo && demoData ? demoData : hasNoProfiles ? EMPTY_USER_DATA : profileData;
 
   const handleResultMutate = useCallback(() => {
@@ -235,6 +235,7 @@ export default function App() {
   const [importName, setImportName] = useState("");
   const [importing, setImporting] = useState(false);
   const [addLabVisitProfileId, setAddLabVisitProfileId] = useState<number | null>(null);
+  const [creatingProfile, setCreatingProfile] = useState(false);
 
   const switchToProfile = useCallback(
     (profileId: number) => {
@@ -242,6 +243,7 @@ export default function App() {
       queryClient.invalidateQueries({ queryKey: ["profile", profileId] });
       setActiveProfileId(profileId);
       localStorage.setItem("activeProfileId", String(profileId));
+      setCreatingProfile(false);
       setIsDemo(false);
       navigateTo("/");
     },
@@ -452,6 +454,7 @@ export default function App() {
           onAddLabVisit={
             activeProfileId != null && !isDemo ? () => setAddLabVisitProfileId(activeProfileId) : undefined
           }
+          onCreateProfile={!isDemo ? () => { setCreatingProfile(true); navigateTo("/"); } : undefined}
           authEmail={authEmail}
           onSignOut={handleSignOut}
         />
@@ -472,6 +475,7 @@ export default function App() {
                 authEmail={authEmail}
                 onDeleteAccount={handleDeleteAccount}
                 onExport={handleExportProfile}
+                onCreateProfile={() => { setCreatingProfile(true); navigateTo("/"); }}
               />
             ) : showGettingStarted ? (
               <GettingStarted
@@ -480,8 +484,8 @@ export default function App() {
                 onCreated={switchToProfile}
                 onAddLabVisit={(profileId) => setAddLabVisitProfileId(profileId)}
                 importing={importing}
-                hasProfile={!hasNoProfiles}
-                activeProfileId={activeProfileId}
+                hasProfile={!hasNoProfiles && !creatingProfile}
+                activeProfileId={creatingProfile ? null : activeProfileId}
               />
             ) : route.view === "category" && category ? (
               <CategoryView

@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -80,6 +81,7 @@ interface SidebarProps {
   onSetDemo: (demo: boolean) => void;
   onImport?: (file: File) => void;
   onAddLabVisit?: () => void;
+  onCreateProfile?: () => void;
   authEmail?: string | null;
   onSignOut?: () => void;
 }
@@ -100,6 +102,7 @@ export default function Sidebar({
   onSetDemo,
   onImport,
   onAddLabVisit,
+  onCreateProfile,
   authEmail,
   onSignOut,
 }: SidebarProps) {
@@ -156,47 +159,52 @@ export default function Sidebar({
               <X className="w-4 h-4" />
             </Button>
           </div>
-        ) : (
-          <>
-            {profiles.length > 1 && (
-              <div className="mt-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
-                      {getInitials(activeUser.name)}
-                    </div>
-                    <div className="flex-1 text-left min-w-0">
-                      <div className="text-sm font-medium text-sidebar-foreground truncate">{activeUser.name}</div>
-                      {activeUser.dateOfBirth && (
-                        <div className="text-xs text-sidebar-foreground/40">{activeUser.dateOfBirth}</div>
-                      )}
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-sidebar-foreground/40 shrink-0" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" side="bottom">
-                    {profiles.map((u, idx) => (
-                      <DropdownMenuItem
-                        key={idx}
-                        onClick={() => onChangeProfile(idx)}
-                        className={idx === activeProfileIdx ? "bg-accent" : ""}
-                      >
-                        <div className="w-7 h-7 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
-                          {getInitials(u.user.name)}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="text-sm font-medium text-sidebar-foreground truncate">{u.user.name}</div>
-                          {u.user.dateOfBirth && (
-                            <div className="text-xs text-sidebar-foreground/40">{u.user.dateOfBirth}</div>
-                          )}
-                        </div>
+        ) : activeUser ? (
+            <div className="mt-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
+                    {getInitials(activeUser.name)}
+                  </div>
+                  <div className="flex-1 text-left min-w-0">
+                    <div className="text-sm font-medium text-sidebar-foreground truncate">{activeUser.name}</div>
+                    {activeUser.dateOfBirth && (
+                      <div className="text-xs text-sidebar-foreground/40">{activeUser.dateOfBirth}</div>
+                    )}
+                  </div>
+                  <ChevronDown className="w-4 h-4 text-sidebar-foreground/40 shrink-0" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" side="bottom">
+                  {profiles.map((u, idx) => (
+                    <DropdownMenuItem
+                      key={idx}
+                      onClick={() => onChangeProfile(idx)}
+                      className={idx === activeProfileIdx ? "bg-accent" : ""}
+                    >
+                      <div className="w-7 h-7 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
+                        {getInitials(u.user.name)}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-sm font-medium text-sidebar-foreground truncate">{u.user.name}</div>
+                        {u.user.dateOfBirth && (
+                          <div className="text-xs text-sidebar-foreground/40">{u.user.dateOfBirth}</div>
+                        )}
+                      </div>
+                    </DropdownMenuItem>
+                  ))}
+                  {onCreateProfile && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={onCreateProfile}>
+                        <PlusCircle className="w-4 h-4" />
+                        <span>{t("createProfile")}</span>
                       </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            )}
-          </>
-        )}
+                    </>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+        ) : null}
       </SidebarHeader>
 
       <SidebarContent>

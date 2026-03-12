@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck } from "lucide-react";
+import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck, PlusCircle } from "lucide-react";
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
 import type { I18n, Sex } from "../types.ts";
@@ -21,6 +21,7 @@ interface SettingsViewProps {
   authEmail: string | null;
   onDeleteAccount: () => void;
   onExport: (profileId: number) => void;
+  onCreateProfile?: () => void;
 }
 
 export default function SettingsView({
@@ -32,6 +33,7 @@ export default function SettingsView({
   authEmail,
   onDeleteAccount,
   onExport,
+  onCreateProfile,
 }: SettingsViewProps) {
   const { t } = i18n;
 
@@ -46,6 +48,7 @@ export default function SettingsView({
         onProfileDeleted={onProfileDeleted}
         onProfilesReordered={onProfilesReordered}
         onExport={onExport}
+        onCreateProfile={onCreateProfile}
       />
       <McpSection t={t} />
       <AccountSection t={t} authEmail={authEmail} />
@@ -61,6 +64,7 @@ function ProfilesSection({
   onProfileDeleted,
   onProfilesReordered,
   onExport,
+  onCreateProfile,
 }: {
   t: (key: string) => string;
   profiles: ProfileSummary[];
@@ -68,6 +72,7 @@ function ProfilesSection({
   onProfileDeleted: (profileId: number) => void;
   onProfilesReordered: (profileIds: number[]) => void;
   onExport: (profileId: number) => void;
+  onCreateProfile?: () => void;
 }) {
   const moveProfile = (index: number, direction: -1 | 1) => {
     const newIndex = index + direction;
@@ -100,6 +105,12 @@ function ProfilesSection({
               />
             ))}
           </div>
+        )}
+        {onCreateProfile && (
+          <Button variant="outline" onClick={onCreateProfile} className="w-full">
+            <PlusCircle className="w-4 h-4" />
+            {t("createProfile")}
+          </Button>
         )}
       </CardContent>
     </Card>
@@ -261,7 +272,6 @@ function AccountSection({ t, authEmail }: { t: (key: string) => string; authEmai
         <CardTitle>{t("settingsAccount")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
-        {authEmail && <div className="text-sm text-muted-foreground">{authEmail}</div>}
         <ChangeEmailForm t={t} currentEmail={authEmail} />
         <ChangePasswordForm t={t} />
       </CardContent>
