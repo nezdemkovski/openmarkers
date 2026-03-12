@@ -53,35 +53,35 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
                 <h3 className="text-sm font-semibold text-foreground">{t("aiAnalysis")}</h3>
                 <p className="text-xs text-muted-foreground">
                   {t("aiAnalysisDesc")
-                    .split("{mcpLink}")
-                    .map((part, i) =>
-                      i === 0 ? (
-                        part
-                      ) : (
-                        <span key={i}>
-                          {profileId != null ? (
-                            <a
-                              href="/settings"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                history.pushState(null, "", "/settings");
-                                window.dispatchEvent(new PopStateEvent("popstate"));
-                                setTimeout(
-                                  () => document.getElementById("mcp")?.scrollIntoView({ behavior: "smooth" }),
-                                  100,
-                                );
-                              }}
-                              className="text-violet-600 dark:text-violet-400 hover:underline"
-                            >
-                              {t("aiAnalysisSetupMcp")}
-                            </a>
-                          ) : (
-                            t("aiAnalysisSetupMcp")
-                          )}
-                          {part}
-                        </span>
-                      ),
-                    )}
+                    .split(/(\{mcpLink\}|\{cliLink\})/)
+                    .map((part, i) => {
+                      if (part === "{mcpLink}" || part === "{cliLink}") {
+                        const isMcp = part === "{mcpLink}";
+                        const label = t(isMcp ? "aiAnalysisSetupMcp" : "aiAnalysisSetupCli");
+                        const targetId = isMcp ? "mcp" : "cli";
+                        return profileId != null ? (
+                          <a
+                            key={i}
+                            href="/app/settings"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              history.pushState(null, "", "/app/settings");
+                              window.dispatchEvent(new PopStateEvent("popstate"));
+                              setTimeout(
+                                () => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" }),
+                                100,
+                              );
+                            }}
+                            className="text-violet-600 dark:text-violet-400 hover:underline"
+                          >
+                            {label}
+                          </a>
+                        ) : (
+                          <span key={i}>{label}</span>
+                        );
+                      }
+                      return part;
+                    })}
                 </p>
               </div>
             </div>

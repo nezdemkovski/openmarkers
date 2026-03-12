@@ -55,6 +55,7 @@ export default function SettingsView({
         onCreateProfile={onCreateProfile}
       />
       {onImport && <ImportSection t={t} onImport={onImport} />}
+      <CliSection t={t} />
       <McpSection t={t} />
       <AccountSection t={t} authEmail={authEmail} />
       <DangerZoneSection t={t} onDeleteAccount={onDeleteAccount} />
@@ -636,6 +637,44 @@ function McpSection({ t }: { t: (key: string) => string }) {
         </div>
 
         <p className="text-xs text-muted-foreground">{t("settingsMcpTools")}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function CliSection({ t }: { t: (key: string) => string }) {
+  const [copied, setCopied] = useState(false);
+  const installCmd = "brew install nezdemkovski/tap/openmarkers";
+
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(installCmd);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <Card id="cli">
+      <CardHeader>
+        <CardTitle>{t("settingsCli")}</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <p className="text-sm text-muted-foreground">{t("settingsCliDesc")}</p>
+
+        <div>
+          <Label className="mb-1">{t("settingsCliInstall")}</Label>
+          <div className="flex items-center gap-2">
+            <code className="flex-1 px-3 py-2 rounded-lg border border-input bg-muted text-sm font-mono truncate">
+              {installCmd}
+            </code>
+            <Button variant="outline" size="sm" onClick={copyToClipboard}>
+              {copied ? (
+                <CheckCheck className="w-4 h-4 text-green-600" />
+              ) : (
+                <Copy className="w-4 h-4" />
+              )}
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

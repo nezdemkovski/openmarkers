@@ -13,6 +13,8 @@ import {
   Globe,
   ArrowRight,
   Terminal,
+  Copy,
+  Check,
 } from "lucide-react";
 import { errorMessage } from "../lib/utils";
 import type { I18n } from "../types";
@@ -55,6 +57,13 @@ export default function AuthPage({
   const [loading, setLoading] = useState(false);
   const [consent, setConsent] = useState(false);
   const [profiles, setProfiles] = useState<{ name: string; handle: string }[] | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const copyText = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(id);
+    setTimeout(() => setCopied(null), 2000);
+  };
 
   useEffect(() => {
     api.listPublicProfiles().then(setProfiles).catch(() => setProfiles([]));
@@ -172,14 +181,21 @@ export default function AuthPage({
                   <Bot className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                   <div>
                     <p>{t("heroMcpDesc")}</p>
-                    <code className="mt-1 inline-block text-[11px] text-muted-foreground/60 dark:text-muted-foreground/40 font-mono">https://openmarkers.com/mcp</code>
+                    <button onClick={() => copyText("https://openmarkers.com/mcp", "mcp")} className="mt-1 flex items-center gap-1.5 group/copy">
+                      <code className="text-[11px] text-muted-foreground/60 dark:text-muted-foreground/40 font-mono">https://openmarkers.com/mcp</code>
+                      {copied === "mcp" ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3 opacity-0 group-hover/copy:opacity-60 transition-opacity" />}
+                    </button>
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xs text-muted-foreground/80 dark:text-muted-foreground/60">
-                  <Terminal className="w-3.5 h-3.5 shrink-0" />
-                  <Button variant="outline" size="sm" disabled className="rounded-full h-6 px-3 text-[11px] opacity-50 cursor-not-allowed">
-                    {t("heroCliComingSoon")}
-                  </Button>
+                <div className="flex items-start gap-2.5 text-xs text-muted-foreground/80 dark:text-muted-foreground/60">
+                  <Terminal className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                  <div>
+                    <p>{t("heroCliDesc")}</p>
+                    <button onClick={() => copyText("brew install nezdemkovski/tap/openmarkers", "cli")} className="mt-1 flex items-center gap-1.5 group/copy">
+                      <code className="text-[11px] text-muted-foreground/60 dark:text-muted-foreground/40 font-mono">brew install nezdemkovski/tap/openmarkers</code>
+                      {copied === "cli" ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3 opacity-0 group-hover/copy:opacity-60 transition-opacity" />}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
