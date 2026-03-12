@@ -203,6 +203,12 @@ export default function Sidebar({
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>
+              {onAddLabVisit && (
+                <Button variant="outline" onClick={onAddLabVisit} className="w-full mt-2">
+                  <PlusCircle className="w-4 h-4" />
+                  {t("addLabVisit")}
+                </Button>
+              )}
             </div>
         ) : null}
       </SidebarHeader>
@@ -295,14 +301,6 @@ export default function Sidebar({
               <SidebarMenuButton onClick={() => importRef.current?.click()}>
                 <Upload className="w-4 h-4" />
                 <span>{t("import")}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          )}
-          {!isDemo && onAddLabVisit && (
-            <SidebarMenuItem>
-              <SidebarMenuButton onClick={onAddLabVisit}>
-                <PlusCircle className="w-4 h-4" />
-                <span>{t("addLabVisit")}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           )}
