@@ -45,6 +45,7 @@ function getRouteFromPath(): Route {
   if (path === "/timeline") return { view: "timeline" };
   if (path === "/compare") return { view: "compare" };
   if (path === "/settings") return { view: "settings" };
+  if (path === "/new-profile") return { view: "new-profile" };
   const match = path.match(/^\/category\/(.+)$/);
   if (match) return { view: "category", id: decodeURIComponent(match[1]) };
   return { view: "dashboard" };
@@ -163,6 +164,7 @@ export default function App() {
     return idx >= 0 ? idx : 0;
   }, [profileList, activeProfileId]);
 
+  const creatingProfile = route.view === "new-profile";
   const hasNoProfiles = isAuthenticated && !isDemo && profileListLoaded && profileList.length === 0;
   const showGettingStarted = !isDemo && (hasNoProfiles || creatingProfile || (profileData && profileData.categories.length === 0));
   const displayData = isDemo && demoData ? demoData : hasNoProfiles ? EMPTY_USER_DATA : profileData;
@@ -235,7 +237,6 @@ export default function App() {
   const [importName, setImportName] = useState("");
   const [importing, setImporting] = useState(false);
   const [addLabVisitProfileId, setAddLabVisitProfileId] = useState<number | null>(null);
-  const [creatingProfile, setCreatingProfile] = useState(false);
 
   const switchToProfile = useCallback(
     (profileId: number) => {
@@ -243,7 +244,6 @@ export default function App() {
       queryClient.invalidateQueries({ queryKey: ["profile", profileId] });
       setActiveProfileId(profileId);
       localStorage.setItem("activeProfileId", String(profileId));
-      setCreatingProfile(false);
       setIsDemo(false);
       navigateTo("/");
     },
@@ -454,7 +454,7 @@ export default function App() {
           onAddLabVisit={
             activeProfileId != null && !isDemo ? () => setAddLabVisitProfileId(activeProfileId) : undefined
           }
-          onCreateProfile={!isDemo ? () => { setCreatingProfile(true); navigateTo("/"); } : undefined}
+          onCreateProfile={!isDemo ? () => navigateTo("/new-profile") : undefined}
           authEmail={authEmail}
           onSignOut={handleSignOut}
         />
@@ -475,7 +475,7 @@ export default function App() {
                 authEmail={authEmail}
                 onDeleteAccount={handleDeleteAccount}
                 onExport={handleExportProfile}
-                onCreateProfile={() => { setCreatingProfile(true); navigateTo("/"); }}
+                onCreateProfile={() => navigateTo("/new-profile")}
               />
             ) : showGettingStarted ? (
               <GettingStarted
@@ -486,6 +486,7 @@ export default function App() {
                 importing={importing}
                 hasProfile={!hasNoProfiles && !creatingProfile}
                 activeProfileId={creatingProfile ? null : activeProfileId}
+                defaultShowCreate={creatingProfile}
               />
             ) : route.view === "category" && category ? (
               <CategoryView
@@ -566,6 +567,7 @@ function GettingStarted({
   importing,
   hasProfile,
   activeProfileId,
+  defaultShowCreate = false,
 }: {
   i18n: ReturnType<typeof makeI18n>;
   onImport: (file: File) => void;
@@ -574,9 +576,13 @@ function GettingStarted({
   importing: boolean;
   hasProfile: boolean;
   activeProfileId: number | null;
+  defaultShowCreate?: boolean;
 }) {
   const { t } = i18n;
-  const [showCreate, setShowCreate] = useState(false);
+  const [showCreate, setShowCreate] = useState(defaultShowCreate);
+  useEffect(() => {
+    if (defaultShowCreate) setShowCreate(true);
+  }, [defaultShowCreate]);
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [sex, setSex] = useState<Sex>("M");
