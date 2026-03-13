@@ -13,7 +13,6 @@ import {
   unique,
 } from "drizzle-orm/pg-core";
 
-// Reference to Neon Auth's managed schema (we don't define these tables, just reference them)
 const neonAuthSchema = pgSchema("neon_auth");
 
 export const neonAuthUser = neonAuthSchema.table("user", {
@@ -21,8 +20,6 @@ export const neonAuthUser = neonAuthSchema.table("user", {
   email: text("email"),
   name: text("name"),
 });
-
-// ---- Application tables ----
 
 export const profiles = pgTable(
   "profiles",
@@ -93,12 +90,10 @@ export const profileBiomarkers = pgTable(
   (t) => [primaryKey({ columns: [t.profileId, t.biomarkerId] })],
 );
 
-// ---- OAuth tables (for MCP authentication) ----
-
 export const oauthClients = pgTable("oauth_clients", {
   clientId: text("client_id").primaryKey(),
   clientSecret: text("client_secret").notNull().default(""),
-  redirectUris: text("redirect_uris").notNull().default("[]"), // JSON array
+  redirectUris: text("redirect_uris").notNull().default("[]"),
   clientName: text("client_name"),
   createdAt: timestamp("created_at").defaultNow(),
 });

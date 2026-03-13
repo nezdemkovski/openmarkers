@@ -169,7 +169,6 @@ export default function ComparisonView({ categories, isDark, i18n }: ComparisonV
             </span>
           </div>
 
-          {/* Desktop table */}
           <div className="hidden sm:block overflow-x-auto">
             <Table>
               <TableHeader>
@@ -216,7 +215,6 @@ export default function ComparisonView({ categories, isDark, i18n }: ComparisonV
             </Table>
           </div>
 
-          {/* Mobile card list */}
           <div className="sm:hidden divide-y divide-border">
             {catRows.map((row) => {
               const { deltaStr, deltaColor, DeltaIcon } = getDelta(row);

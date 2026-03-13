@@ -56,7 +56,6 @@ export default function TimelineView({ categories, isDark, i18n }: TimelineViewP
         <p className="text-sm text-muted-foreground mt-1">{t("timelineDesc")}</p>
       </div>
 
-      {/* Mobile: dropdown select */}
       <Card className="mb-6 sm:hidden py-0">
         <CardContent className="p-4">
           <div className="flex items-center gap-2">
@@ -77,7 +76,6 @@ export default function TimelineView({ categories, isDark, i18n }: TimelineViewP
         </CardContent>
       </Card>
 
-      {/* Desktop: toggle group */}
       <Card className="mb-6 hidden sm:block py-0">
         <CardContent className="p-4 overflow-x-auto">
           <ToggleGroup

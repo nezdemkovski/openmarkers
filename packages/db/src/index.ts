@@ -57,8 +57,6 @@ export {
   getAnalysisPromptForProfile,
 } from "./services";
 
-// ---- Profiles ----
-
 export async function listProfiles(authUserId: string): Promise<ProfileSummary[]> {
   const rows = await db
     .select({
@@ -168,8 +166,6 @@ function toProfile(row: typeof profiles.$inferSelect): DbProfile {
   };
 }
 
-// ---- Categories ----
-
 export async function listCategories(): Promise<string[]> {
   const rows = await db.select({ id: categories.id }).from(categories);
   return rows.map((r) => r.id);
@@ -178,8 +174,6 @@ export async function listCategories(): Promise<string[]> {
 export async function ensureCategory(id: string): Promise<void> {
   await db.insert(categories).values({ id }).onConflictDoNothing();
 }
-
-// ---- Biomarkers ----
 
 export async function listBiomarkers(categoryId?: string): Promise<DbBiomarker[]> {
   const query = categoryId
@@ -250,8 +244,6 @@ function toBiomarker(row: typeof biomarkers.$inferSelect): DbBiomarker {
   };
 }
 
-// ---- Results ----
-
 export async function addResult(
   authUserId: string,
   data: {
@@ -261,7 +253,6 @@ export async function addResult(
     value: string | number;
   },
 ): Promise<DbResult> {
-  // Verify ownership
   const profile = await getProfile(data.profile_id, authUserId);
   if (!profile) throw new Error("Profile not found or not owned by user");
 
@@ -282,7 +273,6 @@ export async function updateResult(
   id: number,
   data: Partial<{ date: string; value: string | number }>,
 ): Promise<DbResult | undefined> {
-  // Verify ownership through profile
   const [existing] = await db
     .select({ result: results, profile: profiles })
     .from(results)
@@ -333,7 +323,6 @@ export async function getProfileResults(
     date_to?: string;
   },
 ): Promise<DbResult[]> {
-  // Verify ownership
   const profile = await getProfile(profileId, authUserId);
   if (!profile) return [];
 
@@ -375,8 +364,6 @@ function toResult(row: typeof results.$inferSelect): DbResult {
   };
 }
 
-// ---- getProfileData (reassemble frontend shape) ----
-
 export async function getProfileData(profileId: number, authUserId: string): Promise<UserData | undefined> {
   const [profileRow] = await db
     .select()
@@ -399,8 +386,6 @@ function parseNumericValue(value: string): number | string {
   const num = Number(value);
   return isNaN(num) ? value : num;
 }
-
-// ---- Import from JSON ----
 
 interface JsonUserData {
   user: { name: string; dateOfBirth?: string; sex?: Sex };
@@ -430,7 +415,6 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
       .returning();
     const profileId = profileRow.id;
 
-    // Collect all values for batch inserts
     const catValues: { id: string }[] = [];
     const bioValues: {
       id: string;
@@ -483,7 +467,6 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
       await tx.insert(profileBiomarkers).values(pbValues).onConflictDoNothing();
     }
     if (resValues.length > 0) {
-      // Batch in chunks of 500 to avoid query param limits
       for (let i = 0; i < resValues.length; i += 500) {
         await tx
           .insert(results)
@@ -495,8 +478,6 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
     return profileId;
   });
 }
-
-// ---- Batch add results (for "Add Lab Visit" flow) ----
 
 export async function batchAddResults(
   authUserId: string,
@@ -510,7 +491,6 @@ export async function batchAddResults(
   if (!profile) throw new Error("Profile not found or not owned by user");
   if (!data.entries.length) return { inserted: 0, skipped: 0 };
 
-  // Ensure profile_biomarkers associations exist
   const pbValues: {
     profileId: number;
     biomarkerId: string;
@@ -526,7 +506,6 @@ export async function batchAddResults(
   }));
   await db.insert(profileBiomarkers).values(pbValues).onConflictDoNothing();
 
-  // Insert results
   const resValues = data.entries.map((e) => ({
     profileId: data.profile_id,
     biomarkerId: e.biomarker_id,
@@ -543,8 +522,6 @@ export async function batchAddResults(
     .returning({ id: results.id });
   return { inserted: upserted.length, skipped: data.entries.length - upserted.length };
 }
-
-// ---- Public profiles ----
 
 export async function checkHandleAvailability(handle: string, excludeProfileId?: number): Promise<boolean> {
   const conditions = [eq(profiles.publicHandle, handle)];

@@ -2,8 +2,6 @@ import { db } from "./db";
 import { oauthClients, oauthAuthCodes, oauthRefreshTokens } from "./schema/app";
 import { eq, lt } from "drizzle-orm";
 
-// --- Types ---
-
 export interface OAuthClient {
   clientId: string;
   clientSecret: string;
@@ -27,8 +25,6 @@ export interface OAuthRefreshToken {
   neonSessionCookie: string;
   expiresAt: number;
 }
-
-// --- Client operations ---
 
 export async function getClient(clientId: string): Promise<OAuthClient | null> {
   const rows = await db.select().from(oauthClients).where(eq(oauthClients.clientId, clientId)).limit(1);
@@ -56,8 +52,6 @@ export async function validateRedirectUri(clientId: string, redirectUri: string)
   return uris.includes(redirectUri);
 }
 
-// --- Auth code operations ---
-
 export async function storeAuthCode(code: OAuthAuthCode): Promise<void> {
   await db.insert(oauthAuthCodes).values(code);
 }
@@ -71,8 +65,6 @@ export async function deleteAuthCode(code: string): Promise<void> {
   await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
 }
 
-// --- Refresh token operations ---
-
 export async function storeRefreshToken(token: OAuthRefreshToken): Promise<void> {
   await db.insert(oauthRefreshTokens).values(token);
 }
@@ -85,8 +77,6 @@ export async function getRefreshToken(token: string): Promise<OAuthRefreshToken 
 export async function deleteRefreshToken(token: string): Promise<void> {
   await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, token));
 }
-
-// --- Cleanup ---
 
 export async function cleanupExpired(): Promise<void> {
   const now = Date.now();

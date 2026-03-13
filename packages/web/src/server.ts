@@ -1,39 +1,4 @@
-import {
-  listProfiles,
-  getProfileData,
-  createProfile,
-  updateProfile,
-  deleteProfile,
-  reorderProfiles,
-  listCategories,
-  listBiomarkers,
-  addResult,
-  updateResult,
-  deleteResult,
-  getProfileResults,
-  importProfileData,
-  exportProfileData,
-  batchAddResults,
-  findProfileByName,
-  getTimelineForProfile,
-  getSnapshotForProfile,
-  getTrendsForProfile,
-  getDaysSinceForProfile,
-  compareDatesForProfile,
-  getCorrelationsForProfile,
-  getBiologicalAgeForProfile,
-  getAnalysisPromptForProfile,
-  verifyToken,
-  importDataSchema,
-  sexEnum,
-  publicHandleSchema,
-  checkHandleAvailability,
-  getPublicProfileByHandle,
-  listPublicProfiles,
-  deleteUser,
-} from "@openmarkers/db";
-import { isLang, errorMessage } from "@openmarkers/db";
-
+import { verifyToken } from "@openmarkers/db";
 import { createMcpHandler } from "@openmarkers/mcp-server";
 import {
   handleASMetadata,
@@ -43,111 +8,40 @@ import {
   handleToken,
   handleOAuthPreflight,
 } from "./oauth.ts";
+import { json, error, ALLOWED_ORIGIN, SECURITY_HEADERS } from "./routes/_shared.ts";
+import {
+  handleListProfiles,
+  handleGetProfile,
+  handleCreateProfile,
+  handleUpdateProfile,
+  handleDeleteProfile,
+  handleReorderProfiles,
+  handleCheckHandle,
+  handleExport,
+  handleTimeline,
+  handleSnapshot,
+  handleTrends,
+  handleDaysSince,
+  handleCompare,
+  handleCorrelations,
+  handleBiologicalAge,
+  handleAnalysisPrompt,
+} from "./routes/profiles.ts";
+import {
+  handleListResults,
+  handleAddResult,
+  handleBatchResults,
+  handleUpdateResult,
+  handleDeleteResult,
+} from "./routes/results.ts";
+import { handleListCategories, handleListBiomarkers } from "./routes/biomarkers.ts";
+import { handleImportCheck, handleImport } from "./routes/import.ts";
+import { handleDeleteAccount } from "./routes/account.ts";
+import { handleListPublicProfiles, handleGetPublicProfile } from "./routes/public.ts";
 import { join, resolve } from "node:path";
 import { existsSync } from "node:fs";
-import { z } from "zod";
 
-// --- Validation schemas ---
-
-const MAX_BODY_SIZE = 5 * 1024 * 1024; // 5MB
-
-const dateString = z.union([z.string().date(), z.literal("")]);
-
-const profileCreateSchema = z.object({
-  name: z.string().min(1).max(200),
-  date_of_birth: dateString,
-  sex: sexEnum,
-});
-
-const profileUpdateSchema = z
-  .object({
-    name: z.string().min(1).max(200).optional(),
-    date_of_birth: dateString.optional(),
-    sex: sexEnum.optional(),
-    is_public: z.boolean().optional(),
-    public_handle: publicHandleSchema.nullable().optional(),
-  })
-  .refine((data) => Object.keys(data).length > 0, "At least one field is required");
-
-const resultCreateSchema = z.object({
-  profile_id: z.number().int().positive(),
-  biomarker_id: z.string().min(1).max(200),
-  date: z.string().date(),
-  value: z.union([z.number(), z.string().min(1).max(200)]),
-});
-
-const resultUpdateSchema = z
-  .object({
-    date: z.string().date().optional(),
-    value: z.union([z.number(), z.string().min(1).max(200)]).optional(),
-  })
-  .refine((data) => Object.keys(data).length > 0, "At least one field is required");
-
-const batchResultsSchema = z.object({
-  profile_id: z.number().int().positive(),
-  date: z.string().date(),
-  entries: z
-    .array(
-      z.object({
-        biomarker_id: z.string().min(1).max(200),
-        value: z.union([z.number(), z.string().min(1).max(200)]),
-      }),
-    )
-    .min(1)
-    .max(500),
-});
-
-const reorderSchema = z.object({
-  profileIds: z.array(z.number().int().positive()).min(1).max(100),
-});
-
-async function parseBody<T>(req: Request, schema: z.ZodSchema<T>): Promise<T | Response> {
-  try {
-    const body = await req.json();
-    const result = schema.safeParse(body);
-    if (!result.success) {
-      const messages = result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`);
-      return error(`Validation error: ${messages.join("; ")}`, 400);
-    }
-    return result.data;
-  } catch {
-    return error("Invalid JSON", 400);
-  }
-}
-
-function isResponse(value: unknown): value is Response {
-  return value instanceof Response;
-}
-
-const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
-
-const SECURITY_HEADERS: Record<string, string> = {
-  "X-Content-Type-Options": "nosniff",
-  "X-Frame-Options": "DENY",
-  "X-XSS-Protection": "0",
-  "Referrer-Policy": "strict-origin-when-cross-origin",
-  ...(process.env.NODE_ENV === "production"
-    ? { "Strict-Transport-Security": "max-age=31536000; includeSubDomains" }
-    : {}),
-};
-
-function json(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-      "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Credentials": "true",
-      ...SECURITY_HEADERS,
-    },
-  });
-}
-
-function error(message: string, status = 400): Response {
-  return json({ error: message }, status);
-}
+const MAX_BODY_SIZE = 5 * 1024 * 1024;
 
 async function requireAuth(req: Request): Promise<{ userId: string } | Response> {
   const authHeader = req.headers.get("authorization");
@@ -184,7 +78,6 @@ export function startWebServer(opts: {
       try {
         const res = await handleRequest(req, url, path, method);
         const ms = Date.now() - start;
-        // Log errors and slow requests (>3s)
         if (res.status >= 400) {
           console.warn(`${method} ${path} ${res.status} ${ms}ms`);
         } else if (ms > 3000) {
@@ -199,9 +92,6 @@ export function startWebServer(opts: {
   });
 
   async function handleRequest(req: Request, url: URL, path: string, method: string): Promise<Response> {
-    // --- OAuth 2.1 endpoints (no auth required) ---
-
-    // OAuth metadata discovery
     if (method === "GET" && path === "/.well-known/oauth-authorization-server") return handleASMetadata(req);
     if (
       method === "GET" &&
@@ -209,22 +99,18 @@ export function startWebServer(opts: {
     )
       return handleRSMetadata(req);
 
-    // Dynamic client registration (OAuth 2.1 spec — unauthenticated per RFC 7591)
     if (path === "/register") {
       if (method === "OPTIONS") return handleOAuthPreflight();
       if (method === "POST") return handleRegister(req);
     }
 
-    // Authorization endpoint (login page)
     if (path === "/authorize" && (method === "GET" || method === "POST")) return handleAuthorize(req);
 
-    // Token endpoint
     if (path === "/token") {
       if (method === "OPTIONS") return handleOAuthPreflight();
       if (method === "POST") return handleToken(req);
     }
 
-    // GET /schema.json — public, no auth (biomarker metadata only)
     if (method === "GET" && path === "/schema.json") {
       const schemaPath = join(import.meta.dir, "..", "..", "..", "data", "schema.json");
       const file = Bun.file(schemaPath);
@@ -240,20 +126,11 @@ export function startWebServer(opts: {
       return error("Schema not found", 404);
     }
 
-    // GET /api/public — list all public profiles (no auth)
-    if (method === "GET" && path === "/api/public") {
-      return json(await listPublicProfiles());
-    }
+    if (method === "GET" && path === "/api/public") return handleListPublicProfiles();
 
-    // GET /api/public/:handle — public profile (no auth)
     const publicHandleMatch = path.match(/^\/api\/public\/([a-z0-9][a-z0-9-]*[a-z0-9]|[a-z0-9]{1,2})$/);
-    if (method === "GET" && publicHandleMatch) {
-      const data = await getPublicProfileByHandle(publicHandleMatch[1]);
-      if (!data) return error("Profile not found", 404);
-      return json(data);
-    }
+    if (method === "GET" && publicHandleMatch) return handleGetPublicProfile(publicHandleMatch[1]);
 
-    // CORS preflight
     if (method === "OPTIONS") {
       return new Response(null, {
         headers: {
@@ -266,7 +143,6 @@ export function startWebServer(opts: {
       });
     }
 
-    // MCP endpoint — requires auth (with OAuth discovery headers)
     if (path === "/mcp" && mcpHandler) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) {
@@ -284,302 +160,180 @@ export function startWebServer(opts: {
       return mcpHandler(req, auth.userId);
     }
 
-    // --- API Routes (all require auth) ---
-
-    // GET /api/profiles
     if (method === "GET" && path === "/api/profiles") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      return json(await listProfiles(auth.userId));
+      return handleListProfiles(auth);
     }
 
-    // GET /api/handle-available?handle=&profile_id=
     if (method === "GET" && path === "/api/handle-available") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const handle = url.searchParams.get("handle");
-      if (!handle) return error("handle is required");
-      const profileIdParam = url.searchParams.get("profile_id");
-      const profileIdNum = profileIdParam ? parseInt(profileIdParam, 10) : undefined;
-      const available = await checkHandleAvailability(
-        handle,
-        profileIdNum !== undefined && !isNaN(profileIdNum) ? profileIdNum : undefined,
-      );
-      return json({ available });
+      return handleCheckHandle(url, auth);
     }
 
-    // GET /api/profiles/:id/export
     const exportMatch = path.match(/^\/api\/profiles\/(\d+)\/export$/);
     if (method === "GET" && exportMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const data = await exportProfileData(Number(exportMatch[1]), auth.userId);
-      if (!data) return error("Profile not found", 404);
-      return json(data);
+      return handleExport(auth, Number(exportMatch[1]));
     }
 
-    // GET /api/profiles/:id/timeline
     const timelineMatch = path.match(/^\/api\/profiles\/(\d+)\/timeline$/);
     if (method === "GET" && timelineMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const result = await getTimelineForProfile(Number(timelineMatch[1]), auth.userId);
-      if (!result) return error("Profile not found", 404);
-      return json(result);
+      return handleTimeline(auth, Number(timelineMatch[1]));
     }
 
-    // GET /api/profiles/:id/snapshot?date=
     const snapshotMatch = path.match(/^\/api\/profiles\/(\d+)\/snapshot$/);
     if (method === "GET" && snapshotMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const date = url.searchParams.get("date");
-      if (!date) return error("date is required");
-      const result = await getSnapshotForProfile(Number(snapshotMatch[1]), auth.userId, date);
-      if (!result) return error("Profile not found", 404);
-      return json(result);
+      return handleSnapshot(url, auth, Number(snapshotMatch[1]));
     }
 
-    // GET /api/profiles/:id/trends?biomarker_id=&category_id=
     const trendsMatch = path.match(/^\/api\/profiles\/(\d+)\/trends$/);
     if (method === "GET" && trendsMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const opts = {
-        biomarker_id: url.searchParams.get("biomarker_id") ?? undefined,
-        category_id: url.searchParams.get("category_id") ?? undefined,
-      };
-      const result = await getTrendsForProfile(Number(trendsMatch[1]), auth.userId, opts);
-      if (!result) return error("Profile not found", 404);
-      return json(result);
+      return handleTrends(url, auth, Number(trendsMatch[1]));
     }
 
-    // GET /api/profiles/:id/days-since
     const daysSinceMatch = path.match(/^\/api\/profiles\/(\d+)\/days-since$/);
     if (method === "GET" && daysSinceMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const result = await getDaysSinceForProfile(Number(daysSinceMatch[1]), auth.userId);
-      if (!result) return error("Profile not found", 404);
-      return json(result);
+      return handleDaysSince(auth, Number(daysSinceMatch[1]));
     }
 
-    // GET /api/profiles/:id/compare?date1=&date2=
     const compareMatch = path.match(/^\/api\/profiles\/(\d+)\/compare$/);
     if (method === "GET" && compareMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const date1 = url.searchParams.get("date1");
-      const date2 = url.searchParams.get("date2");
-      if (!date1 || !date2) return error("date1 and date2 are required");
-      const result = await compareDatesForProfile(Number(compareMatch[1]), auth.userId, date1, date2);
-      if (!result) return error("Profile not found", 404);
-      return json(result);
+      return handleCompare(url, auth, Number(compareMatch[1]));
     }
 
-    // GET /api/profiles/:id/correlations
     const correlationsMatch = path.match(/^\/api\/profiles\/(\d+)\/correlations$/);
     if (method === "GET" && correlationsMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const result = await getCorrelationsForProfile(Number(correlationsMatch[1]), auth.userId);
-      if (!result) return error("Profile not found", 404);
-      return json(result);
+      return handleCorrelations(auth, Number(correlationsMatch[1]));
     }
 
-    // GET /api/profiles/:id/biological-age
     const bioAgeMatch = path.match(/^\/api\/profiles\/(\d+)\/biological-age$/);
     if (method === "GET" && bioAgeMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const result = await getBiologicalAgeForProfile(Number(bioAgeMatch[1]), auth.userId);
-      if (!result) return error("Profile not found", 404);
-      return json(result);
+      return handleBiologicalAge(auth, Number(bioAgeMatch[1]));
     }
 
-    // GET /api/profiles/:id/analysis-prompt?lang=
     const promptMatch = path.match(/^\/api\/profiles\/(\d+)\/analysis-prompt$/);
     if (method === "GET" && promptMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const langParam = url.searchParams.get("lang");
-      const lang = isLang(langParam) ? langParam : "en";
-      const result = await getAnalysisPromptForProfile(Number(promptMatch[1]), auth.userId, lang);
-      if (!result) return error("Profile not found", 404);
-      return json({ prompt: result });
+      return handleAnalysisPrompt(url, auth, Number(promptMatch[1]));
     }
 
-    // GET /api/profiles/:id
     const profileMatch = path.match(/^\/api\/profiles\/(\d+)$/);
     if (method === "GET" && profileMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const data = await getProfileData(Number(profileMatch[1]), auth.userId);
-      if (!data) return error("Profile not found", 404);
-      return json(data);
+      return handleGetProfile(auth, Number(profileMatch[1]));
     }
 
-    // POST /api/profiles
     if (method === "POST" && path === "/api/profiles") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const body = await parseBody(req, profileCreateSchema);
-      if (isResponse(body)) return body;
-      const profile = await createProfile(auth.userId, body);
-      return json(profile, 201);
+      return handleCreateProfile(req, auth);
     }
 
-    // PATCH /api/profiles/:id
     if (method === "PATCH" && profileMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const body = await parseBody(req, profileUpdateSchema);
-      if (isResponse(body)) return body;
-      const profile = await updateProfile(Number(profileMatch[1]), auth.userId, body);
-      if (!profile) return error("Profile not found", 404);
-      return json(profile);
+      return handleUpdateProfile(req, auth, Number(profileMatch[1]));
     }
 
-    // PUT /api/profiles/reorder
     if (method === "PUT" && path === "/api/profiles/reorder") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const body = await parseBody(req, reorderSchema);
-      if (isResponse(body)) return body;
-      await reorderProfiles(auth.userId, body.profileIds);
-      return json({ ok: true });
+      return handleReorderProfiles(req, auth);
     }
 
-    // DELETE /api/profiles/:id
     if (method === "DELETE" && profileMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const deleted = await deleteProfile(Number(profileMatch[1]), auth.userId);
-      if (!deleted) return error("Profile not found", 404);
-      return json({ ok: true });
+      return handleDeleteProfile(auth, Number(profileMatch[1]));
     }
 
-    // GET /api/categories
     if (method === "GET" && path === "/api/categories") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      return json(await listCategories());
+      return handleListCategories();
     }
 
-    // GET /api/biomarkers
     if (method === "GET" && path === "/api/biomarkers") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const categoryId = url.searchParams.get("category_id") ?? undefined;
-      return json(await listBiomarkers(categoryId));
+      return handleListBiomarkers(url);
     }
 
-    // GET /api/results?profile_id=&category_id=&biomarker_id=&date_from=&date_to=
     if (method === "GET" && path === "/api/results") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const profileId = url.searchParams.get("profile_id");
-      if (!profileId) return error("profile_id is required");
-      const filters = {
-        category_id: url.searchParams.get("category_id") ?? undefined,
-        biomarker_id: url.searchParams.get("biomarker_id") ?? undefined,
-        date_from: url.searchParams.get("date_from") ?? undefined,
-        date_to: url.searchParams.get("date_to") ?? undefined,
-      };
-      return json(await getProfileResults(auth.userId, Number(profileId), filters));
+      return handleListResults(url, auth);
     }
 
-    // POST /api/batch-results
     if (method === "POST" && path === "/api/batch-results") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const body = await parseBody(req, batchResultsSchema);
-      if (isResponse(body)) return body;
-      try {
-        const result = await batchAddResults(auth.userId, body);
-        return json(result, 201);
-      } catch (e: unknown) {
-        return error(errorMessage(e) || "Failed to add results", 403);
-      }
+      return handleBatchResults(req, auth);
     }
 
-    // POST /api/results
     if (method === "POST" && path === "/api/results") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const body = await parseBody(req, resultCreateSchema);
-      if (isResponse(body)) return body;
-      try {
-        const result = await addResult(auth.userId, body);
-        return json(result, 201);
-      } catch (e: unknown) {
-        return error(errorMessage(e) || "Failed to add result", 403);
-      }
+      return handleAddResult(req, auth);
     }
 
-    // PATCH /api/results/:id
     const resultMatch = path.match(/^\/api\/results\/(\d+)$/);
     if (method === "PATCH" && resultMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const body = await parseBody(req, resultUpdateSchema);
-      if (isResponse(body)) return body;
-      const result = await updateResult(auth.userId, Number(resultMatch[1]), body);
-      if (!result) return error("Result not found", 404);
-      return json(result);
+      return handleUpdateResult(req, auth, Number(resultMatch[1]));
     }
 
-    // DELETE /api/results/:id
     if (method === "DELETE" && resultMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const deleted = await deleteResult(auth.userId, Number(resultMatch[1]));
-      if (!deleted) return error("Result not found", 404);
-      return json({ ok: true });
+      return handleDeleteResult(auth, Number(resultMatch[1]));
     }
 
-    // DELETE /api/account — delete auth user (cascades to all profiles and data)
     if (method === "DELETE" && path === "/api/account") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      await deleteUser(auth.userId);
-      return json({ ok: true });
+      return handleDeleteAccount(auth);
     }
 
-    // POST /api/import/check — check if profile name already exists
     if (method === "POST" && path === "/api/import/check") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const body = await parseBody(req, z.object({ user: z.object({ name: z.string().min(1).max(200) }) }));
-      if (isResponse(body)) return body;
-      const name = body.user.name;
-      const existing = await findProfileByName(auth.userId, name);
-      return json({
-        exists: !!existing,
-        user: existing ? { id: existing.id, name: existing.name } : null,
-      });
+      return handleImportCheck(req, auth);
     }
 
-    // POST /api/import
     if (method === "POST" && path === "/api/import") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const body = await parseBody(req, importDataSchema);
-      if (isResponse(body)) return body;
-      const profileId = await importProfileData(auth.userId, body);
-      return json({ ok: true, profile_id: profileId }, 201);
+      return handleImport(req, auth);
     }
 
-    // --- Static file serving (production) ---
     if (hasFrontend) {
       const filePath = resolve(resolvedPublicDir, path === "/" ? "index.html" : path.slice(1));
-      // Prevent path traversal — ensure resolved path stays within publicDir
       if (!filePath.startsWith(resolvedPublicDir + "/") && filePath !== resolvedPublicDir) {
         return error("Forbidden", 403);
       }
       const file = Bun.file(filePath);
       if (await file.exists()) return new Response(file, { headers: SECURITY_HEADERS });
-      // SPA fallback
       return new Response(Bun.file(join(resolvedPublicDir, "index.html")), { headers: SECURITY_HEADERS });
     }
 
@@ -587,7 +341,6 @@ export function startWebServer(opts: {
   }
 }
 
-// Auto-start when run directly
 if (import.meta.main) {
   const port = Number(process.env.PORT) || 3000;
   startWebServer({

@@ -61,7 +61,6 @@ export function getMissingPhenoAgeMarkers(categories: Category[]): string[] {
 }
 
 export function calculatePhenoAge(categories: Category[], dateOfBirth: string): PhenoAgeResult[] {
-  // Collect sorted date→value entries and ref ranges for each relevant biomarker
   const bioEntries = new Map<string, { date: string; value: number }[]>();
   const bioRefs = new Map<string, { refMin?: number; refMax?: number }>();
   for (const cat of categories) {
@@ -80,7 +79,6 @@ export function calculatePhenoAge(categories: Category[], dateOfBirth: string): 
     }
   }
 
-  // Find the latest value on or before a given date
   function latestBefore(id: string, date: string): { value: number; date: string } | undefined {
     const entries = bioEntries.get(id);
     if (!entries) return undefined;
@@ -92,7 +90,6 @@ export function calculatePhenoAge(categories: Category[], dateOfBirth: string): 
     return result;
   }
 
-  // Collect all dates where any relevant biomarker was measured
   const allDates = new Set<string>();
   for (const entries of bioEntries.values()) {
     for (const e of entries) allDates.add(e.date);

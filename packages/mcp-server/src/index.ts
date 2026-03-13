@@ -42,7 +42,6 @@ export function mcpError(message: string): CallToolResult {
 export function createMcpServer(authUserId: string): McpServer {
   const server = new McpServer({ name: "openmarkers", version: "1.0.0" });
 
-  // CRUD
   registerListProfiles(server, authUserId);
   registerGetProfile(server, authUserId);
   registerCreateProfile(server, authUserId);
@@ -58,12 +57,10 @@ export function createMcpServer(authUserId: string): McpServer {
   registerDeleteResult(server, authUserId);
   registerGetProfileResults(server, authUserId);
 
-  // Import / Export
   registerImportProfileData(server, authUserId);
   registerExportProfileData(server, authUserId);
   registerGetSchema(server);
 
-  // Analytics
   registerGetBiologicalAge(server, authUserId);
   registerGetAnalysisPrompt(server, authUserId);
   registerGetTimeline(server, authUserId);
