@@ -114,6 +114,8 @@ const en: TranslationData = {
       "Import lab results from a JSON file. This will create a new profile with the imported data — your existing profiles won't be affected.",
     importSelectFile: "Select JSON File",
     demoDesc: "Explore the app with sample data.",
+    demoMode: "You are viewing sample data",
+    exitDemo: "Exit demo",
     addLabVisit: "Add Lab Visit",
     addLabVisitDesc: "Enter results from a blood test manually.",
     addLabVisitDate: "Test Date",

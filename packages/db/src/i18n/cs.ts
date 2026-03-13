@@ -114,6 +114,8 @@ const cs: TranslationData = {
       "Importujte laboratorní výsledky z JSON souboru. Vytvoří se nový profil s importovanými daty — stávající profily nebudou ovlivněny.",
     importSelectFile: "Vybrat JSON soubor",
     demoDesc: "Prozkoumejte aplikaci se vzorovými daty.",
+    demoMode: "Prohlížíte si vzorová data",
+    exitDemo: "Ukončit demo",
     addLabVisit: "Přidat odběr",
     addLabVisitDesc: "Zadejte výsledky z krevního odběru ručně.",
     addLabVisitDate: "Datum odběru",

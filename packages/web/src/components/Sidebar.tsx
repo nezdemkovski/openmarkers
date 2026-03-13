@@ -4,7 +4,6 @@ import {
   Clock,
   GitCompareArrows,
   FlaskConical,
-  X,
   Settings,
   LogOut,
   PlusCircle,
@@ -74,7 +73,6 @@ interface SidebarProps {
   activeProfileIdx: number;
   onChangeProfile: (idx: number) => void;
   isDemo: boolean;
-  onSetDemo: (demo: boolean) => void;
   onAddLabVisit?: () => void;
   onCreateProfile?: () => void;
   authEmail?: string | null;
@@ -94,7 +92,6 @@ export default function Sidebar({
   activeProfileIdx,
   onChangeProfile,
   isDemo,
-  onSetDemo,
   onAddLabVisit,
   onCreateProfile,
   authEmail,
@@ -124,24 +121,7 @@ export default function Sidebar({
           <ThemeLangControls isDark={isDark} onToggleTheme={onToggleTheme} lang={lang} onChangeLang={onChangeLang} />
         </div>
 
-        {isDemo ? (
-          <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 mt-2">
-            <FlaskConical className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-medium text-amber-800 dark:text-amber-200">Demo Mode</div>
-              <div className="text-xs text-amber-600 dark:text-amber-400">Sample data</div>
-            </div>
-            <Button
-              variant="ghost"
-              size="icon-xs"
-              onClick={() => onSetDemo(false)}
-              className="text-amber-600 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-800/50"
-              title="Exit demo"
-            >
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
-        ) : activeUser ? (
+        {activeUser ? (
           <div className="mt-2">
             <DropdownMenu>
               <DropdownMenuTrigger className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
@@ -271,14 +251,6 @@ export default function Sidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </>
-          )}
-          {!isDemo && (
-            <SidebarMenuItem>
-              <SidebarMenuButton onClick={() => onSetDemo(true)} className="text-amber-600 dark:text-amber-400">
-                <FlaskConical className="w-4 h-4" />
-                <span>Demo</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
           )}
           {!isDemo && (
             <SidebarMenuItem>

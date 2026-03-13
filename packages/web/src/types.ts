@@ -44,4 +44,5 @@ export interface Route {
     | "public-profile"
     | "profiles";
   id?: string;
+  isDemo?: boolean;
 }

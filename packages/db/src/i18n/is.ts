@@ -114,6 +114,8 @@ const is: TranslationData = {
       "Flytjið inn rannsóknarniðurstöður úr JSON-skrá. Nýr prófíll verður búinn til með innfluttum gögnum — núverandi prófílar verða ekki fyrir áhrifum.",
     importSelectFile: "Velja JSON-skrá",
     demoDesc: "Skoðið forritið með sýnigögnum.",
+    demoMode: "Þú skoðar sýnigögn",
+    exitDemo: "Hætta kynningu",
     addLabVisit: "Bæta við rannsókn",
     addLabVisitDesc: "Sláðu inn niðurstöður úr blóðrannsókn handvirkt.",
     addLabVisitDate: "Dagsetning rannsóknar",

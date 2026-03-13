@@ -64,10 +64,10 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
                         return profileId != null ? (
                           <a
                             key={i}
-                            href="/app/settings"
+                            href="/dashboard/settings"
                             onClick={(e) => {
                               e.preventDefault();
-                              history.pushState(null, "", "/app/settings");
+                              history.pushState(null, "", "/dashboard/settings");
                               window.dispatchEvent(new PopStateEvent("popstate"));
                               setTimeout(
                                 () => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" }),

@@ -74,7 +74,7 @@ export default function AuthPage({
   }, []);
 
   const goToApp = () => {
-    history.pushState(null, "", "/app");
+    history.pushState(null, "", "/dashboard");
     window.dispatchEvent(new PopStateEvent("popstate"));
   };
 
