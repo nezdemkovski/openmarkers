@@ -33,6 +33,7 @@ import {
   checkHandleAvailability,
   getPublicProfileByHandle,
   listPublicProfiles,
+  deleteUser,
 } from "@openmarkers/db";
 import { isLang, errorMessage } from "@openmarkers/db";
 
@@ -582,14 +583,11 @@ export function startWebServer(opts: {
       return json({ ok: true });
     }
 
-    // DELETE /api/account — delete all profiles for the auth user
+    // DELETE /api/account — delete auth user (cascades to all profiles and data)
     if (method === "DELETE" && path === "/api/account") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const userProfiles = await listProfiles(auth.userId);
-      for (const p of userProfiles) {
-        await deleteProfile(p.id, auth.userId);
-      }
+      await deleteUser(auth.userId);
       return json({ ok: true });
     }
 

@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { eq, and, sql, gte, lte } from "drizzle-orm";
-import { profiles, categories, biomarkers, results, profileBiomarkers } from "./schema/app";
+import { profiles, categories, biomarkers, results, profileBiomarkers, neonAuthUser } from "./schema/app";
 import type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData, Sex, BiomarkerType } from "./types";
 
 export type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData };
@@ -639,6 +639,14 @@ async function assembleProfileData(
     },
     categories: userCategories,
   };
+}
+
+export async function deleteUser(authUserId: string): Promise<boolean> {
+  const result = await db
+    .delete(neonAuthUser)
+    .where(eq(neonAuthUser.id, authUserId))
+    .returning({ id: neonAuthUser.id });
+  return result.length > 0;
 }
 
 export async function isDbEmpty(): Promise<boolean> {
