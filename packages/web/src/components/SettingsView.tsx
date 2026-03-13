@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck, PlusCircle, Upload, Globe, Link } from "lucide-react";
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
+import { track, Event } from "../lib/analytics.ts";
 import type { I18n, Sex } from "../types.ts";
 import { errorMessage } from "../lib/utils.ts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -166,6 +167,7 @@ function ProfileRow({
   const handleDelete = async () => {
     try {
       await api.deleteProfile(profile.id);
+      track(Event.ProfileDeleted);
       onDeleted(profile.id);
     } catch (e) {
       setError(errorMessage(e));
@@ -334,6 +336,7 @@ function ShareProfileSection({
         is_public: isPublic,
         public_handle: isPublic && isValidHandle ? handle : null,
       });
+      if (isPublic && !profile.isPublic) track(Event.ProfileMadePublic);
       onUpdated();
     } finally {
       setSaving(false);

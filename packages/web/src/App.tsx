@@ -35,6 +35,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { UserData, Route, Sex } from "./types.ts";
 import { isLang, errorMessage } from "./lib/utils.ts";
 import type { Lang } from "@openmarkers/db";
+import { track, Event } from "./lib/analytics.ts";
 
 function getInitialTheme(): "dark" | "light" {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
@@ -215,6 +216,7 @@ export default function App() {
   const setDemoMode = useCallback(
     (demo: boolean) => {
       if (demo && !demoData) {
+        track(Event.DemoStarted);
         import("../data/demo.json").then(({ default: data }) => {
           setDemoData(data);
           setIsDemo(true);
@@ -231,6 +233,7 @@ export default function App() {
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === "dark" ? "light" : "dark";
+      track(Event.ThemeToggled, { theme: next });
       document.documentElement.classList.add("theme-transition");
       document.documentElement.classList.toggle("dark");
       localStorage.theme = next;
@@ -281,6 +284,7 @@ export default function App() {
           setImporting(false);
         } else {
           const r = await api.importProfile(data);
+          track(Event.DataImported);
           const pd = await api.getProfile(r.profile_id);
           queryClient.setQueryData(["profile", r.profile_id], pd);
           await queryClient.invalidateQueries({ queryKey: ["profiles"] });
@@ -305,6 +309,7 @@ export default function App() {
     api
       .importProfile(data)
       .then(async (r) => {
+        track(Event.DataImported);
         setImportPending(null);
         const pd = await api.getProfile(r.profile_id);
         queryClient.setQueryData(["profile", r.profile_id], pd);
@@ -319,6 +324,7 @@ export default function App() {
   }, [importPending, importName, queryClient, navigateTo]);
 
   const changeLang = useCallback((l: Lang) => {
+    track(Event.LanguageChanged, { lang: l });
     localStorage.setItem("lang", l);
     setLang(l);
   }, []);
@@ -331,6 +337,7 @@ export default function App() {
   );
 
   const handleDeleteAccount = useCallback(() => {
+    track(Event.AccountDeleted);
     api.deleteAccount().then(() => {
       authClient.signOut().then(() => {
         setIsAuthenticated(false);
@@ -346,6 +353,7 @@ export default function App() {
 
   const handleExportProfile = useCallback(
     (profileId: number) => {
+      track(Event.DataExported);
       api.exportProfile(profileId).then((data) => {
         const p = profileList.find((u) => u.id === profileId);
         const userName = p?.name?.toLowerCase().replace(/\s+/g, "_") ?? "profile";
@@ -389,6 +397,7 @@ export default function App() {
   );
 
   const handleSignOut = useCallback(() => {
+    track(Event.SignedOut);
     authClient.signOut().then(() => {
       setIsAuthenticated(false);
       setAuthEmail(null);
@@ -613,6 +622,7 @@ function GettingStarted({
     setError("");
     try {
       const profile = await api.createProfile({ name: name.trim(), date_of_birth: dob, sex });
+      track(Event.ProfileCreated);
       onCreated(profile.id);
     } catch (err: unknown) {
       setError(errorMessage(err));

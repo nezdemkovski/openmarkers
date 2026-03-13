@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Sparkles, Copy, Check, FileText } from "lucide-react";
 import { api } from "../lib/api.ts";
+import { track, Event } from "../lib/analytics.ts";
 import { buildPrompt } from "@openmarkers/db/src/promptBuilder";
 import { makeI18n } from "@openmarkers/db/src/i18n";
 import type { UserData, I18n, Lang } from "../types.ts";
@@ -36,6 +37,7 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
 
   const handleCopy = useCallback(async () => {
     await navigator.clipboard.writeText(prompt);
+    track(Event.AiPromptCopied);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }, [prompt]);

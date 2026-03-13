@@ -2,6 +2,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, Search } from "lucide-react";
 import { api } from "../lib/api.ts";
+import { track, Event } from "../lib/analytics.ts";
 import type { I18n } from "../types.ts";
 import { errorMessage } from "../lib/utils.ts";
 import type { DbBiomarker } from "@openmarkers/db";
@@ -99,6 +100,7 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
           };
         });
       await api.batchResults({ profile_id: profileId, date, entries });
+      track(Event.LabVisitAdded, { results: entries.length });
       onSuccess();
     } catch (e: unknown) {
       setError(errorMessage(e));

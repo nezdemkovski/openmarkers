@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { authClient } from "../lib/auth-client";
 import { api } from "../lib/api";
+import { track, Event } from "../lib/analytics";
 import {
   LineChart,
   HeartPulse,
@@ -92,6 +93,7 @@ export default function AuthPage({
         const result = await authClient.signIn.email({ email, password });
         if (result.error) { setError(result.error.message || "Sign in failed"); return; }
       }
+      track(tab === "signup" ? Event.SignedUp : Event.SignedIn);
       setAuthOpen(false);
       onAuthenticated();
     } catch (err: unknown) {

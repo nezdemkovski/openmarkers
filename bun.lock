@@ -41,6 +41,7 @@
         "@neondatabase/neon-js": "0.2.0-beta.1",
         "@openmarkers/db": "workspace:*",
         "@openmarkers/mcp-server": "workspace:*",
+        "@plausible-analytics/tracker": "^0.4.4",
         "@tanstack/react-query": "^5.90.21",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -420,6 +421,8 @@
     "@pgsql/types": ["@pgsql/types@13.11.1", "", {}, "sha512-5JeN7DZYCVbxPPFI47Z370Jzr3eHZpqgwCdutYWV8e8XtuhxF7UuvWvOsx2oPJe9KnQen0vzJWnVq/61bRvxmw=="],
 
     "@pinojs/redact": ["@pinojs/redact@0.4.0", "", {}, "sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg=="],
+
+    "@plausible-analytics/tracker": ["@plausible-analytics/tracker@0.4.4", "", {}, "sha512-fz0NOYUEYXtg1TBaPEEvtcBq3FfmLFuTe1VZw4M8sTWX129br5dguu3M15+plOQnc181ShYe67RfwhKgK89VnA=="],
 
     "@prisma/instrumentation": ["@prisma/instrumentation@6.11.1", "", { "dependencies": { "@opentelemetry/instrumentation": "^0.52.0 || ^0.53.0 || ^0.54.0 || ^0.55.0 || ^0.56.0 || ^0.57.0" }, "peerDependencies": { "@opentelemetry/api": "^1.8" } }, "sha512-mrZOev24EDhnefmnZX7WVVT7v+r9LttPRqf54ONvj6re4XMF7wFTpK2tLJi4XHB7fFp/6xhYbgRel8YV7gQiyA=="],
 
