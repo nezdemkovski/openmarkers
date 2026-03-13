@@ -58,7 +58,6 @@ function getRouteFromPath(): Route {
   return { view: "home" };
 }
 
-// Set up token provider for API calls
 setTokenProvider(async () => {
   try {
     const session = await authClient.getSession();
@@ -94,7 +93,7 @@ export default function App() {
   const [route, setRoute] = useState(getRouteFromPath);
   const [isDemo, setIsDemo] = useState(false);
   const [demoData, setDemoData] = useState<UserData | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // null = checking
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [authEmail, setAuthEmail] = useState<string | null>(null);
   const [activeProfileId, setActiveProfileId] = useState<number | null>(() => {
     const saved = localStorage.getItem("activeProfileId");
@@ -103,7 +102,6 @@ export default function App() {
 
   const i18n = useMemo(() => makeI18n(lang), [lang]);
 
-  // Set up unauthorized handler
   useEffect(() => {
     setOnUnauthorized(() => {
       setIsAuthenticated(false);
@@ -112,7 +110,6 @@ export default function App() {
     });
   }, []);
 
-  // Check auth session on mount
   useEffect(() => {
     authClient
       .getSession()
@@ -132,28 +129,24 @@ export default function App() {
       });
   }, []);
 
-  // Fetch profile list (only when authenticated)
   const { data: profileList = [], isSuccess: profileListLoaded } = useQuery({
     queryKey: ["profiles"],
     queryFn: api.listProfiles,
     enabled: isAuthenticated === true && !isDemo,
   });
 
-  // Auto-select first profile if none active
   useEffect(() => {
     if (profileList.length > 0 && activeProfileId === null) {
       setActiveProfileId(profileList[0].id);
     }
   }, [profileList, activeProfileId]);
 
-  // Fetch full profile data for active profile
   const { data: profileData } = useQuery({
     queryKey: ["profile", activeProfileId],
     queryFn: () => api.getProfile(activeProfileId!),
     enabled: activeProfileId !== null && !isDemo && isAuthenticated === true,
   });
 
-  // Build UserData[] for sidebar from profileList
   const sidebarUsers: UserData[] = useMemo(() => {
     if (profileData && profileList.length > 0) {
       return profileList.map((u) =>
@@ -415,17 +408,13 @@ export default function App() {
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  // Legal pages — accessible without auth
   if (route.view === "privacy") return <PrivacyPolicy onBack={() => window.history.back()} />;
   if (route.view === "terms") return <TermsOfService onBack={() => window.history.back()} />;
 
-  // Public profile — accessible without auth
   if (route.view === "public-profile" && route.id) return <PublicProfile handle={route.id} />;
 
-  // Public profiles list — accessible without auth
   if (route.view === "profiles") return <PublicProfilesList />;
 
-  // Homepage — always accessible
   if (route.view === "home") {
     return (
       <AuthPage
@@ -448,7 +437,6 @@ export default function App() {
     );
   }
 
-  // App routes require auth (or demo mode)
   if (isAuthenticated === null) return <Loading visible={true} text={i18n.t("loading")} />;
   if (isAuthenticated !== true && !isDemo) {
     navigateTo("/");
@@ -655,7 +643,6 @@ function GettingStarted({
       </div>
 
       <div className="space-y-3">
-        {/* Add lab visit — only when profile exists */}
         {hasActiveProfile && (
           <Button
             variant="outline"
@@ -680,10 +667,8 @@ function GettingStarted({
           </Button>
         )}
 
-        {/* Import data */}
         <ImportButton importing={importing} onClick={handleFileSelect} t={t} />
 
-        {/* Create new profile — only when no profile exists */}
         {!hasActiveProfile && (
           <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
             <Button

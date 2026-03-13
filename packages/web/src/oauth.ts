@@ -7,8 +7,6 @@ if (!OAUTH_SECRET) {
   throw new Error("OAUTH_SECRET environment variable is required. Generate one with: openssl rand -base64 32");
 }
 
-// --- AES-256-GCM encryption for session cookies stored in DB ---
-
 let cryptoKey: CryptoKey | null = null;
 
 async function getKey(): Promise<CryptoKey> {
@@ -39,12 +37,9 @@ async function decrypt(encoded: string): Promise<string> {
   return new TextDecoder().decode(plaintext);
 }
 
-// Cleanup expired entries every 60s
 setInterval(() => {
   oauthStore.cleanupExpired().catch(() => {});
 }, 60_000);
-
-// --- Neon Auth server-side sign-in ---
 
 async function signInViaNeonAuth(
   email: string,
@@ -53,7 +48,6 @@ async function signInViaNeonAuth(
   try {
     const base = NEON_AUTH_BASE_URL.replace(/\/+$/, "");
 
-    // Step 1: Sign in — returns opaque session token
     const signInRes = await fetch(`${base}/sign-in/email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -72,7 +66,6 @@ async function signInViaNeonAuth(
       return null;
     }
 
-    // Step 2: Build session cookie from the token
     const setCookies = signInRes.headers.getSetCookie();
     const headerCookie = setCookies
       .map((c) => c.split(";")[0])
@@ -81,7 +74,6 @@ async function signInViaNeonAuth(
 
     const sessionCookie = headerCookie || `better-auth.session_token=${sessionToken}`;
 
-    // Step 3: Get JWT from session endpoint — JWT comes in the "set-auth-jwt" response header
     const sessionRes = await fetch(`${base}/get-session`, {
       headers: { Cookie: sessionCookie },
     });
@@ -117,8 +109,6 @@ async function refreshViaNeonAuth(sessionCookie: string): Promise<string | null>
   }
 }
 
-// --- PKCE verification ---
-
 function verifyPkce(codeVerifier: string, codeChallenge: string): boolean {
   const hash = new Bun.CryptoHasher("sha256").update(codeVerifier).digest();
   const base64url = Buffer.from(hash).toString("base64url");
@@ -129,16 +119,12 @@ function generateCode(): string {
   return Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString("hex");
 }
 
-// --- Helper to get base URL ---
-
 function getBaseUrl(req: Request): string {
   const url = new URL(req.url);
   const proto = req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
   const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || url.host;
   return `${proto}://${host}`;
 }
-
-// --- OAuth Handlers ---
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -236,13 +222,15 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     }
 
     return (async () => {
-      await oauthStore.ensureClient(clientId, redirectUri);
+      const validUri = await oauthStore.validateRedirectUri(clientId, redirectUri);
+      if (!validUri) {
+        return new Response("Unknown client or redirect_uri not registered", { status: 400 });
+      }
       const html = renderLoginPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope });
       return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
     })();
   }
 
-  // POST — form submission
   return (async () => {
     const formData = await req.formData();
     const email = String(formData.get("email") ?? "");
@@ -254,9 +242,11 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const state = String(formData.get("state") ?? "");
     const scope = String(formData.get("scope") ?? "");
 
-    await oauthStore.ensureClient(clientId, redirectUri);
+    const validUri = await oauthStore.validateRedirectUri(clientId, redirectUri);
+    if (!validUri) {
+      return new Response("Unknown client or redirect_uri not registered", { status: 400 });
+    }
 
-    // Authenticate via Neon Auth
     const authResult = await signInViaNeonAuth(email, password);
     if (!authResult) {
       const html = renderLoginPage({
@@ -271,7 +261,6 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
       return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
     }
 
-    // Generate authorization code and store in DB
     const code = generateCode();
     await oauthStore.storeAuthCode({
       code,
@@ -283,7 +272,6 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
       expiresAt: Date.now() + 5 * 60 * 1000,
     });
 
-    // Redirect back to MCP client
     const redirectUrl = new URL(redirectUri);
     redirectUrl.searchParams.set("code", code);
     if (state) redirectUrl.searchParams.set("state", state);
@@ -313,13 +301,10 @@ export function handleToken(req: Request): Response | Promise<Response> {
     const grantType = params.get("grant_type");
     const clientId = params.get("client_id") || "";
 
-    await oauthStore.ensureClient(clientId);
-
     if (grantType === "authorization_code") {
       const code = params.get("code") || "";
       const codeVerifier = params.get("code_verifier") || "";
 
-      // Look up auth code from DB
       const stored = await oauthStore.getAuthCode(code);
       if (!stored || stored.clientId !== clientId || stored.expiresAt < Date.now()) {
         if (stored) await oauthStore.deleteAuthCode(code);
@@ -333,7 +318,6 @@ export function handleToken(req: Request): Response | Promise<Response> {
         );
       }
 
-      // Verify PKCE
       const pkceValid = verifyPkce(codeVerifier, stored.codeChallenge);
       if (!pkceValid) {
         await oauthStore.deleteAuthCode(code);
@@ -343,10 +327,8 @@ export function handleToken(req: Request): Response | Promise<Response> {
         );
       }
 
-      // Delete auth code (one-time use)
       await oauthStore.deleteAuthCode(code);
 
-      // Generate refresh token and store in DB
       const refreshToken = generateCode();
       await oauthStore.storeRefreshToken({
         token: refreshToken,
@@ -355,16 +337,13 @@ export function handleToken(req: Request): Response | Promise<Response> {
         expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
       });
 
-      // Calculate expires_in from JWT
       let expiresIn = 3600;
       try {
         const payload = JSON.parse(Buffer.from(stored.neonSessionToken.split(".")[1], "base64url").toString());
         if (payload.exp) {
           expiresIn = Math.max(1, payload.exp - Math.floor(Date.now() / 1000));
         }
-      } catch {
-        /* use default */
-      }
+      } catch {}
 
       console.info("[oauth] Token issued for client:", clientId, "expires_in:", expiresIn);
       return Response.json(
@@ -384,7 +363,6 @@ export function handleToken(req: Request): Response | Promise<Response> {
         return Response.json({ error: "invalid_grant" }, { status: 400, headers: CORS_HEADERS });
       }
 
-      // Get fresh JWT from Neon Auth (decrypt session cookie first)
       const decryptedCookie = await decrypt(stored.neonSessionCookie);
       const newJwt = await refreshViaNeonAuth(decryptedCookie);
       if (!newJwt) {
@@ -397,7 +375,6 @@ export function handleToken(req: Request): Response | Promise<Response> {
       }
       console.info("[oauth] Token refreshed for client:", clientId);
 
-      // Rotate refresh token
       await oauthStore.deleteRefreshToken(refreshToken);
       const newRefreshToken = generateCode();
       await oauthStore.storeRefreshToken({
@@ -413,9 +390,7 @@ export function handleToken(req: Request): Response | Promise<Response> {
         if (payload.exp) {
           expiresIn = Math.max(1, payload.exp - Math.floor(Date.now() / 1000));
         }
-      } catch {
-        /* use default */
-      }
+      } catch {}
 
       return Response.json(
         {
@@ -432,7 +407,6 @@ export function handleToken(req: Request): Response | Promise<Response> {
   })();
 }
 
-// CORS preflight for OAuth endpoints
 export function handleOAuthPreflight(): Response {
   return new Response(null, { headers: CORS_HEADERS });
 }

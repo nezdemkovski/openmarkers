@@ -2,8 +2,6 @@ import { db } from "./db";
 import { oauthClients, oauthAuthCodes, oauthRefreshTokens } from "./schema/app";
 import { eq, lt } from "drizzle-orm";
 
-// --- Types ---
-
 export interface OAuthClient {
   clientId: string;
   clientSecret: string;
@@ -28,8 +26,6 @@ export interface OAuthRefreshToken {
   expiresAt: number;
 }
 
-// --- Client operations ---
-
 export async function getClient(clientId: string): Promise<OAuthClient | null> {
   const rows = await db.select().from(oauthClients).where(eq(oauthClients.clientId, clientId)).limit(1);
   return rows[0] ?? null;
@@ -49,30 +45,12 @@ export async function registerClient(client: {
   });
 }
 
-export async function ensureClient(clientId: string, redirectUri?: string): Promise<void> {
-  if (!clientId) return;
-  const existing = await getClient(clientId);
-  if (existing) {
-    if (redirectUri) {
-      const uris: string[] = JSON.parse(existing.redirectUris);
-      if (!uris.includes(redirectUri)) {
-        uris.push(redirectUri);
-        await db
-          .update(oauthClients)
-          .set({ redirectUris: JSON.stringify(uris) })
-          .where(eq(oauthClients.clientId, clientId));
-      }
-    }
-    return;
-  }
-  await db.insert(oauthClients).values({
-    clientId,
-    clientSecret: "",
-    redirectUris: JSON.stringify(redirectUri ? [redirectUri] : []),
-  });
+export async function validateRedirectUri(clientId: string, redirectUri: string): Promise<boolean> {
+  const client = await getClient(clientId);
+  if (!client) return false;
+  const uris: string[] = JSON.parse(client.redirectUris);
+  return uris.includes(redirectUri);
 }
-
-// --- Auth code operations ---
 
 export async function storeAuthCode(code: OAuthAuthCode): Promise<void> {
   await db.insert(oauthAuthCodes).values(code);
@@ -87,8 +65,6 @@ export async function deleteAuthCode(code: string): Promise<void> {
   await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
 }
 
-// --- Refresh token operations ---
-
 export async function storeRefreshToken(token: OAuthRefreshToken): Promise<void> {
   await db.insert(oauthRefreshTokens).values(token);
 }
@@ -101,8 +77,6 @@ export async function getRefreshToken(token: string): Promise<OAuthRefreshToken 
 export async function deleteRefreshToken(token: string): Promise<void> {
   await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, token));
 }
-
-// --- Cleanup ---
 
 export async function cleanupExpired(): Promise<void> {
   const now = Date.now();

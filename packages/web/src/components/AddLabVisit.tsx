@@ -119,12 +119,10 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
         className="w-full min-w-[min(640px,100vw)] max-w-5xl flex flex-col h-[90vh] p-0"
         showCloseButton={false}
       >
-        {/* Header */}
         <DialogHeader className="px-5 py-4 border-b border-border">
           <DialogTitle className="text-lg font-bold">{t("addLabVisit")}</DialogTitle>
         </DialogHeader>
 
-        {/* Date + Search */}
         <div className="px-5 py-3 border-b border-border flex flex-col sm:flex-row sm:items-center gap-3">
           <DatePicker value={date} onChange={setDate} className="w-auto" />
           <div className="relative flex-1">
@@ -140,7 +138,6 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
           </div>
         </div>
 
-        {/* Body */}
         <div className="flex-1 overflow-y-auto">
           {isLoading ? (
             <div className="p-8 text-center text-sm text-muted-foreground">...</div>
@@ -182,7 +179,6 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
           )}
         </div>
 
-        {/* Footer */}
         <div className="px-5 py-3 border-t border-border flex items-center justify-between">
           {error ? (
             <p className="text-sm text-destructive truncate mr-3">{error}</p>

@@ -125,7 +125,6 @@ export default function AuthPage({
 
   return (
     <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
-      {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute -top-24 -right-24 w-[600px] h-[600px] rounded-full bg-emerald-200/30 dark:bg-emerald-400/5 blur-[100px]" />
         <div className="absolute top-1/3 -left-32 w-[500px] h-[500px] rounded-full bg-violet-200/50 dark:bg-violet-400/5 blur-[100px]" />
@@ -133,7 +132,6 @@ export default function AuthPage({
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_var(--color-border)_1px,_transparent_0)] [background-size:32px_32px] opacity-[0.3] dark:opacity-[0.07]" />
       </div>
 
-      {/* Nav */}
       <nav className="relative bg-background/60 backdrop-blur-xl border-b border-border/60 dark:border-border/30">
         <div className="max-w-5xl mx-auto px-5 lg:px-0 h-12 flex items-center justify-between">
           <span className="text-lg font-bold text-foreground">OpenMarkers</span>
@@ -151,11 +149,9 @@ export default function AuthPage({
         </div>
       </nav>
 
-      {/* Main — vertically centered */}
       <main className="relative flex-1 flex items-center justify-center px-5 py-10 sm:py-16">
         <div className="w-full max-w-5xl">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-            {/* Left — message */}
             <div className="lg:sticky lg:top-20">
               <div className="inline-flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mb-5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -168,7 +164,6 @@ export default function AuthPage({
 
               <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-md">{t("featureChartsDesc")}</p>
 
-              {/* Feature chips */}
               <div className="mt-5 flex flex-wrap gap-1.5">
                 {features.map((f) => (
                   <div
@@ -181,7 +176,6 @@ export default function AuthPage({
                 ))}
               </div>
 
-              {/* Actions */}
               <div className="mt-6 flex items-center gap-3">
                 <Button variant="outline" onClick={onDemo} className="rounded-full gap-2 text-xs h-8 px-4">
                   <Play className="w-3 h-3" />
@@ -198,7 +192,6 @@ export default function AuthPage({
                 )}
               </div>
 
-              {/* MCP & CLI */}
               <div className="mt-6 space-y-3">
                 <div className="flex items-start gap-2.5 text-xs text-muted-foreground/80 dark:text-muted-foreground/60">
                   <Bot className="w-3.5 h-3.5 mt-0.5 shrink-0" />
@@ -261,7 +254,6 @@ export default function AuthPage({
               </div>
             </div>
 
-            {/* Right — public profiles */}
             <div className="rounded-2xl border border-border/60 dark:border-border/40 bg-card overflow-hidden flex flex-col max-h-[min(70vh,560px)] min-h-[280px]">
               {!ready ? (
                 <div className="flex-1 flex items-center justify-center">
@@ -349,7 +341,6 @@ export default function AuthPage({
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-border/50 dark:border-border/20 py-4">
         <div className="max-w-5xl mx-auto px-5 flex items-center justify-between text-[11px] text-muted-foreground/60 dark:text-muted-foreground/40">
           <span>
@@ -383,7 +374,6 @@ export default function AuthPage({
         </div>
       </footer>
 
-      {/* Auth dialog */}
       <Dialog open={authOpen} onOpenChange={setAuthOpen}>
         <DialogContent className="sm:max-w-sm p-5 gap-0">
           <Tabs

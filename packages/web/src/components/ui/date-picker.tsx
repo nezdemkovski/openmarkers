@@ -8,7 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface DatePickerProps {
-  value: string; // "YYYY-MM-DD"
+  value: string;
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
