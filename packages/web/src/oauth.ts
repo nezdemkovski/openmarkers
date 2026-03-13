@@ -236,10 +236,9 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     }
 
     return (async () => {
-      await oauthStore.ensureClient(clientId);
       const validUri = await oauthStore.validateRedirectUri(clientId, redirectUri);
       if (!validUri) {
-        return new Response("redirect_uri not registered for this client", { status: 400 });
+        return new Response("Unknown client or redirect_uri not registered", { status: 400 });
       }
       const html = renderLoginPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope });
       return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
@@ -258,10 +257,9 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const state = String(formData.get("state") ?? "");
     const scope = String(formData.get("scope") ?? "");
 
-    await oauthStore.ensureClient(clientId);
     const validUri = await oauthStore.validateRedirectUri(clientId, redirectUri);
     if (!validUri) {
-      return new Response("redirect_uri not registered for this client", { status: 400 });
+      return new Response("Unknown client or redirect_uri not registered", { status: 400 });
     }
 
     // Authenticate via Neon Auth
