@@ -134,12 +134,14 @@ export async function deleteProfile(profileId: number, authUserId: string): Prom
 }
 
 export async function reorderProfiles(authUserId: string, profileIds: number[]): Promise<void> {
-  for (let i = 0; i < profileIds.length; i++) {
-    await db
-      .update(profiles)
-      .set({ displayOrder: i })
-      .where(and(eq(profiles.id, profileIds[i]), eq(profiles.authUserId, authUserId)));
-  }
+  await db.transaction(async (tx) => {
+    for (let i = 0; i < profileIds.length; i++) {
+      await tx
+        .update(profiles)
+        .set({ displayOrder: i })
+        .where(and(eq(profiles.id, profileIds[i]), eq(profiles.authUserId, authUserId)));
+    }
+  });
 }
 
 export async function findProfileByName(authUserId: string, name: string): Promise<DbProfile | undefined> {
@@ -295,21 +297,29 @@ export async function updateResult(
 
   if (Object.keys(updates).length === 0) return toResult(existing.result);
 
-  const [row] = await db.update(results).set(updates).where(eq(results.id, id)).returning();
+  const [row] = await db
+    .update(results)
+    .set(updates)
+    .where(
+      and(
+        eq(results.id, id),
+        sql`${results.profileId} IN (SELECT ${profiles.id} FROM ${profiles} WHERE ${profiles.authUserId} = ${authUserId})`,
+      ),
+    )
+    .returning();
   return row ? toResult(row) : undefined;
 }
 
 export async function deleteResult(authUserId: string, id: number): Promise<boolean> {
-  // Verify ownership through profile
-  const [existing] = await db
-    .select({ id: results.id })
-    .from(results)
-    .innerJoin(profiles, eq(results.profileId, profiles.id))
-    .where(and(eq(results.id, id), eq(profiles.authUserId, authUserId)))
-    .limit(1);
-  if (!existing) return false;
-
-  const deleted = await db.delete(results).where(eq(results.id, id)).returning({ id: results.id });
+  const deleted = await db
+    .delete(results)
+    .where(
+      and(
+        eq(results.id, id),
+        sql`${results.profileId} IN (SELECT ${profiles.id} FROM ${profiles} WHERE ${profiles.authUserId} = ${authUserId})`,
+      ),
+    )
+    .returning({ id: results.id });
   return deleted.length > 0;
 }
 
@@ -408,80 +418,82 @@ interface JsonUserData {
 }
 
 export async function importProfileData(authUserId: string, jsonData: JsonUserData): Promise<number> {
-  const [profileRow] = await db
-    .insert(profiles)
-    .values({
-      authUserId,
-      name: jsonData.user.name,
-      dateOfBirth: jsonData.user.dateOfBirth ?? "",
-      sex: jsonData.user.sex ?? "M",
-    })
-    .returning();
-  const profileId = profileRow.id;
+  return await db.transaction(async (tx) => {
+    const [profileRow] = await tx
+      .insert(profiles)
+      .values({
+        authUserId,
+        name: jsonData.user.name,
+        dateOfBirth: jsonData.user.dateOfBirth ?? "",
+        sex: jsonData.user.sex ?? "M",
+      })
+      .returning();
+    const profileId = profileRow.id;
 
-  // Collect all values for batch inserts
-  const catValues: { id: string }[] = [];
-  const bioValues: {
-    id: string;
-    categoryId: string;
-    unit: string | null;
-    refMin: number | null;
-    refMax: number | null;
-    type: string;
-  }[] = [];
-  const pbValues: {
-    profileId: number;
-    biomarkerId: string;
-    unit: string | null;
-    refMin: number | null;
-    refMax: number | null;
-  }[] = [];
-  const resValues: { profileId: number; biomarkerId: string; date: string; value: string }[] = [];
+    // Collect all values for batch inserts
+    const catValues: { id: string }[] = [];
+    const bioValues: {
+      id: string;
+      categoryId: string;
+      unit: string | null;
+      refMin: number | null;
+      refMax: number | null;
+      type: string;
+    }[] = [];
+    const pbValues: {
+      profileId: number;
+      biomarkerId: string;
+      unit: string | null;
+      refMin: number | null;
+      refMax: number | null;
+    }[] = [];
+    const resValues: { profileId: number; biomarkerId: string; date: string; value: string }[] = [];
 
-  for (const cat of jsonData.categories) {
-    catValues.push({ id: cat.id });
-    for (const bio of cat.biomarkers) {
-      bioValues.push({
-        id: bio.id,
-        categoryId: cat.id,
-        unit: bio.unit ?? null,
-        refMin: bio.refMin ?? null,
-        refMax: bio.refMax ?? null,
-        type: bio.type ?? "quantitative",
-      });
-      pbValues.push({
-        profileId,
-        biomarkerId: bio.id,
-        unit: bio.unit ?? null,
-        refMin: bio.refMin ?? null,
-        refMax: bio.refMax ?? null,
-      });
-      for (const r of bio.results) {
-        resValues.push({ profileId, biomarkerId: bio.id, date: r.date, value: String(r.value) });
+    for (const cat of jsonData.categories) {
+      catValues.push({ id: cat.id });
+      for (const bio of cat.biomarkers) {
+        bioValues.push({
+          id: bio.id,
+          categoryId: cat.id,
+          unit: bio.unit ?? null,
+          refMin: bio.refMin ?? null,
+          refMax: bio.refMax ?? null,
+          type: bio.type ?? "quantitative",
+        });
+        pbValues.push({
+          profileId,
+          biomarkerId: bio.id,
+          unit: bio.unit ?? null,
+          refMin: bio.refMin ?? null,
+          refMax: bio.refMax ?? null,
+        });
+        for (const r of bio.results) {
+          resValues.push({ profileId, biomarkerId: bio.id, date: r.date, value: String(r.value) });
+        }
       }
     }
-  }
 
-  if (catValues.length > 0) {
-    await db.insert(categories).values(catValues).onConflictDoNothing();
-  }
-  if (bioValues.length > 0) {
-    await db.insert(biomarkers).values(bioValues).onConflictDoNothing();
-  }
-  if (pbValues.length > 0) {
-    await db.insert(profileBiomarkers).values(pbValues).onConflictDoNothing();
-  }
-  if (resValues.length > 0) {
-    // Batch in chunks of 500 to avoid query param limits
-    for (let i = 0; i < resValues.length; i += 500) {
-      await db
-        .insert(results)
-        .values(resValues.slice(i, i + 500))
-        .onConflictDoNothing();
+    if (catValues.length > 0) {
+      await tx.insert(categories).values(catValues).onConflictDoNothing();
     }
-  }
+    if (bioValues.length > 0) {
+      await tx.insert(biomarkers).values(bioValues).onConflictDoNothing();
+    }
+    if (pbValues.length > 0) {
+      await tx.insert(profileBiomarkers).values(pbValues).onConflictDoNothing();
+    }
+    if (resValues.length > 0) {
+      // Batch in chunks of 500 to avoid query param limits
+      for (let i = 0; i < resValues.length; i += 500) {
+        await tx
+          .insert(results)
+          .values(resValues.slice(i, i + 500))
+          .onConflictDoNothing();
+      }
+    }
 
-  return profileId;
+    return profileId;
+  });
 }
 
 // ---- Batch add results (for "Add Lab Visit" flow) ----

@@ -7,8 +7,6 @@ import {
   reorderProfiles,
   listCategories,
   listBiomarkers,
-  createBiomarker,
-  updateBiomarker,
   addResult,
   updateResult,
   deleteResult,
@@ -28,7 +26,6 @@ import {
   verifyToken,
   importDataSchema,
   sexEnum,
-  biomarkerTypeEnum,
   publicHandleSchema,
   checkHandleAvailability,
   getPublicProfileByHandle,
@@ -86,27 +83,6 @@ const resultUpdateSchema = z
   })
   .refine((data) => Object.keys(data).length > 0, "At least one field is required");
 
-const biomarkerCreateSchema = z.object({
-  id: z
-    .string()
-    .min(1)
-    .max(200)
-    .regex(/^[a-z0-9_]+$/, "Must be lowercase alphanumeric with underscores"),
-  category_id: z.string().min(1).max(200),
-  unit: z.string().max(50).nullish(),
-  ref_min: z.number().nullish(),
-  ref_max: z.number().nullish(),
-  type: biomarkerTypeEnum.optional(),
-});
-
-const biomarkerUpdateSchema = z
-  .object({
-    unit: z.string().max(50).nullable().optional(),
-    ref_min: z.number().nullable().optional(),
-    ref_max: z.number().nullable().optional(),
-  })
-  .refine((data) => Object.keys(data).length > 0, "At least one field is required");
-
 const batchResultsSchema = z.object({
   profile_id: z.number().int().positive(),
   date: z.string().date(),
@@ -126,10 +102,6 @@ const reorderSchema = z.object({
 });
 
 async function parseBody<T>(req: Request, schema: z.ZodSchema<T>): Promise<T | Response> {
-  const contentLength = req.headers.get("content-length");
-  if (contentLength && Number(contentLength) > MAX_BODY_SIZE) {
-    return error("Request body too large", 413);
-  }
   try {
     const body = await req.json();
     const result = schema.safeParse(body);
@@ -202,6 +174,7 @@ export function startWebServer(opts: {
 
   return Bun.serve({
     port,
+    maxRequestBodySize: MAX_BODY_SIZE,
     async fetch(req) {
       const url = new URL(req.url);
       const path = url.pathname;
@@ -326,8 +299,12 @@ export function startWebServer(opts: {
       if (!authResult(auth)) return auth;
       const handle = url.searchParams.get("handle");
       if (!handle) return error("handle is required");
-      const profileId = url.searchParams.get("profile_id");
-      const available = await checkHandleAvailability(handle, profileId ? Number(profileId) : undefined);
+      const profileIdParam = url.searchParams.get("profile_id");
+      const profileIdNum = profileIdParam ? parseInt(profileIdParam, 10) : undefined;
+      const available = await checkHandleAvailability(
+        handle,
+        profileIdNum !== undefined && !isNaN(profileIdNum) ? profileIdNum : undefined,
+      );
       return json({ available });
     }
 
@@ -497,28 +474,6 @@ export function startWebServer(opts: {
       return json(await listBiomarkers(categoryId));
     }
 
-    // POST /api/biomarkers
-    if (method === "POST" && path === "/api/biomarkers") {
-      const auth = await requireAuth(req);
-      if (!authResult(auth)) return auth;
-      const body = await parseBody(req, biomarkerCreateSchema);
-      if (isResponse(body)) return body;
-      const biomarker = await createBiomarker(body);
-      return json(biomarker, 201);
-    }
-
-    // PATCH /api/biomarkers/:id
-    const biomarkerMatch = path.match(/^\/api\/biomarkers\/([^/]+)$/);
-    if (method === "PATCH" && biomarkerMatch) {
-      const auth = await requireAuth(req);
-      if (!authResult(auth)) return auth;
-      const body = await parseBody(req, biomarkerUpdateSchema);
-      if (isResponse(body)) return body;
-      const biomarker = await updateBiomarker(biomarkerMatch[1], body);
-      if (!biomarker) return error("Biomarker not found", 404);
-      return json(biomarker);
-    }
-
     // GET /api/results?profile_id=&category_id=&biomarker_id=&date_from=&date_to=
     if (method === "GET" && path === "/api/results") {
       const auth = await requireAuth(req);
@@ -619,7 +574,7 @@ export function startWebServer(opts: {
     if (hasFrontend) {
       const filePath = resolve(resolvedPublicDir, path === "/" ? "index.html" : path.slice(1));
       // Prevent path traversal — ensure resolved path stays within publicDir
-      if (!filePath.startsWith(resolvedPublicDir)) {
+      if (!filePath.startsWith(resolvedPublicDir + "/") && filePath !== resolvedPublicDir) {
         return error("Forbidden", 403);
       }
       const file = Bun.file(filePath);

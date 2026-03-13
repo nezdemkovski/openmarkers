@@ -236,7 +236,11 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     }
 
     return (async () => {
-      await oauthStore.ensureClient(clientId, redirectUri);
+      await oauthStore.ensureClient(clientId);
+      const validUri = await oauthStore.validateRedirectUri(clientId, redirectUri);
+      if (!validUri) {
+        return new Response("redirect_uri not registered for this client", { status: 400 });
+      }
       const html = renderLoginPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope });
       return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
     })();
@@ -254,7 +258,11 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const state = String(formData.get("state") ?? "");
     const scope = String(formData.get("scope") ?? "");
 
-    await oauthStore.ensureClient(clientId, redirectUri);
+    await oauthStore.ensureClient(clientId);
+    const validUri = await oauthStore.validateRedirectUri(clientId, redirectUri);
+    if (!validUri) {
+      return new Response("redirect_uri not registered for this client", { status: 400 });
+    }
 
     // Authenticate via Neon Auth
     const authResult = await signInViaNeonAuth(email, password);
@@ -312,8 +320,6 @@ export function handleToken(req: Request): Response | Promise<Response> {
 
     const grantType = params.get("grant_type");
     const clientId = params.get("client_id") || "";
-
-    await oauthStore.ensureClient(clientId);
 
     if (grantType === "authorization_code") {
       const code = params.get("code") || "";

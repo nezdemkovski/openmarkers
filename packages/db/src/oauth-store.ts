@@ -49,27 +49,22 @@ export async function registerClient(client: {
   });
 }
 
-export async function ensureClient(clientId: string, redirectUri?: string): Promise<void> {
+export async function ensureClient(clientId: string): Promise<void> {
   if (!clientId) return;
   const existing = await getClient(clientId);
-  if (existing) {
-    if (redirectUri) {
-      const uris: string[] = JSON.parse(existing.redirectUris);
-      if (!uris.includes(redirectUri)) {
-        uris.push(redirectUri);
-        await db
-          .update(oauthClients)
-          .set({ redirectUris: JSON.stringify(uris) })
-          .where(eq(oauthClients.clientId, clientId));
-      }
-    }
-    return;
-  }
+  if (existing) return;
   await db.insert(oauthClients).values({
     clientId,
     clientSecret: "",
-    redirectUris: JSON.stringify(redirectUri ? [redirectUri] : []),
+    redirectUris: JSON.stringify([]),
   });
+}
+
+export async function validateRedirectUri(clientId: string, redirectUri: string): Promise<boolean> {
+  const client = await getClient(clientId);
+  if (!client) return false;
+  const uris: string[] = JSON.parse(client.redirectUris);
+  return uris.includes(redirectUri);
 }
 
 // --- Auth code operations ---

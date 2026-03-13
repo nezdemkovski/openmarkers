@@ -99,7 +99,7 @@ export async function getBiologicalAgeForProfile(
 ): Promise<PhenoAgeResult[] | undefined> {
   const data = await getProfileData(profileId, authUserId);
   if (!data) return undefined;
-  if (!data.user.dateOfBirth) return [];
+  if (!data.user.dateOfBirth || isNaN(new Date(data.user.dateOfBirth).getTime())) return [];
   return calculatePhenoAge(data.categories, data.user.dateOfBirth);
 }
 
