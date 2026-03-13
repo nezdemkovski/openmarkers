@@ -30,7 +30,10 @@ export default function PublicProfilesList() {
   const isDark = theme === "dark";
 
   useEffect(() => {
-    api.listPublicProfiles().then(setProfiles).catch(() => setProfiles([]));
+    api
+      .listPublicProfiles()
+      .then(setProfiles)
+      .catch(() => setProfiles([]));
   }, []);
 
   const toggleTheme = () => {
@@ -66,9 +69,7 @@ export default function PublicProfilesList() {
             <Loader2 className="w-6 h-6 text-muted-foreground/30 animate-spin" />
           </div>
         ) : profiles.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground/40 text-sm">
-            {t("openProfilesDesc")}
-          </div>
+          <div className="text-center py-16 text-muted-foreground/40 text-sm">{t("openProfilesDesc")}</div>
         ) : (
           <div className="rounded-xl border border-border/40 bg-card overflow-hidden">
             <table className="w-full">
@@ -79,15 +80,29 @@ export default function PublicProfilesList() {
                       <span className="text-xs text-muted-foreground/30 tabular-nums font-medium">{i + 1}</span>
                     </td>
                     <td className="py-3 pr-2">
-                      <a href={`/p/${p.handle}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} flex items-center justify-center text-white text-xs font-bold shrink-0`}>
+                      <a
+                        href={`/p/${p.handle}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3"
+                      >
+                        <div
+                          className={`w-8 h-8 rounded-full bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} flex items-center justify-center text-white text-xs font-bold shrink-0`}
+                        >
                           {p.name.charAt(0).toUpperCase()}
                         </div>
-                        <span className="text-sm font-medium text-foreground truncate group-hover:text-foreground/70 transition-colors">{p.name}</span>
+                        <span className="text-sm font-medium text-foreground truncate group-hover:text-foreground/70 transition-colors">
+                          {p.name}
+                        </span>
                       </a>
                     </td>
                     <td className="py-3 pr-4 text-right">
-                      <a href={`/p/${p.handle}`} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground/35 font-mono group-hover:text-muted-foreground/60 transition-colors">
+                      <a
+                        href={`/p/${p.handle}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-muted-foreground/35 font-mono group-hover:text-muted-foreground/60 transition-colors"
+                      >
                         /p/{p.handle}
                       </a>
                     </td>

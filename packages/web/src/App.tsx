@@ -173,7 +173,8 @@ export default function App() {
 
   const creatingProfile = route.view === "new-profile";
   const hasNoProfiles = isAuthenticated && !isDemo && profileListLoaded && profileList.length === 0;
-  const showGettingStarted = !isDemo && (hasNoProfiles || creatingProfile || (profileData && profileData.categories.length === 0));
+  const showGettingStarted =
+    !isDemo && (hasNoProfiles || creatingProfile || (profileData && profileData.categories.length === 0));
   const displayData = isDemo && demoData ? demoData : hasNoProfiles ? EMPTY_USER_DATA : profileData;
 
   const handleResultMutate = useCallback(() => {

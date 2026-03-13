@@ -534,10 +534,7 @@ export async function batchAddResults(
 
 // ---- Public profiles ----
 
-export async function checkHandleAvailability(
-  handle: string,
-  excludeProfileId?: number,
-): Promise<boolean> {
+export async function checkHandleAvailability(handle: string, excludeProfileId?: number): Promise<boolean> {
   const conditions = [eq(profiles.publicHandle, handle)];
   if (excludeProfileId) {
     conditions.push(sql`${profiles.id} != ${excludeProfileId}`);
@@ -569,10 +566,7 @@ export async function getPublicProfileByHandle(handle: string): Promise<UserData
   return assembleProfileData(profile.id, profile);
 }
 
-async function assembleProfileData(
-  profileId: number,
-  profileRow: typeof profiles.$inferSelect,
-): Promise<UserData> {
+async function assembleProfileData(profileId: number, profileRow: typeof profiles.$inferSelect): Promise<UserData> {
   const allCategories = await listCategories();
   const allBiomarkerRows = await db.select().from(biomarkers);
   const allResults = await db

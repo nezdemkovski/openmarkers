@@ -110,7 +110,8 @@ const is: TranslationData = {
     sexFemale: "Kona",
     importingData: "Flyt inn...",
     importDesc: "Hlaðið upp JSON-skrá með rannsóknarniðurstöðum.",
-    importSettingsDesc: "Flytjið inn rannsóknarniðurstöður úr JSON-skrá. Nýr prófíll verður búinn til með innfluttum gögnum — núverandi prófílar verða ekki fyrir áhrifum.",
+    importSettingsDesc:
+      "Flytjið inn rannsóknarniðurstöður úr JSON-skrá. Nýr prófíll verður búinn til með innfluttum gögnum — núverandi prófílar verða ekki fyrir áhrifum.",
     importSelectFile: "Velja JSON-skrá",
     demoDesc: "Skoðið forritið með sýnigögnum.",
     addLabVisit: "Bæta við rannsókn",
@@ -179,7 +180,8 @@ const is: TranslationData = {
     settingsMcpConfigDesc: "Bættu þessu við MCP stillingar AI biðlarans þíns:",
     settingsMcpTools: "Verkfæri í boði: listi yfir prófíla, þróun, lífaldur, fylgni, AI greiningar og fleira.",
     settingsCli: "CLI tól",
-    settingsCliDesc: "Stjórnaðu prófílum, fluttu inn niðurstöður og keyrðu greiningar úr skipanalínu. Hannað til að virka óaðfinnanlega með AI-þjónum.",
+    settingsCliDesc:
+      "Stjórnaðu prófílum, fluttu inn niðurstöður og keyrðu greiningar úr skipanalínu. Hannað til að virka óaðfinnanlega með AI-þjónum.",
     settingsCliInstall: "Setja upp með Homebrew",
     settingsCliUsage: "Keyrðu síðan:",
     authConsent: "Ég samþykki að geyma blóðrannsóknarniðurstöður og rannsóknargögn",

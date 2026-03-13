@@ -1,6 +1,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRef } from "react";
-import { Pencil, Trash2, Download, Check, X, ChevronUp, ChevronDown, Copy, CheckCheck, PlusCircle, Upload, Globe, Link } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  Download,
+  Check,
+  X,
+  ChevronUp,
+  ChevronDown,
+  Copy,
+  CheckCheck,
+  PlusCircle,
+  Upload,
+  Globe,
+  Link,
+} from "lucide-react";
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
 import { track, Event } from "../lib/analytics.ts";
@@ -283,9 +297,7 @@ function ProfileRow({
           )}
         </div>
       </div>
-      {showShare && (
-        <ShareProfileSection profile={profile} t={t} onUpdated={onUpdated} />
-      )}
+      {showShare && <ShareProfileSection profile={profile} t={t} onUpdated={onUpdated} />}
     </div>
   );
 }
@@ -343,18 +355,12 @@ function ShareProfileSection({
     }
   };
 
-  const hasChanges =
-    isPublic !== profile.isPublic ||
-    (isPublic && handle !== (profile.publicHandle ?? ""));
+  const hasChanges = isPublic !== profile.isPublic || (isPublic && handle !== (profile.publicHandle ?? ""));
 
   return (
     <div className="border-t border-border p-3 space-y-3 bg-muted/30">
       <div className="flex items-start gap-3">
-        <Checkbox
-          checked={isPublic}
-          onCheckedChange={(checked) => setIsPublic(checked === true)}
-          className="mt-0.5"
-        />
+        <Checkbox checked={isPublic} onCheckedChange={(checked) => setIsPublic(checked === true)} className="mt-0.5" />
         <div className="flex-1 min-w-0">
           <Label className="text-sm font-medium">{t("shareProfile")}</Label>
           <p className="text-xs text-muted-foreground mt-0.5">{t("shareProfileDesc")}</p>
@@ -381,7 +387,9 @@ function ShareProfileSection({
               />
             </div>
             {handle && (
-              <p className={`text-xs mt-1 ${!isValidHandle ? "text-muted-foreground" : checking ? "text-muted-foreground" : available === true ? "text-emerald-600 dark:text-emerald-400" : available === false ? "text-destructive" : "text-muted-foreground"}`}>
+              <p
+                className={`text-xs mt-1 ${!isValidHandle ? "text-muted-foreground" : checking ? "text-muted-foreground" : available === true ? "text-emerald-600 dark:text-emerald-400" : available === false ? "text-destructive" : "text-muted-foreground"}`}
+              >
                 {!isValidHandle
                   ? t("publicHandleInvalid")
                   : checking
@@ -670,11 +678,7 @@ function CliSection({ t }: { t: (key: string) => string }) {
               {installCmd}
             </code>
             <Button variant="outline" size="sm" onClick={copyToClipboard}>
-              {copied ? (
-                <CheckCheck className="w-4 h-4 text-green-600" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
+              {copied ? <CheckCheck className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
             </Button>
           </div>
         </div>

@@ -110,7 +110,8 @@ const en: TranslationData = {
     sexFemale: "Female",
     importingData: "Importing...",
     importDesc: "Upload a JSON file with your lab results.",
-    importSettingsDesc: "Import lab results from a JSON file. This will create a new profile with the imported data — your existing profiles won't be affected.",
+    importSettingsDesc:
+      "Import lab results from a JSON file. This will create a new profile with the imported data — your existing profiles won't be affected.",
     importSelectFile: "Select JSON File",
     demoDesc: "Explore the app with sample data.",
     addLabVisit: "Add Lab Visit",
@@ -181,7 +182,8 @@ const en: TranslationData = {
     settingsMcpTools:
       "Tools available: list profiles, get trends, biological age, correlations, AI analysis prompts, and more.",
     settingsCli: "CLI Tool",
-    settingsCliDesc: "Manage profiles, import results, and run analytics from your terminal. Designed to work seamlessly with AI agents.",
+    settingsCliDesc:
+      "Manage profiles, import results, and run analytics from your terminal. Designed to work seamlessly with AI agents.",
     settingsCliInstall: "Install via Homebrew",
     settingsCliUsage: "Then run:",
     authConsent: "I agree to store my blood test results and lab data",

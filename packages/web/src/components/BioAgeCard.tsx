@@ -122,10 +122,10 @@ export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers 
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 items-center text-center mt-3">
               <Stat label={t("bioAge")} value="--" sub="-- years" />
-              <Stat label={t("mortalityScore")} value="--%"sub={t("mortalityScoreDesc")} />
+              <Stat label={t("mortalityScore")} value="--%" sub={t("mortalityScoreDesc")} />
               <div className="col-span-2 sm:col-span-1 h-16 bg-muted/30 rounded" />
               <Stat label={t("dnamAge")} value="--" sub={t("dnamAgeDesc")} />
-              <Stat label={t("dnamMortality")} value="--%"sub={t("dnamMortalityDesc")} />
+              <Stat label={t("dnamMortality")} value="--%" sub={t("dnamMortalityDesc")} />
             </div>
           </div>
         </div>

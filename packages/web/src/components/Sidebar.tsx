@@ -142,61 +142,61 @@ export default function Sidebar({
             </Button>
           </div>
         ) : activeUser ? (
-            <div className="mt-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
-                    {getInitials(activeUser.name)}
-                  </div>
-                  <div className="flex-1 text-left min-w-0">
-                    <div className="text-sm font-medium text-sidebar-foreground truncate">{activeUser.name}</div>
-                    {activeUser.publicHandle ? (
-                      <div className="text-[11px] text-sidebar-foreground/40 flex items-center gap-1 truncate">
-                        <Globe className="w-3 h-3 shrink-0" />
-                        /p/{activeUser.publicHandle}
-                      </div>
-                    ) : activeUser.dateOfBirth ? (
-                      <div className="text-xs text-sidebar-foreground/40">{activeUser.dateOfBirth}</div>
-                    ) : null}
-                  </div>
-                  <ChevronDown className="w-4 h-4 text-sidebar-foreground/40 shrink-0" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" side="bottom">
-                  {profiles.map((u, idx) => (
-                    <DropdownMenuItem
-                      key={idx}
-                      onClick={() => onChangeProfile(idx)}
-                      className={idx === activeProfileIdx ? "bg-accent" : ""}
-                    >
-                      <div className="w-7 h-7 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
-                        {getInitials(u.user.name)}
-                      </div>
-                      <div className="min-w-0">
-                        <div className="text-sm font-medium text-sidebar-foreground truncate">{u.user.name}</div>
-                        {u.user.dateOfBirth && (
-                          <div className="text-xs text-sidebar-foreground/40">{u.user.dateOfBirth}</div>
-                        )}
-                      </div>
+          <div className="mt-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-sidebar-accent transition-colors">
+                <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
+                  {getInitials(activeUser.name)}
+                </div>
+                <div className="flex-1 text-left min-w-0">
+                  <div className="text-sm font-medium text-sidebar-foreground truncate">{activeUser.name}</div>
+                  {activeUser.publicHandle ? (
+                    <div className="text-[11px] text-sidebar-foreground/40 flex items-center gap-1 truncate">
+                      <Globe className="w-3 h-3 shrink-0" />
+                      /p/{activeUser.publicHandle}
+                    </div>
+                  ) : activeUser.dateOfBirth ? (
+                    <div className="text-xs text-sidebar-foreground/40">{activeUser.dateOfBirth}</div>
+                  ) : null}
+                </div>
+                <ChevronDown className="w-4 h-4 text-sidebar-foreground/40 shrink-0" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" side="bottom">
+                {profiles.map((u, idx) => (
+                  <DropdownMenuItem
+                    key={idx}
+                    onClick={() => onChangeProfile(idx)}
+                    className={idx === activeProfileIdx ? "bg-accent" : ""}
+                  >
+                    <div className="w-7 h-7 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-xs font-bold shrink-0">
+                      {getInitials(u.user.name)}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-sidebar-foreground truncate">{u.user.name}</div>
+                      {u.user.dateOfBirth && (
+                        <div className="text-xs text-sidebar-foreground/40">{u.user.dateOfBirth}</div>
+                      )}
+                    </div>
+                  </DropdownMenuItem>
+                ))}
+                {onCreateProfile && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={onCreateProfile}>
+                      <PlusCircle className="w-4 h-4" />
+                      <span>{t("createProfile")}</span>
                     </DropdownMenuItem>
-                  ))}
-                  {onCreateProfile && (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={onCreateProfile}>
-                        <PlusCircle className="w-4 h-4" />
-                        <span>{t("createProfile")}</span>
-                      </DropdownMenuItem>
-                    </>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-              {onAddLabVisit && (
-                <Button variant="outline" onClick={onAddLabVisit} className="w-full mt-2">
-                  <PlusCircle className="w-4 h-4" />
-                  {t("addLabVisit")}
-                </Button>
-              )}
-            </div>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {onAddLabVisit && (
+              <Button variant="outline" onClick={onAddLabVisit} className="w-full mt-2">
+                <PlusCircle className="w-4 h-4" />
+                {t("addLabVisit")}
+              </Button>
+            )}
+          </div>
         ) : null}
       </SidebarHeader>
 
@@ -215,7 +215,7 @@ export default function Sidebar({
                   <CollapsibleTrigger render={<SidebarMenuButton />}>
                     <FlaskConical className="w-4 h-4" />
                     <span className="capitalize">{t("biomarkers")}</span>
-                    <ChevronRight className="ml-auto w-4 h-4 transition-transform group-data-[open]/collapsible:rotate-90" />
+                    <ChevronRight className="ml-auto w-4 h-4 transition-transform group-data-open/collapsible:rotate-90" />
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub className="mx-0 border-l-0 px-0">

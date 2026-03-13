@@ -20,7 +20,11 @@ export default function ThemeLangControls({ isDark, onToggleTheme, lang, onChang
   return (
     <div className="flex items-center gap-1">
       <DropdownMenu>
-        <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />} title="Language" className="gap-1 w-auto px-1.5 text-xs font-semibold">
+        <DropdownMenuTrigger
+          render={<Button variant="ghost" size="icon-sm" />}
+          title="Language"
+          className="gap-1 w-auto px-1.5 text-xs font-semibold"
+        >
           <Languages className="w-4 h-4" />
           <span>{lang.toUpperCase()}</span>
         </DropdownMenuTrigger>

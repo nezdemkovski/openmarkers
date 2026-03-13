@@ -110,7 +110,8 @@ const cs: TranslationData = {
     sexFemale: "Žena",
     importingData: "Importuji...",
     importDesc: "Nahrajte JSON soubor s laboratorními výsledky.",
-    importSettingsDesc: "Importujte laboratorní výsledky z JSON souboru. Vytvoří se nový profil s importovanými daty — stávající profily nebudou ovlivněny.",
+    importSettingsDesc:
+      "Importujte laboratorní výsledky z JSON souboru. Vytvoří se nový profil s importovanými daty — stávající profily nebudou ovlivněny.",
     importSelectFile: "Vybrat JSON soubor",
     demoDesc: "Prozkoumejte aplikaci se vzorovými daty.",
     addLabVisit: "Přidat odběr",
@@ -180,7 +181,8 @@ const cs: TranslationData = {
     settingsMcpConfigDesc: "Přidejte toto do MCP konfigurace vašeho AI klienta:",
     settingsMcpTools: "Dostupné nástroje: seznam profilů, trendy, biologický věk, korelace, AI analýzy a další.",
     settingsCli: "CLI nástroj",
-    settingsCliDesc: "Spravujte profily, importujte výsledky a spouštějte analytiku z terminálu. Navrženo pro bezproblémovou spolupráci s AI agenty.",
+    settingsCliDesc:
+      "Spravujte profily, importujte výsledky a spouštějte analytiku z terminálu. Navrženo pro bezproblémovou spolupráci s AI agenty.",
     settingsCliInstall: "Instalace přes Homebrew",
     settingsCliUsage: "Poté spusťte:",
     authConsent: "Souhlasím s uložením výsledků krevních testů a laboratorních dat",
