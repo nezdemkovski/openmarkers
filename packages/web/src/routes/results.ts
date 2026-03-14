@@ -8,12 +8,18 @@ const resultCreateSchema = z.object({
   biomarker_id: z.string().min(1).max(200),
   date: z.string().date(),
   value: z.union([z.number(), z.string().min(1).max(200)]),
+  ref_min: z.number().nullish(),
+  ref_max: z.number().nullish(),
+  unit: z.string().max(50).nullish(),
 });
 
 const resultUpdateSchema = z
   .object({
     date: z.string().date().optional(),
     value: z.union([z.number(), z.string().min(1).max(200)]).optional(),
+    ref_min: z.number().nullish(),
+    ref_max: z.number().nullish(),
+    unit: z.string().max(50).nullish(),
   })
   .refine((data) => Object.keys(data).length > 0, "At least one field is required");
 
@@ -25,6 +31,9 @@ const batchResultsSchema = z.object({
       z.object({
         biomarker_id: z.string().min(1).max(200),
         value: z.union([z.number(), z.string().min(1).max(200)]),
+        ref_min: z.number().nullish(),
+        ref_max: z.number().nullish(),
+        unit: z.string().max(50).nullish(),
       }),
     )
     .min(1)

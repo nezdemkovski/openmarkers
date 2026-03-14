@@ -352,9 +352,19 @@ export default function DashboardPage({
                 onMutate={handleResultMutate}
               />
             ) : route.view === "timeline" ? (
-              <TimelineView categories={displayData.categories} isDark={isDark} i18n={i18n} />
+              <TimelineView
+                categories={displayData.categories}
+                isDark={isDark}
+                i18n={i18n}
+                profileId={activeProfileId ?? undefined}
+              />
             ) : route.view === "compare" ? (
-              <ComparisonView categories={displayData.categories} isDark={isDark} i18n={i18n} />
+              <ComparisonView
+                categories={displayData.categories}
+                isDark={isDark}
+                i18n={i18n}
+                profileId={activeProfileId ?? undefined}
+              />
             ) : (
               <Dashboard
                 userData={displayData}

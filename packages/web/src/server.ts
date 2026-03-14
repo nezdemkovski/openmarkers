@@ -309,6 +309,25 @@ export function startWebServer(opts: {
       return handleDeleteResult(auth, Number(resultMatch[1]));
     }
 
+    if (method === "GET" && path === "/api/preferences") {
+      const auth = await requireAuth(req);
+      if (!authResult(auth)) return auth;
+      const { getUserPreferences } = await import("@openmarkers/db");
+      return json(await getUserPreferences(auth.userId));
+    }
+
+    if (method === "PUT" && path === "/api/preferences") {
+      const auth = await requireAuth(req);
+      if (!authResult(auth)) return auth;
+      const { updateUserPreferences } = await import("@openmarkers/db");
+      const body = await req.json();
+      const { UnitSystem } = await import("@openmarkers/db/src/types");
+      if (!body.unit_system || !Object.values(UnitSystem).includes(body.unit_system)) {
+        return error("Invalid unit_system");
+      }
+      return json(await updateUserPreferences(auth.userId, body));
+    }
+
     if (method === "DELETE" && path === "/api/account") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;

@@ -1,4 +1,5 @@
 import type { Sex } from "../../types";
+import { UnitSystem } from "../../types";
 
 export interface ProfileSummary {
   id: number;
@@ -77,7 +78,13 @@ export const api = {
   importProfile: (data: unknown) => post<{ ok: boolean; profile_id: number }>("/api/import", data),
   updateProfile: (
     id: number,
-    data: Partial<{ name: string; date_of_birth: string; sex: Sex; is_public: boolean; public_handle: string | null }>,
+    data: Partial<{
+      name: string;
+      date_of_birth: string;
+      sex: Sex;
+      is_public: boolean;
+      public_handle: string | null;
+    }>,
   ) => patch<{ id: number; name: string }>(`/api/profiles/${id}`, data),
   deleteProfile: (id: number) => del<{ ok: boolean }>(`/api/profiles/${id}`),
   reorderProfiles: (profileIds: number[]) =>
@@ -86,6 +93,12 @@ export const api = {
       body: JSON.stringify({ profileIds }),
     }),
   deleteAccount: () => del<{ ok: boolean }>("/api/account"),
+  getPreferences: () => request<{ unitSystem: UnitSystem }>("/api/preferences"),
+  updatePreferences: (data: { unit_system: UnitSystem }) =>
+    request<{ unitSystem: UnitSystem }>("/api/preferences", {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
   listBiomarkers: (categoryId?: string) => {
     const qs = categoryId ? `?category_id=${encodeURIComponent(categoryId)}` : "";
     return request<import("@openmarkers/db").DbBiomarker[]>(`/api/biomarkers${qs}`);
@@ -121,7 +134,9 @@ export const api = {
   getCorrelations: (profileId: number) =>
     request<import("../types.ts").MatchedCorrelationGroup[]>(`/api/profiles/${profileId}/correlations`),
   getBiologicalAge: (profileId: number) =>
-    request<import("../types.ts").PhenoAgeResult[]>(`/api/profiles/${profileId}/biological-age`),
+    request<{ results: import("../types.ts").PhenoAgeResult[]; missingMarkers: string[] }>(
+      `/api/profiles/${profileId}/biological-age`,
+    ),
   getAnalysisPrompt: (profileId: number, lang: string) =>
     request<{ prompt: string }>(`/api/profiles/${profileId}/analysis-prompt?lang=${encodeURIComponent(lang)}`),
   checkHandleAvailability: (handle: string, profileId?: number) => {

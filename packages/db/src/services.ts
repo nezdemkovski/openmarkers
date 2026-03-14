@@ -1,4 +1,4 @@
-import { getProfileData } from "./index";
+import { getProfileData, getRawProfileData } from "./index";
 import {
   getAllDates,
   getDateSnapshot,
@@ -7,7 +7,7 @@ import {
   getRelevantCorrelations,
   analyzeTrend,
 } from "./analytics";
-import { calculatePhenoAge } from "./bioage";
+import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
 import { buildPrompt } from "./promptBuilder";
 import { makeI18n } from "./i18n";
 import type {
@@ -96,11 +96,14 @@ export async function getCorrelationsForProfile(
 export async function getBiologicalAgeForProfile(
   profileId: number,
   authUserId: string,
-): Promise<PhenoAgeResult[] | undefined> {
-  const data = await getProfileData(profileId, authUserId);
+): Promise<{ results: PhenoAgeResult[]; missingMarkers: string[] } | undefined> {
+  const data = await getRawProfileData(profileId, authUserId);
   if (!data) return undefined;
-  if (!data.user.dateOfBirth || isNaN(new Date(data.user.dateOfBirth).getTime())) return [];
-  return calculatePhenoAge(data.categories, data.user.dateOfBirth);
+  const missingMarkers = getMissingPhenoAgeMarkers(data.categories);
+  if (!data.user.dateOfBirth || isNaN(new Date(data.user.dateOfBirth).getTime())) {
+    return { results: [], missingMarkers };
+  }
+  return { results: calculatePhenoAge(data.categories, data.user.dateOfBirth), missingMarkers };
 }
 
 export async function getAnalysisPromptForProfile(
@@ -108,7 +111,7 @@ export async function getAnalysisPromptForProfile(
   authUserId: string,
   lang: Lang = "en",
 ): Promise<string | undefined> {
-  const data = await getProfileData(profileId, authUserId);
+  const data = await getRawProfileData(profileId, authUserId);
   if (!data) return undefined;
   const enI18n = makeI18n("en");
   return buildPrompt(data, enI18n, lang);

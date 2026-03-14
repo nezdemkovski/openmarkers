@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { TriangleAlert, CircleCheck, Clock, ChevronDown, Link2, ChevronRight } from "lucide-react";
 import CategoryView from "./CategoryView.tsx";
 import AiAnalysis from "./AiAnalysis.tsx";
@@ -6,9 +6,7 @@ import BioAgeCard from "./BioAgeCard.tsx";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { daysSinceLastTest, getRelevantCorrelations } from "@openmarkers/db/src/analytics";
-import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "@openmarkers/db/src/bioage";
-import type { Category, UserData, I18n, Lang, Biomarker, DaysSinceResult } from "../types.ts";
+import type { Category, UserData, I18n, Lang, Biomarker } from "../types.ts";
 
 function CategorySkeleton({ count }: { count: number }) {
   return (
@@ -87,11 +85,7 @@ function LazyCategory({
 function countOutOfRange(category: Category): number {
   let count = 0;
   for (const b of category.biomarkers) {
-    if (b.results.length === 0) continue;
-    const latest = b.results[b.results.length - 1];
-    if (typeof latest.value === "number") {
-      if ((b.refMin != null && latest.value < b.refMin) || (b.refMax != null && latest.value > b.refMax)) count++;
-    }
+    if (b.latestOutOfRange) count++;
   }
   return count;
 }
@@ -198,23 +192,13 @@ export default function Dashboard({
 }: DashboardProps) {
   const { t, tCat, tBio } = i18n;
 
-  const reminders = useMemo(() => {
-    return daysSinceLastTest(categories).filter((r) => r.days != null && r.days > 180);
-  }, [categories]);
-
-  const bioAgeResults = useMemo(() => {
-    if (!userData.user.dateOfBirth) return [];
-    return calculatePhenoAge(categories, userData.user.dateOfBirth);
-  }, [categories, userData.user.dateOfBirth]);
-
-  const missingBioAgeMarkers = useMemo(() => {
-    if (!userData.user.dateOfBirth) return [];
-    return getMissingPhenoAgeMarkers(categories);
-  }, [categories, userData.user.dateOfBirth]);
-
-  const correlations = useMemo(() => {
-    return getRelevantCorrelations(categories);
-  }, [categories]);
+  const reminders = useMemo(
+    () => (userData.daysSince ?? []).filter((d) => d.days != null && d.days > 180),
+    [userData.daysSince],
+  );
+  const correlations = userData.correlations ?? [];
+  const bioAgeResults = userData.biologicalAge?.results ?? [];
+  const missingBioAgeMarkers = userData.biologicalAge?.missingMarkers ?? [];
 
   const bioLookup = useMemo(() => {
     const map: Record<string, Biomarker> = {};
@@ -294,14 +278,7 @@ export default function Dashboard({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {correlations.map((group) => {
               const bios = group.matched.map((id) => bioLookup[id]).filter(Boolean);
-              const outCount = bios.filter((b) => {
-                const latest = b.results[b.results.length - 1];
-                return (
-                  latest &&
-                  typeof latest.value === "number" &&
-                  ((b.refMin != null && latest.value < b.refMin) || (b.refMax != null && latest.value > b.refMax))
-                );
-              }).length;
+              const outCount = bios.filter((b) => b.latestOutOfRange).length;
 
               return (
                 <Card key={group.id} className="p-4">

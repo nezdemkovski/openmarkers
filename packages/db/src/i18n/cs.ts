@@ -153,6 +153,11 @@ const cs: TranslationData = {
     settingsThemeLight: "Světlý",
     settingsThemeDark: "Tmavý",
     settingsLanguage: "Jazyk",
+    settingsUnitSystem: "Jednotky",
+    settingsUnitSystemDesc:
+      "Zvolte zobrazení laboratorních hodnot. SI (mezinárodní systém) používá mmol/l, µmol/l, µkat/l — standard v Evropě. Konvenční používá mg/dL, U/L, g/dL — standard v USA. Uložená data nejsou ovlivněna, mění se pouze zobrazení.",
+    settingsUnitSI: "SI (Evropa)",
+    settingsUnitConventional: "Konvenční (USA)",
     settingsProfiles: "Profily",
     settingsEditProfile: "Upravit profil",
     settingsAccount: "Účet",

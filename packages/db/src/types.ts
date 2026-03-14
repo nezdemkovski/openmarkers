@@ -1,5 +1,9 @@
 export type Sex = "M" | "F";
 export type BiomarkerType = "quantitative" | "qualitative";
+export enum UnitSystem {
+  SI = "si",
+  Conventional = "conventional",
+}
 export type TrendDirection = "up" | "down" | "stable";
 
 export interface DbProfile {
@@ -25,6 +29,7 @@ export interface DbBiomarker {
   ref_min: number | null;
   ref_max: number | null;
   type: BiomarkerType;
+  molecular_weight: number | null;
 }
 
 export interface DbResult {
@@ -33,6 +38,9 @@ export interface DbResult {
   biomarker_id: string;
   date: string;
   value: string;
+  ref_min: number | null;
+  ref_max: number | null;
+  unit: string | null;
   created_at: string;
 }
 
@@ -49,6 +57,10 @@ export interface BiomarkerResult {
   id?: number;
   date: string;
   value: number | string;
+  refMin?: number | null;
+  refMax?: number | null;
+  unit?: string | null;
+  outOfRange?: boolean;
 }
 
 export interface Biomarker {
@@ -59,6 +71,8 @@ export interface Biomarker {
   refMax?: number | null;
   note?: string;
   results: BiomarkerResult[];
+  trend?: TrendResult | null;
+  latestOutOfRange?: boolean;
 }
 
 export interface Category {
@@ -75,6 +89,9 @@ export interface UserData {
     publicHandle?: string | null;
   };
   categories: Category[];
+  daysSince?: DaysSinceResult[];
+  correlations?: MatchedCorrelationGroup[];
+  biologicalAge?: { results: PhenoAgeResult[]; missingMarkers: string[] };
 }
 
 export interface TrendResult {

@@ -146,9 +146,9 @@ export async function handleCorrelations(auth: { userId: string }, id: number): 
 }
 
 export async function handleBiologicalAge(auth: { userId: string }, id: number): Promise<Response> {
-  const result = await getBiologicalAgeForProfile(id, auth.userId);
-  if (!result) return error("Profile not found", 404);
-  return json(result);
+  const data = await getBiologicalAgeForProfile(id, auth.userId);
+  if (!data) return error("Profile not found", 404);
+  return json(data);
 }
 
 export async function handleAnalysisPrompt(url: URL, auth: { userId: string }, id: number): Promise<Response> {

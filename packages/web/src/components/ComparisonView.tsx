@@ -6,7 +6,9 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { useQuery } from "@tanstack/react-query";
 import { getAllDates, compareDates as compareDatesLocal } from "@openmarkers/db/src/analytics";
+import { api } from "../lib/api.ts";
 import type { Category, I18n, ComparisonRow } from "../types.ts";
 
 function formatDate(dateStr: string): string {
@@ -29,6 +31,7 @@ interface ComparisonViewProps {
   categories: Category[];
   isDark: boolean;
   i18n: I18n;
+  profileId?: number;
 }
 
 function getDelta(row: ComparisonRow) {
@@ -62,10 +65,18 @@ function getDelta(row: ComparisonRow) {
   return { deltaStr, deltaColor, DeltaIcon };
 }
 
-export default function ComparisonView({ categories, isDark, i18n }: ComparisonViewProps) {
+export default function ComparisonView({ categories, isDark, i18n, profileId }: ComparisonViewProps) {
   const { t, tCat, tBio } = i18n;
 
-  const dates = useMemo(() => getAllDates(categories), [categories]);
+  const localDates = useMemo(() => getAllDates(categories), [categories]);
+
+  const { data: fetchedDates } = useQuery({
+    queryKey: ["timeline", profileId],
+    queryFn: () => api.getTimeline(profileId!),
+    enabled: !!profileId,
+  });
+
+  const dates = fetchedDates ?? localDates;
 
   const [date1, setDate1] = useState("");
   const [date2, setDate2] = useState("");
@@ -73,13 +84,20 @@ export default function ComparisonView({ categories, isDark, i18n }: ComparisonV
   const activeDate1 = date1 || (dates.length >= 2 ? dates[0] : dates[0] || "");
   const activeDate2 = date2 || (dates.length >= 2 ? dates[dates.length - 1] : "");
 
-  const rows = useMemo(
-    () =>
-      activeDate1 && activeDate2 && activeDate1 !== activeDate2
-        ? compareDatesLocal(categories, activeDate1, activeDate2)
-        : [],
-    [categories, activeDate1, activeDate2],
+  const canCompare = !!activeDate1 && !!activeDate2 && activeDate1 !== activeDate2;
+
+  const localRows = useMemo(
+    () => (!profileId && canCompare ? compareDatesLocal(categories, activeDate1, activeDate2) : []),
+    [profileId, categories, activeDate1, activeDate2, canCompare],
   );
+
+  const { data: fetchedRows } = useQuery({
+    queryKey: ["compare", profileId, activeDate1, activeDate2],
+    queryFn: () => api.compareDates(profileId!, activeDate1, activeDate2),
+    enabled: !!profileId && canCompare,
+  });
+
+  const rows = fetchedRows ?? localRows;
 
   const grouped = useMemo(() => {
     const map: Record<string, ComparisonRow[]> = {};

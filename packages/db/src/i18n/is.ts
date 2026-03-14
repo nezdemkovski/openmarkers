@@ -153,6 +153,11 @@ const is: TranslationData = {
     settingsThemeLight: "Ljóst",
     settingsThemeDark: "Dökkt",
     settingsLanguage: "Tungumál",
+    settingsUnitSystem: "Mælieiningar",
+    settingsUnitSystemDesc:
+      "Veldu hvernig rannsóknarniðurstöður birtast. SI (alþjóðlega kerfið) notar mmól/l, µmól/l, µkat/l — staðall í Evrópu. Hefðbundið notar mg/dL, U/L, g/dL — staðall í Bandaríkjunum. Gögn þín breytast ekki, aðeins birting.",
+    settingsUnitSI: "SI (Evrópa)",
+    settingsUnitConventional: "Hefðbundið (BNA)",
     settingsProfiles: "Prófílar",
     settingsEditProfile: "Breyta prófíl",
     settingsAccount: "Reikningur",

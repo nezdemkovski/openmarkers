@@ -106,14 +106,16 @@ export function getDateSnapshot(categories: Category[], date: string): SnapshotI
     for (const bio of cat.biomarkers) {
       const result = bio.results.find((r) => r.date === date);
       if (result) {
+        const effectiveRefMin = result.refMin ?? bio.refMin;
+        const effectiveRefMax = result.refMax ?? bio.refMax;
         items.push({
           categoryId: cat.id,
           biomarkerId: bio.id,
           unit: bio.unit,
-          refMin: bio.refMin,
-          refMax: bio.refMax,
+          refMin: effectiveRefMin,
+          refMax: effectiveRefMax,
           value: result.value,
-          outOfRange: isOutOfRange(result.value, bio.refMin, bio.refMax),
+          outOfRange: isOutOfRange(result.value, effectiveRefMin, effectiveRefMax),
         });
       }
     }
@@ -151,6 +153,10 @@ export function compareDates(categories: Category[], date1: string, date2: strin
         delta = v2 - v1;
         deltaPct = v1 !== 0 ? (delta / Math.abs(v1)) * 100 : null;
       }
+      const ref1Min = r1?.refMin ?? bio.refMin;
+      const ref1Max = r1?.refMax ?? bio.refMax;
+      const ref2Min = r2?.refMin ?? bio.refMin;
+      const ref2Max = r2?.refMax ?? bio.refMax;
       rows.push({
         categoryId: cat.id,
         biomarkerId: bio.id,
@@ -161,8 +167,8 @@ export function compareDates(categories: Category[], date1: string, date2: strin
         v2,
         delta,
         deltaPct,
-        out1: isOutOfRange(v1, bio.refMin, bio.refMax),
-        out2: isOutOfRange(v2, bio.refMin, bio.refMax),
+        out1: isOutOfRange(v1, ref1Min, ref1Max),
+        out2: isOutOfRange(v2, ref2Min, ref2Max),
       });
     }
   }

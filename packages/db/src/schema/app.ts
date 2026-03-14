@@ -42,6 +42,7 @@ export const profiles = pgTable(
 
 export const categories = pgTable("categories", {
   id: text("id").primaryKey(),
+  displayOrder: integer("display_order").notNull().default(0),
 });
 
 export const biomarkers = pgTable("biomarkers", {
@@ -55,6 +56,9 @@ export const biomarkers = pgTable("biomarkers", {
   type: text("type", { enum: ["quantitative", "qualitative"] })
     .notNull()
     .default("quantitative"),
+  molecularWeight: doublePrecision("molecular_weight"),
+  conventionalUnit: text("conventional_unit"),
+  displayOrder: integer("display_order").notNull().default(0),
 });
 
 export const results = pgTable(
@@ -69,6 +73,9 @@ export const results = pgTable(
       .references(() => biomarkers.id),
     date: text("date").notNull(),
     value: text("value").notNull(),
+    refMin: doublePrecision("ref_min"),
+    refMax: doublePrecision("ref_max"),
+    unit: text("unit"),
     createdAt: timestamp("created_at").defaultNow(),
   },
   (t) => [unique().on(t.profileId, t.biomarkerId, t.date)],
@@ -89,6 +96,15 @@ export const profileBiomarkers = pgTable(
   },
   (t) => [primaryKey({ columns: [t.profileId, t.biomarkerId] })],
 );
+
+export const userPreferences = pgTable("user_preferences", {
+  authUserId: uuid("auth_user_id")
+    .primaryKey()
+    .references(() => neonAuthUser.id, { onDelete: "cascade" }),
+  unitSystem: text("unit_system", { enum: ["si", "conventional"] })
+    .notNull()
+    .default("si"),
+});
 
 export const oauthClients = pgTable("oauth_clients", {
   clientId: text("client_id").primaryKey(),

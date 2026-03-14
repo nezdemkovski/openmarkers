@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { useRef } from "react";
+import { useState, useCallback, useRef } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Pencil,
   Trash2,
@@ -19,6 +19,7 @@ import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
 import { track, Event } from "../lib/analytics.ts";
 import type { I18n, Sex } from "../types.ts";
+import { UnitSystem } from "../types.ts";
 import { errorMessage } from "../lib/utils.ts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -60,6 +61,7 @@ export default function SettingsView({
     <div className="max-w-2xl mx-auto space-y-6">
       <h1 className="text-2xl font-bold text-foreground">{t("settings")}</h1>
 
+      <UnitSystemSection t={t} onUpdated={onProfileUpdated} />
       <ProfilesSection
         t={t}
         profiles={profiles}
@@ -682,6 +684,53 @@ function CliSection({ t }: { t: (key: string) => string }) {
             </Button>
           </div>
         </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function UnitSystemSection({ t, onUpdated }: { t: (key: string) => string; onUpdated: () => void }) {
+  const queryClient = useQueryClient();
+  const { data: prefs, isLoading: loading } = useQuery({
+    queryKey: ["preferences"],
+    queryFn: () => api.getPreferences(),
+  });
+  const unitSystem = prefs?.unitSystem ?? UnitSystem.SI;
+
+  const handleChange = async (value: UnitSystem) => {
+    queryClient.setQueryData(["preferences"], { unitSystem: value });
+    try {
+      await api.updatePreferences({ unit_system: value });
+
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      onUpdated();
+    } catch {
+      queryClient.setQueryData(["preferences"], { unitSystem });
+    }
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{t("settingsUnitSystem")}</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm text-muted-foreground">{t("settingsUnitSystemDesc")}</p>
+        {loading ? (
+          <div className="h-9" />
+        ) : (
+          <ToggleGroup
+            variant="outline"
+            value={[unitSystem]}
+            onValueChange={(val) => {
+              const picked = (val as string[]).find((v) => v !== unitSystem);
+              if (picked === UnitSystem.SI || picked === UnitSystem.Conventional) handleChange(picked);
+            }}
+          >
+            <ToggleGroupItem value={UnitSystem.SI}>{t("settingsUnitSI")}</ToggleGroupItem>
+            <ToggleGroupItem value={UnitSystem.Conventional}>{t("settingsUnitConventional")}</ToggleGroupItem>
+          </ToggleGroup>
+        )}
       </CardContent>
     </Card>
   );
