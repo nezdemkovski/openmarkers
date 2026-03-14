@@ -12,6 +12,9 @@ export function registerUpdateResult(server: McpServer, authUserId: string) {
         result_id: z.coerce.number().int().describe("Result ID"),
         date: z.string().optional().describe("Result date (YYYY-MM-DD)"),
         value: z.union([z.number(), z.string()]).optional().describe("Result value"),
+        ref_min: z.number().nullish().describe("Lab-reported reference minimum"),
+        ref_max: z.number().nullish().describe("Lab-reported reference maximum"),
+        unit: z.string().nullish().describe("Lab-reported unit of measurement"),
       }),
     },
     async ({ result_id, ...data }) => {

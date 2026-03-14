@@ -2129,6 +2129,10 @@
           ],
           "description": "Upper bound of reference range. Null if no upper limit."
         },
+        "molecularWeight": {
+          "type": "number",
+          "description": "Molecular weight of the substance in g/mol. Required for mass-to-molar unit conversions (e.g. mg/dL to mmol/l)."
+        },
         "note": {
           "type": "string",
           "description": "Optional clinical note about interpretation."
@@ -2161,6 +2165,18 @@
             "string"
           ],
           "description": "Test result. Number for quantitative, string for qualitative (e.g. 'neg', 'pos')."
+        },
+        "refMin": {
+          "type": "number",
+          "description": "Lab-reported reference minimum for this specific result."
+        },
+        "refMax": {
+          "type": "number",
+          "description": "Lab-reported reference maximum for this specific result."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Lab-reported unit of measurement for this specific result."
         }
       }
     }

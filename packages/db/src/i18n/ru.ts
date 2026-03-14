@@ -153,6 +153,11 @@ const ru: TranslationData = {
     settingsThemeLight: "Светлая",
     settingsThemeDark: "Тёмная",
     settingsLanguage: "Язык",
+    settingsUnitSystem: "Единицы измерения",
+    settingsUnitSystemDesc:
+      "Выберите формат отображения лабораторных значений. СИ (международная система) использует ммоль/л, мкмоль/л, мккат/л — стандарт в Европе. Традиционные единицы используют мг/дл, Ед/л, г/дл — стандарт в США. Сохранённые данные не изменяются, меняется только отображение.",
+    settingsUnitSI: "СИ (Европа)",
+    settingsUnitConventional: "Традиционные (США)",
     settingsProfiles: "Профили",
     settingsEditProfile: "Редактировать профиль",
     settingsAccount: "Аккаунт",

@@ -31,6 +31,9 @@ export const importDataSchema = z.object({
                   z.object({
                     date: z.string().date(),
                     value: z.union([z.number(), z.string().max(200)]),
+                    refMin: z.number().nullish(),
+                    refMax: z.number().nullish(),
+                    unit: z.string().max(50).nullish(),
                   }),
                 )
                 .max(10000),

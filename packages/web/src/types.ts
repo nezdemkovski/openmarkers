@@ -1,6 +1,7 @@
 export type {
   Sex,
   BiomarkerType,
+  UnitSystem,
   TrendDirection,
   BiomarkerResult,
   Biomarker,

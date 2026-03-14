@@ -2,6 +2,8 @@ import { db } from "./db";
 import { eq, and, sql, gte, lte } from "drizzle-orm";
 import { profiles, categories, biomarkers, results, profileBiomarkers, neonAuthUser } from "./schema/app";
 import type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData, Sex, BiomarkerType } from "./types";
+import { convert as convertUnit, convertRange, getTargetUnit } from "./units";
+import type { UnitSystem } from "./types";
 
 export type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData };
 export type {
@@ -45,6 +47,7 @@ export { verifyToken } from "./auth";
 export { db } from "./db";
 export * as oauthStore from "./oauth-store";
 export { importDataSchema, sexEnum, biomarkerTypeEnum, publicHandleSchema } from "./validation";
+export { convert as convertUnit, convertRange, canConvert } from "./units";
 
 export {
   getTimelineForProfile,
@@ -64,6 +67,7 @@ export async function listProfiles(authUserId: string): Promise<ProfileSummary[]
       name: profiles.name,
       dateOfBirth: profiles.dateOfBirth,
       sex: profiles.sex,
+      unitSystem: profiles.unitSystem,
       isPublic: profiles.isPublic,
       publicHandle: profiles.publicHandle,
     })
@@ -102,7 +106,14 @@ export async function createProfile(
 export async function updateProfile(
   profileId: number,
   authUserId: string,
-  data: Partial<{ name: string; date_of_birth: string; sex: Sex; is_public: boolean; public_handle: string | null }>,
+  data: Partial<{
+    name: string;
+    date_of_birth: string;
+    sex: Sex;
+    unit_system: UnitSystem;
+    is_public: boolean;
+    public_handle: string | null;
+  }>,
 ): Promise<DbProfile | undefined> {
   const existing = await getProfile(profileId, authUserId);
   if (!existing) return undefined;
@@ -111,6 +122,7 @@ export async function updateProfile(
   if (data.name !== undefined) updates.name = data.name;
   if (data.date_of_birth !== undefined) updates.dateOfBirth = data.date_of_birth;
   if (data.sex !== undefined) updates.sex = data.sex;
+  if (data.unit_system !== undefined) updates.unitSystem = data.unit_system;
   if (data.is_public !== undefined) updates.isPublic = data.is_public;
   if (data.public_handle !== undefined) updates.publicHandle = data.public_handle;
 
@@ -159,6 +171,7 @@ function toProfile(row: typeof profiles.$inferSelect): DbProfile {
     name: row.name,
     date_of_birth: row.dateOfBirth,
     sex: row.sex,
+    unit_system: row.unitSystem,
     is_public: row.isPublic,
     public_handle: row.publicHandle,
     created_at: row.createdAt?.toISOString() ?? "",
@@ -167,7 +180,7 @@ function toProfile(row: typeof profiles.$inferSelect): DbProfile {
 }
 
 export async function listCategories(): Promise<string[]> {
-  const rows = await db.select({ id: categories.id }).from(categories);
+  const rows = await db.select({ id: categories.id }).from(categories).orderBy(categories.displayOrder, categories.id);
   return rows.map((r) => r.id);
 }
 
@@ -241,6 +254,7 @@ function toBiomarker(row: typeof biomarkers.$inferSelect): DbBiomarker {
     ref_min: row.refMin,
     ref_max: row.refMax,
     type: row.type,
+    molecular_weight: row.molecularWeight,
   };
 }
 
@@ -251,6 +265,9 @@ export async function addResult(
     biomarker_id: string;
     date: string;
     value: string | number;
+    ref_min?: number | null;
+    ref_max?: number | null;
+    unit?: string | null;
   },
 ): Promise<DbResult> {
   const profile = await getProfile(data.profile_id, authUserId);
@@ -263,6 +280,9 @@ export async function addResult(
       biomarkerId: data.biomarker_id,
       date: data.date,
       value: String(data.value),
+      refMin: data.ref_min ?? null,
+      refMax: data.ref_max ?? null,
+      unit: data.unit ?? null,
     })
     .returning();
   return toResult(row);
@@ -271,7 +291,13 @@ export async function addResult(
 export async function updateResult(
   authUserId: string,
   id: number,
-  data: Partial<{ date: string; value: string | number }>,
+  data: Partial<{
+    date: string;
+    value: string | number;
+    ref_min: number | null;
+    ref_max: number | null;
+    unit: string | null;
+  }>,
 ): Promise<DbResult | undefined> {
   const [existing] = await db
     .select({ result: results, profile: profiles })
@@ -284,6 +310,9 @@ export async function updateResult(
   const updates: Record<string, unknown> = {};
   if (data.date !== undefined) updates.date = data.date;
   if (data.value !== undefined) updates.value = String(data.value);
+  if (data.ref_min !== undefined) updates.refMin = data.ref_min;
+  if (data.ref_max !== undefined) updates.refMax = data.ref_max;
+  if (data.unit !== undefined) updates.unit = data.unit;
 
   if (Object.keys(updates).length === 0) return toResult(existing.result);
 
@@ -360,6 +389,9 @@ function toResult(row: typeof results.$inferSelect): DbResult {
     biomarker_id: row.biomarkerId,
     date: row.date,
     value: row.value,
+    ref_min: row.refMin,
+    ref_max: row.refMax,
+    unit: row.unit,
     created_at: row.createdAt?.toISOString() ?? "",
   };
 }
@@ -397,7 +429,13 @@ interface JsonUserData {
       refMin?: number | null;
       refMax?: number | null;
       type?: BiomarkerType;
-      results: { date: string; value: number | string }[];
+      results: {
+        date: string;
+        value: number | string;
+        refMin?: number | null;
+        refMax?: number | null;
+        unit?: string | null;
+      }[];
     }[];
   }[];
 }
@@ -415,7 +453,7 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
       .returning();
     const profileId = profileRow.id;
 
-    const catValues: { id: string }[] = [];
+    const catValues: { id: string; displayOrder: number }[] = [];
     const bioValues: {
       id: string;
       categoryId: string;
@@ -431,11 +469,21 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
       refMin: number | null;
       refMax: number | null;
     }[] = [];
-    const resValues: { profileId: number; biomarkerId: string; date: string; value: string }[] = [];
+    const resValues: {
+      profileId: number;
+      biomarkerId: string;
+      date: string;
+      value: string;
+      refMin: number | null;
+      refMax: number | null;
+      unit: string | null;
+    }[] = [];
 
-    for (const cat of jsonData.categories) {
-      catValues.push({ id: cat.id });
-      for (const bio of cat.biomarkers) {
+    for (let catIdx = 0; catIdx < jsonData.categories.length; catIdx++) {
+      const cat = jsonData.categories[catIdx];
+      catValues.push({ id: cat.id, displayOrder: catIdx });
+      for (let bioIdx = 0; bioIdx < cat.biomarkers.length; bioIdx++) {
+        const bio = cat.biomarkers[bioIdx];
         bioValues.push({
           id: bio.id,
           categoryId: cat.id,
@@ -443,6 +491,7 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
           refMin: bio.refMin ?? null,
           refMax: bio.refMax ?? null,
           type: bio.type ?? "quantitative",
+          displayOrder: bioIdx,
         });
         pbValues.push({
           profileId,
@@ -452,7 +501,15 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
           refMax: bio.refMax ?? null,
         });
         for (const r of bio.results) {
-          resValues.push({ profileId, biomarkerId: bio.id, date: r.date, value: String(r.value) });
+          resValues.push({
+            profileId,
+            biomarkerId: bio.id,
+            date: r.date,
+            value: String(r.value),
+            refMin: r.refMin ?? null,
+            refMax: r.refMax ?? null,
+            unit: r.unit ?? null,
+          });
         }
       }
     }
@@ -484,7 +541,13 @@ export async function batchAddResults(
   data: {
     profile_id: number;
     date: string;
-    entries: Array<{ biomarker_id: string; value: string | number }>;
+    entries: Array<{
+      biomarker_id: string;
+      value: string | number;
+      ref_min?: number | null;
+      ref_max?: number | null;
+      unit?: string | null;
+    }>;
   },
 ): Promise<{ inserted: number; skipped: number }> {
   const profile = await getProfile(data.profile_id, authUserId);
@@ -511,13 +574,21 @@ export async function batchAddResults(
     biomarkerId: e.biomarker_id,
     date: data.date,
     value: String(e.value),
+    refMin: e.ref_min ?? null,
+    refMax: e.ref_max ?? null,
+    unit: e.unit ?? null,
   }));
   const upserted = await db
     .insert(results)
     .values(resValues)
     .onConflictDoUpdate({
       target: [results.profileId, results.biomarkerId, results.date],
-      set: { value: sql`excluded.value` },
+      set: {
+        value: sql`excluded.value`,
+        refMin: sql`excluded.ref_min`,
+        refMax: sql`excluded.ref_max`,
+        unit: sql`excluded.unit`,
+      },
     })
     .returning({ id: results.id });
   return { inserted: upserted.length, skipped: data.entries.length - upserted.length };
@@ -557,7 +628,7 @@ export async function getPublicProfileByHandle(handle: string): Promise<UserData
 
 async function assembleProfileData(profileId: number, profileRow: typeof profiles.$inferSelect): Promise<UserData> {
   const allCategories = await listCategories();
-  const allBiomarkerRows = await db.select().from(biomarkers);
+  const allBiomarkerRows = await db.select().from(biomarkers).orderBy(biomarkers.categoryId, biomarkers.displayOrder, biomarkers.id);
   const allResults = await db
     .select()
     .from(results)
@@ -583,25 +654,65 @@ async function assembleProfileData(profileId: number, profileRow: typeof profile
     else biomarkersByCategory.set(b.categoryId, [b]);
   }
 
+  const unitSystem = profileRow.unitSystem;
+
   const userCategories = allCategories
     .map((catId) => {
       const bios = (biomarkersByCategory.get(catId) || [])
         .map((b) => {
-          const ress = (resultsByBiomarker.get(b.id) || []).map((r) => ({
-            id: r.id,
-            date: r.date,
-            value: b.type === "qualitative" ? r.value : parseNumericValue(r.value),
-          }));
-          if (ress.length === 0) return null;
           const override = overrideMap.get(b.id);
-          const unit = override?.unit ?? b.unit;
-          const refMin = override?.ref_min ?? b.refMin;
-          const refMax = override?.ref_max ?? b.refMax;
+          const storedUnit = override?.unit ?? b.unit;
+          const mw = b.molecularWeight;
+
+          // Determine display unit: apply unit system preference, but only if conversion works
+          let systemTarget = storedUnit ? getTargetUnit(storedUnit, unitSystem) : null;
+          if (systemTarget && storedUnit) {
+            // Test if conversion actually works (e.g., MW-dependent conversions need MW)
+            const test = convertUnit(1, storedUnit, systemTarget, mw);
+            if (test == null) systemTarget = null; // can't convert, stay in stored unit
+          }
+          const displayUnit = systemTarget ?? storedUnit;
+
+          // Convert biomarker-level ref ranges to display unit
+          let bioRefMin = override?.ref_min ?? b.refMin;
+          let bioRefMax = override?.ref_max ?? b.refMax;
+          if (systemTarget && storedUnit) {
+            const cr = convertRange(bioRefMin, bioRefMax, storedUnit, systemTarget, mw);
+            bioRefMin = cr.refMin;
+            bioRefMax = cr.refMax;
+          }
+
+          const ress = (resultsByBiomarker.get(b.id) || []).map((r) => {
+            let value = b.type === "qualitative" ? r.value : parseNumericValue(r.value);
+            let rRefMin = r.refMin;
+            let rRefMax = r.refMax;
+            const resultUnit = r.unit ?? storedUnit;
+
+            // Convert value and per-result ref ranges to display unit
+            if (resultUnit && displayUnit && resultUnit !== displayUnit && typeof value === "number") {
+              const converted = convertUnit(value, resultUnit, displayUnit, mw);
+              if (converted != null) value = converted;
+              if (rRefMin != null || rRefMax != null) {
+                const cr = convertRange(rRefMin, rRefMax, resultUnit, displayUnit, mw);
+                rRefMin = cr.refMin;
+                rRefMax = cr.refMax;
+              }
+            }
+
+            return {
+              id: r.id,
+              date: r.date,
+              value,
+              ...(rRefMin != null ? { refMin: rRefMin } : {}),
+              ...(rRefMax != null ? { refMax: rRefMax } : {}),
+            };
+          });
+          if (ress.length === 0) return null;
           return {
             id: b.id,
-            ...(unit != null ? { unit } : {}),
-            ...(refMin != null ? { refMin } : {}),
-            ...(refMax != null ? { refMax } : {}),
+            ...(displayUnit != null ? { unit: displayUnit } : {}),
+            ...(bioRefMin != null ? { refMin: bioRefMin } : {}),
+            ...(bioRefMax != null ? { refMax: bioRefMax } : {}),
             ...(b.type !== "quantitative" ? { type: b.type } : {}),
             results: ress,
           };

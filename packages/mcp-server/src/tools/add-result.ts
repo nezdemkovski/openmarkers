@@ -13,6 +13,9 @@ export function registerAddResult(server: McpServer, authUserId: string) {
         biomarker_id: z.string().describe("Biomarker ID"),
         date: z.string().describe("Result date (YYYY-MM-DD)"),
         value: z.union([z.number(), z.string()]).describe("Result value (numeric or string)"),
+        ref_min: z.number().nullish().describe("Lab-reported reference minimum"),
+        ref_max: z.number().nullish().describe("Lab-reported reference maximum"),
+        unit: z.string().nullish().describe("Lab-reported unit of measurement"),
       }),
     },
     async (input) => {

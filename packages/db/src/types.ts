@@ -1,5 +1,6 @@
 export type Sex = "M" | "F";
 export type BiomarkerType = "quantitative" | "qualitative";
+export type UnitSystem = "si" | "conventional";
 export type TrendDirection = "up" | "down" | "stable";
 
 export interface DbProfile {
@@ -8,6 +9,7 @@ export interface DbProfile {
   name: string;
   date_of_birth: string;
   sex: Sex;
+  unit_system: UnitSystem;
   is_public: boolean;
   public_handle: string | null;
   created_at: string;
@@ -25,6 +27,7 @@ export interface DbBiomarker {
   ref_min: number | null;
   ref_max: number | null;
   type: BiomarkerType;
+  molecular_weight: number | null;
 }
 
 export interface DbResult {
@@ -33,6 +36,9 @@ export interface DbResult {
   biomarker_id: string;
   date: string;
   value: string;
+  ref_min: number | null;
+  ref_max: number | null;
+  unit: string | null;
   created_at: string;
 }
 
@@ -41,6 +47,7 @@ export interface ProfileSummary {
   name: string;
   dateOfBirth: string;
   sex: Sex;
+  unitSystem: UnitSystem;
   isPublic: boolean;
   publicHandle: string | null;
 }
@@ -49,6 +56,9 @@ export interface BiomarkerResult {
   id?: number;
   date: string;
   value: number | string;
+  refMin?: number | null;
+  refMax?: number | null;
+  unit?: string | null;
 }
 
 export interface Biomarker {

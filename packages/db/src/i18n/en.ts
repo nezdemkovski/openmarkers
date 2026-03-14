@@ -154,6 +154,11 @@ const en: TranslationData = {
     settingsThemeLight: "Light",
     settingsThemeDark: "Dark",
     settingsLanguage: "Language",
+    settingsUnitSystem: "Unit System",
+    settingsUnitSystemDesc:
+      "Choose how lab values are displayed. SI (International System) uses mmol/l, µmol/l, µkat/l — standard in Europe. Conventional uses mg/dL, U/L, g/dL — standard in the US. Your stored data is not affected, only the display.",
+    settingsUnitSI: "SI (Europe)",
+    settingsUnitConventional: "Conventional (US)",
     settingsProfiles: "Profiles",
     settingsEditProfile: "Edit Profile",
     settingsAccount: "Account",

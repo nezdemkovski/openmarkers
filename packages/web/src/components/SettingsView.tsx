@@ -18,7 +18,7 @@ import {
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
 import { track, Event } from "../lib/analytics.ts";
-import type { I18n, Sex } from "../types.ts";
+import type { I18n, Sex, UnitSystem } from "../types.ts";
 import { errorMessage } from "../lib/utils.ts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -160,6 +160,7 @@ function ProfileRow({
   const [name, setName] = useState(profile.name);
   const [dob, setDob] = useState(profile.dateOfBirth);
   const [sex, setSex] = useState(profile.sex);
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>(profile.unitSystem);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -168,7 +169,7 @@ function ProfileRow({
     setSaving(true);
     setError("");
     try {
-      await api.updateProfile(profile.id, { name, date_of_birth: dob, sex });
+      await api.updateProfile(profile.id, { name, date_of_birth: dob, sex, unit_system: unitSystem });
       setEditing(false);
       onUpdated();
     } catch (e) {
@@ -210,6 +211,25 @@ function ProfileRow({
             <ToggleGroupItem value="F">{t("sexFemale")}</ToggleGroupItem>
           </ToggleGroup>
         </div>
+        <div>
+          <Label className="text-xs text-muted-foreground mb-1">{t("settingsUnitSystem")}</Label>
+          <ToggleGroup
+            variant="outline"
+            value={[unitSystem]}
+            onValueChange={(val) => {
+              const picked = (val as string[]).find((v) => v !== unitSystem);
+              if (picked === "si" || picked === "conventional") setUnitSystem(picked);
+            }}
+          >
+            <ToggleGroupItem value="si" className="text-xs">
+              {t("settingsUnitSI")}
+            </ToggleGroupItem>
+            <ToggleGroupItem value="conventional" className="text-xs">
+              {t("settingsUnitConventional")}
+            </ToggleGroupItem>
+          </ToggleGroup>
+          <p className="text-xs text-muted-foreground mt-1">{t("settingsUnitSystemDesc")}</p>
+        </div>
         {error && <p className="text-xs text-destructive">{error}</p>}
         <div className="flex justify-end gap-2">
           <Button
@@ -220,6 +240,7 @@ function ProfileRow({
               setName(profile.name);
               setDob(profile.dateOfBirth);
               setSex(profile.sex);
+              setUnitSystem(profile.unitSystem);
             }}
           >
             <X className="w-4 h-4" />

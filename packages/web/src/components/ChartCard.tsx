@@ -27,22 +27,32 @@ function formatDate(dateStr: string): string {
   });
 }
 
+interface ChartDataPoint {
+  date: string;
+  value: number;
+  refMin?: number | null;
+  refMax?: number | null;
+}
+
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: Array<{ payload: { date: string; value: number } }>;
+  payload?: Array<{ payload: ChartDataPoint }>;
   biomarker: Biomarker;
   t: I18n["t"];
 }
 
 function CustomTooltip({ active, payload, biomarker, t }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
-  const { date, value } = payload[0].payload;
-  const out = isOutOfRange(value, biomarker.refMin, biomarker.refMax);
+  const point = payload[0].payload;
+  const { date, value } = point;
+  const effectiveRefMin = point.refMin ?? biomarker.refMin;
+  const effectiveRefMax = point.refMax ?? biomarker.refMax;
+  const out = isOutOfRange(value, effectiveRefMin, effectiveRefMax);
   const formatted =
     typeof value === "number" ? (Number.isInteger(value) ? value : value.toFixed(2).replace(/\.?0+$/, "")) : value;
   const refParts: string[] = [];
-  if (biomarker.refMin != null) refParts.push(`Min: ${biomarker.refMin}`);
-  if (biomarker.refMax != null) refParts.push(`Max: ${biomarker.refMax}`);
+  if (effectiveRefMin != null) refParts.push(`Min: ${effectiveRefMin}`);
+  if (effectiveRefMax != null) refParts.push(`Max: ${effectiveRefMax}`);
 
   return (
     <div className="bg-popover text-popover-foreground text-xs rounded-lg px-3 py-2 shadow-lg border border-border">
@@ -67,13 +77,15 @@ function CustomTooltip({ active, payload, biomarker, t }: CustomTooltipProps) {
 interface CustomDotProps {
   cx?: number;
   cy?: number;
-  payload?: { value: number };
+  payload?: ChartDataPoint;
   biomarker: Biomarker;
 }
 
 function CustomDot({ cx, cy, payload, biomarker }: CustomDotProps) {
   if (cx == null || cy == null || !payload) return null;
-  const out = isOutOfRange(payload.value, biomarker.refMin, biomarker.refMax);
+  const effectiveRefMin = payload.refMin ?? biomarker.refMin;
+  const effectiveRefMax = payload.refMax ?? biomarker.refMax;
+  const out = isOutOfRange(payload.value, effectiveRefMin, effectiveRefMax);
   return (
     <circle
       cx={cx}
@@ -161,7 +173,9 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
 
   const { latest, out, trend, latestStr, refStr, data, minVal, maxVal, padding } = useMemo(() => {
     const _latest = biomarker.results[biomarker.results.length - 1];
-    const _out = isOutOfRange(_latest?.value, biomarker.refMin, biomarker.refMax);
+    const _latestRefMin = _latest?.refMin ?? biomarker.refMin;
+    const _latestRefMax = _latest?.refMax ?? biomarker.refMax;
+    const _out = isOutOfRange(_latest?.value, _latestRefMin, _latestRefMax);
     const _trend = analyzeTrend(biomarker.results, biomarker.refMin, biomarker.refMax);
     const _latestStr = _latest
       ? `${typeof _latest.value === "number" ? _latest.value : _latest.value} ${biomarker.unit || ""}`
@@ -171,7 +185,12 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
     if (biomarker.refMax != null) _refParts.push(biomarker.refMax);
     const _refStr = _refParts.join(" \u2013 ");
     const results = biomarker.results.filter((r): r is typeof r & { value: number } => typeof r.value === "number");
-    const _data = results.map((r) => ({ date: r.date, value: r.value }));
+    const _data: ChartDataPoint[] = results.map((r) => ({
+      date: r.date,
+      value: r.value,
+      refMin: r.refMin,
+      refMax: r.refMax,
+    }));
     const allValues = _data.map((d) => d.value);
     if (biomarker.refMin != null) allValues.push(biomarker.refMin);
     if (biomarker.refMax != null) allValues.push(biomarker.refMax);

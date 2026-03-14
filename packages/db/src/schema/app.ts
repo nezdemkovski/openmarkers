@@ -32,6 +32,9 @@ export const profiles = pgTable(
     dateOfBirth: text("date_of_birth").notNull(),
     sex: text("sex", { enum: ["M", "F"] }).notNull(),
     displayOrder: integer("display_order").notNull().default(0),
+    unitSystem: text("unit_system", { enum: ["si", "conventional"] })
+      .notNull()
+      .default("si"),
     isPublic: boolean("is_public").notNull().default(false),
     publicHandle: text("public_handle").unique(),
     createdAt: timestamp("created_at").defaultNow(),
@@ -42,6 +45,7 @@ export const profiles = pgTable(
 
 export const categories = pgTable("categories", {
   id: text("id").primaryKey(),
+  displayOrder: integer("display_order").notNull().default(0),
 });
 
 export const biomarkers = pgTable("biomarkers", {
@@ -55,6 +59,8 @@ export const biomarkers = pgTable("biomarkers", {
   type: text("type", { enum: ["quantitative", "qualitative"] })
     .notNull()
     .default("quantitative"),
+  molecularWeight: doublePrecision("molecular_weight"),
+  displayOrder: integer("display_order").notNull().default(0),
 });
 
 export const results = pgTable(
@@ -69,6 +75,9 @@ export const results = pgTable(
       .references(() => biomarkers.id),
     date: text("date").notNull(),
     value: text("value").notNull(),
+    refMin: doublePrecision("ref_min"),
+    refMax: doublePrecision("ref_max"),
+    unit: text("unit"),
     createdAt: timestamp("created_at").defaultNow(),
   },
   (t) => [unique().on(t.profileId, t.biomarkerId, t.date)],

@@ -1,10 +1,11 @@
-import type { Sex } from "../../types";
+import type { Sex, UnitSystem } from "../../types";
 
 export interface ProfileSummary {
   id: number;
   name: string;
   dateOfBirth: string;
   sex: Sex;
+  unitSystem: UnitSystem;
   isPublic: boolean;
   publicHandle: string | null;
 }
@@ -77,7 +78,14 @@ export const api = {
   importProfile: (data: unknown) => post<{ ok: boolean; profile_id: number }>("/api/import", data),
   updateProfile: (
     id: number,
-    data: Partial<{ name: string; date_of_birth: string; sex: Sex; is_public: boolean; public_handle: string | null }>,
+    data: Partial<{
+      name: string;
+      date_of_birth: string;
+      sex: Sex;
+      unit_system: UnitSystem;
+      is_public: boolean;
+      public_handle: string | null;
+    }>,
   ) => patch<{ id: number; name: string }>(`/api/profiles/${id}`, data),
   deleteProfile: (id: number) => del<{ ok: boolean }>(`/api/profiles/${id}`),
   reorderProfiles: (profileIds: number[]) =>
