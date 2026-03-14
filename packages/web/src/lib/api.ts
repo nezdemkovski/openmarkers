@@ -1,5 +1,4 @@
-import type { Sex } from "../../types";
-import { UnitSystem } from "../../types";
+import { Sex, UnitSystem } from "../../types";
 
 export interface ProfileSummary {
   id: number;

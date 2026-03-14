@@ -27,7 +27,8 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/component
 import { DatePicker } from "@/components/ui/date-picker";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import type { UserData, Route, Sex } from "../types.ts";
+import type { UserData, Route } from "../types.ts";
+import { Sex } from "../types.ts";
 import { errorMessage } from "../lib/utils.ts";
 import type { Lang } from "@openmarkers/db";
 import { track, Event } from "../lib/analytics.ts";
@@ -44,7 +45,7 @@ function isImportData(data: unknown): data is ImportData {
 }
 
 const EMPTY_USER_DATA: UserData = {
-  user: { id: 0, name: "", dateOfBirth: "", sex: "M" },
+  user: { id: 0, name: "", dateOfBirth: "", sex: Sex.Male },
   categories: [],
 };
 
@@ -450,7 +451,7 @@ function GettingStarted({
   }, [defaultShowCreate]);
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [sex, setSex] = useState<Sex>("M");
+  const [sex, setSex] = useState<Sex>(Sex.Male);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -566,14 +567,14 @@ function GettingStarted({
                   value={sex ? [sex] : []}
                   onValueChange={(val) => {
                     const picked = (val as string[]).find((v) => v !== sex);
-                    if (picked === "M" || picked === "F") setSex(picked);
+                    if (picked === Sex.Male || picked === Sex.Female) setSex(picked);
                   }}
                   className="w-full"
                 >
-                  <ToggleGroupItem value="M" className="flex-1">
+                  <ToggleGroupItem value={Sex.Male} className="flex-1">
                     {t("sexMale")}
                   </ToggleGroupItem>
-                  <ToggleGroupItem value="F" className="flex-1">
+                  <ToggleGroupItem value={Sex.Female} className="flex-1">
                     {t("sexFemale")}
                   </ToggleGroupItem>
                 </ToggleGroup>

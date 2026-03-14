@@ -1,4 +1,5 @@
 import type { UserData, I18n, Lang } from "./types";
+import { Sex } from "./types";
 import { LANGS } from "./i18n";
 import { isOutOfRange, analyzeTrend, getAllDates, getRelevantCorrelations } from "./analytics";
 import { calculatePhenoAge } from "./bioage";
@@ -43,7 +44,7 @@ export function buildPrompt(userData: UserData, enI18n: I18n, lang: Lang): strin
   lines.push("## Patient Profile");
   lines.push(`- Name: ${user.name}`);
   lines.push(`- Age: ${age(user.dateOfBirth!)} (DOB: ${user.dateOfBirth})`);
-  lines.push(`- Sex: ${user.sex === "M" ? "Male" : "Female"}`);
+  lines.push(`- Sex: ${user.sex === Sex.Male ? "Male" : "Female"}`);
   lines.push(`- Lab dates: ${dates.join(", ")} (${dates.length} tests)`);
   lines.push("");
 

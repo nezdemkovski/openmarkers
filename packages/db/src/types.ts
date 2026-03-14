@@ -1,5 +1,12 @@
-export type Sex = "M" | "F";
-export type BiomarkerType = "quantitative" | "qualitative";
+export enum Sex {
+  Male = "M",
+  Female = "F",
+}
+
+export enum BiomarkerType {
+  Quantitative = "quantitative",
+  Qualitative = "qualitative",
+}
 export enum UnitSystem {
   SI = "si",
   Conventional = "conventional",
@@ -26,8 +33,10 @@ export interface DbBiomarker {
   id: string;
   category_id: string;
   unit: string | null;
-  ref_min: number | null;
-  ref_max: number | null;
+  ref_min_m: number | null;
+  ref_max_m: number | null;
+  ref_min_f: number | null;
+  ref_max_f: number | null;
   type: BiomarkerType;
   molecular_weight: number | null;
 }

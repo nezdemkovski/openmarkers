@@ -1,7 +1,5 @@
-export { UnitSystem } from "@openmarkers/db/src/types";
+export { UnitSystem, Sex, BiomarkerType } from "@openmarkers/db/src/types";
 export type {
-  Sex,
-  BiomarkerType,
   TrendDirection,
   BiomarkerResult,
   Biomarker,
@@ -22,7 +20,7 @@ export type {
   I18n,
 } from "@openmarkers/db/src/types";
 
-import type { Sex } from "@openmarkers/db/src/types";
+import { Sex } from "@openmarkers/db/src/types";
 
 export interface User {
   id?: number;

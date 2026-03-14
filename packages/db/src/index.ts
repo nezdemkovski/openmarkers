@@ -1,15 +1,8 @@
 import { db } from "./db";
 import { eq, and, sql, gte, lte } from "drizzle-orm";
-import {
-  profiles,
-  categories,
-  biomarkers,
-  results,
-  profileBiomarkers,
-  neonAuthUser,
-  userPreferences,
-} from "./schema/app";
-import type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData, Sex, BiomarkerType } from "./types";
+import { profiles, categories, biomarkers, results, neonAuthUser, userPreferences } from "./schema/app";
+import type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData } from "./types";
+import { Sex, BiomarkerType } from "./types";
 import { convert as convertUnit, convertRange, getDisplayUnit } from "./units";
 import { isOutOfRange, analyzeTrend } from "./analytics";
 import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
@@ -213,8 +206,10 @@ export async function createBiomarker(data: {
   id: string;
   category_id: string;
   unit?: string | null;
-  ref_min?: number | null;
-  ref_max?: number | null;
+  ref_min_m?: number | null;
+  ref_max_m?: number | null;
+  ref_min_f?: number | null;
+  ref_max_f?: number | null;
   type?: BiomarkerType;
 }): Promise<DbBiomarker> {
   await ensureCategory(data.category_id);
@@ -224,9 +219,11 @@ export async function createBiomarker(data: {
       id: data.id,
       categoryId: data.category_id,
       unit: data.unit ?? null,
-      refMin: data.ref_min ?? null,
-      refMax: data.ref_max ?? null,
-      type: data.type ?? "quantitative",
+      refMinM: data.ref_min_m ?? null,
+      refMaxM: data.ref_max_m ?? null,
+      refMinF: data.ref_min_f ?? null,
+      refMaxF: data.ref_max_f ?? null,
+      type: data.type ?? BiomarkerType.Quantitative,
     })
     .returning();
   return toBiomarker(row);
@@ -236,8 +233,10 @@ export async function updateBiomarker(
   id: string,
   data: Partial<{
     unit: string | null;
-    ref_min: number | null;
-    ref_max: number | null;
+    ref_min_m: number | null;
+    ref_max_m: number | null;
+    ref_min_f: number | null;
+    ref_max_f: number | null;
   }>,
 ): Promise<DbBiomarker | undefined> {
   const existing = await getBiomarker(id);
@@ -245,8 +244,10 @@ export async function updateBiomarker(
 
   const updates: Record<string, unknown> = {};
   if (data.unit !== undefined) updates.unit = data.unit;
-  if (data.ref_min !== undefined) updates.refMin = data.ref_min;
-  if (data.ref_max !== undefined) updates.refMax = data.ref_max;
+  if (data.ref_min_m !== undefined) updates.refMinM = data.ref_min_m;
+  if (data.ref_max_m !== undefined) updates.refMaxM = data.ref_max_m;
+  if (data.ref_min_f !== undefined) updates.refMinF = data.ref_min_f;
+  if (data.ref_max_f !== undefined) updates.refMaxF = data.ref_max_f;
 
   if (Object.keys(updates).length === 0) return existing;
 
@@ -259,8 +260,10 @@ function toBiomarker(row: typeof biomarkers.$inferSelect): DbBiomarker {
     id: row.id,
     category_id: row.categoryId,
     unit: row.unit,
-    ref_min: row.refMin,
-    ref_max: row.refMax,
+    ref_min_m: row.refMinM,
+    ref_max_m: row.refMaxM,
+    ref_min_f: row.refMinF,
+    ref_max_f: row.refMaxF,
     type: row.type,
     molecular_weight: row.molecularWeight,
   };
@@ -456,8 +459,10 @@ interface JsonUserData {
     biomarkers: {
       id: string;
       unit?: string | null;
-      refMin?: number | null;
-      refMax?: number | null;
+      refMinM?: number | null;
+      refMaxM?: number | null;
+      refMinF?: number | null;
+      refMaxF?: number | null;
       conventionalUnit?: string | null;
       type?: BiomarkerType;
       results: {
@@ -479,7 +484,7 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
         authUserId,
         name: jsonData.user.name,
         dateOfBirth: jsonData.user.dateOfBirth ?? "",
-        sex: jsonData.user.sex ?? "M",
+        sex: jsonData.user.sex ?? Sex.Male,
       })
       .returning();
     const profileId = profileRow.id;
@@ -489,18 +494,13 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
       id: string;
       categoryId: string;
       unit: string | null;
-      refMin: number | null;
-      refMax: number | null;
+      refMinM: number | null;
+      refMaxM: number | null;
+      refMinF: number | null;
+      refMaxF: number | null;
       conventionalUnit: string | null;
       type: string;
       displayOrder: number;
-    }[] = [];
-    const pbValues: {
-      profileId: number;
-      biomarkerId: string;
-      unit: string | null;
-      refMin: number | null;
-      refMax: number | null;
     }[] = [];
     const resValues: {
       profileId: number;
@@ -521,18 +521,13 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
           id: bio.id,
           categoryId: cat.id,
           unit: bio.unit ?? null,
-          refMin: bio.refMin ?? null,
-          refMax: bio.refMax ?? null,
+          refMinM: bio.refMinM ?? null,
+          refMaxM: bio.refMaxM ?? null,
+          refMinF: bio.refMinF ?? bio.refMinM ?? null,
+          refMaxF: bio.refMaxF ?? bio.refMaxM ?? null,
           conventionalUnit: bio.conventionalUnit ?? null,
-          type: bio.type ?? "quantitative",
+          type: bio.type ?? BiomarkerType.Quantitative,
           displayOrder: bioIdx,
-        });
-        pbValues.push({
-          profileId,
-          biomarkerId: bio.id,
-          unit: bio.unit ?? null,
-          refMin: bio.refMin ?? null,
-          refMax: bio.refMax ?? null,
         });
         for (const r of bio.results) {
           resValues.push({
@@ -553,9 +548,6 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
     }
     if (bioValues.length > 0) {
       await tx.insert(biomarkers).values(bioValues).onConflictDoNothing();
-    }
-    if (pbValues.length > 0) {
-      await tx.insert(profileBiomarkers).values(pbValues).onConflictDoNothing();
     }
     if (resValues.length > 0) {
       for (let i = 0; i < resValues.length; i += 500) {
@@ -587,21 +579,6 @@ export async function batchAddResults(
   const profile = await getProfile(data.profile_id, authUserId);
   if (!profile) throw new Error("Profile not found or not owned by user");
   if (!data.entries.length) return { inserted: 0, skipped: 0 };
-
-  const pbValues: {
-    profileId: number;
-    biomarkerId: string;
-    unit: string | null;
-    refMin: number | null;
-    refMax: number | null;
-  }[] = data.entries.map((e) => ({
-    profileId: data.profile_id,
-    biomarkerId: e.biomarker_id,
-    unit: null,
-    refMin: null,
-    refMax: null,
-  }));
-  await db.insert(profileBiomarkers).values(pbValues).onConflictDoNothing();
 
   const resValues = data.entries.map((e) => ({
     profileId: data.profile_id,
@@ -676,10 +653,7 @@ async function assembleProfileData(
     .where(eq(results.profileId, profileId))
     .orderBy(results.biomarkerId, results.date);
 
-  const overrideRows = await db.select().from(profileBiomarkers).where(eq(profileBiomarkers.profileId, profileId));
-  const overrideMap = new Map(
-    overrideRows.map((o) => [o.biomarkerId, { unit: o.unit, ref_min: o.refMin, ref_max: o.refMax }]),
-  );
+  const isFemale = profileRow.sex === Sex.Female;
 
   const resultsByBiomarker = new Map<string, (typeof results.$inferSelect)[]>();
   for (const r of allResults) {
@@ -710,8 +684,7 @@ async function assembleProfileData(
     .map((catId) => {
       const bios = (biomarkersByCategory.get(catId) || [])
         .map((b) => {
-          const override = overrideMap.get(b.id);
-          const storedUnit = override?.unit ?? b.unit;
+          const storedUnit = b.unit;
           const mw = b.molecularWeight;
 
           let systemTarget: string | null = null;
@@ -724,8 +697,8 @@ async function assembleProfileData(
           }
           const displayUnit = systemTarget ?? storedUnit;
 
-          let bioRefMin = override?.ref_min ?? b.refMin;
-          let bioRefMax = override?.ref_max ?? b.refMax;
+          let bioRefMin = isFemale ? (b.refMinF ?? b.refMinM) : b.refMinM;
+          let bioRefMax = isFemale ? (b.refMaxF ?? b.refMaxM) : b.refMaxM;
           if (systemTarget && storedUnit) {
             const cr = convertRange(bioRefMin, bioRefMax, storedUnit, systemTarget, mw);
             bioRefMin = cr.refMin;
@@ -733,7 +706,7 @@ async function assembleProfileData(
           }
 
           const ress = (resultsByBiomarker.get(b.id) || []).map((r) => {
-            let value = b.type === "qualitative" ? r.value : parseNumericValue(r.value);
+            let value = b.type === BiomarkerType.Qualitative ? r.value : parseNumericValue(r.value);
             let rRefMin = r.refMin;
             let rRefMax = r.refMax;
             const resultUnit = r.unit ?? storedUnit;
@@ -767,7 +740,7 @@ async function assembleProfileData(
             ...(displayUnit != null ? { unit: displayUnit } : {}),
             ...(bioRefMin != null ? { refMin: bioRefMin } : {}),
             ...(bioRefMax != null ? { refMax: bioRefMax } : {}),
-            ...(b.type !== "quantitative" ? { type: b.type } : {}),
+            ...(b.type !== BiomarkerType.Quantitative ? { type: b.type } : {}),
             results: ress,
             trend,
             latestOutOfRange: latest?.outOfRange ?? false,

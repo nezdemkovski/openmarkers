@@ -9,7 +9,6 @@ import {
   timestamp,
   bigint,
   boolean,
-  primaryKey,
   unique,
 } from "drizzle-orm/pg-core";
 
@@ -51,8 +50,10 @@ export const biomarkers = pgTable("biomarkers", {
     .notNull()
     .references(() => categories.id),
   unit: text("unit"),
-  refMin: doublePrecision("ref_min"),
-  refMax: doublePrecision("ref_max"),
+  refMinM: doublePrecision("ref_min_m"),
+  refMaxM: doublePrecision("ref_max_m"),
+  refMinF: doublePrecision("ref_min_f"),
+  refMaxF: doublePrecision("ref_max_f"),
   type: text("type", { enum: ["quantitative", "qualitative"] })
     .notNull()
     .default("quantitative"),
@@ -79,22 +80,6 @@ export const results = pgTable(
     createdAt: timestamp("created_at").defaultNow(),
   },
   (t) => [unique().on(t.profileId, t.biomarkerId, t.date)],
-);
-
-export const profileBiomarkers = pgTable(
-  "profile_biomarkers",
-  {
-    profileId: integer("profile_id")
-      .notNull()
-      .references(() => profiles.id, { onDelete: "cascade" }),
-    biomarkerId: text("biomarker_id")
-      .notNull()
-      .references(() => biomarkers.id),
-    unit: text("unit"),
-    refMin: doublePrecision("ref_min"),
-    refMax: doublePrecision("ref_max"),
-  },
-  (t) => [primaryKey({ columns: [t.profileId, t.biomarkerId] })],
 );
 
 export const userPreferences = pgTable("user_preferences", {

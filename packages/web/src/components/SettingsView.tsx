@@ -18,8 +18,8 @@ import {
 import { authClient } from "../lib/auth-client.ts";
 import { api, type ProfileSummary } from "../lib/api.ts";
 import { track, Event } from "../lib/analytics.ts";
-import type { I18n, Sex } from "../types.ts";
-import { UnitSystem } from "../types.ts";
+import type { I18n } from "../types.ts";
+import { Sex, UnitSystem } from "../types.ts";
 import { errorMessage } from "../lib/utils.ts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -205,11 +205,11 @@ function ProfileRow({
             value={[sex]}
             onValueChange={(val) => {
               const picked = (val as string[]).find((v) => v !== sex);
-              if (picked === "M" || picked === "F") setSex(picked);
+              if (picked === Sex.Male || picked === Sex.Female) setSex(picked);
             }}
           >
-            <ToggleGroupItem value="M">{t("sexMale")}</ToggleGroupItem>
-            <ToggleGroupItem value="F">{t("sexFemale")}</ToggleGroupItem>
+            <ToggleGroupItem value={Sex.Male}>{t("sexMale")}</ToggleGroupItem>
+            <ToggleGroupItem value={Sex.Female}>{t("sexFemale")}</ToggleGroupItem>
           </ToggleGroup>
         </div>
         {error && <p className="text-xs text-destructive">{error}</p>}
@@ -253,7 +253,7 @@ function ProfileRow({
             {profile.isPublic && <Globe className="w-3 h-3 inline ml-1.5 text-emerald-500" />}
           </div>
           <div className="text-xs text-muted-foreground">
-            {profile.dateOfBirth} · {profile.sex === "M" ? t("sexMale") : t("sexFemale")}
+            {profile.dateOfBirth} · {profile.sex === Sex.Male ? t("sexMale") : t("sexFemale")}
           </div>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
