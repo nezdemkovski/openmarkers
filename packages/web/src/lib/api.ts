@@ -1,11 +1,11 @@
-import type { Sex, UnitSystem } from "../../types";
+import type { Sex } from "../../types";
+import { UnitSystem } from "../../types";
 
 export interface ProfileSummary {
   id: number;
   name: string;
   dateOfBirth: string;
   sex: Sex;
-  unitSystem: UnitSystem;
   isPublic: boolean;
   publicHandle: string | null;
 }
@@ -82,7 +82,6 @@ export const api = {
       name: string;
       date_of_birth: string;
       sex: Sex;
-      unit_system: UnitSystem;
       is_public: boolean;
       public_handle: string | null;
     }>,
@@ -94,6 +93,12 @@ export const api = {
       body: JSON.stringify({ profileIds }),
     }),
   deleteAccount: () => del<{ ok: boolean }>("/api/account"),
+  getPreferences: () => request<{ unitSystem: UnitSystem }>("/api/preferences"),
+  updatePreferences: (data: { unit_system: UnitSystem }) =>
+    request<{ unitSystem: UnitSystem }>("/api/preferences", {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
   listBiomarkers: (categoryId?: string) => {
     const qs = categoryId ? `?category_id=${encodeURIComponent(categoryId)}` : "";
     return request<import("@openmarkers/db").DbBiomarker[]>(`/api/biomarkers${qs}`);

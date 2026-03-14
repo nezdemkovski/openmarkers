@@ -1,7 +1,7 @@
+export { UnitSystem } from "@openmarkers/db/src/types";
 export type {
   Sex,
   BiomarkerType,
-  UnitSystem,
   TrendDirection,
   BiomarkerResult,
   Biomarker,

@@ -25,16 +25,21 @@ export const importDataSchema = z.object({
               unit: z.string().max(50).nullish(),
               refMin: z.number().nullish(),
               refMax: z.number().nullish(),
+              conventionalUnit: z.string().max(50).nullish(),
               type: biomarkerTypeEnum.optional(),
               results: z
                 .array(
-                  z.object({
-                    date: z.string().date(),
-                    value: z.union([z.number(), z.string().max(200)]),
-                    refMin: z.number().nullish(),
-                    refMax: z.number().nullish(),
-                    unit: z.string().max(50).nullish(),
-                  }),
+                  z
+                    .object({
+                      date: z.string().date(),
+                      value: z.union([z.number(), z.string().max(200)]),
+                      refMin: z.number().nullish(),
+                      refMax: z.number().nullish(),
+                      unit: z.string().max(50).nullish(),
+                    })
+                    .refine((r) => r.refMin == null || r.refMax == null || r.refMin <= r.refMax, {
+                      message: "refMin must be <= refMax",
+                    }),
                 )
                 .max(10000),
             }),

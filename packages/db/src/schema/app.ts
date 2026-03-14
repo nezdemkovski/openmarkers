@@ -32,9 +32,6 @@ export const profiles = pgTable(
     dateOfBirth: text("date_of_birth").notNull(),
     sex: text("sex", { enum: ["M", "F"] }).notNull(),
     displayOrder: integer("display_order").notNull().default(0),
-    unitSystem: text("unit_system", { enum: ["si", "conventional"] })
-      .notNull()
-      .default("si"),
     isPublic: boolean("is_public").notNull().default(false),
     publicHandle: text("public_handle").unique(),
     createdAt: timestamp("created_at").defaultNow(),
@@ -60,6 +57,7 @@ export const biomarkers = pgTable("biomarkers", {
     .notNull()
     .default("quantitative"),
   molecularWeight: doublePrecision("molecular_weight"),
+  conventionalUnit: text("conventional_unit"),
   displayOrder: integer("display_order").notNull().default(0),
 });
 
@@ -98,6 +96,13 @@ export const profileBiomarkers = pgTable(
   },
   (t) => [primaryKey({ columns: [t.profileId, t.biomarkerId] })],
 );
+
+export const userPreferences = pgTable("user_preferences", {
+  authUserId: uuid("auth_user_id")
+    .primaryKey()
+    .references(() => neonAuthUser.id, { onDelete: "cascade" }),
+  unitSystem: text("unit_system", { enum: ["si", "conventional"] }).notNull().default("si"),
+});
 
 export const oauthClients = pgTable("oauth_clients", {
   clientId: text("client_id").primaryKey(),

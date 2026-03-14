@@ -385,21 +385,24 @@
               "description": "Waste product from protein metabolism, filtered by the kidneys. Elevated levels may indicate impaired kidney function or high protein intake.",
               "unit": "mmol/l",
               "refMin": 2.8,
-              "refMax": 8.1
+              "refMax": 8.1,
+              "conventionalUnit": "mg/dL"
             },
             "S-CREA": {
               "name": "Creatinine",
               "description": "Byproduct of muscle metabolism filtered by kidneys. High values suggest reduced kidney filtration capacity. Naturally higher in muscular individuals.",
               "unit": "µmol/l",
               "refMin": 62,
-              "refMax": 106
+              "refMax": 106,
+              "conventionalUnit": "mg/dL"
             },
             "S-KM": {
               "name": "Uric Acid",
               "description": "End product of purine metabolism. Elevated levels increase the risk of gout and kidney stones. Can be affected by diet (red meat, alcohol, fructose).",
               "unit": "µmol/l",
               "refMin": 202,
-              "refMax": 417
+              "refMax": 417,
+              "conventionalUnit": "mg/dL"
             },
             "S-CKDEPI": {
               "name": "eGFR (CKD-EPI)",
@@ -413,133 +416,152 @@
               "description": "Major electrolyte regulating fluid balance and nerve/muscle function. Both low (hyponatremia) and high (hypernatremia) values can be clinically significant.",
               "unit": "mmol/l",
               "refMin": 136,
-              "refMax": 145
+              "refMax": 145,
+              "conventionalUnit": "mEq/L"
             },
             "S-K": {
               "name": "Potassium",
               "description": "Essential electrolyte for heart rhythm, muscle contraction, and nerve signaling. Both low and high levels can cause dangerous cardiac arrhythmias.",
               "unit": "mmol/l",
               "refMin": 3.5,
-              "refMax": 5.1
+              "refMax": 5.1,
+              "conventionalUnit": "mEq/L"
             },
             "S-Cl": {
               "name": "Chloride",
               "description": "Electrolyte that helps maintain fluid balance and acid-base status. Usually moves in tandem with sodium.",
               "unit": "mmol/l",
               "refMin": 98,
-              "refMax": 107
+              "refMax": 107,
+              "conventionalUnit": "mEq/L"
             },
             "S-Mg": {
               "name": "Magnesium",
               "description": "Mineral important for muscle and nerve function, blood sugar control, and bone health. Deficiency is common and can cause fatigue, cramps, and arrhythmias.",
               "unit": "mmol/l",
               "refMin": 0.66,
-              "refMax": 1.07
+              "refMax": 1.07,
+              "conventionalUnit": "mg/dL"
             },
             "S-BIL": {
               "name": "Total Bilirubin",
               "description": "Pigment from red blood cell breakdown processed by the liver. Elevated levels cause jaundice. Mildly elevated values may indicate Gilbert syndrome (benign).",
               "unit": "µmol/l",
               "refMin": 0,
-              "refMax": 21
+              "refMax": 21,
+              "conventionalUnit": "mg/dL"
             },
             "S-DBIL": {
               "name": "Direct Bilirubin (Conjugated)",
               "description": "Bilirubin processed by the liver. Elevated specifically in bile duct obstruction, liver disease, or hepatitis. Helps differentiate causes of jaundice when total bilirubin is high.",
               "unit": "µmol/l",
               "refMin": 0,
-              "refMax": 5.1
+              "refMax": 5.1,
+              "conventionalUnit": "mg/dL"
             },
             "S-ALT": {
               "name": "ALT (Alanine Aminotransferase)",
               "description": "Liver enzyme. Elevated levels indicate liver cell damage. Most specific marker for liver injury. Can be raised by alcohol, medications, fatty liver, or viral hepatitis.",
               "unit": "µkat/l",
               "refMin": 0.1,
-              "refMax": 0.68
+              "refMax": 0.68,
+              "conventionalUnit": "U/L"
             },
             "S-AST": {
               "name": "AST (Aspartate Aminotransferase)",
               "description": "Enzyme found in liver, heart, and muscle. Elevated with liver damage, heart attack, or intense exercise. Less liver-specific than ALT.",
               "unit": "µkat/l",
               "refMin": 0.1,
-              "refMax": 0.67
+              "refMax": 0.67,
+              "conventionalUnit": "U/L"
             },
             "S-GGT": {
               "name": "GGT (Gamma-Glutamyl Transferase)",
               "description": "Liver and bile duct enzyme. Sensitive marker for bile duct obstruction and alcohol use. Often the first liver enzyme to rise with alcohol-related liver damage.",
               "unit": "µkat/l",
               "refMin": 0.17,
-              "refMax": 1.19
+              "refMax": 1.19,
+              "conventionalUnit": "U/L"
             },
             "S-ALP": {
               "name": "ALP (Alkaline Phosphatase)",
               "description": "Enzyme found in liver, bone, and bile ducts. Elevated in bone growth, bile duct obstruction, or liver disease. Normally higher in growing adolescents.",
               "unit": "µkat/l",
               "refMin": 0.67,
-              "refMax": 2.17
+              "refMax": 2.17,
+              "conventionalUnit": "U/L"
             },
             "S-LDH": {
               "name": "LDH (Lactate Dehydrogenase)",
               "description": "Enzyme released when cells are damaged. Elevated in many conditions including heart attack, liver disease, hemolytic anemia, and cancer. Non-specific but useful as a general tissue damage marker.",
               "unit": "µkat/l",
               "refMin": 2,
-              "refMax": 3.75
+              "refMax": 3.75,
+              "conventionalUnit": "U/L"
             },
             "S-PAMS": {
               "name": "Pancreatic Amylase",
               "description": "Enzyme produced by the pancreas to digest starch. Elevated levels may indicate pancreatitis or pancreatic disease.",
               "unit": "µkat/l",
               "refMin": 0.22,
-              "refMax": 0.88
+              "refMax": 0.88,
+              "conventionalUnit": "U/L"
             },
             "S-CB": {
               "name": "Total Protein",
               "description": "Total amount of albumin and globulin proteins in blood. Reflects nutritional status, liver synthetic function, and immune system activity.",
               "unit": "g/l",
               "refMin": 64,
-              "refMax": 83
+              "refMax": 83,
+              "conventionalUnit": "g/dL"
             },
             "S-ALB": {
               "name": "Albumin",
               "description": "Most abundant blood protein, made by the liver. Maintains fluid balance and transports hormones/drugs. Low values indicate liver disease, malnutrition, or kidney loss.",
               "unit": "g/l",
               "refMin": 35,
-              "refMax": 52
+              "refMax": 52,
+              "conventionalUnit": "g/dL"
             },
             "S-CHOL": {
               "name": "Total Cholesterol",
               "description": "Total amount of cholesterol in blood including LDL, HDL, and VLDL. Elevated levels increase cardiovascular disease risk. Target depends on individual risk factors.",
               "unit": "mmol/l",
               "refMin": 2.9,
-              "refMax": 5
+              "refMax": 5,
+              "conventionalUnit": "mg/dL"
             },
             "S-HDL": {
               "name": "HDL Cholesterol",
               "description": "\"Good\" cholesterol that removes excess cholesterol from arteries. Higher values are protective against cardiovascular disease. Low HDL increases heart disease risk.",
               "unit": "mmol/l",
               "refMin": 1,
-              "refMax": 2.1
+              "refMax": 2.1,
+              "conventionalUnit": "mg/dL"
             },
             "S-LDL": {
               "name": "LDL Cholesterol",
               "description": "\"Bad\" cholesterol that deposits in artery walls causing atherosclerosis. Primary target for cardiovascular risk reduction. Lower is better, especially with other risk factors.",
               "unit": "mmol/l",
               "refMin": 1.2,
-              "refMax": 3
+              "refMax": 3,
+              "conventionalUnit": "mg/dL"
             },
             "S-TGL": {
               "name": "Triglycerides",
               "description": "Fat molecules in the blood, mainly from dietary sources. Elevated by high carbohydrate/alcohol intake. Very high levels (>10 mmol/l) risk pancreatitis.",
               "unit": "mmol/l",
               "refMin": 0.45,
-              "refMax": 1.7
+              "refMax": 1.7,
+              "conventionalUnit": "mg/dL"
             },
             "S-nHDL": {
               "name": "Non-HDL Cholesterol",
               "description": "Total cholesterol minus HDL. Captures all atherogenic lipoproteins (LDL + VLDL). Better predictor of cardiovascular risk than LDL alone, especially with high triglycerides.",
               "unit": "mmol/l",
               "refMin": null,
-              "refMax": 3.8
+              "refMax": 3.8,
+              "conventionalUnit": "mg/dL"
             },
             "S-VLDL": {
               "name": "VLDL Cholesterol",
@@ -602,14 +624,16 @@
               "description": "Measures vitamin D stores. Essential for bone health, immune function, and mood. Deficiency is very common, especially in northern latitudes and winter months.",
               "unit": "nmol/l",
               "refMin": 75,
-              "refMax": 125
+              "refMax": 125,
+              "conventionalUnit": "ng/mL"
             },
             "S-B12": {
               "name": "Vitamin B12 (Cobalamin)",
               "description": "Essential vitamin for nerve function, red blood cell formation, and DNA synthesis. Deficiency causes megaloblastic anemia and neurological damage. Common in vegetarians and older adults.",
               "unit": "pmol/l",
               "refMin": 145,
-              "refMax": 569
+              "refMax": 569,
+              "conventionalUnit": "pg/mL"
             },
             "S-FOL": {
               "name": "Folate (Folic Acid)",
@@ -623,21 +647,24 @@
               "description": "Essential mineral for bones, muscle contraction, nerve signaling, and blood clotting. Both high (hyperparathyroidism, cancer) and low (vitamin D deficiency) values are clinically significant.",
               "unit": "mmol/l",
               "refMin": 2.15,
-              "refMax": 2.55
+              "refMax": 2.55,
+              "conventionalUnit": "mg/dL"
             },
             "S-Cai": {
               "name": "Ionized Calcium",
               "description": "Biologically active form of calcium in the blood, not bound to proteins. More accurate than total calcium, especially when albumin is abnormal. Low levels may indicate hypoparathyroidism or vitamin D deficiency.",
               "unit": "mmol/l",
               "refMin": 1.15,
-              "refMax": 1.29
+              "refMax": 1.29,
+              "conventionalUnit": "mg/dL"
             },
             "S-P": {
               "name": "Phosphorus (Phosphate)",
               "description": "Mineral essential for bone health, energy production, and acid-base balance. Works in tandem with calcium. Abnormal levels can indicate kidney disease, parathyroid disorders, or vitamin D issues.",
               "unit": "mmol/l",
               "refMin": 0.81,
-              "refMax": 1.45
+              "refMax": 1.45,
+              "conventionalUnit": "mg/dL"
             },
             "S-O3I": {
               "name": "Omega-3 Index",
@@ -658,7 +685,8 @@
               "description": "Blood sugar measured after fasting. Primary screening test for diabetes. Values 5.6-6.9 indicate prediabetes; >=7.0 suggests diabetes.",
               "unit": "mmol/l",
               "refMin": 3.9,
-              "refMax": 5.6
+              "refMax": 5.6,
+              "conventionalUnit": "mg/dL"
             },
             "B-HbA1c": {
               "name": "HbA1c (Glycated Hemoglobin)",
@@ -679,7 +707,8 @@
               "description": "Byproduct of insulin production, released in equal amounts. Measures endogenous insulin secretion independent of exogenous insulin. Useful for distinguishing type 1 from type 2 diabetes.",
               "unit": "nmol/l",
               "refMin": 260,
-              "refMax": 1730
+              "refMax": 1730,
+              "conventionalUnit": "ng/mL"
             },
             "B-WBC": {
               "name": "White Blood Cells",
@@ -700,7 +729,8 @@
               "description": "Oxygen-carrying protein in red blood cells. Low values indicate anemia. Key marker for blood's oxygen-carrying capacity.",
               "unit": "g/l",
               "refMin": 135,
-              "refMax": 175
+              "refMax": 175,
+              "conventionalUnit": "g/dL"
             },
             "B-HCT": {
               "name": "Hematocrit",
@@ -728,7 +758,8 @@
               "description": "Average hemoglobin concentration within red blood cells. Helps classify types of anemia.",
               "unit": "g/l",
               "refMin": 320,
-              "refMax": 360
+              "refMax": 360,
+              "conventionalUnit": "g/dL"
             },
             "B-PLT": {
               "name": "Platelets",
@@ -868,14 +899,16 @@
               "description": "Acute-phase protein produced by the liver in response to inflammation. Rises rapidly with infection, injury, or inflammatory disease. Non-specific but very sensitive marker.",
               "unit": "mg/l",
               "refMin": null,
-              "refMax": 5
+              "refMax": 5,
+              "conventionalUnit": "mg/dL"
             },
             "S-hsCRP": {
               "name": "hs-CRP (High-Sensitivity C-Reactive Protein)",
               "description": "Ultra-sensitive measure of systemic inflammation. Gold standard inflammatory marker — elevated levels are strongly linked to cardiovascular risk, cognitive decline, and chronic disease.",
               "unit": "mg/l",
               "refMin": null,
-              "refMax": 3
+              "refMax": 3,
+              "conventionalUnit": "mg/dL"
             },
             "B-ESR": {
               "name": "Erythrocyte Sedimentation Rate",
@@ -903,21 +936,24 @@
               "description": "Antibody protecting mucosal surfaces (gut, respiratory tract). Measured to rule out IgA deficiency before celiac disease testing, as low IgA causes false-negative celiac results.",
               "unit": "g/l",
               "refMin": 0.4,
-              "refMax": 3.5
+              "refMax": 3.5,
+              "conventionalUnit": "mg/dL"
             },
             "S-IgG": {
               "name": "IgG (Immunoglobulin G)",
               "description": "Most abundant antibody in blood, providing long-term immunity. Elevated in chronic infections, autoimmune diseases, and liver disease. Low levels indicate immunodeficiency.",
               "unit": "g/l",
               "refMin": 7,
-              "refMax": 16
+              "refMax": 16,
+              "conventionalUnit": "mg/dL"
             },
             "S-IgM": {
               "name": "IgM (Immunoglobulin M)",
               "description": "First antibody produced in response to new infections. Elevated IgM indicates acute or recent infection. Also elevated in Waldenstrom's macroglobulinemia and some autoimmune conditions.",
               "unit": "g/l",
               "refMin": 0.4,
-              "refMax": 2.3
+              "refMax": 2.3,
+              "conventionalUnit": "mg/dL"
             },
             "S-IgE": {
               "name": "IgE (Immunoglobulin E)",
@@ -952,7 +988,8 @@
               "description": "Active thyroid hormone available to tissues. Low fT4 with high TSH confirms hypothyroidism. Normal fT4 with mildly elevated TSH is subclinical hypothyroidism.",
               "unit": "pmol/l",
               "refMin": 12,
-              "refMax": 22
+              "refMax": 22,
+              "conventionalUnit": "ng/dL"
             },
             "S-aTSH": {
               "name": "Anti-TSH Receptor Antibodies (TRAb)",
@@ -980,7 +1017,8 @@
               "description": "Primary male sex hormone, crucial for both men and women. Supports muscle strength, bone density, mood, libido, and cardiovascular health. Declines with age.",
               "unit": "nmol/l",
               "refMin": 8.64,
-              "refMax": 29
+              "refMax": 29,
+              "conventionalUnit": "ng/dL"
             },
             "S-fTESTO": {
               "name": "Free Testosterone",
@@ -994,21 +1032,24 @@
               "description": "Primary estrogen hormone. Important in both sexes — regulates bone density, cardiovascular health, mood, and libido. In men, very high or very low levels are both problematic.",
               "unit": "pmol/l",
               "refMin": 28,
-              "refMax": 156
+              "refMax": 156,
+              "conventionalUnit": "pg/mL"
             },
             "S-DHEA": {
               "name": "DHEA-S (Dehydroepiandrosterone Sulfate)",
               "description": "Adrenal 'recovery hormone' supporting stress resilience, repair processes, immune function, and vitality. Declines with age; higher levels are associated with longevity.",
               "unit": "µmol/l",
               "refMin": 4.34,
-              "refMax": 12.2
+              "refMax": 12.2,
+              "conventionalUnit": "µg/dL"
             },
             "S-CORT": {
               "name": "Cortisol",
               "description": "Primary stress hormone produced by the adrenal glands. Follows a diurnal pattern (high in morning, low at night). Chronically elevated levels indicate stress, Cushing's syndrome; low levels suggest adrenal insufficiency.",
               "unit": "nmol/l",
               "refMin": 133,
-              "refMax": 537
+              "refMax": 537,
+              "conventionalUnit": "µg/dL"
             },
             "S-IGF1": {
               "name": "IGF-1 (Insulin-like Growth Factor 1)",
@@ -1064,7 +1105,8 @@
               "description": "Steroid hormone primarily involved in the menstrual cycle and pregnancy. In men, produced in small amounts by the adrenal glands and testes. Elevated levels are uncommon and may indicate adrenal or testicular pathology.",
               "unit": "nmol/l",
               "refMin": null,
-              "refMax": 0.47
+              "refMax": 0.47,
+              "conventionalUnit": "ng/mL"
             },
             "S-LIST": {
               "name": "Free Testosterone Index (LIST)",
@@ -1204,7 +1246,8 @@
               "description": "Enzyme that breaks down starch, produced by the pancreas and salivary glands. Elevated in pancreatitis, salivary gland inflammation, or bowel obstruction.",
               "unit": "µkat/l",
               "refMin": 0.47,
-              "refMax": 1.67
+              "refMax": 1.67,
+              "conventionalUnit": "U/L"
             },
             "S-HOMA": {
               "name": "HOMA-IR (Insulin Resistance Index)",
@@ -1225,7 +1268,8 @@
               "description": "Iron circulating in the blood bound to transferrin. Low levels indicate iron deficiency; very high levels may suggest iron overload or recent iron supplementation.",
               "unit": "µmol/l",
               "refMin": 10.6,
-              "refMax": 28.3
+              "refMax": 28.3,
+              "conventionalUnit": "µg/dL"
             },
             "S-Feritin": {
               "name": "Ferritin",
@@ -1239,7 +1283,8 @@
               "description": "Iron transport protein in blood. Elevated when the body needs more iron (iron deficiency). Low in liver disease, malnutrition, or inflammation.",
               "unit": "g/l",
               "refMin": 2,
-              "refMax": 4
+              "refMax": 4,
+              "conventionalUnit": "mg/dL"
             },
             "S-TransSat": {
               "name": "Transferrin Saturation",
@@ -1260,14 +1305,16 @@
               "description": "Available iron-binding capacity of transferrin. Elevated in iron deficiency as the body produces more transferrin to capture scarce iron.",
               "unit": "µmol/l",
               "refMin": 15,
-              "refMax": 63
+              "refMax": 63,
+              "conventionalUnit": "µg/dL"
             },
             "S-TIBC": {
               "name": "TIBC (Total Iron Binding Capacity)",
               "description": "Total capacity of transferrin to bind iron (UIBC + serum iron). Elevated in iron deficiency; low in iron overload, liver disease, or chronic inflammation.",
               "unit": "µmol/l",
               "refMin": 45,
-              "refMax": 72
+              "refMax": 72,
+              "conventionalUnit": "µg/dL"
             },
             "SL-AHI": {
               "name": "Apnea-Hypopnea Index (AHI)",
@@ -2132,6 +2179,10 @@
         "molecularWeight": {
           "type": "number",
           "description": "Molecular weight of the substance in g/mol. Required for mass-to-molar unit conversions (e.g. mg/dL to mmol/l)."
+        },
+        "conventionalUnit": {
+          "type": "string",
+          "description": "The conventional (US) unit for this biomarker. Used for SI ↔ Conventional display switching. Null if the unit is the same in both systems."
         },
         "note": {
           "type": "string",

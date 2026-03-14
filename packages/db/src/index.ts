@@ -1,9 +1,9 @@
 import { db } from "./db";
 import { eq, and, sql, gte, lte } from "drizzle-orm";
-import { profiles, categories, biomarkers, results, profileBiomarkers, neonAuthUser } from "./schema/app";
+import { profiles, categories, biomarkers, results, profileBiomarkers, neonAuthUser, userPreferences } from "./schema/app";
 import type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData, Sex, BiomarkerType } from "./types";
-import { convert as convertUnit, convertRange, getTargetUnit } from "./units";
-import type { UnitSystem } from "./types";
+import { convert as convertUnit, convertRange, getDisplayUnit } from "./units";
+import { UnitSystem } from "./types";
 
 export type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData };
 export type {
@@ -47,7 +47,7 @@ export { verifyToken } from "./auth";
 export { db } from "./db";
 export * as oauthStore from "./oauth-store";
 export { importDataSchema, sexEnum, biomarkerTypeEnum, publicHandleSchema } from "./validation";
-export { convert as convertUnit, convertRange, canConvert } from "./units";
+export { convert as convertUnit, convertRange, canConvert, getDisplayUnit } from "./units";
 
 export {
   getTimelineForProfile,
@@ -67,7 +67,6 @@ export async function listProfiles(authUserId: string): Promise<ProfileSummary[]
       name: profiles.name,
       dateOfBirth: profiles.dateOfBirth,
       sex: profiles.sex,
-      unitSystem: profiles.unitSystem,
       isPublic: profiles.isPublic,
       publicHandle: profiles.publicHandle,
     })
@@ -110,7 +109,6 @@ export async function updateProfile(
     name: string;
     date_of_birth: string;
     sex: Sex;
-    unit_system: UnitSystem;
     is_public: boolean;
     public_handle: string | null;
   }>,
@@ -122,7 +120,6 @@ export async function updateProfile(
   if (data.name !== undefined) updates.name = data.name;
   if (data.date_of_birth !== undefined) updates.dateOfBirth = data.date_of_birth;
   if (data.sex !== undefined) updates.sex = data.sex;
-  if (data.unit_system !== undefined) updates.unitSystem = data.unit_system;
   if (data.is_public !== undefined) updates.isPublic = data.is_public;
   if (data.public_handle !== undefined) updates.publicHandle = data.public_handle;
 
@@ -171,7 +168,6 @@ function toProfile(row: typeof profiles.$inferSelect): DbProfile {
     name: row.name,
     date_of_birth: row.dateOfBirth,
     sex: row.sex,
-    unit_system: row.unitSystem,
     is_public: row.isPublic,
     public_handle: row.publicHandle,
     created_at: row.createdAt?.toISOString() ?? "",
@@ -407,6 +403,18 @@ export async function getProfileData(profileId: number, authUserId: string): Pro
   return assembleProfileData(profileId, profileRow);
 }
 
+/** Returns profile data in original stored units (no unit system conversion). Used for calculations that expect SI units. */
+export async function getRawProfileData(profileId: number, authUserId: string): Promise<UserData | undefined> {
+  const [profileRow] = await db
+    .select()
+    .from(profiles)
+    .where(and(eq(profiles.id, profileId), eq(profiles.authUserId, authUserId)))
+    .limit(1);
+  if (!profileRow) return undefined;
+
+  return assembleProfileData(profileId, profileRow, { skipUnitConversion: true });
+}
+
 export async function exportProfileData(profileId: number, authUserId: string): Promise<object | undefined> {
   const data = await getProfileData(profileId, authUserId);
   if (!data) return undefined;
@@ -428,6 +436,7 @@ interface JsonUserData {
       unit?: string | null;
       refMin?: number | null;
       refMax?: number | null;
+      conventionalUnit?: string | null;
       type?: BiomarkerType;
       results: {
         date: string;
@@ -460,7 +469,9 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
       unit: string | null;
       refMin: number | null;
       refMax: number | null;
+      conventionalUnit: string | null;
       type: string;
+      displayOrder: number;
     }[] = [];
     const pbValues: {
       profileId: number;
@@ -490,6 +501,7 @@ export async function importProfileData(authUserId: string, jsonData: JsonUserDa
           unit: bio.unit ?? null,
           refMin: bio.refMin ?? null,
           refMax: bio.refMax ?? null,
+          conventionalUnit: bio.conventionalUnit ?? null,
           type: bio.type ?? "quantitative",
           displayOrder: bioIdx,
         });
@@ -626,9 +638,16 @@ export async function getPublicProfileByHandle(handle: string): Promise<UserData
   return assembleProfileData(profile.id, profile);
 }
 
-async function assembleProfileData(profileId: number, profileRow: typeof profiles.$inferSelect): Promise<UserData> {
+async function assembleProfileData(
+  profileId: number,
+  profileRow: typeof profiles.$inferSelect,
+  opts?: { skipUnitConversion?: boolean },
+): Promise<UserData> {
   const allCategories = await listCategories();
-  const allBiomarkerRows = await db.select().from(biomarkers).orderBy(biomarkers.categoryId, biomarkers.displayOrder, biomarkers.id);
+  const allBiomarkerRows = await db
+    .select()
+    .from(biomarkers)
+    .orderBy(biomarkers.categoryId, biomarkers.displayOrder, biomarkers.id);
   const allResults = await db
     .select()
     .from(results)
@@ -654,7 +673,16 @@ async function assembleProfileData(profileId: number, profileRow: typeof profile
     else biomarkersByCategory.set(b.categoryId, [b]);
   }
 
-  const unitSystem = profileRow.unitSystem;
+  const skipConversion = opts?.skipUnitConversion === true;
+  let unitSystem: UnitSystem = UnitSystem.SI;
+  if (!skipConversion) {
+    const [prefs] = await db
+      .select({ unitSystem: userPreferences.unitSystem })
+      .from(userPreferences)
+      .where(eq(userPreferences.authUserId, profileRow.authUserId))
+      .limit(1);
+    if (prefs) unitSystem = prefs.unitSystem;
+  }
 
   const userCategories = allCategories
     .map((catId) => {
@@ -665,11 +693,13 @@ async function assembleProfileData(profileId: number, profileRow: typeof profile
           const mw = b.molecularWeight;
 
           // Determine display unit: apply unit system preference, but only if conversion works
-          let systemTarget = storedUnit ? getTargetUnit(storedUnit, unitSystem) : null;
-          if (systemTarget && storedUnit) {
-            // Test if conversion actually works (e.g., MW-dependent conversions need MW)
-            const test = convertUnit(1, storedUnit, systemTarget, mw);
-            if (test == null) systemTarget = null; // can't convert, stay in stored unit
+          let systemTarget: string | null = null;
+          if (!skipConversion && storedUnit) {
+            systemTarget = getDisplayUnit(storedUnit, b.conventionalUnit, unitSystem);
+            if (systemTarget) {
+              const test = convertUnit(1, storedUnit, systemTarget, mw);
+              if (test == null) systemTarget = null;
+            }
           }
           const displayUnit = systemTarget ?? storedUnit;
 
@@ -746,4 +776,24 @@ export async function deleteUser(authUserId: string): Promise<boolean> {
 export async function isDbEmpty(): Promise<boolean> {
   const [row] = await db.select({ count: sql<number>`count(*)` }).from(profiles);
   return (row?.count ?? 0) === 0;
+}
+
+export async function getUserPreferences(authUserId: string): Promise<{ unitSystem: UnitSystem }> {
+  const [row] = await db.select().from(userPreferences).where(eq(userPreferences.authUserId, authUserId)).limit(1);
+  return { unitSystem: row?.unitSystem ?? UnitSystem.SI };
+}
+
+export async function updateUserPreferences(
+  authUserId: string,
+  data: { unit_system: UnitSystem },
+): Promise<{ unitSystem: UnitSystem }> {
+  const [row] = await db
+    .insert(userPreferences)
+    .values({ authUserId, unitSystem: data.unit_system })
+    .onConflictDoUpdate({
+      target: userPreferences.authUserId,
+      set: { unitSystem: data.unit_system },
+    })
+    .returning();
+  return { unitSystem: row.unitSystem };
 }

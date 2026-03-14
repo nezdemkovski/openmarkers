@@ -1,4 +1,4 @@
-import { getProfileData } from "./index";
+import { getProfileData, getRawProfileData } from "./index";
 import {
   getAllDates,
   getDateSnapshot,
@@ -97,7 +97,8 @@ export async function getBiologicalAgeForProfile(
   profileId: number,
   authUserId: string,
 ): Promise<PhenoAgeResult[] | undefined> {
-  const data = await getProfileData(profileId, authUserId);
+  // PhenoAge coefficients are calibrated for SI units — use raw (unconverted) data
+  const data = await getRawProfileData(profileId, authUserId);
   if (!data) return undefined;
   if (!data.user.dateOfBirth || isNaN(new Date(data.user.dateOfBirth).getTime())) return [];
   return calculatePhenoAge(data.categories, data.user.dateOfBirth);
@@ -108,7 +109,8 @@ export async function getAnalysisPromptForProfile(
   authUserId: string,
   lang: Lang = "en",
 ): Promise<string | undefined> {
-  const data = await getProfileData(profileId, authUserId);
+  // AI prompt should describe values in original stored units for accuracy
+  const data = await getRawProfileData(profileId, authUserId);
   if (!data) return undefined;
   const enI18n = makeI18n("en");
   return buildPrompt(data, enI18n, lang);

@@ -35,7 +35,6 @@ const profileUpdateSchema = z
     name: z.string().min(1).max(200).optional(),
     date_of_birth: dateString.optional(),
     sex: sexEnum.optional(),
-    unit_system: z.enum(["si", "conventional"]).optional(),
     is_public: z.boolean().optional(),
     public_handle: publicHandleSchema.nullable().optional(),
   })

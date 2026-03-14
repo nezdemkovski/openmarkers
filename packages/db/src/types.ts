@@ -1,6 +1,9 @@
 export type Sex = "M" | "F";
 export type BiomarkerType = "quantitative" | "qualitative";
-export type UnitSystem = "si" | "conventional";
+export enum UnitSystem {
+  SI = "si",
+  Conventional = "conventional",
+}
 export type TrendDirection = "up" | "down" | "stable";
 
 export interface DbProfile {
@@ -9,7 +12,6 @@ export interface DbProfile {
   name: string;
   date_of_birth: string;
   sex: Sex;
-  unit_system: UnitSystem;
   is_public: boolean;
   public_handle: string | null;
   created_at: string;
@@ -47,7 +49,6 @@ export interface ProfileSummary {
   name: string;
   dateOfBirth: string;
   sex: Sex;
-  unitSystem: UnitSystem;
   isPublic: boolean;
   publicHandle: string | null;
 }

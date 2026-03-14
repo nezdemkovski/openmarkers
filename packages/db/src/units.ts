@@ -23,6 +23,7 @@ const FORMULAS: Formula[] = [
   { from: "ng/mL", to: "nmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
   { from: "ng/dL", to: "nmol/l", needsMW: true, convert: (v, mw) => (v * 10) / mw! },
   { from: "µg/dL", to: "µmol/l", needsMW: true, convert: (v, mw) => (v * 10) / mw! },
+  { from: "µg/dL", to: "nmol/l", needsMW: true, convert: (v, mw) => (v * 10000) / mw! },
   { from: "µg/mL", to: "µmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
   { from: "pg/mL", to: "pmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
 
@@ -45,7 +46,12 @@ function round(value: number): number {
 }
 
 function normalizeUnit(unit: string): string {
-  return unit.trim().toLowerCase().replace(/\s+/g, "");
+  return unit
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/μ/g, "µ") // Greek mu (U+03BC) → micro sign (U+00B5)
+    .replace(/u(?=mol|kat|iu|g)/g, "µ"); // ASCII "u" before mol/kat/iu/g → µ
 }
 
 // Build lookup maps for fast access
@@ -118,42 +124,28 @@ export function convertRange(
   };
 }
 
-export type UnitSystem = "si" | "conventional";
+import { UnitSystem } from "./types";
 
 /**
- * Pairs mapping SI ↔ Conventional units.
- * Used to find the target unit when switching systems.
+ * Get the display unit for a biomarker based on the target unit system.
+ * Uses the biomarker's own conventionalUnit field — no guessing.
+ * Returns null if no conversion is needed (same unit or no conventional unit defined).
  */
-const SYSTEM_PAIRS: { si: string; conventional: string }[] = [
-  { si: "mmol/l", conventional: "mg/dL" },
-  { si: "µmol/l", conventional: "mg/dL" },
-  { si: "µkat/l", conventional: "U/L" },
-  { si: "g/l", conventional: "g/dL" },
-  { si: "mg/l", conventional: "mg/dL" },
-  { si: "nmol/l", conventional: "ng/dL" },
-  { si: "pmol/l", conventional: "pg/mL" },
-  { si: "µmol/l", conventional: "µg/dL" },
-];
+export function getDisplayUnit(
+  storedUnit: string,
+  conventionalUnit: string | null | undefined,
+  targetSystem: UnitSystem,
+): string | null {
+  if (!conventionalUnit) return null; // no conventional unit defined, no conversion
 
-// Lookup sets for quick classification
-const SI_UNIT_SET = new Set(SYSTEM_PAIRS.map((p) => normalizeUnit(p.si)));
-const CONV_UNIT_SET = new Set(SYSTEM_PAIRS.map((p) => normalizeUnit(p.conventional)));
-
-/**
- * Given a unit, return its counterpart in the target system.
- * Returns null if already in the target system or no mapping exists.
- */
-export function getTargetUnit(currentUnit: string, targetSystem: UnitSystem): string | null {
-  const norm = normalizeUnit(currentUnit);
-
-  if (targetSystem === "conventional") {
-    if (CONV_UNIT_SET.has(norm)) return null; // already conventional
-    const pair = SYSTEM_PAIRS.find((p) => normalizeUnit(p.si) === norm);
-    return pair?.conventional ?? null;
+  if (targetSystem === UnitSystem.Conventional) {
+    // If stored unit is already the conventional unit, no conversion
+    if (normalizeUnit(storedUnit) === normalizeUnit(conventionalUnit)) return null;
+    return conventionalUnit;
   } else {
-    if (SI_UNIT_SET.has(norm)) return null; // already SI
-    const pair = SYSTEM_PAIRS.find((p) => normalizeUnit(p.conventional) === norm);
-    return pair?.si ?? null;
+    // SI mode: if somehow stored in conventional, convert back to SI
+    if (normalizeUnit(storedUnit) === normalizeUnit(conventionalUnit)) return null;
+    return null; // stored unit is already SI
   }
 }
 

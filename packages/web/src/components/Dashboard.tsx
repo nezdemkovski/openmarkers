@@ -7,8 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { daysSinceLastTest, getRelevantCorrelations } from "@openmarkers/db/src/analytics";
-import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "@openmarkers/db/src/bioage";
-import type { Category, UserData, I18n, Lang, Biomarker, DaysSinceResult } from "../types.ts";
+import { getMissingPhenoAgeMarkers } from "@openmarkers/db/src/bioage";
+import { api } from "../lib/api.ts";
+import type { Category, UserData, I18n, Lang, Biomarker, DaysSinceResult, PhenoAgeResult } from "../types.ts";
 
 function CategorySkeleton({ count }: { count: number }) {
   return (
@@ -202,10 +203,11 @@ export default function Dashboard({
     return daysSinceLastTest(categories).filter((r) => r.days != null && r.days > 180);
   }, [categories]);
 
-  const bioAgeResults = useMemo(() => {
-    if (!userData.user.dateOfBirth) return [];
-    return calculatePhenoAge(categories, userData.user.dateOfBirth);
-  }, [categories, userData.user.dateOfBirth]);
+  const [bioAgeResults, setBioAgeResults] = useState<PhenoAgeResult[]>([]);
+  useEffect(() => {
+    if (!userData.user.dateOfBirth || !profileId) return;
+    api.getBiologicalAge(profileId).then((r) => setBioAgeResults(r ?? []));
+  }, [profileId, userData.user.dateOfBirth]);
 
   const missingBioAgeMarkers = useMemo(() => {
     if (!userData.user.dateOfBirth) return [];
