@@ -16,7 +16,7 @@ OpenMarkers is an open-source biomarker tracker with a Bun backend, Neon Postgre
 - `bun run db:migrate` — Run Drizzle migrations
 - `bun run db:studio` — Open Drizzle Studio
 
-Package manager is **bun**. Build system is **Turborepo** (`turbo.json`). No test framework is configured.
+Package manager is **bun**. Build system is **Turborepo** (`turbo.json`). Tests run with `bun test packages/db/src/`.
 
 ## Environment Variables
 
@@ -46,16 +46,19 @@ data/
 packages/
 ├── db/                             — Postgres database + business logic (@openmarkers/db)
 │   └── src/
-│       ├── schema/app.ts           — Drizzle schema (profiles, categories, biomarkers, results, profile_biomarkers)
+│       ├── schema/app.ts           — Drizzle schema (profiles, categories, biomarkers, results, profile_biomarkers, user_preferences)
 │       ├── db.ts                   — Drizzle + bun:sql connection singleton
 │       ├── auth.ts                 — JWT validation via jose + Neon Auth JWKS
-│       ├── index.ts                — Async CRUD functions with authUserId scoping, re-exports
-│       ├── types.ts                — All shared type interfaces (DB + computed data)
+│       ├── index.ts                — Async CRUD functions with authUserId scoping, re-exports, enrichUserData
+│       ├── types.ts                — All shared type interfaces (DB + computed data) + UnitSystem enum
 │       ├── seed.ts                 — Import from JSON files (requires authUserId)
 │       ├── analytics.ts            — isOutOfRange, analyzeTrend, correlations, snapshots, comparisons
 │       ├── bioage.ts               — calculatePhenoAge, chronoAge (Levine 2018)
+│       ├── units.ts                — Unit conversion (SI ↔ Conventional), convert, convertRange, getDisplayUnit
+│       ├── enrich.ts               — enrichUserData (pure function, adds trends/outOfRange/daysSince/correlations/bioAge)
 │       ├── promptBuilder.ts        — buildPrompt (AI analysis prompt generation)
 │       ├── services.ts             — Profile-level service functions (getTrendsForProfile, etc.)
+│       ├── validation.ts           — Zod schemas for import/API validation
 │       ├── i18n.ts                 — makeI18n, LANGS
 │       └── i18n/                   — Translations (en/cs/ru/is)
 ├── mcp-server/                     — MCP tool definitions (@openmarkers/mcp-server)
@@ -87,10 +90,11 @@ Auth tables (managed by Neon Auth in `neon_auth` schema):
 
 Application tables:
 - **profiles** — id (serial PK), auth_user_id (FK → neon_auth.user.id), name, date_of_birth, sex, display_order, UNIQUE(auth_user_id, name)
-- **categories** — id (text PK)
-- **biomarkers** — id (text PK), category_id, unit, ref_min, ref_max, type
+- **categories** — id (text PK), display_order
+- **biomarkers** — id (text PK), category_id, unit, ref_min, ref_max, type, molecular_weight, conventional_unit, display_order
 - **profile_biomarkers** — per-profile ref range overrides (profile_id, biomarker_id, unit, ref_min, ref_max)
-- **results** — id (serial PK), profile_id (FK), biomarker_id, date, value, UNIQUE(profile_id, biomarker_id, date)
+- **results** — id (serial PK), profile_id (FK), biomarker_id, date, value, ref_min, ref_max, unit, UNIQUE(profile_id, biomarker_id, date)
+- **user_preferences** — auth_user_id (PK, FK → neon_auth.user.id), unit_system (si/conventional)
 
 ### Auth Flow
 
@@ -144,6 +148,8 @@ All routes require `Authorization: Bearer <jwt>` (except static files).
 | GET | `/api/profiles/:id/biological-age` | PhenoAge biological age |
 | GET | `/api/profiles/:id/analysis-prompt?lang=` | AI analysis prompt |
 | DELETE | `/api/account` | Delete all user profiles and data |
+| GET | `/api/preferences` | Get user preferences (unit system) |
+| PUT | `/api/preferences` | Update user preferences |
 | POST | `/mcp` | MCP endpoint (requires Bearer JWT) |
 
 ### Data Model
@@ -152,8 +158,9 @@ All routes require `Authorization: Bearer <jwt>` (except static files).
 - **profile** — `name`, `dateOfBirth`, `sex` (M/F) — one auth user can have multiple profiles
 - **categories[]** — Groups of biomarkers (e.g., "basic_biochemistry", "hematology")
   - **biomarkers[]** — Individual tests with `id`, `unit`, `refMin`/`refMax`, `type` (quantitative or qualitative)
-    - **results[]** — `{ date, value }` entries (numeric for quantitative, string for qualitative)
-- Reference ranges are per-profile via `profile_biomarkers` table
+    - **results[]** — `{ date, value, refMin?, refMax?, unit? }` entries (numeric for quantitative, string for qualitative). Per-result ref ranges and unit from the lab report.
+- Reference range hierarchy: per-result → per-profile (`profile_biomarkers`) → global (`biomarkers`)
+- Unit conversion: stored values are in original lab units. Display unit determined by user's `unit_system` preference (SI or Conventional). Conversion uses `molecular_weight` (for mass↔molar) and `conventional_unit` (per biomarker) fields.
 - All display names and descriptions live in `packages/db/src/i18n/*.ts`, keyed by biomarker/category ID
 
 ### Key Patterns
@@ -165,7 +172,11 @@ All routes require `Authorization: Bearer <jwt>` (except static files).
 - **Dark mode**: Class-based (`.dark` on `<html>`), persisted to localStorage
 - **Charts**: Recharts `<LineChart>` with `<ReferenceArea>` for min/max range bands
 - **MCP**: Stateless HTTP transport via `@modelcontextprotocol/sdk`, 25 tools with Bearer JWT auth
-- **Service layer**: All business logic (analytics, bio age, prompt building) lives in `packages/db/src/`. Service functions in `services.ts` wrap `getProfileData()` + pure logic. API endpoints and MCP tools are thin wrappers
+- **Service layer**: All business logic (analytics, bio age, prompt building, unit conversion) lives in `packages/db/src/`. Service functions in `services.ts` wrap `getProfileData()` + pure logic. API endpoints and MCP tools are thin wrappers
+- **Dumb frontend**: All calculations happen server-side. Frontend only displays data from API responses. Demo mode uses `enrichUserData()` from `enrich.ts` (pure function, no DB). Never import from `analytics.ts`, `bioage.ts`, or `promptBuilder.ts` in frontend components.
+- **Unit system**: Per-user preference (SI/Conventional) stored in `user_preferences` table. Conversion happens in `assembleProfileData()` on read. PhenoAge and AI prompt always use raw SI data via `getRawProfileData()`.
+- **React Query**: All API calls use `@tanstack/react-query` for caching and deduplication
+- **Tests**: `bun test packages/db/src/` runs unit tests for analytics, bioage, and unit conversion (84 tests). CI runs on every PR and push to master via `.github/workflows/test.yml`
 - **Tailwind v4**: Uses `@custom-variant dark (&:where(.dark, .dark *))` for dark mode variant
 
 ### MCP Tools
@@ -200,4 +211,4 @@ The MCP server at `http://localhost:3000/mcp` exposes 25 tools (requires `Author
 | `get_biological_age` | PhenoAge biological age calculation |
 | `get_analysis_prompt` | AI analysis prompt with all data |
 
-When adding a new biomarker: update the user JSON, add translations to all 4 i18n files (en/cs/ru/is) in `packages/db/src/i18n/`, and add the ID to `data/schema.json`.
+When adding a new biomarker: update the user JSON, add translations to all 4 i18n files (en/cs/ru/is) in `packages/db/src/i18n/`, add the ID to `data/schema.json`, and if it has a US conventional unit different from the SI unit, set `conventionalUnit` and `molecularWeight` (for mass↔molar conversions) in schema.json metadata.

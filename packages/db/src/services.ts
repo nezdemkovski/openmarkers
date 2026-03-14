@@ -97,7 +97,6 @@ export async function getBiologicalAgeForProfile(
   profileId: number,
   authUserId: string,
 ): Promise<{ results: PhenoAgeResult[]; missingMarkers: string[] } | undefined> {
-  // PhenoAge coefficients are calibrated for SI units — use raw (unconverted) data
   const data = await getRawProfileData(profileId, authUserId);
   if (!data) return undefined;
   const missingMarkers = getMissingPhenoAgeMarkers(data.categories);
@@ -112,7 +111,6 @@ export async function getAnalysisPromptForProfile(
   authUserId: string,
   lang: Lang = "en",
 ): Promise<string | undefined> {
-  // AI prompt should describe values in original stored units for accuracy
   const data = await getRawProfileData(profileId, authUserId);
   if (!data) return undefined;
   const enI18n = makeI18n("en");

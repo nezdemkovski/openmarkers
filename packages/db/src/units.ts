@@ -1,12 +1,4 @@
-/**
- * Generic unit conversion module for biomarker values.
- *
- * Conversions fall into two categories:
- * 1. MW-dependent (mass ↔ molar): require the biomarker's molecular weight
- * 2. Fixed-factor (e.g., U/L ↔ µkat/l): no MW needed
- *
- * All formulas are bidirectional — if A→B exists, B→A is computed as the inverse.
- */
+import { UnitSystem } from "./types";
 
 interface Formula {
   from: string;
@@ -16,7 +8,6 @@ interface Formula {
 }
 
 const FORMULAS: Formula[] = [
-  // Mass ↔ Molar (require MW)
   { from: "mg/dL", to: "mmol/l", needsMW: true, convert: (v, mw) => (v * 10) / mw! },
   { from: "mg/dL", to: "µmol/l", needsMW: true, convert: (v, mw) => (v * 10000) / mw! },
   { from: "g/L", to: "mmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
@@ -26,8 +17,6 @@ const FORMULAS: Formula[] = [
   { from: "µg/dL", to: "nmol/l", needsMW: true, convert: (v, mw) => (v * 10000) / mw! },
   { from: "µg/mL", to: "µmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
   { from: "pg/mL", to: "pmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
-
-  // Fixed-factor conversions (no MW needed)
   { from: "U/L", to: "µkat/l", needsMW: false, convert: (v) => v / 60 },
   { from: "IU/l", to: "µkat/l", needsMW: false, convert: (v) => v / 60 },
   { from: "g/L", to: "g/dL", needsMW: false, convert: (v) => v / 10 },
@@ -40,7 +29,6 @@ const FORMULAS: Formula[] = [
   { from: "nmol/l", to: "pmol/l", needsMW: false, convert: (v) => v * 1000 },
 ];
 
-/** Round to 2 decimal places, dropping trailing zeros */
 function round(value: number): number {
   return Math.round(value * 100) / 100;
 }
@@ -50,11 +38,10 @@ function normalizeUnit(unit: string): string {
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "")
-    .replace(/μ/g, "µ") // Greek mu (U+03BC) → micro sign (U+00B5)
-    .replace(/u(?=mol|kat|iu|g)/g, "µ"); // ASCII "u" before mol/kat/iu/g → µ
+    .replace(/μ/g, "µ")
+    .replace(/u(?=mol|kat|iu|g)/g, "µ");
 }
 
-// Build lookup maps for fast access
 const forwardMap = new Map<string, Formula>();
 const reverseMap = new Map<string, Formula>();
 for (const f of FORMULAS) {
@@ -63,10 +50,6 @@ for (const f of FORMULAS) {
   reverseMap.set(`${normalizeUnit(f.to)}|${normalizeUnit(f.from)}`, f);
 }
 
-/**
- * Convert a value between units.
- * Returns null if no conversion formula exists or if MW is required but not provided.
- */
 export function convert(
   value: number,
   fromUnit: string,
@@ -80,18 +63,15 @@ export function convert(
 
   const key = `${from}|${to}`;
 
-  // Try forward lookup
   const forward = forwardMap.get(key);
   if (forward) {
     if (forward.needsMW && !molecularWeight) return null;
     return round(forward.convert(value, molecularWeight ?? undefined));
   }
 
-  // Try reverse lookup (compute inverse)
   const reverse = reverseMap.get(key);
   if (reverse) {
     if (reverse.needsMW && !molecularWeight) return null;
-    // Compute the inverse: convert 1 unit forward, then divide
     const oneForward = reverse.convert(1, molecularWeight ?? undefined);
     if (oneForward === 0) return null;
     return round(value / oneForward);
@@ -100,10 +80,6 @@ export function convert(
   return null;
 }
 
-/**
- * Convert a reference range between units.
- * If conversion fails, returns the original values unchanged.
- */
 export function convertRange(
   refMin: number | null | undefined,
   refMax: number | null | undefined,
@@ -124,34 +100,22 @@ export function convertRange(
   };
 }
 
-import { UnitSystem } from "./types";
-
-/**
- * Get the display unit for a biomarker based on the target unit system.
- * Uses the biomarker's own conventionalUnit field — no guessing.
- * Returns null if no conversion is needed (same unit or no conventional unit defined).
- */
 export function getDisplayUnit(
   storedUnit: string,
   conventionalUnit: string | null | undefined,
   targetSystem: UnitSystem,
 ): string | null {
-  if (!conventionalUnit) return null; // no conventional unit defined, no conversion
+  if (!conventionalUnit) return null;
 
   if (targetSystem === UnitSystem.Conventional) {
-    // If stored unit is already the conventional unit, no conversion
     if (normalizeUnit(storedUnit) === normalizeUnit(conventionalUnit)) return null;
     return conventionalUnit;
   } else {
-    // SI mode: if somehow stored in conventional, convert back to SI
     if (normalizeUnit(storedUnit) === normalizeUnit(conventionalUnit)) return null;
-    return null; // stored unit is already SI
+    return null;
   }
 }
 
-/**
- * Check if a conversion between two units is possible.
- */
 export function canConvert(fromUnit: string, toUnit: string, hasMolecularWeight: boolean = false): boolean {
   const from = normalizeUnit(fromUnit);
   const to = normalizeUnit(toUnit);

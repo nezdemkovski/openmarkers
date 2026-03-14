@@ -89,6 +89,9 @@ export interface UserData {
     publicHandle?: string | null;
   };
   categories: Category[];
+  daysSince?: DaysSinceResult[];
+  correlations?: MatchedCorrelationGroup[];
+  biologicalAge?: { results: PhenoAgeResult[]; missingMarkers: string[] };
 }
 
 export interface TrendResult {

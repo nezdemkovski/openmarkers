@@ -696,16 +696,16 @@ function UnitSystemSection({ t, onUpdated }: { t: (key: string) => string; onUpd
     queryFn: () => api.getPreferences(),
   });
   const unitSystem = prefs?.unitSystem ?? UnitSystem.SI;
-  const [saving, setSaving] = useState(false);
 
   const handleChange = async (value: UnitSystem) => {
-    setSaving(true);
+    queryClient.setQueryData(["preferences"], { unitSystem: value });
     try {
       await api.updatePreferences({ unit_system: value });
-      queryClient.invalidateQueries({ queryKey: ["preferences"] });
+
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       onUpdated();
-    } finally {
-      setSaving(false);
+    } catch {
+      queryClient.setQueryData(["preferences"], { unitSystem });
     }
   };
 
@@ -727,12 +727,8 @@ function UnitSystemSection({ t, onUpdated }: { t: (key: string) => string; onUpd
               if (picked === UnitSystem.SI || picked === UnitSystem.Conventional) handleChange(picked);
             }}
           >
-            <ToggleGroupItem value={UnitSystem.SI} disabled={saving}>
-              {t("settingsUnitSI")}
-            </ToggleGroupItem>
-            <ToggleGroupItem value={UnitSystem.Conventional} disabled={saving}>
-              {t("settingsUnitConventional")}
-            </ToggleGroupItem>
+            <ToggleGroupItem value={UnitSystem.SI}>{t("settingsUnitSI")}</ToggleGroupItem>
+            <ToggleGroupItem value={UnitSystem.Conventional}>{t("settingsUnitConventional")}</ToggleGroupItem>
           </ToggleGroup>
         )}
       </CardContent>

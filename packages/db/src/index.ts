@@ -12,6 +12,8 @@ import {
 import type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData, Sex, BiomarkerType } from "./types";
 import { convert as convertUnit, convertRange, getDisplayUnit } from "./units";
 import { isOutOfRange, analyzeTrend } from "./analytics";
+import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
+import { enrichUserData } from "./enrich";
 import { UnitSystem } from "./types";
 
 export type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData };
@@ -49,7 +51,8 @@ export {
   getRelevantCorrelations,
 } from "./analytics";
 
-export { chronoAge, calculatePhenoAge } from "./bioage";
+export { chronoAge, calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
+export { enrichUserData } from "./enrich";
 export { LANGS, makeI18n } from "./i18n";
 export { buildPrompt } from "./promptBuilder";
 export { verifyToken } from "./auth";
@@ -409,10 +412,20 @@ export async function getProfileData(profileId: number, authUserId: string): Pro
     .limit(1);
   if (!profileRow) return undefined;
 
-  return assembleProfileData(profileId, profileRow);
+  const data = await assembleProfileData(profileId, profileRow);
+
+  enrichUserData(data);
+
+  const rawData = await assembleProfileData(profileId, profileRow, { skipUnitConversion: true });
+  const hasDob = profileRow.dateOfBirth && !isNaN(new Date(profileRow.dateOfBirth).getTime());
+  data.biologicalAge = {
+    results: hasDob ? calculatePhenoAge(rawData.categories, profileRow.dateOfBirth) : [],
+    missingMarkers: getMissingPhenoAgeMarkers(rawData.categories),
+  };
+
+  return data;
 }
 
-/** Returns profile data in original stored units (no unit system conversion). Used for calculations that expect SI units. */
 export async function getRawProfileData(profileId: number, authUserId: string): Promise<UserData | undefined> {
   const [profileRow] = await db
     .select()
@@ -701,7 +714,6 @@ async function assembleProfileData(
           const storedUnit = override?.unit ?? b.unit;
           const mw = b.molecularWeight;
 
-          // Determine display unit: apply unit system preference, but only if conversion works
           let systemTarget: string | null = null;
           if (!skipConversion && storedUnit) {
             systemTarget = getDisplayUnit(storedUnit, b.conventionalUnit, unitSystem);
@@ -712,7 +724,6 @@ async function assembleProfileData(
           }
           const displayUnit = systemTarget ?? storedUnit;
 
-          // Convert biomarker-level ref ranges to display unit
           let bioRefMin = override?.ref_min ?? b.refMin;
           let bioRefMax = override?.ref_max ?? b.refMax;
           if (systemTarget && storedUnit) {
@@ -727,7 +738,6 @@ async function assembleProfileData(
             let rRefMax = r.refMax;
             const resultUnit = r.unit ?? storedUnit;
 
-            // Convert value and per-result ref ranges to display unit
             if (resultUnit && displayUnit && resultUnit !== displayUnit && typeof value === "number") {
               const converted = convertUnit(value, resultUnit, displayUnit, mw);
               if (converted != null) value = converted;

@@ -13,6 +13,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import type { UserData, Route } from "../types.ts";
 import type { Lang } from "@openmarkers/db";
+import { enrichUserData } from "@openmarkers/db/src/enrich";
 
 interface DemoPageProps {
   route: Route;
@@ -28,7 +29,7 @@ export default function DemoPage({ route, lang, onChangeLang, isDark, onToggleTh
 
   const { data: demoData } = useQuery<UserData>({
     queryKey: ["demo"],
-    queryFn: () => import("../../data/demo.json").then((m) => m.default),
+    queryFn: () => import("../../data/demo.json").then((m) => enrichUserData(m.default as UserData)),
     staleTime: Infinity,
   });
 
