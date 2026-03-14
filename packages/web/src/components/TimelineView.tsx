@@ -4,7 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useQuery } from "@tanstack/react-query";
 import { getAllDates, getDateSnapshot } from "@openmarkers/db/src/analytics";
+import { api } from "../lib/api.ts";
 import type { Category, I18n, SnapshotItem } from "../types.ts";
 
 function formatDate(dateStr: string): string {
@@ -27,16 +29,31 @@ interface TimelineViewProps {
   categories: Category[];
   isDark: boolean;
   i18n: I18n;
+  profileId?: number;
 }
 
-export default function TimelineView({ categories, isDark, i18n }: TimelineViewProps) {
+export default function TimelineView({ categories, isDark, i18n, profileId }: TimelineViewProps) {
   const { t, tCat, tBio } = i18n;
 
-  const dates = useMemo(() => getAllDates(categories), [categories]);
+  const localDates = useMemo(() => getAllDates(categories), [categories]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  const { data: fetchedDates } = useQuery({
+    queryKey: ["timeline", profileId],
+    queryFn: () => api.getTimeline(profileId!),
+    enabled: !!profileId,
+  });
+
+  const dates = fetchedDates ?? localDates;
   const activeDate = selectedDate ?? dates[dates.length - 1] ?? null;
 
-  const snapshot = useMemo(() => (activeDate ? getDateSnapshot(categories, activeDate) : []), [categories, activeDate]);
+  const { data: fetchedSnapshot } = useQuery({
+    queryKey: ["snapshot", profileId, activeDate],
+    queryFn: () => api.getSnapshot(profileId!, activeDate!),
+    enabled: !!profileId && !!activeDate,
+  });
+
+  const snapshot = fetchedSnapshot ?? (activeDate ? getDateSnapshot(categories, activeDate) : []);
 
   const grouped = useMemo(() => {
     const map: Record<string, SnapshotItem[]> = {};

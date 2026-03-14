@@ -101,7 +101,9 @@ export const userPreferences = pgTable("user_preferences", {
   authUserId: uuid("auth_user_id")
     .primaryKey()
     .references(() => neonAuthUser.id, { onDelete: "cascade" }),
-  unitSystem: text("unit_system", { enum: ["si", "conventional"] }).notNull().default("si"),
+  unitSystem: text("unit_system", { enum: ["si", "conventional"] })
+    .notNull()
+    .default("si"),
 });
 
 export const oauthClients = pgTable("oauth_clients", {

@@ -60,6 +60,7 @@ export interface BiomarkerResult {
   refMin?: number | null;
   refMax?: number | null;
   unit?: string | null;
+  outOfRange?: boolean;
 }
 
 export interface Biomarker {
@@ -70,6 +71,8 @@ export interface Biomarker {
   refMax?: number | null;
   note?: string;
   results: BiomarkerResult[];
+  trend?: TrendResult | null;
+  latestOutOfRange?: boolean;
 }
 
 export interface Category {

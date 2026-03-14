@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { TriangleAlert, CircleCheck, Clock, ChevronDown, Link2, ChevronRight } from "lucide-react";
 import CategoryView from "./CategoryView.tsx";
 import AiAnalysis from "./AiAnalysis.tsx";
@@ -6,10 +6,9 @@ import BioAgeCard from "./BioAgeCard.tsx";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { daysSinceLastTest, getRelevantCorrelations } from "@openmarkers/db/src/analytics";
-import { getMissingPhenoAgeMarkers } from "@openmarkers/db/src/bioage";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "../lib/api.ts";
-import type { Category, UserData, I18n, Lang, Biomarker, DaysSinceResult, PhenoAgeResult } from "../types.ts";
+import type { Category, UserData, I18n, Lang, Biomarker } from "../types.ts";
 
 function CategorySkeleton({ count }: { count: number }) {
   return (
@@ -88,11 +87,7 @@ function LazyCategory({
 function countOutOfRange(category: Category): number {
   let count = 0;
   for (const b of category.biomarkers) {
-    if (b.results.length === 0) continue;
-    const latest = b.results[b.results.length - 1];
-    if (typeof latest.value === "number") {
-      if ((b.refMin != null && latest.value < b.refMin) || (b.refMax != null && latest.value > b.refMax)) count++;
-    }
+    if (b.latestOutOfRange) count++;
   }
   return count;
 }
@@ -199,24 +194,26 @@ export default function Dashboard({
 }: DashboardProps) {
   const { t, tCat, tBio } = i18n;
 
-  const reminders = useMemo(() => {
-    return daysSinceLastTest(categories).filter((r) => r.days != null && r.days > 180);
-  }, [categories]);
+  const { data: daysSince = [] } = useQuery({
+    queryKey: ["daysSince", profileId],
+    queryFn: () => api.getDaysSince(profileId!),
+    enabled: !!profileId,
+  });
+  const reminders = useMemo(() => daysSince.filter((d) => d.days != null && d.days > 180), [daysSince]);
 
-  const [bioAgeResults, setBioAgeResults] = useState<PhenoAgeResult[]>([]);
-  useEffect(() => {
-    if (!userData.user.dateOfBirth || !profileId) return;
-    api.getBiologicalAge(profileId).then((r) => setBioAgeResults(r ?? []));
-  }, [profileId, userData.user.dateOfBirth]);
+  const { data: correlations = [] } = useQuery({
+    queryKey: ["correlations", profileId],
+    queryFn: () => api.getCorrelations(profileId!),
+    enabled: !!profileId,
+  });
 
-  const missingBioAgeMarkers = useMemo(() => {
-    if (!userData.user.dateOfBirth) return [];
-    return getMissingPhenoAgeMarkers(categories);
-  }, [categories, userData.user.dateOfBirth]);
-
-  const correlations = useMemo(() => {
-    return getRelevantCorrelations(categories);
-  }, [categories]);
+  const { data: bioAgeData } = useQuery({
+    queryKey: ["biologicalAge", profileId],
+    queryFn: () => api.getBiologicalAge(profileId!),
+    enabled: !!profileId,
+  });
+  const bioAgeResults = bioAgeData?.results ?? [];
+  const missingBioAgeMarkers = bioAgeData?.missingMarkers ?? [];
 
   const bioLookup = useMemo(() => {
     const map: Record<string, Biomarker> = {};

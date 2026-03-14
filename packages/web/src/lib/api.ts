@@ -134,7 +134,9 @@ export const api = {
   getCorrelations: (profileId: number) =>
     request<import("../types.ts").MatchedCorrelationGroup[]>(`/api/profiles/${profileId}/correlations`),
   getBiologicalAge: (profileId: number) =>
-    request<import("../types.ts").PhenoAgeResult[]>(`/api/profiles/${profileId}/biological-age`),
+    request<{ results: import("../types.ts").PhenoAgeResult[]; missingMarkers: string[] }>(
+      `/api/profiles/${profileId}/biological-age`,
+    ),
   getAnalysisPrompt: (profileId: number, lang: string) =>
     request<{ prompt: string }>(`/api/profiles/${profileId}/analysis-prompt?lang=${encodeURIComponent(lang)}`),
   checkHandleAvailability: (handle: string, profileId?: number) => {

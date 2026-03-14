@@ -1,8 +1,17 @@
 import { db } from "./db";
 import { eq, and, sql, gte, lte } from "drizzle-orm";
-import { profiles, categories, biomarkers, results, profileBiomarkers, neonAuthUser, userPreferences } from "./schema/app";
+import {
+  profiles,
+  categories,
+  biomarkers,
+  results,
+  profileBiomarkers,
+  neonAuthUser,
+  userPreferences,
+} from "./schema/app";
 import type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData, Sex, BiomarkerType } from "./types";
 import { convert as convertUnit, convertRange, getDisplayUnit } from "./units";
+import { isOutOfRange, analyzeTrend } from "./analytics";
 import { UnitSystem } from "./types";
 
 export type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData };
@@ -729,15 +738,20 @@ async function assembleProfileData(
               }
             }
 
+            const effectiveMin = rRefMin ?? bioRefMin;
+            const effectiveMax = rRefMax ?? bioRefMax;
             return {
               id: r.id,
               date: r.date,
               value,
               ...(rRefMin != null ? { refMin: rRefMin } : {}),
               ...(rRefMax != null ? { refMax: rRefMax } : {}),
+              outOfRange: isOutOfRange(value, effectiveMin, effectiveMax),
             };
           });
           if (ress.length === 0) return null;
+          const latest = ress[ress.length - 1];
+          const trend = analyzeTrend(ress, bioRefMin, bioRefMax);
           return {
             id: b.id,
             ...(displayUnit != null ? { unit: displayUnit } : {}),
@@ -745,6 +759,8 @@ async function assembleProfileData(
             ...(bioRefMax != null ? { refMax: bioRefMax } : {}),
             ...(b.type !== "quantitative" ? { type: b.type } : {}),
             results: ress,
+            trend,
+            latestOutOfRange: latest?.outOfRange ?? false,
           };
         })
         .filter((b) => b !== null);

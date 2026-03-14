@@ -7,7 +7,7 @@ import {
   getRelevantCorrelations,
   analyzeTrend,
 } from "./analytics";
-import { calculatePhenoAge } from "./bioage";
+import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
 import { buildPrompt } from "./promptBuilder";
 import { makeI18n } from "./i18n";
 import type {
@@ -96,12 +96,15 @@ export async function getCorrelationsForProfile(
 export async function getBiologicalAgeForProfile(
   profileId: number,
   authUserId: string,
-): Promise<PhenoAgeResult[] | undefined> {
+): Promise<{ results: PhenoAgeResult[]; missingMarkers: string[] } | undefined> {
   // PhenoAge coefficients are calibrated for SI units — use raw (unconverted) data
   const data = await getRawProfileData(profileId, authUserId);
   if (!data) return undefined;
-  if (!data.user.dateOfBirth || isNaN(new Date(data.user.dateOfBirth).getTime())) return [];
-  return calculatePhenoAge(data.categories, data.user.dateOfBirth);
+  const missingMarkers = getMissingPhenoAgeMarkers(data.categories);
+  if (!data.user.dateOfBirth || isNaN(new Date(data.user.dateOfBirth).getTime())) {
+    return { results: [], missingMarkers };
+  }
+  return { results: calculatePhenoAge(data.categories, data.user.dateOfBirth), missingMarkers };
 }
 
 export async function getAnalysisPromptForProfile(

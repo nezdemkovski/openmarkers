@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { useRef } from "react";
+import { useState, useCallback, useRef } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Pencil,
   Trash2,
@@ -690,22 +690,19 @@ function CliSection({ t }: { t: (key: string) => string }) {
 }
 
 function UnitSystemSection({ t, onUpdated }: { t: (key: string) => string; onUpdated: () => void }) {
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>(UnitSystem.SI);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
+  const { data: prefs, isLoading: loading } = useQuery({
+    queryKey: ["preferences"],
+    queryFn: () => api.getPreferences(),
+  });
+  const unitSystem = prefs?.unitSystem ?? UnitSystem.SI;
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    api.getPreferences().then((prefs) => {
-      setUnitSystem(prefs.unitSystem);
-      setLoading(false);
-    });
-  }, []);
-
   const handleChange = async (value: UnitSystem) => {
-    setUnitSystem(value);
     setSaving(true);
     try {
       await api.updatePreferences({ unit_system: value });
+      queryClient.invalidateQueries({ queryKey: ["preferences"] });
       onUpdated();
     } finally {
       setSaving(false);
