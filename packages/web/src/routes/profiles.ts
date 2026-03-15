@@ -106,7 +106,6 @@ export async function handleReorderProfiles(
 
 export async function handleCheckHandle(
   url: URL,
-  auth: { userId: string },
 ): Promise<Response> {
   const handle = url.searchParams.get("handle");
   if (!handle) return error("handle is required");

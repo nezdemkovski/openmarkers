@@ -529,7 +529,7 @@ export async function exportProfileData(
 ): Promise<object | undefined> {
   const data = await getProfileData(profileId, authUserId);
   if (!data) return undefined;
-  const { id, ...userWithoutId } = data.user;
+  const { id: _id, ...userWithoutId } = data.user;
   return { user: userWithoutId, categories: data.categories };
 }
 

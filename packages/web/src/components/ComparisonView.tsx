@@ -43,17 +43,8 @@ function formatDate(dateStr: string): string {
   });
 }
 
-function formatDateShort(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "2-digit",
-  });
-}
-
 interface ComparisonViewProps {
   categories: Category[];
-  isDark: boolean;
   i18n: I18n;
   profileId?: number;
 }
@@ -91,7 +82,6 @@ function getDelta(row: ComparisonRow) {
 
 export default function ComparisonView({
   categories,
-  isDark,
   i18n,
   profileId,
 }: ComparisonViewProps) {

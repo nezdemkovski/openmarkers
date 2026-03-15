@@ -404,14 +404,12 @@ export default function DashboardPage({
             ) : route.view === "timeline" ? (
               <TimelineView
                 categories={displayData.categories}
-                isDark={isDark}
                 i18n={i18n}
                 profileId={activeProfileId ?? undefined}
               />
             ) : route.view === "compare" ? (
               <ComparisonView
                 categories={displayData.categories}
-                isDark={isDark}
                 i18n={i18n}
                 profileId={activeProfileId ?? undefined}
               />

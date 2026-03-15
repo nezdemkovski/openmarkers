@@ -36,7 +36,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const headers = await authHeaders();
   const res = await fetch(path, {
     ...options,
-    headers: { ...headers, ...(options?.headers || {}) },
+    headers: { ...headers, ...options?.headers },
   });
   if (res.status === 401) {
     onUnauthorized?.();

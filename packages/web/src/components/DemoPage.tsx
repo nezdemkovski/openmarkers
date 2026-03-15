@@ -108,17 +108,9 @@ export default function DemoPage({
             {route.view === "category" && category ? (
               <CategoryView category={category} isDark={isDark} i18n={i18n} />
             ) : route.view === "timeline" ? (
-              <TimelineView
-                categories={demoData.categories}
-                isDark={isDark}
-                i18n={i18n}
-              />
+              <TimelineView categories={demoData.categories} i18n={i18n} />
             ) : route.view === "compare" ? (
-              <ComparisonView
-                categories={demoData.categories}
-                isDark={isDark}
-                i18n={i18n}
-              />
+              <ComparisonView categories={demoData.categories} i18n={i18n} />
             ) : (
               <Dashboard
                 userData={demoData}

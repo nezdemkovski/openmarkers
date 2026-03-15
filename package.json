@@ -15,7 +15,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "format": "turbo run format",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "lint:fix": "oxlint --fix"
   },
   "devDependencies": {
     "@neondatabase/serverless": "^1.0.2",

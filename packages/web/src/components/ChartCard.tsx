@@ -209,7 +209,6 @@ export default memo(function ChartCard({
   const [clamped, setClamped] = useState(false);
 
   const {
-    latest,
     out,
     trend,
     latestStr,

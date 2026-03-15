@@ -35,14 +35,12 @@ function formatShort(dateStr: string): string {
 
 interface TimelineViewProps {
   categories: Category[];
-  isDark: boolean;
   i18n: I18n;
   profileId?: number;
 }
 
 export default function TimelineView({
   categories,
-  isDark,
   i18n,
   profileId,
 }: TimelineViewProps) {

@@ -29,8 +29,6 @@ import {
 
 import type { PhenoAgeResult, PhenoAgeScore, I18n } from "../types.ts";
 
-const CHART_MARGIN = { top: 4, right: 4, bottom: 4, left: 4 };
-
 interface BioAgeTooltipProps {
   active?: boolean;
   payload?: Array<{ payload: PhenoAgeResult }>;

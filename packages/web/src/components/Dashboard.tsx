@@ -105,12 +105,6 @@ function countOutOfRange(category: Category): number {
   return count;
 }
 
-function formatDaysAgo(days: number, t: I18n["t"]): string {
-  if (days < 30) return `${days} ${t("daysAgo")}`;
-  const months = Math.floor(days / 30);
-  return `${months} ${t("monthsAgo")}`;
-}
-
 interface RemindersSectionProps {
   reminders: DaysSinceResult[];
   tCat: I18n["tCat"];

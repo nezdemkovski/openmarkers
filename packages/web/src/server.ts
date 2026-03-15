@@ -209,7 +209,7 @@ export function startWebServer(opts: {
     if (method === "GET" && path === "/api/handle-available") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      return handleCheckHandle(url, auth);
+      return handleCheckHandle(url);
     }
 
     const exportMatch = path.match(/^\/api\/profiles\/(\d+)\/export$/);
