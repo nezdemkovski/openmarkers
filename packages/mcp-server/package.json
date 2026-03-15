@@ -5,11 +5,12 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "format": "prettier --write \"**/*.{ts,tsx,json}\" --ignore-path ../../.gitignore"
+    "format": "oxfmt -c ../../.oxfmtrc.json .",
+    "lint": "oxlint -c ../../.oxlintrc.json"
   },
   "dependencies": {
-    "@openmarkers/db": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.27.0",
+    "@openmarkers/db": "workspace:*",
     "zod": "^3.25.76"
   }
 }

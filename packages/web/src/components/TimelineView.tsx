@@ -1,11 +1,19 @@
-import { useState, useMemo } from "react";
+import { getAllDates, getDateSnapshot } from "@openmarkers/db/src/analytics";
+import { useQuery } from "@tanstack/react-query";
 import { Calendar, TriangleAlert, CircleCheck } from "lucide-react";
+import { useState, useMemo } from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useQuery } from "@tanstack/react-query";
-import { getAllDates, getDateSnapshot } from "@openmarkers/db/src/analytics";
+
 import { api } from "../lib/api.ts";
 import type { Category, I18n, SnapshotItem } from "../types.ts";
 
@@ -32,7 +40,12 @@ interface TimelineViewProps {
   profileId?: number;
 }
 
-export default function TimelineView({ categories, isDark, i18n, profileId }: TimelineViewProps) {
+export default function TimelineView({
+  categories,
+  isDark,
+  i18n,
+  profileId,
+}: TimelineViewProps) {
   const { t, tCat, tBio } = i18n;
 
   const localDates = useMemo(() => getAllDates(categories), [categories]);
@@ -53,7 +66,9 @@ export default function TimelineView({ categories, isDark, i18n, profileId }: Ti
     enabled: !!profileId && !!activeDate,
   });
 
-  const snapshot = fetchedSnapshot ?? (activeDate ? getDateSnapshot(categories, activeDate) : []);
+  const snapshot =
+    fetchedSnapshot ??
+    (activeDate ? getDateSnapshot(categories, activeDate) : []);
 
   const grouped = useMemo(() => {
     const map: Record<string, SnapshotItem[]> = {};
@@ -70,14 +85,19 @@ export default function TimelineView({ categories, isDark, i18n, profileId }: Ti
     <>
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-foreground">{t("timeline")}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t("timelineDesc")}</p>
+        <p className="text-sm text-muted-foreground mt-1">
+          {t("timelineDesc")}
+        </p>
       </div>
 
       <Card className="mb-6 sm:hidden py-0">
         <CardContent className="p-4">
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-muted-foreground shrink-0" />
-            <Select value={activeDate ?? ""} onValueChange={(v) => setSelectedDate(v)}>
+            <Select
+              value={activeDate ?? ""}
+              onValueChange={(v) => setSelectedDate(v)}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder={t("timeline")} />
               </SelectTrigger>
@@ -101,13 +121,19 @@ export default function TimelineView({ categories, isDark, i18n, profileId }: Ti
             spacing={1}
             value={activeDate ? [activeDate] : []}
             onValueChange={(newValue) => {
-              const picked = (newValue as string[]).find((v) => v !== activeDate);
+              const picked = (newValue as string[]).find(
+                (v) => v !== activeDate,
+              );
               if (picked) setSelectedDate(picked);
             }}
             className="w-max"
           >
             {dates.map((d) => (
-              <ToggleGroupItem key={d} value={d} className="flex flex-col items-center gap-1 px-3 py-2 h-auto">
+              <ToggleGroupItem
+                key={d}
+                value={d}
+                className="flex flex-col items-center gap-1 px-3 py-2 h-auto"
+              >
                 <Calendar className="w-3.5 h-3.5" />
                 <span>{formatShort(d)}</span>
               </ToggleGroupItem>
@@ -132,7 +158,9 @@ export default function TimelineView({ categories, isDark, i18n, profileId }: Ti
                     {outCount} {t("flagged")}
                   </Badge>
                 )}
-                {outCount === 0 && snapshot.length > 0 && <Badge variant="success">{t("allOk")}</Badge>}
+                {outCount === 0 && snapshot.length > 0 && (
+                  <Badge variant="success">{t("allOk")}</Badge>
+                )}
               </div>
             </div>
           </CardHeader>
@@ -157,7 +185,10 @@ export default function TimelineView({ categories, isDark, i18n, profileId }: Ti
                       : item.value;
 
                   return (
-                    <div key={item.biomarkerId} className="px-4 py-2.5 flex items-start gap-2">
+                    <div
+                      key={item.biomarkerId}
+                      className="px-4 py-2.5 flex items-start gap-2"
+                    >
                       <div className="shrink-0 mt-0.5">
                         {item.outOfRange ? (
                           <TriangleAlert className="w-3.5 h-3.5 text-destructive" />
@@ -172,7 +203,9 @@ export default function TimelineView({ categories, isDark, i18n, profileId }: Ti
                           </span>
                           <span
                             className={`text-sm font-mono shrink-0 ${
-                              item.outOfRange ? "font-bold text-destructive" : "text-foreground"
+                              item.outOfRange
+                                ? "font-bold text-destructive"
+                                : "text-foreground"
                             }`}
                           >
                             {formatted}
@@ -193,7 +226,9 @@ export default function TimelineView({ categories, isDark, i18n, profileId }: Ti
           ))}
 
           {snapshot.length === 0 && (
-            <div className="px-4 py-8 text-center text-sm text-muted-foreground">{t("noDataForDate")}</div>
+            <div className="px-4 py-8 text-center text-sm text-muted-foreground">
+              {t("noDataForDate")}
+            </div>
           )}
         </Card>
       )}

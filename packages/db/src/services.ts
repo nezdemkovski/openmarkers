@@ -1,4 +1,3 @@
-import { getProfileData, getRawProfileData } from "./index";
 import {
   getAllDates,
   getDateSnapshot,
@@ -8,8 +7,9 @@ import {
   analyzeTrend,
 } from "./analytics";
 import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
-import { buildPrompt } from "./promptBuilder";
 import { makeI18n } from "./i18n";
+import { getProfileData, getRawProfileData } from "./index";
+import { buildPrompt } from "./promptBuilder";
 import type {
   BiomarkerTrend,
   SnapshotItem,
@@ -20,7 +20,10 @@ import type {
   Lang,
 } from "./types";
 
-export async function getTimelineForProfile(profileId: number, authUserId: string): Promise<string[] | undefined> {
+export async function getTimelineForProfile(
+  profileId: number,
+  authUserId: string,
+): Promise<string[] | undefined> {
   const data = await getProfileData(profileId, authUserId);
   if (!data) return undefined;
   return getAllDates(data.categories);
@@ -96,14 +99,22 @@ export async function getCorrelationsForProfile(
 export async function getBiologicalAgeForProfile(
   profileId: number,
   authUserId: string,
-): Promise<{ results: PhenoAgeResult[]; missingMarkers: string[] } | undefined> {
+): Promise<
+  { results: PhenoAgeResult[]; missingMarkers: string[] } | undefined
+> {
   const data = await getRawProfileData(profileId, authUserId);
   if (!data) return undefined;
   const missingMarkers = getMissingPhenoAgeMarkers(data.categories);
-  if (!data.user.dateOfBirth || isNaN(new Date(data.user.dateOfBirth).getTime())) {
+  if (
+    !data.user.dateOfBirth ||
+    isNaN(new Date(data.user.dateOfBirth).getTime())
+  ) {
     return { results: [], missingMarkers };
   }
-  return { results: calculatePhenoAge(data.categories, data.user.dateOfBirth), missingMarkers };
+  return {
+    results: calculatePhenoAge(data.categories, data.user.dateOfBirth),
+    missingMarkers,
+  };
 }
 
 export async function getAnalysisPromptForProfile(

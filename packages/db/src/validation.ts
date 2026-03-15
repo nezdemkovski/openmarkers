@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { Sex, BiomarkerType } from "./types";
 
 export const sexEnum = z.nativeEnum(Sex);
@@ -7,7 +8,10 @@ export const publicHandleSchema = z
   .string()
   .min(3)
   .max(40)
-  .regex(/^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/, "Lowercase alphanumeric and hyphens, must start/end with alphanumeric");
+  .regex(
+    /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/,
+    "Lowercase alphanumeric and hyphens, must start/end with alphanumeric",
+  );
 
 export const importDataSchema = z.object({
   user: z.object({
@@ -40,9 +44,15 @@ export const importDataSchema = z.object({
                       refMax: z.number().nullish(),
                       unit: z.string().max(50).nullish(),
                     })
-                    .refine((r) => r.refMin == null || r.refMax == null || r.refMin <= r.refMax, {
-                      message: "refMin must be <= refMax",
-                    }),
+                    .refine(
+                      (r) =>
+                        r.refMin == null ||
+                        r.refMax == null ||
+                        r.refMin <= r.refMax,
+                      {
+                        message: "refMin must be <= refMax",
+                      },
+                    ),
                 )
                 .max(10000),
             }),

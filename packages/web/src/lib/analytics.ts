@@ -28,7 +28,10 @@ export const Event = {
 
 type Props = Record<string, string | number | boolean>;
 
-export function track(event: (typeof Event)[keyof typeof Event], props?: Props) {
+export function track(
+  event: (typeof Event)[keyof typeof Event],
+  props?: Props,
+) {
   if (!isProd) return;
   plausibleTrack(event, { props });
 }

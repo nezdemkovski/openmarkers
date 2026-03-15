@@ -1,4 +1,5 @@
 import { describe, test, expect } from "bun:test";
+
 import {
   isOutOfRange,
   analyzeTrend,
@@ -11,7 +12,10 @@ import {
 import type { Category, BiomarkerResult } from "./types";
 
 // Helper to build test categories
-function makeCategory(id: string, biomarkers: Category["biomarkers"]): Category {
+function makeCategory(
+  id: string,
+  biomarkers: Category["biomarkers"],
+): Category {
   return { id, biomarkers };
 }
 
@@ -20,7 +24,13 @@ function makeBio(
   results: BiomarkerResult[],
   opts?: { refMin?: number; refMax?: number; unit?: string },
 ): Category["biomarkers"][0] {
-  return { id, results, refMin: opts?.refMin, refMax: opts?.refMax, unit: opts?.unit };
+  return {
+    id,
+    results,
+    refMin: opts?.refMin,
+    refMax: opts?.refMax,
+    unit: opts?.unit,
+  };
 }
 
 describe("isOutOfRange", () => {
@@ -201,23 +211,41 @@ describe("getAllDates", () => {
         ]),
       ]),
     ];
-    expect(getAllDates(categories)).toEqual(["2024-01-01", "2024-02-01", "2024-03-01"]);
+    expect(getAllDates(categories)).toEqual([
+      "2024-01-01",
+      "2024-02-01",
+      "2024-03-01",
+    ]);
   });
 
   test("returns empty for no results", () => {
     expect(getAllDates([])).toEqual([]);
-    expect(getAllDates([makeCategory("cat1", [makeBio("b1", [])])])).toEqual([]);
+    expect(getAllDates([makeCategory("cat1", [makeBio("b1", [])])])).toEqual(
+      [],
+    );
   });
 });
 
 describe("getDateSnapshot", () => {
   const categories: Category[] = [
     makeCategory("hematology", [
-      makeBio("B-HB", [{ date: "2024-01-01", value: 150 }], { refMin: 135, refMax: 175, unit: "g/l" }),
-      makeBio("B-WBC", [{ date: "2024-01-01", value: 12 }], { refMin: 4, refMax: 10, unit: "×10⁹/l" }),
+      makeBio("B-HB", [{ date: "2024-01-01", value: 150 }], {
+        refMin: 135,
+        refMax: 175,
+        unit: "g/l",
+      }),
+      makeBio("B-WBC", [{ date: "2024-01-01", value: 12 }], {
+        refMin: 4,
+        refMax: 10,
+        unit: "×10⁹/l",
+      }),
     ]),
     makeCategory("biochemistry", [
-      makeBio("S-GLU", [{ date: "2024-02-01", value: 5.5 }], { refMin: 3.9, refMax: 5.6, unit: "mmol/l" }),
+      makeBio("S-GLU", [{ date: "2024-02-01", value: 5.5 }], {
+        refMin: 3.9,
+        refMax: 5.6,
+        unit: "mmol/l",
+      }),
     ]),
   ];
 
@@ -303,7 +331,12 @@ describe("compareDates", () => {
 
   test("handles missing results on one date", () => {
     const cats: Category[] = [
-      makeCategory("test", [makeBio("B-HB", [{ date: "2024-01-01", value: 150 }], { refMin: 135, refMax: 175 })]),
+      makeCategory("test", [
+        makeBio("B-HB", [{ date: "2024-01-01", value: 150 }], {
+          refMin: 135,
+          refMax: 175,
+        }),
+      ]),
     ];
     const rows = compareDates(cats, "2024-01-01", "2024-06-01");
     expect(rows).toHaveLength(1);
@@ -336,8 +369,12 @@ describe("compareDates", () => {
 describe("daysSinceLastTest", () => {
   test("returns days since most recent result per category", () => {
     const now = new Date();
-    const yesterday = new Date(now.getTime() - 86400000).toISOString().split("T")[0];
-    const categories: Category[] = [makeCategory("cat1", [makeBio("b1", [{ date: yesterday, value: 1 }])])];
+    const yesterday = new Date(now.getTime() - 86400000)
+      .toISOString()
+      .split("T")[0];
+    const categories: Category[] = [
+      makeCategory("cat1", [makeBio("b1", [{ date: yesterday, value: 1 }])]),
+    ];
     const result = daysSinceLastTest(categories);
     expect(result).toHaveLength(1);
     expect(result[0].categoryId).toBe("cat1");
@@ -371,7 +408,11 @@ describe("getRelevantCorrelations", () => {
   });
 
   test("excludes groups with fewer than 2 matches", () => {
-    const categories: Category[] = [makeCategory("test", [makeBio("S-CHOL", [{ date: "2024-01-01", value: 5 }])])];
+    const categories: Category[] = [
+      makeCategory("test", [
+        makeBio("S-CHOL", [{ date: "2024-01-01", value: 5 }]),
+      ]),
+    ];
     const groups = getRelevantCorrelations(categories);
     expect(groups.find((g) => g.id === "lipid_panel")).toBeUndefined();
   });

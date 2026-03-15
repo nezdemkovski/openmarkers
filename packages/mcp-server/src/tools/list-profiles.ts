@@ -1,6 +1,7 @@
-import { z } from "zod";
-import { listProfiles } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { listProfiles } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpJson } from "../index";
 
 export function registerListProfiles(server: McpServer, authUserId: string) {

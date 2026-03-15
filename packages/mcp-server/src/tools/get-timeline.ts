@@ -1,13 +1,15 @@
-import { z } from "zod";
-import { getTimelineForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { getTimelineForProfile } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpJson, mcpError } from "../index";
 
 export function registerGetTimeline(server: McpServer, authUserId: string) {
   server.registerTool(
     "get_timeline",
     {
-      description: "Get all lab test dates for a profile, sorted chronologically.",
+      description:
+        "Get all lab test dates for a profile, sorted chronologically.",
       inputSchema: z.object({
         profile_id: z.coerce.number().int().describe("Profile ID"),
       }),

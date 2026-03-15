@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+
 import type { Lang } from "../types";
 
 const LANG_VALUES = new Set(["en", "cs", "ru", "is"]);

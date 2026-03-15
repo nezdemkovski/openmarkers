@@ -1,6 +1,7 @@
+import { eq, lt } from "drizzle-orm";
+
 import { db } from "./db";
 import { oauthClients, oauthAuthCodes, oauthRefreshTokens } from "./schema/app";
-import { eq, lt } from "drizzle-orm";
 
 export interface OAuthClient {
   clientId: string;
@@ -27,7 +28,11 @@ export interface OAuthRefreshToken {
 }
 
 export async function getClient(clientId: string): Promise<OAuthClient | null> {
-  const rows = await db.select().from(oauthClients).where(eq(oauthClients.clientId, clientId)).limit(1);
+  const rows = await db
+    .select()
+    .from(oauthClients)
+    .where(eq(oauthClients.clientId, clientId))
+    .limit(1);
   return rows[0] ?? null;
 }
 
@@ -45,7 +50,10 @@ export async function registerClient(client: {
   });
 }
 
-export async function validateRedirectUri(clientId: string, redirectUri: string): Promise<boolean> {
+export async function validateRedirectUri(
+  clientId: string,
+  redirectUri: string,
+): Promise<boolean> {
   const client = await getClient(clientId);
   if (!client) return false;
   const uris: string[] = JSON.parse(client.redirectUris);
@@ -57,7 +65,11 @@ export async function storeAuthCode(code: OAuthAuthCode): Promise<void> {
 }
 
 export async function getAuthCode(code: string): Promise<OAuthAuthCode | null> {
-  const rows = await db.select().from(oauthAuthCodes).where(eq(oauthAuthCodes.code, code)).limit(1);
+  const rows = await db
+    .select()
+    .from(oauthAuthCodes)
+    .where(eq(oauthAuthCodes.code, code))
+    .limit(1);
   return rows[0] ?? null;
 }
 
@@ -65,21 +77,33 @@ export async function deleteAuthCode(code: string): Promise<void> {
   await db.delete(oauthAuthCodes).where(eq(oauthAuthCodes.code, code));
 }
 
-export async function storeRefreshToken(token: OAuthRefreshToken): Promise<void> {
+export async function storeRefreshToken(
+  token: OAuthRefreshToken,
+): Promise<void> {
   await db.insert(oauthRefreshTokens).values(token);
 }
 
-export async function getRefreshToken(token: string): Promise<OAuthRefreshToken | null> {
-  const rows = await db.select().from(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, token)).limit(1);
+export async function getRefreshToken(
+  token: string,
+): Promise<OAuthRefreshToken | null> {
+  const rows = await db
+    .select()
+    .from(oauthRefreshTokens)
+    .where(eq(oauthRefreshTokens.token, token))
+    .limit(1);
   return rows[0] ?? null;
 }
 
 export async function deleteRefreshToken(token: string): Promise<void> {
-  await db.delete(oauthRefreshTokens).where(eq(oauthRefreshTokens.token, token));
+  await db
+    .delete(oauthRefreshTokens)
+    .where(eq(oauthRefreshTokens.token, token));
 }
 
 export async function cleanupExpired(): Promise<void> {
   const now = Date.now();
   await db.delete(oauthAuthCodes).where(lt(oauthAuthCodes.expiresAt, now));
-  await db.delete(oauthRefreshTokens).where(lt(oauthRefreshTokens.expiresAt, now));
+  await db
+    .delete(oauthRefreshTokens)
+    .where(lt(oauthRefreshTokens.expiresAt, now));
 }

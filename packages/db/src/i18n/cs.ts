@@ -19,19 +19,22 @@ const cs: TranslationData = {
     biomarkers: "biomarkerů",
     biomarker: "biomarker",
     timeline: "Časová osa",
-    timelineDesc: "Všechna data odběrů na časové ose. Kliknutím zobrazíte kompletní výsledky.",
+    timelineDesc:
+      "Všechna data odběrů na časové ose. Kliknutím zobrazíte kompletní výsledky.",
     comparison: "Porovnání",
     export: "Exportovat data",
     import: "Importovat data",
     importConflictTitle: "Uživatel již existuje",
-    importConflictMessage: 'Uživatel "{name}" již existuje. Zadejte nové jméno nebo zrušte.',
+    importConflictMessage:
+      'Uživatel "{name}" již existuje. Zadejte nové jméno nebo zrušte.',
     importRename: "Importovat",
     importCancel: "Zrušit",
     importError: "Chyba importu",
     importInvalidJson: "Neplatný JSON soubor.",
     deleteUser: "Smazat uživatele",
     deleteUserTitle: "Smazat uživatele",
-    deleteUserMessage: 'Opravdu chcete smazat "{name}"? Všechna data budou trvale odstraněna.',
+    deleteUserMessage:
+      'Opravdu chcete smazat "{name}"? Všechna data budou trvale odstraněna.',
     deleteUserConfirm: "Smazat",
     comparisonDesc: "Porovnejte výsledky dvou odběrů vedle sebe.",
     snapshot: "Snímek",
@@ -53,7 +56,8 @@ const cs: TranslationData = {
     overall: "celkem",
     personalRange: "Váš rozsah",
     correlations: "Korelované panely",
-    correlationsDesc: "Souvisejíci biomarkery, které spolu tvoří celkový obraz.",
+    correlationsDesc:
+      "Souvisejíci biomarkery, které spolu tvoří celkový obraz.",
     iron_panel: "Panel železa",
     lipid_panel: "Lipidový panel",
     liver_panel: "Jaterní panel",
@@ -69,7 +73,8 @@ const cs: TranslationData = {
     showPrompt: "Náhled",
     hidePrompt: "Skrýt",
     bioAge: "Biologický věk",
-    bioAgeDesc: "Odhad pomocí Levineho PhenoAge vzorce z 9 krevních biomarkerů.",
+    bioAgeDesc:
+      "Odhad pomocí Levineho PhenoAge vzorce z 9 krevních biomarkerů.",
     chronoAge: "Chronologický věk",
     yearsOlder: "let starší",
     yearsYounger: "let mladší",
@@ -101,7 +106,8 @@ const cs: TranslationData = {
     goToApp: "Přejít do aplikace",
     landingWelcomeBack: "Vaše data na vás čekají.",
     landingPeople: "lidí",
-    getStartedDesc: "Importujte svá laboratorní data nebo vytvořte nový profil.",
+    getStartedDesc:
+      "Importujte svá laboratorní data nebo vytvořte nový profil.",
     createProfile: "Vytvořit nový profil",
     createProfileDesc: "Začněte s prázdným profilem.",
     profileName: "Jméno",
@@ -126,27 +132,36 @@ const cs: TranslationData = {
     addLabVisitNoMatch: "Žádné biomarkery neodpovídají hledání.",
     addLabVisitEmpty: "Zadejte alespoň jednu hodnotu.",
     addYourData: "Přidejte svá data",
-    addYourDataDesc: "Váš profil je připraven. Přidejte první výsledky z odběrů.",
+    addYourDataDesc:
+      "Váš profil je připraven. Přidejte první výsledky z odběrů.",
     aiImport: "Vytvořit soubor pro import pomocí AI",
-    aiImportDesc: "Máte PDF nebo laboratorní zprávu? Pomocí AI ji převeďte na soubor k importu.",
+    aiImportDesc:
+      "Máte PDF nebo laboratorní zprávu? Pomocí AI ji převeďte na soubor k importu.",
     aiImportInstructions:
       "Zkopírujte prompt níže a vložte ho do ChatGPT, Claude nebo jiného AI asistenta spolu s vašimi výsledky (text, foto nebo PDF). Vygeneruje vám JSON soubor.",
-    aiImportThen: "Uložte výstup jako .json soubor a nahrajte ho pomocí Import výše.",
-    schemaTip: "Tip: Přidejte pole $schema pro automatické doplňování a validaci",
+    aiImportThen:
+      "Uložte výstup jako .json soubor a nahrajte ho pomocí Import výše.",
+    schemaTip:
+      "Tip: Přidejte pole $schema pro automatické doplňování a validaci",
     schemaTipDesc:
       "Přidejte tento řádek na začátek JSON souboru pro automatické doplňování a kontrolu chyb ve VS Code a dalších editorech:",
     mcpSetup: "MCP Server",
     mcpSetupDesc: "Připojte AI asistenta přímo k OpenMarkers.",
-    mcpSetupInstructions: "Přidejte toto do konfigurace MCP vašeho AI klienta (Claude Desktop, Cursor apod.):",
-    mcpSetupAuth: "AI klient se ověří přes OAuth při prvním připojení — stačí schválit přihlášení v prohlížeči.",
+    mcpSetupInstructions:
+      "Přidejte toto do konfigurace MCP vašeho AI klienta (Claude Desktop, Cursor apod.):",
+    mcpSetupAuth:
+      "AI klient se ověří přes OAuth při prvním připojení — stačí schválit přihlášení v prohlížeči.",
     mcpSetupToolsTitle: "Hlavní dostupné nástroje:",
-    mcpToolImport: "Hromadný import strukturovaných laboratorních dat jako JSON",
-    mcpToolSchema: "Získat všechny podporované ID biomarkerů, jednotky a referenční rozsahy",
+    mcpToolImport:
+      "Hromadný import strukturovaných laboratorních dat jako JSON",
+    mcpToolSchema:
+      "Získat všechny podporované ID biomarkerů, jednotky a referenční rozsahy",
     mcpToolAddResult: "Přidat jednotlivé laboratorní výsledky",
     mcpToolGetProfile: "Zobrazit všechna data podle kategorií",
     mcpToolTrends: "Analyzovat trendy, směr a varování u biomarkerů",
     mcpToolAnalysis: "Vygenerovat kompletní zdravotní analýzu ze všech dat",
-    mcpToolsMore: "A další — AI asistent automaticky objeví všechny dostupné nástroje.",
+    mcpToolsMore:
+      "A další — AI asistent automaticky objeví všechny dostupné nástroje.",
     settings: "Nastavení",
     settingsAppearance: "Vzhled",
     settingsTheme: "Motiv",
@@ -171,7 +186,8 @@ const cs: TranslationData = {
     settingsError: "Chyba",
     settingsDangerZone: "Nebezpečná zóna",
     settingsDeleteAccount: "Smazat účet",
-    settingsDeleteAccountDesc: "Trvale smazat účet a všechny profily. Tuto akci nelze vrátit.",
+    settingsDeleteAccountDesc:
+      "Trvale smazat účet a všechny profily. Tuto akci nelze vrátit.",
     settingsDeleteAccountConfirm: "Napište DELETE pro potvrzení",
     settingsDateOfBirth: "Datum narození",
     settingsSex: "Pohlaví",
@@ -184,31 +200,42 @@ const cs: TranslationData = {
     settingsMcpCopy: "Kopírovat",
     settingsMcpCopyToken: "Kopírovat token",
     settingsMcpCopyConfig: "Kopírovat konfiguraci",
-    settingsMcpTokenDesc: "Tento token periodicky expiruje. Před konfigurací AI klienta zkopírujte nový.",
-    settingsMcpConfigDesc: "Přidejte toto do MCP konfigurace vašeho AI klienta:",
-    settingsMcpTools: "Dostupné nástroje: seznam profilů, trendy, biologický věk, korelace, AI analýzy a další.",
+    settingsMcpTokenDesc:
+      "Tento token periodicky expiruje. Před konfigurací AI klienta zkopírujte nový.",
+    settingsMcpConfigDesc:
+      "Přidejte toto do MCP konfigurace vašeho AI klienta:",
+    settingsMcpTools:
+      "Dostupné nástroje: seznam profilů, trendy, biologický věk, korelace, AI analýzy a další.",
     settingsCli: "CLI nástroj",
     settingsCliDesc:
       "Spravujte profily, importujte výsledky a spouštějte analytiku z terminálu. Navrženo pro bezproblémovou spolupráci s AI agenty.",
     settingsCliInstall: "Instalace přes Homebrew",
     settingsCliUsage: "Poté spusťte:",
-    authConsent: "Souhlasím s uložením výsledků krevních testů a laboratorních dat",
-    authDisclaimer: "Toto není zdravotnický prostředek ani zdravotní služba. Nejedná se o lékařskou radu.",
-    heroSubtitle: "Vaše laboratorní výsledky, vizualizované. Odhalte trendy, které lékař přehlédne.",
+    authConsent:
+      "Souhlasím s uložením výsledků krevních testů a laboratorních dat",
+    authDisclaimer:
+      "Toto není zdravotnický prostředek ani zdravotní služba. Nejedná se o lékařskou radu.",
+    heroSubtitle:
+      "Vaše laboratorní výsledky, vizualizované. Odhalte trendy, které lékař přehlédne.",
     heroBadgeOpenSource: "Open source",
     heroBadgeBiomarkers: "100+ biomarkerů",
     heroBadgeMcp: "AI přes MCP",
     landingFeaturesHeading: "Vše, co potřebujete ke sledování zdraví",
     landingHowItWorks: "Jak to funguje",
     landingStep1Title: "Nahrajte výsledky",
-    landingStep1Desc: "Importujte laboratorní data jako JSON, zadejte ručně nebo nechte AI převést vaše PDF reporty.",
+    landingStep1Desc:
+      "Importujte laboratorní data jako JSON, zadejte ručně nebo nechte AI převést vaše PDF reporty.",
     landingStep2Title: "Vizualizujte trendy",
-    landingStep2Desc: "Sledujte každý biomarker v čase s interaktivními grafy a referenčními rozsahy.",
+    landingStep2Desc:
+      "Sledujte každý biomarker v čase s interaktivními grafy a referenčními rozsahy.",
     landingStep3Title: "Získejte přehledy",
-    landingStep3Desc: "Biologický věk, analýza trendů, korelace — nebo připojte jakékoli AI přes MCP.",
+    landingStep3Desc:
+      "Biologický věk, analýza trendů, korelace — nebo připojte jakékoli AI přes MCP.",
     heroDemoButton: "Prozkoumat s ukázkovými daty",
-    heroMcpDesc: "Připojte jakéhokoli AI asistenta k vašim biomarkerům přes MCP",
-    heroCliDesc: "Spravujte data z terminálu — skvěle funguje s {openClawLink} a podobnými osobními agenty",
+    heroMcpDesc:
+      "Připojte jakéhokoli AI asistenta k vašim biomarkerům přes MCP",
+    heroCliDesc:
+      "Spravujte data z terminálu — skvěle funguje s {openClawLink} a podobnými osobními agenty",
     featureChartsTitle: "Grafy a trendy",
     featureChartsDesc:
       "Vizualizujte každý biomarker v čase pomocí interaktivních grafů. Referenční rozsahy zobrazeny přímo, abyste na první pohled viděli odchylky.",
@@ -225,7 +252,8 @@ const cs: TranslationData = {
     featurePrivacyDesc:
       "Vaše data nikdy nesdílíme s třetími stranami. Žádné sledování, žádná analytika. Plně open source — hostujte si sami pro plnou kontrolu.",
     shareProfile: "Sdílet profil",
-    shareProfileDesc: "Zveřejněte tento profil na vlastní URL. Kdokoli s odkazem uvidí vaše data.",
+    shareProfileDesc:
+      "Zveřejněte tento profil na vlastní URL. Kdokoli s odkazem uvidí vaše data.",
     publicHandle: "Identifikátor",
     publicHandlePlaceholder: "moje-zdravi",
     publicHandleAvailable: "Dostupný",
@@ -242,11 +270,13 @@ const cs: TranslationData = {
   categories: {
     basic_biochemistry: {
       name: "Základní biochemie",
-      description: "Základní biochemický panel měřící funkci ledvin, elektrolyty, jaterní enzymy, bílkoviny a lipidy.",
+      description:
+        "Základní biochemický panel měřící funkci ledvin, elektrolyty, jaterní enzymy, bílkoviny a lipidy.",
     },
     diabetology: {
       name: "Diabetologie",
-      description: "Markery krevního cukru pro screening a monitorování diabetes mellitus.",
+      description:
+        "Markery krevního cukru pro screening a monitorování diabetes mellitus.",
     },
     hematology: {
       name: "Hematologie",
@@ -457,7 +487,8 @@ const cs: TranslationData = {
     },
     "B-MCHC": {
       name: "Střední koncentrace hemoglobinu v erytrocytech",
-      description: "Průměrná koncentrace hemoglobinu v červených krvinkách. Pomáhá klasifikovat typy anémie.",
+      description:
+        "Průměrná koncentrace hemoglobinu v červených krvinkách. Pomáhá klasifikovat typy anémie.",
     },
     "B-PLT": {
       name: "Trombocyty (krevní destičky)",
@@ -591,7 +622,8 @@ const cs: TranslationData = {
     },
     "U-BILI": {
       name: "Bilirubin v moči",
-      description: "Bilirubin v moči. Normálně nepřítomen — přítomnost naznačuje onemocnění jater nebo žlučových cest.",
+      description:
+        "Bilirubin v moči. Normálně nepřítomen — přítomnost naznačuje onemocnění jater nebo žlučových cest.",
     },
     "U-UBG": {
       name: "Urobilinogen",

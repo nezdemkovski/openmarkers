@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-export const ALLOWED_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
+export const ALLOWED_ORIGIN =
+  process.env.CORS_ORIGIN || "http://localhost:5173";
 
 export const SECURITY_HEADERS: Record<string, string> = {
   "X-Content-Type-Options": "nosniff",
@@ -30,12 +31,17 @@ export function error(message: string, status = 400): Response {
   return json({ error: message }, status);
 }
 
-export async function parseBody<T>(req: Request, schema: z.ZodSchema<T>): Promise<T | Response> {
+export async function parseBody<T>(
+  req: Request,
+  schema: z.ZodSchema<T>,
+): Promise<T | Response> {
   try {
     const body = await req.json();
     const result = schema.safeParse(body);
     if (!result.success) {
-      const messages = result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`);
+      const messages = result.error.issues.map(
+        (i) => `${i.path.join(".")}: ${i.message}`,
+      );
       return error(`Validation error: ${messages.join("; ")}`, 400);
     }
     return result.data;

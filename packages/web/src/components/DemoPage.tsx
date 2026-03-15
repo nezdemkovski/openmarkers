@@ -1,19 +1,25 @@
-import { useCallback, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { makeI18n } from "../i18n.ts";
-import Sidebar from "./Sidebar.tsx";
-import Dashboard from "./Dashboard.tsx";
-import CategoryView from "./CategoryView.tsx";
-import TimelineView from "./TimelineView.tsx";
-import ComparisonView from "./ComparisonView.tsx";
-import Loading from "./Loading.tsx";
-import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import type { UserData, Route } from "../types.ts";
 import type { Lang } from "@openmarkers/db";
 import { enrichUserData } from "@openmarkers/db/src/enrich";
+import { useQuery } from "@tanstack/react-query";
+import { X } from "lucide-react";
+import { useCallback, useMemo } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  SidebarProvider,
+  SidebarInset,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
+import { makeI18n } from "../i18n.ts";
+import type { UserData, Route } from "../types.ts";
+import CategoryView from "./CategoryView.tsx";
+import ComparisonView from "./ComparisonView.tsx";
+import Dashboard from "./Dashboard.tsx";
+import Loading from "./Loading.tsx";
+import Sidebar from "./Sidebar.tsx";
+import TimelineView from "./TimelineView.tsx";
 
 interface DemoPageProps {
   route: Route;
@@ -24,12 +30,22 @@ interface DemoPageProps {
   navigateTo: (path: string) => void;
 }
 
-export default function DemoPage({ route, lang, onChangeLang, isDark, onToggleTheme, navigateTo }: DemoPageProps) {
+export default function DemoPage({
+  route,
+  lang,
+  onChangeLang,
+  isDark,
+  onToggleTheme,
+  navigateTo,
+}: DemoPageProps) {
   const i18n = useMemo(() => makeI18n(lang), [lang]);
 
   const { data: demoData } = useQuery<UserData>({
     queryKey: ["demo"],
-    queryFn: () => import("../../data/demo.json").then((m) => enrichUserData(m.default as UserData)),
+    queryFn: () =>
+      import("../../data/demo.json").then((m) =>
+        enrichUserData(m.default as UserData),
+      ),
     staleTime: Infinity,
   });
 
@@ -48,7 +64,10 @@ export default function DemoPage({ route, lang, onChangeLang, isDark, onToggleTh
 
   if (!demoData) return <Loading visible={true} text={i18n.t("loading")} />;
 
-  const category = route.view === "category" ? demoData.categories.find((c) => c.id === route.id) : null;
+  const category =
+    route.view === "category"
+      ? demoData.categories.find((c) => c.id === route.id)
+      : null;
 
   return (
     <TooltipProvider>
@@ -89,9 +108,17 @@ export default function DemoPage({ route, lang, onChangeLang, isDark, onToggleTh
             {route.view === "category" && category ? (
               <CategoryView category={category} isDark={isDark} i18n={i18n} />
             ) : route.view === "timeline" ? (
-              <TimelineView categories={demoData.categories} isDark={isDark} i18n={i18n} />
+              <TimelineView
+                categories={demoData.categories}
+                isDark={isDark}
+                i18n={i18n}
+              />
             ) : route.view === "compare" ? (
-              <ComparisonView categories={demoData.categories} isDark={isDark} i18n={i18n} />
+              <ComparisonView
+                categories={demoData.categories}
+                isDark={isDark}
+                i18n={i18n}
+              />
             ) : (
               <Dashboard
                 userData={demoData}

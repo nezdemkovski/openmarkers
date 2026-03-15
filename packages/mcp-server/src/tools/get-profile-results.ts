@@ -1,9 +1,13 @@
-import { z } from "zod";
-import { getProfileResults } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { getProfileResults } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpJson } from "../index";
 
-export function registerGetProfileResults(server: McpServer, authUserId: string) {
+export function registerGetProfileResults(
+  server: McpServer,
+  authUserId: string,
+) {
   server.registerTool(
     "get_profile_results",
     {
@@ -16,6 +20,7 @@ export function registerGetProfileResults(server: McpServer, authUserId: string)
         date_to: z.string().optional().describe("End date (YYYY-MM-DD)"),
       }),
     },
-    async ({ profile_id, ...filters }) => mcpJson(await getProfileResults(authUserId, profile_id, filters)),
+    async ({ profile_id, ...filters }) =>
+      mcpJson(await getProfileResults(authUserId, profile_id, filters)),
   );
 }

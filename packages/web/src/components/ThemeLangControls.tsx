@@ -1,5 +1,6 @@
+import type { Lang } from "@openmarkers/db";
 import { Sun, Moon, Languages } from "lucide-react";
-import { LANGS } from "../i18n";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,7 +8,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import type { Lang } from "@openmarkers/db";
+
+import { LANGS } from "../i18n";
 
 interface ThemeLangControlsProps {
   isDark: boolean;
@@ -16,7 +18,12 @@ interface ThemeLangControlsProps {
   onChangeLang: (lang: Lang) => void;
 }
 
-export default function ThemeLangControls({ isDark, onToggleTheme, lang, onChangeLang }: ThemeLangControlsProps) {
+export default function ThemeLangControls({
+  isDark,
+  onToggleTheme,
+  lang,
+  onChangeLang,
+}: ThemeLangControlsProps) {
   return (
     <div className="flex items-center gap-1">
       <DropdownMenu>
@@ -36,7 +43,12 @@ export default function ThemeLangControls({ isDark, onToggleTheme, lang, onChang
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button variant="ghost" size="icon-sm" onClick={onToggleTheme} title="Toggle theme">
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        onClick={onToggleTheme}
+        title="Toggle theme"
+      >
         {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
       </Button>
     </div>

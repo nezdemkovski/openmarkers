@@ -1,14 +1,20 @@
-import { useState, useCallback, useMemo } from "react";
+import { makeI18n } from "@openmarkers/db/src/i18n";
+import { buildPrompt } from "@openmarkers/db/src/promptBuilder";
 import { useQuery } from "@tanstack/react-query";
 import { Sparkles, Copy, Check, FileText } from "lucide-react";
-import { api } from "../lib/api.ts";
-import { track, Event } from "../lib/analytics.ts";
-import { buildPrompt } from "@openmarkers/db/src/promptBuilder";
-import { makeI18n } from "@openmarkers/db/src/i18n";
-import type { UserData, I18n, Lang } from "../types.ts";
-import { Card } from "@/components/ui/card";
+import { useState, useCallback, useMemo } from "react";
+
 import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { Card } from "@/components/ui/card";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
+
+import { track, Event } from "../lib/analytics.ts";
+import { api } from "../lib/api.ts";
+import type { UserData, I18n, Lang } from "../types.ts";
 
 interface AiAnalysisProps {
   userData: UserData;
@@ -17,13 +23,19 @@ interface AiAnalysisProps {
   profileId?: number;
 }
 
-export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalysisProps) {
+export default function AiAnalysis({
+  userData,
+  lang,
+  i18n,
+  profileId,
+}: AiAnalysisProps) {
   const { t } = i18n;
   const [copied, setCopied] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
   const localPrompt = useMemo(
-    () => (profileId == null ? buildPrompt(userData, makeI18n("en"), lang) : ""),
+    () =>
+      profileId == null ? buildPrompt(userData, makeI18n("en"), lang) : "",
     [userData, lang, profileId],
   );
 
@@ -52,14 +64,18 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
                 <Sparkles className="w-5 h-5 text-violet-600 dark:text-violet-400" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-foreground">{t("aiAnalysis")}</h3>
+                <h3 className="text-sm font-semibold text-foreground">
+                  {t("aiAnalysis")}
+                </h3>
                 <p className="text-xs text-muted-foreground">
                   {t("aiAnalysisDesc")
                     .split(/(\{mcpLink\}|\{cliLink\})/)
                     .map((part, i) => {
                       if (part === "{mcpLink}" || part === "{cliLink}") {
                         const isMcp = part === "{mcpLink}";
-                        const label = t(isMcp ? "aiAnalysisSetupMcp" : "aiAnalysisSetupCli");
+                        const label = t(
+                          isMcp ? "aiAnalysisSetupMcp" : "aiAnalysisSetupCli",
+                        );
                         const targetId = isMcp ? "mcp" : "cli";
                         return profileId != null ? (
                           <a
@@ -67,10 +83,19 @@ export default function AiAnalysis({ userData, lang, i18n, profileId }: AiAnalys
                             href="/dashboard/settings"
                             onClick={(e) => {
                               e.preventDefault();
-                              history.pushState(null, "", "/dashboard/settings");
-                              window.dispatchEvent(new PopStateEvent("popstate"));
+                              history.pushState(
+                                null,
+                                "",
+                                "/dashboard/settings",
+                              );
+                              window.dispatchEvent(
+                                new PopStateEvent("popstate"),
+                              );
                               setTimeout(
-                                () => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" }),
+                                () =>
+                                  document
+                                    .getElementById(targetId)
+                                    ?.scrollIntoView({ behavior: "smooth" }),
                                 100,
                               );
                             }}

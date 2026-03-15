@@ -1,5 +1,6 @@
-import { json } from "./_shared.ts";
 import { listCategories, listBiomarkers } from "@openmarkers/db";
+
+import { json } from "./_shared.ts";
 
 export async function handleListCategories(): Promise<Response> {
   return json(await listCategories());

@@ -1,6 +1,13 @@
-import { useRef, useEffect, useState, useMemo, memo } from "react";
-import { TriangleAlert, CircleCheck, TrendingUp, TrendingDown, AlertTriangle, Info } from "lucide-react";
+import {
+  TriangleAlert,
+  CircleCheck,
+  TrendingUp,
+  TrendingDown,
+  AlertTriangle,
+  Info,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useRef, useEffect, useState, useMemo, memo } from "react";
 import {
   ResponsiveContainer,
   LineChart,
@@ -12,11 +19,17 @@ import {
   ReferenceLine,
   CartesianGrid,
 } from "recharts";
-import ResultEditor from "./ResultEditor.tsx";
-import type { Biomarker, I18n, TrendResult } from "../types.ts";
-import { cn } from "@/lib/utils";
-import { Tooltip as UiTooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip as UiTooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+
+import type { Biomarker, I18n, TrendResult } from "../types.ts";
+import ResultEditor from "./ResultEditor.tsx";
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("en-GB", {
@@ -49,7 +62,11 @@ function CustomTooltip({ active, payload, biomarker, t }: CustomTooltipProps) {
   const effectiveRefMax = point.refMax ?? biomarker.refMax;
   const out = point.outOfRange ?? false;
   const formatted =
-    typeof value === "number" ? (Number.isInteger(value) ? value : value.toFixed(2).replace(/\.?0+$/, "")) : value;
+    typeof value === "number"
+      ? Number.isInteger(value)
+        ? value
+        : value.toFixed(2).replace(/\.?0+$/, "")
+      : value;
   const refParts: string[] = [];
   if (effectiveRefMin != null) refParts.push(`Min: ${effectiveRefMin}`);
   if (effectiveRefMax != null) refParts.push(`Max: ${effectiveRefMax}`);
@@ -60,7 +77,11 @@ function CustomTooltip({ active, payload, biomarker, t }: CustomTooltipProps) {
       <p className="mt-1">
         {formatted}
         {biomarker.unit ? ` ${biomarker.unit}` : ""}
-        <span className={out ? " text-destructive" : " text-green-600 dark:text-green-400"}>
+        <span
+          className={
+            out ? " text-destructive" : " text-green-600 dark:text-green-400"
+          }
+        >
           {" "}
           ({out ? t("outOfRange") : t("normal")})
         </span>
@@ -108,7 +129,8 @@ interface TrendBadgeProps {
 function TrendBadge({ trend, t }: TrendBadgeProps) {
   if (!trend) return null;
 
-  const { direction, rateChange, overallChange, trendWarning, improving } = trend;
+  const { direction, rateChange, overallChange, trendWarning, improving } =
+    trend;
   const absPct = Math.abs(rateChange);
   if (absPct < 0.5 && !trendWarning) return null;
 
@@ -117,19 +139,27 @@ function TrendBadge({ trend, t }: TrendBadgeProps) {
 
   let color: string;
   if (trendWarning) {
-    color = "text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30";
+    color =
+      "text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30";
   } else if (improving === true) {
-    color = "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/30";
+    color =
+      "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/30";
   } else if (improving === false) {
     color = "text-destructive bg-destructive/10";
   } else {
     color = "text-muted-foreground bg-muted";
   }
 
-  const Icon: LucideIcon = trendWarning ? AlertTriangle : direction === "up" ? TrendingUp : TrendingDown;
+  const Icon: LucideIcon = trendWarning
+    ? AlertTriangle
+    : direction === "up"
+      ? TrendingUp
+      : TrendingDown;
 
   return (
-    <span className={`mt-1 inline-flex items-center gap-1 text-xs font-medium px-1.5 py-0.5 rounded ${color}`}>
+    <span
+      className={`mt-1 inline-flex items-center gap-1 text-xs font-medium px-1.5 py-0.5 rounded ${color}`}
+    >
       <Icon className="w-3 h-3 shrink-0" />
       <span>
         {lastStr} {t("sinceLast")}
@@ -148,7 +178,10 @@ const ACTIVE_DOT = { r: 7, strokeWidth: 2 };
 const AXIS_COMMON = { axisLine: false, tickLine: false } as const;
 
 function formatXTick(d: string) {
-  return new Date(d).toLocaleDateString("en-GB", { month: "short", year: "2-digit" });
+  return new Date(d).toLocaleDateString("en-GB", {
+    month: "short",
+    year: "2-digit",
+  });
 }
 
 function formatYTick(v: number) {
@@ -163,13 +196,29 @@ interface ChartCardProps {
   onMutate?: () => void;
 }
 
-export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onMutate }: ChartCardProps) {
+export default memo(function ChartCard({
+  biomarker,
+  isDark,
+  i18n,
+  profileId,
+  onMutate,
+}: ChartCardProps) {
   const [editing, setEditing] = useState(false);
   const { t, tBio } = i18n;
   const descRef = useRef<HTMLParagraphElement>(null);
   const [clamped, setClamped] = useState(false);
 
-  const { latest, out, trend, latestStr, refStr, data, minVal, maxVal, padding } = useMemo(() => {
+  const {
+    latest,
+    out,
+    trend,
+    latestStr,
+    refStr,
+    data,
+    minVal,
+    maxVal,
+    padding,
+  } = useMemo(() => {
     const _latest = biomarker.results[biomarker.results.length - 1];
     const _out = biomarker.latestOutOfRange ?? false;
     const _trend = biomarker.trend ?? null;
@@ -180,7 +229,9 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
     if (biomarker.refMin != null) _refParts.push(biomarker.refMin);
     if (biomarker.refMax != null) _refParts.push(biomarker.refMax);
     const _refStr = _refParts.join(" \u2013 ");
-    const results = biomarker.results.filter((r): r is typeof r & { value: number } => typeof r.value === "number");
+    const results = biomarker.results.filter(
+      (r): r is typeof r & { value: number } => typeof r.value === "number",
+    );
     const _data: ChartDataPoint[] = results.map((r) => ({
       date: r.date,
       value: r.value,
@@ -219,17 +270,30 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
     : isWarning
       ? "border-amber-300 dark:border-amber-500/50"
       : "border-border";
-  const cardBg = out ? "bg-destructive/5" : isWarning ? "bg-amber-50/50 dark:bg-amber-950/20" : "bg-card";
+  const cardBg = out
+    ? "bg-destructive/5"
+    : isWarning
+      ? "bg-amber-50/50 dark:bg-amber-950/20"
+      : "bg-card";
 
   const tickColor = isDark ? "#9ca3af" : "#6b7280";
   const gridColor = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)";
-  const tickStyle = useMemo(() => ({ fontSize: 11, fill: tickColor }), [tickColor]);
+  const tickStyle = useMemo(
+    () => ({ fontSize: 11, fill: tickColor }),
+    [tickColor],
+  );
   const lineColor = isDark ? "hsl(0 0% 70%)" : "hsl(0 0% 35%)";
 
   const descriptionText = tBio(biomarker.id, "description");
 
   return (
-    <div className={cn("chart-card rounded-xl border p-4 shadow-sm", cardBg, cardBorder)}>
+    <div
+      className={cn(
+        "chart-card rounded-xl border p-4 shadow-sm",
+        cardBg,
+        cardBorder,
+      )}
+    >
       <div className="mb-1">
         <div className="flex items-start gap-1.5">
           <div className="shrink-0 mt-0.5">
@@ -251,7 +315,9 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
                   {latestStr}
                 </span>
               ) : (
-                <span className="shrink-0 text-sm font-mono text-foreground">{latestStr}</span>
+                <span className="shrink-0 text-sm font-mono text-foreground">
+                  {latestStr}
+                </span>
               )}
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">
@@ -278,7 +344,10 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
             </TooltipContent>
           </UiTooltip>
         ) : (
-          <p ref={descRef} className="text-xs text-muted-foreground line-clamp-2">
+          <p
+            ref={descRef}
+            className="text-xs text-muted-foreground line-clamp-2"
+          >
             {descriptionText}
           </p>
         )}
@@ -294,7 +363,12 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={CHART_MARGIN}>
               <CartesianGrid vertical={false} stroke={gridColor} />
-              <XAxis dataKey="date" tickFormatter={formatXTick} tick={tickStyle} {...AXIS_COMMON} />
+              <XAxis
+                dataKey="date"
+                tickFormatter={formatXTick}
+                tick={tickStyle}
+                {...AXIS_COMMON}
+              />
               <YAxis
                 domain={[minVal - padding, maxVal + padding]}
                 tickFormatter={formatYTick}
@@ -302,7 +376,9 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
                 {...AXIS_COMMON}
                 width={40}
               />
-              <Tooltip content={<CustomTooltip biomarker={biomarker} t={t} />} />
+              <Tooltip
+                content={<CustomTooltip biomarker={biomarker} t={t} />}
+              />
               {biomarker.refMin != null && biomarker.refMax != null && (
                 <ReferenceArea
                   y1={biomarker.refMin}
@@ -351,12 +427,19 @@ export default memo(function ChartCard({ biomarker, isDark, i18n, profileId, onM
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <div className="flex items-center justify-center h-full text-sm text-muted-foreground">No data</div>
+          <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+            No data
+          </div>
         )}
       </div>
       {profileId != null && onMutate && (
         <div className="mt-2 text-right">
-          <Button variant="link" size="sm" onClick={() => setEditing(true)} className="text-xs text-muted-foreground">
+          <Button
+            variant="link"
+            size="sm"
+            onClick={() => setEditing(true)}
+            className="text-xs text-muted-foreground"
+          >
             {t("editResultsLink")}
           </Button>
         </div>

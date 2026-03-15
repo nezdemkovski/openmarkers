@@ -1,6 +1,7 @@
-import { z } from "zod";
-import { getBiomarker } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { getBiomarker } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpJson, mcpError } from "../index";
 
 export function registerGetBiomarker(server: McpServer) {

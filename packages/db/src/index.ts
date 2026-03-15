@@ -1,13 +1,27 @@
-import { db } from "./db";
 import { eq, and, sql, gte, lte } from "drizzle-orm";
-import { profiles, categories, biomarkers, results, neonAuthUser, userPreferences } from "./schema/app";
-import type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData } from "./types";
-import { Sex, BiomarkerType } from "./types";
-import { convert as convertUnit, convertRange, getDisplayUnit } from "./units";
+
 import { isOutOfRange, analyzeTrend } from "./analytics";
 import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
+import { db } from "./db";
 import { enrichUserData } from "./enrich";
+import {
+  profiles,
+  categories,
+  biomarkers,
+  results,
+  neonAuthUser,
+  userPreferences,
+} from "./schema/app";
+import type {
+  DbProfile,
+  DbBiomarker,
+  DbResult,
+  ProfileSummary,
+  UserData,
+} from "./types";
+import { Sex, BiomarkerType } from "./types";
 import { UnitSystem } from "./types";
+import { convert as convertUnit, convertRange, getDisplayUnit } from "./units";
 
 export type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData };
 export type {
@@ -44,15 +58,29 @@ export {
   getRelevantCorrelations,
 } from "./analytics";
 
-export { chronoAge, calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
+export {
+  chronoAge,
+  calculatePhenoAge,
+  getMissingPhenoAgeMarkers,
+} from "./bioage";
 export { enrichUserData } from "./enrich";
 export { LANGS, makeI18n } from "./i18n";
 export { buildPrompt } from "./promptBuilder";
 export { verifyToken } from "./auth";
 export { db } from "./db";
 export * as oauthStore from "./oauth-store";
-export { importDataSchema, sexEnum, biomarkerTypeEnum, publicHandleSchema } from "./validation";
-export { convert as convertUnit, convertRange, canConvert, getDisplayUnit } from "./units";
+export {
+  importDataSchema,
+  sexEnum,
+  biomarkerTypeEnum,
+  publicHandleSchema,
+} from "./validation";
+export {
+  convert as convertUnit,
+  convertRange,
+  canConvert,
+  getDisplayUnit,
+} from "./units";
 
 export {
   getTimelineForProfile,
@@ -65,7 +93,9 @@ export {
   getAnalysisPromptForProfile,
 } from "./services";
 
-export async function listProfiles(authUserId: string): Promise<ProfileSummary[]> {
+export async function listProfiles(
+  authUserId: string,
+): Promise<ProfileSummary[]> {
   const rows = await db
     .select({
       id: profiles.id,
@@ -81,7 +111,10 @@ export async function listProfiles(authUserId: string): Promise<ProfileSummary[]
   return rows;
 }
 
-export async function getProfile(profileId: number, authUserId: string): Promise<DbProfile | undefined> {
+export async function getProfile(
+  profileId: number,
+  authUserId: string,
+): Promise<DbProfile | undefined> {
   const [row] = await db
     .select()
     .from(profiles)
@@ -123,10 +156,12 @@ export async function updateProfile(
 
   const updates: Record<string, unknown> = { updatedAt: new Date() };
   if (data.name !== undefined) updates.name = data.name;
-  if (data.date_of_birth !== undefined) updates.dateOfBirth = data.date_of_birth;
+  if (data.date_of_birth !== undefined)
+    updates.dateOfBirth = data.date_of_birth;
   if (data.sex !== undefined) updates.sex = data.sex;
   if (data.is_public !== undefined) updates.isPublic = data.is_public;
-  if (data.public_handle !== undefined) updates.publicHandle = data.public_handle;
+  if (data.public_handle !== undefined)
+    updates.publicHandle = data.public_handle;
 
   const [row] = await db
     .update(profiles)
@@ -137,7 +172,10 @@ export async function updateProfile(
   return toProfile(row);
 }
 
-export async function deleteProfile(profileId: number, authUserId: string): Promise<boolean> {
+export async function deleteProfile(
+  profileId: number,
+  authUserId: string,
+): Promise<boolean> {
   const result = await db
     .delete(profiles)
     .where(and(eq(profiles.id, profileId), eq(profiles.authUserId, authUserId)))
@@ -145,18 +183,29 @@ export async function deleteProfile(profileId: number, authUserId: string): Prom
   return result.length > 0;
 }
 
-export async function reorderProfiles(authUserId: string, profileIds: number[]): Promise<void> {
+export async function reorderProfiles(
+  authUserId: string,
+  profileIds: number[],
+): Promise<void> {
   await db.transaction(async (tx) => {
     for (let i = 0; i < profileIds.length; i++) {
       await tx
         .update(profiles)
         .set({ displayOrder: i })
-        .where(and(eq(profiles.id, profileIds[i]), eq(profiles.authUserId, authUserId)));
+        .where(
+          and(
+            eq(profiles.id, profileIds[i]),
+            eq(profiles.authUserId, authUserId),
+          ),
+        );
     }
   });
 }
 
-export async function findProfileByName(authUserId: string, name: string): Promise<DbProfile | undefined> {
+export async function findProfileByName(
+  authUserId: string,
+  name: string,
+): Promise<DbProfile | undefined> {
   const [row] = await db
     .select()
     .from(profiles)
@@ -181,7 +230,10 @@ function toProfile(row: typeof profiles.$inferSelect): DbProfile {
 }
 
 export async function listCategories(): Promise<string[]> {
-  const rows = await db.select({ id: categories.id }).from(categories).orderBy(categories.displayOrder, categories.id);
+  const rows = await db
+    .select({ id: categories.id })
+    .from(categories)
+    .orderBy(categories.displayOrder, categories.id);
   return rows.map((r) => r.id);
 }
 
@@ -189,7 +241,9 @@ export async function ensureCategory(id: string): Promise<void> {
   await db.insert(categories).values({ id }).onConflictDoNothing();
 }
 
-export async function listBiomarkers(categoryId?: string): Promise<DbBiomarker[]> {
+export async function listBiomarkers(
+  categoryId?: string,
+): Promise<DbBiomarker[]> {
   const query = categoryId
     ? db.select().from(biomarkers).where(eq(biomarkers.categoryId, categoryId))
     : db.select().from(biomarkers).orderBy(biomarkers.categoryId);
@@ -197,8 +251,14 @@ export async function listBiomarkers(categoryId?: string): Promise<DbBiomarker[]
   return rows.map(toBiomarker);
 }
 
-export async function getBiomarker(id: string): Promise<DbBiomarker | undefined> {
-  const [row] = await db.select().from(biomarkers).where(eq(biomarkers.id, id)).limit(1);
+export async function getBiomarker(
+  id: string,
+): Promise<DbBiomarker | undefined> {
+  const [row] = await db
+    .select()
+    .from(biomarkers)
+    .where(eq(biomarkers.id, id))
+    .limit(1);
   return row ? toBiomarker(row) : undefined;
 }
 
@@ -251,7 +311,11 @@ export async function updateBiomarker(
 
   if (Object.keys(updates).length === 0) return existing;
 
-  const [row] = await db.update(biomarkers).set(updates).where(eq(biomarkers.id, id)).returning();
+  const [row] = await db
+    .update(biomarkers)
+    .set(updates)
+    .where(eq(biomarkers.id, id))
+    .returning();
   return row ? toBiomarker(row) : undefined;
 }
 
@@ -340,7 +404,10 @@ export async function updateResult(
   return row ? toResult(row) : undefined;
 }
 
-export async function deleteResult(authUserId: string, id: number): Promise<boolean> {
+export async function deleteResult(
+  authUserId: string,
+  id: number,
+): Promise<boolean> {
   const deleted = await db
     .delete(results)
     .where(
@@ -386,7 +453,9 @@ export async function getProfileResults(
 
   if (filters?.category_id) {
     const rows = await query;
-    return rows.filter((r) => r.biomarker.categoryId === filters.category_id).map((r) => toResult(r.result));
+    return rows
+      .filter((r) => r.biomarker.categoryId === filters.category_id)
+      .map((r) => toResult(r.result));
   }
 
   const rows = await query;
@@ -407,7 +476,10 @@ function toResult(row: typeof results.$inferSelect): DbResult {
   };
 }
 
-export async function getProfileData(profileId: number, authUserId: string): Promise<UserData | undefined> {
+export async function getProfileData(
+  profileId: number,
+  authUserId: string,
+): Promise<UserData | undefined> {
   const [profileRow] = await db
     .select()
     .from(profiles)
@@ -419,17 +491,26 @@ export async function getProfileData(profileId: number, authUserId: string): Pro
 
   enrichUserData(data);
 
-  const rawData = await assembleProfileData(profileId, profileRow, { skipUnitConversion: true });
-  const hasDob = profileRow.dateOfBirth && !isNaN(new Date(profileRow.dateOfBirth).getTime());
+  const rawData = await assembleProfileData(profileId, profileRow, {
+    skipUnitConversion: true,
+  });
+  const hasDob =
+    profileRow.dateOfBirth &&
+    !isNaN(new Date(profileRow.dateOfBirth).getTime());
   data.biologicalAge = {
-    results: hasDob ? calculatePhenoAge(rawData.categories, profileRow.dateOfBirth) : [],
+    results: hasDob
+      ? calculatePhenoAge(rawData.categories, profileRow.dateOfBirth)
+      : [],
     missingMarkers: getMissingPhenoAgeMarkers(rawData.categories),
   };
 
   return data;
 }
 
-export async function getRawProfileData(profileId: number, authUserId: string): Promise<UserData | undefined> {
+export async function getRawProfileData(
+  profileId: number,
+  authUserId: string,
+): Promise<UserData | undefined> {
   const [profileRow] = await db
     .select()
     .from(profiles)
@@ -437,10 +518,15 @@ export async function getRawProfileData(profileId: number, authUserId: string): 
     .limit(1);
   if (!profileRow) return undefined;
 
-  return assembleProfileData(profileId, profileRow, { skipUnitConversion: true });
+  return assembleProfileData(profileId, profileRow, {
+    skipUnitConversion: true,
+  });
 }
 
-export async function exportProfileData(profileId: number, authUserId: string): Promise<object | undefined> {
+export async function exportProfileData(
+  profileId: number,
+  authUserId: string,
+): Promise<object | undefined> {
   const data = await getProfileData(profileId, authUserId);
   if (!data) return undefined;
   const { id, ...userWithoutId } = data.user;
@@ -476,7 +562,10 @@ interface JsonUserData {
   }[];
 }
 
-export async function importProfileData(authUserId: string, jsonData: JsonUserData): Promise<number> {
+export async function importProfileData(
+  authUserId: string,
+  jsonData: JsonUserData,
+): Promise<number> {
   return await db.transaction(async (tx) => {
     const [profileRow] = await tx
       .insert(profiles)
@@ -602,10 +691,16 @@ export async function batchAddResults(
       },
     })
     .returning({ id: results.id });
-  return { inserted: upserted.length, skipped: data.entries.length - upserted.length };
+  return {
+    inserted: upserted.length,
+    skipped: data.entries.length - upserted.length,
+  };
 }
 
-export async function checkHandleAvailability(handle: string, excludeProfileId?: number): Promise<boolean> {
+export async function checkHandleAvailability(
+  handle: string,
+  excludeProfileId?: number,
+): Promise<boolean> {
   const conditions = [eq(profiles.publicHandle, handle)];
   if (excludeProfileId) {
     conditions.push(sql`${profiles.id} != ${excludeProfileId}`);
@@ -617,16 +712,25 @@ export async function checkHandleAvailability(handle: string, excludeProfileId?:
   return Number(row?.count ?? 0) === 0;
 }
 
-export async function listPublicProfiles(): Promise<{ name: string; handle: string }[]> {
+export async function listPublicProfiles(): Promise<
+  { name: string; handle: string }[]
+> {
   const rows = await db
     .select({ name: profiles.name, handle: profiles.publicHandle })
     .from(profiles)
-    .where(and(eq(profiles.isPublic, true), sql`${profiles.publicHandle} IS NOT NULL`))
+    .where(
+      and(
+        eq(profiles.isPublic, true),
+        sql`${profiles.publicHandle} IS NOT NULL`,
+      ),
+    )
     .orderBy(profiles.name);
   return rows.map((r) => ({ name: r.name, handle: r.handle! }));
 }
 
-export async function getPublicProfileByHandle(handle: string): Promise<UserData | undefined> {
+export async function getPublicProfileByHandle(
+  handle: string,
+): Promise<UserData | undefined> {
   const [profile] = await db
     .select()
     .from(profiles)
@@ -662,7 +766,10 @@ async function assembleProfileData(
     else resultsByBiomarker.set(r.biomarkerId, [r]);
   }
 
-  const biomarkersByCategory = new Map<string, (typeof biomarkers.$inferSelect)[]>();
+  const biomarkersByCategory = new Map<
+    string,
+    (typeof biomarkers.$inferSelect)[]
+  >();
   for (const b of allBiomarkerRows) {
     const arr = biomarkersByCategory.get(b.categoryId);
     if (arr) arr.push(b);
@@ -689,7 +796,11 @@ async function assembleProfileData(
 
           let systemTarget: string | null = null;
           if (!skipConversion && storedUnit) {
-            systemTarget = getDisplayUnit(storedUnit, b.conventionalUnit, unitSystem);
+            systemTarget = getDisplayUnit(
+              storedUnit,
+              b.conventionalUnit,
+              unitSystem,
+            );
             if (systemTarget) {
               const test = convertUnit(1, storedUnit, systemTarget, mw);
               if (test == null) systemTarget = null;
@@ -700,22 +811,42 @@ async function assembleProfileData(
           let bioRefMin = isFemale ? (b.refMinF ?? b.refMinM) : b.refMinM;
           let bioRefMax = isFemale ? (b.refMaxF ?? b.refMaxM) : b.refMaxM;
           if (systemTarget && storedUnit) {
-            const cr = convertRange(bioRefMin, bioRefMax, storedUnit, systemTarget, mw);
+            const cr = convertRange(
+              bioRefMin,
+              bioRefMax,
+              storedUnit,
+              systemTarget,
+              mw,
+            );
             bioRefMin = cr.refMin;
             bioRefMax = cr.refMax;
           }
 
           const ress = (resultsByBiomarker.get(b.id) || []).map((r) => {
-            let value = b.type === BiomarkerType.Qualitative ? r.value : parseNumericValue(r.value);
+            let value =
+              b.type === BiomarkerType.Qualitative
+                ? r.value
+                : parseNumericValue(r.value);
             let rRefMin = r.refMin;
             let rRefMax = r.refMax;
             const resultUnit = r.unit ?? storedUnit;
 
-            if (resultUnit && displayUnit && resultUnit !== displayUnit && typeof value === "number") {
+            if (
+              resultUnit &&
+              displayUnit &&
+              resultUnit !== displayUnit &&
+              typeof value === "number"
+            ) {
               const converted = convertUnit(value, resultUnit, displayUnit, mw);
               if (converted != null) value = converted;
               if (rRefMin != null || rRefMax != null) {
-                const cr = convertRange(rRefMin, rRefMax, resultUnit, displayUnit, mw);
+                const cr = convertRange(
+                  rRefMin,
+                  rRefMax,
+                  resultUnit,
+                  displayUnit,
+                  mw,
+                );
                 rRefMin = cr.refMin;
                 rRefMax = cr.refMax;
               }
@@ -773,12 +904,20 @@ export async function deleteUser(authUserId: string): Promise<boolean> {
 }
 
 export async function isDbEmpty(): Promise<boolean> {
-  const [row] = await db.select({ count: sql<number>`count(*)` }).from(profiles);
+  const [row] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(profiles);
   return (row?.count ?? 0) === 0;
 }
 
-export async function getUserPreferences(authUserId: string): Promise<{ unitSystem: UnitSystem }> {
-  const [row] = await db.select().from(userPreferences).where(eq(userPreferences.authUserId, authUserId)).limit(1);
+export async function getUserPreferences(
+  authUserId: string,
+): Promise<{ unitSystem: UnitSystem }> {
+  const [row] = await db
+    .select()
+    .from(userPreferences)
+    .where(eq(userPreferences.authUserId, authUserId))
+    .limit(1);
   return { unitSystem: row?.unitSystem ?? UnitSystem.SI };
 }
 

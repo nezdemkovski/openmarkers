@@ -8,15 +8,60 @@ interface Formula {
 }
 
 const FORMULAS: Formula[] = [
-  { from: "mg/dL", to: "mmol/l", needsMW: true, convert: (v, mw) => (v * 10) / mw! },
-  { from: "mg/dL", to: "µmol/l", needsMW: true, convert: (v, mw) => (v * 10000) / mw! },
-  { from: "g/L", to: "mmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
-  { from: "ng/mL", to: "nmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
-  { from: "ng/dL", to: "nmol/l", needsMW: true, convert: (v, mw) => (v * 10) / mw! },
-  { from: "µg/dL", to: "µmol/l", needsMW: true, convert: (v, mw) => (v * 10) / mw! },
-  { from: "µg/dL", to: "nmol/l", needsMW: true, convert: (v, mw) => (v * 10000) / mw! },
-  { from: "µg/mL", to: "µmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
-  { from: "pg/mL", to: "pmol/l", needsMW: true, convert: (v, mw) => (v * 1000) / mw! },
+  {
+    from: "mg/dL",
+    to: "mmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 10) / mw!,
+  },
+  {
+    from: "mg/dL",
+    to: "µmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 10000) / mw!,
+  },
+  {
+    from: "g/L",
+    to: "mmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 1000) / mw!,
+  },
+  {
+    from: "ng/mL",
+    to: "nmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 1000) / mw!,
+  },
+  {
+    from: "ng/dL",
+    to: "nmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 10) / mw!,
+  },
+  {
+    from: "µg/dL",
+    to: "µmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 10) / mw!,
+  },
+  {
+    from: "µg/dL",
+    to: "nmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 10000) / mw!,
+  },
+  {
+    from: "µg/mL",
+    to: "µmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 1000) / mw!,
+  },
+  {
+    from: "pg/mL",
+    to: "pmol/l",
+    needsMW: true,
+    convert: (v, mw) => (v * 1000) / mw!,
+  },
   { from: "U/L", to: "µkat/l", needsMW: false, convert: (v) => v / 60 },
   { from: "IU/l", to: "µkat/l", needsMW: false, convert: (v) => v / 60 },
   { from: "g/L", to: "g/dL", needsMW: false, convert: (v) => v / 10 },
@@ -95,8 +140,14 @@ export function convertRange(
   }
 
   return {
-    refMin: refMin != null ? (convert(refMin, fromUnit, toUnit, molecularWeight) ?? refMin) : null,
-    refMax: refMax != null ? (convert(refMax, fromUnit, toUnit, molecularWeight) ?? refMax) : null,
+    refMin:
+      refMin != null
+        ? (convert(refMin, fromUnit, toUnit, molecularWeight) ?? refMin)
+        : null,
+    refMax:
+      refMax != null
+        ? (convert(refMax, fromUnit, toUnit, molecularWeight) ?? refMax)
+        : null,
   };
 }
 
@@ -108,15 +159,21 @@ export function getDisplayUnit(
   if (!conventionalUnit) return null;
 
   if (targetSystem === UnitSystem.Conventional) {
-    if (normalizeUnit(storedUnit) === normalizeUnit(conventionalUnit)) return null;
+    if (normalizeUnit(storedUnit) === normalizeUnit(conventionalUnit))
+      return null;
     return conventionalUnit;
   } else {
-    if (normalizeUnit(storedUnit) === normalizeUnit(conventionalUnit)) return null;
+    if (normalizeUnit(storedUnit) === normalizeUnit(conventionalUnit))
+      return null;
     return null;
   }
 }
 
-export function canConvert(fromUnit: string, toUnit: string, hasMolecularWeight: boolean = false): boolean {
+export function canConvert(
+  fromUnit: string,
+  toUnit: string,
+  hasMolecularWeight: boolean = false,
+): boolean {
   const from = normalizeUnit(fromUnit);
   const to = normalizeUnit(toUnit);
   if (from === to) return true;

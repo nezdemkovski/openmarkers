@@ -1,9 +1,13 @@
-import { z } from "zod";
-import { getBiologicalAgeForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { getBiologicalAgeForProfile } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpJson, mcpText, mcpError } from "../index";
 
-export function registerGetBiologicalAge(server: McpServer, authUserId: string) {
+export function registerGetBiologicalAge(
+  server: McpServer,
+  authUserId: string,
+) {
   server.registerTool(
     "get_biological_age",
     {

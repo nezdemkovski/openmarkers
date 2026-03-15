@@ -19,19 +19,22 @@ const en: TranslationData = {
     biomarkers: "biomarkers",
     biomarker: "biomarker",
     timeline: "Timeline",
-    timelineDesc: "All lab dates on a timeline. Click a date to see the full snapshot.",
+    timelineDesc:
+      "All lab dates on a timeline. Click a date to see the full snapshot.",
     comparison: "Comparison",
     export: "Export Data",
     import: "Import Data",
     importConflictTitle: "User Already Exists",
-    importConflictMessage: 'A user named "{name}" already exists. Enter a new name or cancel.',
+    importConflictMessage:
+      'A user named "{name}" already exists. Enter a new name or cancel.',
     importRename: "Import",
     importCancel: "Cancel",
     importError: "Import Error",
     importInvalidJson: "Invalid JSON file.",
     deleteUser: "Delete User",
     deleteUserTitle: "Delete User",
-    deleteUserMessage: 'Are you sure you want to delete "{name}"? All their data will be permanently removed.',
+    deleteUserMessage:
+      'Are you sure you want to delete "{name}"? All their data will be permanently removed.',
     deleteUserConfirm: "Delete",
     comparisonDesc: "Compare results between two lab dates side by side.",
     snapshot: "Snapshot",
@@ -69,7 +72,8 @@ const en: TranslationData = {
     showPrompt: "Preview",
     hidePrompt: "Hide",
     bioAge: "Biological Age",
-    bioAgeDesc: "Estimated using Levine's PhenoAge formula from 9 blood biomarkers.",
+    bioAgeDesc:
+      "Estimated using Levine's PhenoAge formula from 9 blood biomarkers.",
     chronoAge: "Chronological Age",
     yearsOlder: "years older",
     yearsYounger: "years younger",
@@ -101,7 +105,8 @@ const en: TranslationData = {
     goToApp: "Go to App",
     landingWelcomeBack: "Your data is waiting for you.",
     landingPeople: "people",
-    getStartedDesc: "Get started by importing your lab data or creating a new profile.",
+    getStartedDesc:
+      "Get started by importing your lab data or creating a new profile.",
     createProfile: "Create New Profile",
     createProfileDesc: "Start fresh with an empty profile.",
     profileName: "Name",
@@ -126,28 +131,36 @@ const en: TranslationData = {
     addLabVisitNoMatch: "No biomarkers match your search.",
     addLabVisitEmpty: "Enter at least one value.",
     addYourData: "Add Your Data",
-    addYourDataDesc: "Your profile is ready. Add your first lab results to get started.",
+    addYourDataDesc:
+      "Your profile is ready. Add your first lab results to get started.",
     aiImport: "Create Import File with AI",
-    aiImportDesc: "Have a PDF or lab report? Use AI to convert it into a file you can import here.",
+    aiImportDesc:
+      "Have a PDF or lab report? Use AI to convert it into a file you can import here.",
     aiImportInstructions:
       "Copy the prompt below and paste it into ChatGPT, Claude, or any AI assistant along with your lab results (text, photo, or PDF). It will generate a JSON file for you.",
-    aiImportThen: "Save the output as a .json file and use Import Data above to upload it.",
+    aiImportThen:
+      "Save the output as a .json file and use Import Data above to upload it.",
     schemaTip: "Tip: Add a $schema field for autocomplete and validation",
     schemaTipDesc:
       "Add this line to the top of your JSON file to get autocomplete and error checking in VS Code and other editors:",
     mcpSetup: "MCP Server",
-    mcpSetupDesc: "Connect an AI assistant directly to OpenMarkers for ongoing access.",
-    mcpSetupInstructions: "Add this to your AI client's MCP configuration (Claude Desktop, Cursor, etc.):",
+    mcpSetupDesc:
+      "Connect an AI assistant directly to OpenMarkers for ongoing access.",
+    mcpSetupInstructions:
+      "Add this to your AI client's MCP configuration (Claude Desktop, Cursor, etc.):",
     mcpSetupAuth:
       "Your AI client will authenticate via OAuth when it first connects — just approve the login in your browser.",
     mcpSetupToolsTitle: "Key tools available:",
     mcpToolImport: "Bulk import structured lab data as JSON",
-    mcpToolSchema: "Get all supported biomarker IDs, units, and reference ranges",
+    mcpToolSchema:
+      "Get all supported biomarker IDs, units, and reference ranges",
     mcpToolAddResult: "Add individual lab results one at a time",
     mcpToolGetProfile: "View all your data organized by category",
     mcpToolTrends: "Analyze trends, direction, and warnings for any biomarker",
-    mcpToolAnalysis: "Generate a full health analysis prompt with all your data",
-    mcpToolsMore: "And more — your AI assistant will discover all available tools automatically.",
+    mcpToolAnalysis:
+      "Generate a full health analysis prompt with all your data",
+    mcpToolsMore:
+      "And more — your AI assistant will discover all available tools automatically.",
     settings: "Settings",
     settingsAppearance: "Appearance",
     settingsTheme: "Theme",
@@ -172,19 +185,22 @@ const en: TranslationData = {
     settingsError: "Error",
     settingsDangerZone: "Danger Zone",
     settingsDeleteAccount: "Delete Account",
-    settingsDeleteAccountDesc: "Permanently delete your account and all profiles. This cannot be undone.",
+    settingsDeleteAccountDesc:
+      "Permanently delete your account and all profiles. This cannot be undone.",
     settingsDeleteAccountConfirm: "Type DELETE to confirm",
     settingsDateOfBirth: "Date of Birth",
     settingsSex: "Sex",
     settingsMcp: "AI Assistant (MCP)",
-    settingsMcpDesc: "Connect Claude, ChatGPT, or any MCP-compatible AI assistant to your biomarker data.",
+    settingsMcpDesc:
+      "Connect Claude, ChatGPT, or any MCP-compatible AI assistant to your biomarker data.",
     settingsMcpEndpoint: "MCP Endpoint",
     settingsMcpToken: "Your Auth Token",
     settingsMcpCopied: "Copied!",
     settingsMcpCopy: "Copy",
     settingsMcpCopyToken: "Copy Token",
     settingsMcpCopyConfig: "Copy Config",
-    settingsMcpTokenDesc: "This token expires periodically. Copy a fresh one before configuring your AI client.",
+    settingsMcpTokenDesc:
+      "This token expires periodically. Copy a fresh one before configuring your AI client.",
     settingsMcpConfigDesc: "Add this to your AI client's MCP configuration:",
     settingsMcpTools:
       "Tools available: list profiles, get trends, biological age, correlations, AI analysis prompts, and more.",
@@ -194,22 +210,28 @@ const en: TranslationData = {
     settingsCliInstall: "Install via Homebrew",
     settingsCliUsage: "Then run:",
     authConsent: "I agree to store my blood test results and lab data",
-    authDisclaimer: "This is not a medical device or healthcare service. Not medical advice.",
-    heroSubtitle: "Your lab results, visualized. Spot trends your doctor might miss.",
+    authDisclaimer:
+      "This is not a medical device or healthcare service. Not medical advice.",
+    heroSubtitle:
+      "Your lab results, visualized. Spot trends your doctor might miss.",
     heroBadgeOpenSource: "Open source",
     heroBadgeBiomarkers: "100+ biomarkers",
     heroBadgeMcp: "AI-ready via MCP",
     heroDemoButton: "Explore with sample data",
     heroMcpDesc: "Connect any AI assistant to your biomarker data via MCP",
-    heroCliDesc: "Manage your data from the terminal — works great with {openClawLink} and similar personal agents",
+    heroCliDesc:
+      "Manage your data from the terminal — works great with {openClawLink} and similar personal agents",
     landingFeaturesHeading: "Everything you need to track your health",
     landingHowItWorks: "How it works",
     landingStep1Title: "Upload your results",
-    landingStep1Desc: "Import lab data as JSON, enter manually, or let AI convert your PDF reports.",
+    landingStep1Desc:
+      "Import lab data as JSON, enter manually, or let AI convert your PDF reports.",
     landingStep2Title: "Visualize trends",
-    landingStep2Desc: "See every biomarker over time with interactive charts and reference ranges.",
+    landingStep2Desc:
+      "See every biomarker over time with interactive charts and reference ranges.",
     landingStep3Title: "Get insights",
-    landingStep3Desc: "Biological age, trend analysis, correlations — or connect any AI via MCP.",
+    landingStep3Desc:
+      "Biological age, trend analysis, correlations — or connect any AI via MCP.",
     featureChartsTitle: "Charts & Trends",
     featureChartsDesc:
       "Visualize every biomarker over time with interactive charts. Reference ranges shown inline so you can spot what's out of range at a glance.",
@@ -226,7 +248,8 @@ const en: TranslationData = {
     featurePrivacyDesc:
       "Your data is never shared with third parties. No tracking, no analytics. Fully open source — self-host if you want full control.",
     shareProfile: "Share Profile",
-    shareProfileDesc: "Make this profile publicly visible at a custom URL. Anyone with the link can view your data.",
+    shareProfileDesc:
+      "Make this profile publicly visible at a custom URL. Anyone with the link can view your data.",
     publicHandle: "Handle",
     publicHandlePlaceholder: "my-health",
     publicHandleAvailable: "Available",
@@ -248,7 +271,8 @@ const en: TranslationData = {
     },
     diabetology: {
       name: "Diabetology",
-      description: "Blood sugar markers used to screen for and monitor diabetes mellitus.",
+      description:
+        "Blood sugar markers used to screen for and monitor diabetes mellitus.",
     },
     hematology: {
       name: "Hematology",
@@ -459,7 +483,8 @@ const en: TranslationData = {
     },
     "B-MCHC": {
       name: "Mean Corpuscular Hemoglobin Concentration",
-      description: "Average hemoglobin concentration within red blood cells. Helps classify types of anemia.",
+      description:
+        "Average hemoglobin concentration within red blood cells. Helps classify types of anemia.",
     },
     "B-PLT": {
       name: "Platelets",

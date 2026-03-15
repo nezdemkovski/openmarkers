@@ -1,7 +1,9 @@
-import { z } from "zod";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { z } from "zod";
+
 import { mcpText, mcpError } from "../index";
 
 let cachedSchema: string | null = null;

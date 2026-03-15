@@ -7,7 +7,15 @@ export function renderLoginPage(params: {
   scope: string;
   error?: string;
 }): string {
-  const { clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope, error } = params;
+  const {
+    clientId,
+    redirectUri,
+    codeChallenge,
+    codeChallengeMethod,
+    state,
+    scope,
+    error,
+  } = params;
   const errorHtml = error
     ? `<div style="background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:8px">${escapeHtml(error)}</div>`
     : "";
@@ -110,9 +118,17 @@ export function renderLoginPage(params: {
 }
 
 function escapeHtml(s: string): string {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 function escapeAttr(s: string): string {
-  return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }

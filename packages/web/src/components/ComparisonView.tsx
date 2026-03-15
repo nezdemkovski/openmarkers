@@ -1,13 +1,37 @@
-import { useState, useMemo } from "react";
-import { ArrowUpRight, ArrowDownRight, Minus, TriangleAlert, CircleCheck } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import {
+  getAllDates,
+  compareDates as compareDatesLocal,
+} from "@openmarkers/db/src/analytics";
 import { useQuery } from "@tanstack/react-query";
-import { getAllDates, compareDates as compareDatesLocal } from "@openmarkers/db/src/analytics";
+import {
+  ArrowUpRight,
+  ArrowDownRight,
+  Minus,
+  TriangleAlert,
+  CircleCheck,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { useState, useMemo } from "react";
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+
 import { api } from "../lib/api.ts";
 import type { Category, I18n, ComparisonRow } from "../types.ts";
 
@@ -65,7 +89,12 @@ function getDelta(row: ComparisonRow) {
   return { deltaStr, deltaColor, DeltaIcon };
 }
 
-export default function ComparisonView({ categories, isDark, i18n, profileId }: ComparisonViewProps) {
+export default function ComparisonView({
+  categories,
+  isDark,
+  i18n,
+  profileId,
+}: ComparisonViewProps) {
   const { t, tCat, tBio } = i18n;
 
   const localDates = useMemo(() => getAllDates(categories), [categories]);
@@ -82,12 +111,17 @@ export default function ComparisonView({ categories, isDark, i18n, profileId }: 
   const [date2, setDate2] = useState("");
 
   const activeDate1 = date1 || (dates.length >= 2 ? dates[0] : dates[0] || "");
-  const activeDate2 = date2 || (dates.length >= 2 ? dates[dates.length - 1] : "");
+  const activeDate2 =
+    date2 || (dates.length >= 2 ? dates[dates.length - 1] : "");
 
-  const canCompare = !!activeDate1 && !!activeDate2 && activeDate1 !== activeDate2;
+  const canCompare =
+    !!activeDate1 && !!activeDate2 && activeDate1 !== activeDate2;
 
   const localRows = useMemo(
-    () => (!profileId && canCompare ? compareDatesLocal(categories, activeDate1, activeDate2) : []),
+    () =>
+      !profileId && canCompare
+        ? compareDatesLocal(categories, activeDate1, activeDate2)
+        : [],
     [profileId, categories, activeDate1, activeDate2, canCompare],
   );
 
@@ -113,15 +147,24 @@ export default function ComparisonView({ categories, isDark, i18n, profileId }: 
 
   function fmtVal(v: number | string | null, unit?: string | null): string {
     if (v == null) return "\u2014";
-    const s = typeof v === "number" ? (Number.isInteger(v) ? String(v) : (+v.toPrecision(4)).toString()) : String(v);
+    const s =
+      typeof v === "number"
+        ? Number.isInteger(v)
+          ? String(v)
+          : (+v.toPrecision(4)).toString()
+        : String(v);
     return unit ? `${s} ${unit}` : s;
   }
 
   return (
     <>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-foreground">{t("comparison")}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t("comparisonDesc")}</p>
+        <h2 className="text-2xl font-bold text-foreground">
+          {t("comparison")}
+        </h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          {t("comparisonDesc")}
+        </p>
       </div>
 
       <Card className="mb-6 py-0">
@@ -176,7 +219,9 @@ export default function ComparisonView({ categories, isDark, i18n, profileId }: 
       </Card>
 
       {activeDate1 === activeDate2 && (
-        <div className="text-center text-sm text-muted-foreground py-8">{t("selectDifferentDates")}</div>
+        <div className="text-center text-sm text-muted-foreground py-8">
+          {t("selectDifferentDates")}
+        </div>
       )}
 
       {grouped.map(([catId, catRows]) => (
@@ -191,14 +236,18 @@ export default function ComparisonView({ categories, isDark, i18n, profileId }: 
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="px-4 py-2 text-left font-medium">{t("test")}</TableHead>
+                  <TableHead className="px-4 py-2 text-left font-medium">
+                    {t("test")}
+                  </TableHead>
                   <TableHead className="px-4 py-2 text-right font-medium whitespace-nowrap">
                     {formatDate(activeDate1)}
                   </TableHead>
                   <TableHead className="px-4 py-2 text-right font-medium whitespace-nowrap">
                     {formatDate(activeDate2)}
                   </TableHead>
-                  <TableHead className="px-4 py-2 text-right font-medium">{t("change")}</TableHead>
+                  <TableHead className="px-4 py-2 text-right font-medium">
+                    {t("change")}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -207,8 +256,12 @@ export default function ComparisonView({ categories, isDark, i18n, profileId }: 
                   return (
                     <TableRow key={row.biomarkerId}>
                       <TableCell className="px-4 py-2.5">
-                        <div className="text-sm text-foreground">{tBio(row.biomarkerId, "name")}</div>
-                        <div className="text-xs text-muted-foreground">{row.biomarkerId}</div>
+                        <div className="text-sm text-foreground">
+                          {tBio(row.biomarkerId, "name")}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {row.biomarkerId}
+                        </div>
                       </TableCell>
                       <TableCell
                         className={`px-4 py-2.5 text-right text-sm font-mono whitespace-nowrap ${row.out1 ? "text-destructive font-bold" : "text-foreground"}`}
@@ -220,7 +273,9 @@ export default function ComparisonView({ categories, isDark, i18n, profileId }: 
                       >
                         {fmtVal(row.v2, row.unit)}
                       </TableCell>
-                      <TableCell className={`px-4 py-2.5 text-right text-sm font-mono whitespace-nowrap ${deltaColor}`}>
+                      <TableCell
+                        className={`px-4 py-2.5 text-right text-sm font-mono whitespace-nowrap ${deltaColor}`}
+                      >
                         <span className="inline-flex items-center gap-1">
                           {deltaStr && <DeltaIcon className="w-3.5 h-3.5" />}
                           {deltaStr || "\u2014"}
@@ -247,20 +302,30 @@ export default function ComparisonView({ categories, isDark, i18n, profileId }: 
                       )}
                     </div>
                     <div className="min-w-0">
-                      <div className="text-sm font-medium text-foreground">{tBio(row.biomarkerId, "name")}</div>
-                      <div className="text-xs text-muted-foreground">{row.biomarkerId}</div>
+                      <div className="text-sm font-medium text-foreground">
+                        {tBio(row.biomarkerId, "name")}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {row.biomarkerId}
+                      </div>
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1 pl-[22px] text-sm">
-                    <span className={`font-mono ${row.out1 ? "text-destructive font-bold" : "text-muted-foreground"}`}>
+                    <span
+                      className={`font-mono ${row.out1 ? "text-destructive font-bold" : "text-muted-foreground"}`}
+                    >
                       {fmtVal(row.v1)}
                     </span>
                     <span className="text-muted-foreground/40">{"\u2192"}</span>
-                    <span className={`font-mono ${row.out2 ? "text-destructive font-bold" : "text-foreground"}`}>
+                    <span
+                      className={`font-mono ${row.out2 ? "text-destructive font-bold" : "text-foreground"}`}
+                    >
                       {fmtVal(row.v2, row.unit)}
                     </span>
                     {deltaStr && (
-                      <span className={`ml-auto font-mono text-xs inline-flex items-center gap-0.5 ${deltaColor}`}>
+                      <span
+                        className={`ml-auto font-mono text-xs inline-flex items-center gap-0.5 ${deltaColor}`}
+                      >
                         <DeltaIcon className="w-3 h-3" />
                         {deltaStr}
                       </span>

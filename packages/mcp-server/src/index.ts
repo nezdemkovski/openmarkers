@@ -1,31 +1,32 @@
-import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
-import { registerListProfiles } from "./tools/list-profiles";
-import { registerGetProfile } from "./tools/get-profile";
-import { registerCreateProfile } from "./tools/create-profile";
-import { registerUpdateProfile } from "./tools/update-profile";
-import { registerDeleteProfile } from "./tools/delete-profile";
-import { registerListCategories } from "./tools/list-categories";
-import { registerListBiomarkers } from "./tools/list-biomarkers";
-import { registerGetBiomarker } from "./tools/get-biomarker";
-import { registerCreateBiomarker } from "./tools/create-biomarker";
-import { registerUpdateBiomarker } from "./tools/update-biomarker";
+import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+
 import { registerAddResult } from "./tools/add-result";
-import { registerUpdateResult } from "./tools/update-result";
-import { registerDeleteResult } from "./tools/delete-result";
-import { registerGetProfileResults } from "./tools/get-profile-results";
-import { registerImportProfileData } from "./tools/import-profile-data";
-import { registerGetSchema } from "./tools/get-schema";
-import { registerExportProfileData } from "./tools/export-profile-data";
-import { registerGetBiologicalAge } from "./tools/get-biological-age";
-import { registerGetAnalysisPrompt } from "./tools/get-analysis-prompt";
-import { registerGetTimeline } from "./tools/get-timeline";
-import { registerGetDateSnapshot } from "./tools/get-date-snapshot";
 import { registerCompareDates } from "./tools/compare-dates";
-import { registerGetTrends } from "./tools/get-trends";
-import { registerGetDaysSinceLastTest } from "./tools/get-days-since-last-test";
+import { registerCreateBiomarker } from "./tools/create-biomarker";
+import { registerCreateProfile } from "./tools/create-profile";
+import { registerDeleteProfile } from "./tools/delete-profile";
+import { registerDeleteResult } from "./tools/delete-result";
+import { registerExportProfileData } from "./tools/export-profile-data";
+import { registerGetAnalysisPrompt } from "./tools/get-analysis-prompt";
+import { registerGetBiologicalAge } from "./tools/get-biological-age";
+import { registerGetBiomarker } from "./tools/get-biomarker";
 import { registerGetCorrelations } from "./tools/get-correlations";
+import { registerGetDateSnapshot } from "./tools/get-date-snapshot";
+import { registerGetDaysSinceLastTest } from "./tools/get-days-since-last-test";
+import { registerGetProfile } from "./tools/get-profile";
+import { registerGetProfileResults } from "./tools/get-profile-results";
+import { registerGetSchema } from "./tools/get-schema";
+import { registerGetTimeline } from "./tools/get-timeline";
+import { registerGetTrends } from "./tools/get-trends";
+import { registerImportProfileData } from "./tools/import-profile-data";
+import { registerListBiomarkers } from "./tools/list-biomarkers";
+import { registerListCategories } from "./tools/list-categories";
+import { registerListProfiles } from "./tools/list-profiles";
+import { registerUpdateBiomarker } from "./tools/update-biomarker";
+import { registerUpdateProfile } from "./tools/update-profile";
+import { registerUpdateResult } from "./tools/update-result";
 
 export function mcpJson(data: unknown): CallToolResult {
   return { content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
@@ -73,7 +74,10 @@ export function createMcpServer(authUserId: string): McpServer {
   return server;
 }
 
-export function createMcpHandler(): (req: Request, authUserId: string) => Promise<Response> {
+export function createMcpHandler(): (
+  req: Request,
+  authUserId: string,
+) => Promise<Response> {
   return async (req: Request, authUserId: string) => {
     const transport = new WebStandardStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,

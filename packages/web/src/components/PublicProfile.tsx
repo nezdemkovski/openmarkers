@@ -1,13 +1,15 @@
+import type { Lang } from "@openmarkers/db";
 import { useState, useEffect, useMemo } from "react";
+
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 import { makeI18n } from "../i18n.ts";
 import { api } from "../lib/api.ts";
 import { isLang } from "../lib/utils.ts";
+import type { UserData } from "../types.ts";
 import Dashboard from "./Dashboard.tsx";
 import Loading from "./Loading.tsx";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import ThemeLangControls from "./ThemeLangControls";
-import type { UserData } from "../types.ts";
-import type { Lang } from "@openmarkers/db";
 
 export default function PublicProfile({ handle }: { handle: string }) {
   const [lang, setLang] = useState<Lang>(() => {
@@ -43,9 +45,16 @@ export default function PublicProfile({ handle }: { handle: string }) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-foreground">{i18n.t("publicProfileNotFound")}</h1>
-          <p className="text-muted-foreground">{i18n.t("publicProfileNotFoundDesc")}</p>
-          <a href="/" className="text-lg font-bold text-foreground hover:opacity-80 inline-block mt-4">
+          <h1 className="text-2xl font-bold text-foreground">
+            {i18n.t("publicProfileNotFound")}
+          </h1>
+          <p className="text-muted-foreground">
+            {i18n.t("publicProfileNotFoundDesc")}
+          </p>
+          <a
+            href="/"
+            className="text-lg font-bold text-foreground hover:opacity-80 inline-block mt-4"
+          >
             OpenMarkers
           </a>
         </div>
@@ -60,14 +69,22 @@ export default function PublicProfile({ handle }: { handle: string }) {
       <div className="min-h-screen bg-background">
         <header className="sticky top-0 bg-background/95 backdrop-blur border-b px-4 py-3 flex items-center justify-between z-30">
           <div className="flex items-center gap-3">
-            <a href="/" className="text-lg font-bold text-foreground hover:opacity-80">
+            <a
+              href="/"
+              className="text-lg font-bold text-foreground hover:opacity-80"
+            >
               OpenMarkers
             </a>
             <span className="text-sm text-muted-foreground">
               {i18n.t("publicProfileTitle").replace("{name}", data.user.name)}
             </span>
           </div>
-          <ThemeLangControls isDark={isDark} onToggleTheme={toggleTheme} lang={lang} onChangeLang={setLang} />
+          <ThemeLangControls
+            isDark={isDark}
+            onToggleTheme={toggleTheme}
+            lang={lang}
+            onChangeLang={setLang}
+          />
         </header>
         <div className="p-4 md:p-6 lg:p-8 max-w-7xl mx-auto">
           <Dashboard

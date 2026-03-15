@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { Pencil, Trash2, Plus, Check, XIcon } from "lucide-react";
-import { api } from "../lib/api.ts";
-import type { Biomarker, I18n } from "../types.ts";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,9 +12,25 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+
+import { api } from "../lib/api.ts";
+import type { Biomarker, I18n } from "../types.ts";
 
 interface ResultEditorProps {
   biomarker: Biomarker;
@@ -26,10 +40,18 @@ interface ResultEditorProps {
   onMutate: () => void;
 }
 
-export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMutate }: ResultEditorProps) {
+export default function ResultEditor({
+  biomarker,
+  profileId,
+  i18n,
+  onClose,
+  onMutate,
+}: ResultEditorProps) {
   const { t, tBio } = i18n;
   const isQual = biomarker.type === "qualitative";
-  const sorted = [...biomarker.results].sort((a, b) => b.date.localeCompare(a.date));
+  const sorted = [...biomarker.results].sort((a, b) =>
+    b.date.localeCompare(a.date),
+  );
 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editDate, setEditDate] = useState("");
@@ -80,7 +102,12 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
     setBusy(true);
     try {
       const val = isQual ? newValue : Number(newValue);
-      await api.addResult({ profile_id: profileId, biomarker_id: biomarker.id, date: newDate, value: val });
+      await api.addResult({
+        profile_id: profileId,
+        biomarker_id: biomarker.id,
+        date: newDate,
+        value: val,
+      });
     } finally {
       setBusy(false);
     }
@@ -142,7 +169,11 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
                             >
                               <Check className="w-4 h-4" />
                             </Button>
-                            <Button size="icon-sm" variant="ghost" onClick={cancelEdit}>
+                            <Button
+                              size="icon-sm"
+                              variant="ghost"
+                              onClick={cancelEdit}
+                            >
                               <XIcon className="w-4 h-4" />
                             </Button>
                           </div>
@@ -150,14 +181,20 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
                       </>
                     ) : (
                       <>
-                        <TableCell className="pr-2 text-sm text-muted-foreground">{r.date}</TableCell>
-                        <TableCell className="pr-2 text-sm font-mono">{r.value}</TableCell>
+                        <TableCell className="pr-2 text-sm text-muted-foreground">
+                          {r.date}
+                        </TableCell>
+                        <TableCell className="pr-2 text-sm font-mono">
+                          {r.value}
+                        </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-1">
                             <Button
                               size="icon-sm"
                               variant="ghost"
-                              onClick={() => r.id != null && startEdit(r.id, r.date, r.value)}
+                              onClick={() =>
+                                r.id != null && startEdit(r.id, r.date, r.value)
+                              }
                             >
                               <Pencil className="w-3.5 h-3.5" />
                             </Button>
@@ -181,7 +218,11 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
 
           <div className="border-t pt-3">
             <div className="flex flex-wrap items-center gap-2">
-              <DatePicker value={newDate} onChange={setNewDate} className="flex-1 min-w-[120px]" />
+              <DatePicker
+                value={newDate}
+                onChange={setNewDate}
+                className="flex-1 min-w-[120px]"
+              />
               <Input
                 type={isQual ? "text" : "number"}
                 step="any"
@@ -190,7 +231,11 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
                 placeholder={t("resultValue")}
                 className="flex-1 min-w-[80px]"
               />
-              <Button size="sm" onClick={handleAdd} disabled={busy || !newDate || !newValue}>
+              <Button
+                size="sm"
+                onClick={handleAdd}
+                disabled={busy || !newDate || !newValue}
+              >
                 <Plus className="w-4 h-4" />
                 {t("addResult")}
               </Button>
@@ -208,11 +253,16 @@ export default function ResultEditor({ biomarker, profileId, i18n, onClose, onMu
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("deleteResultConfirm")}</AlertDialogTitle>
-            <AlertDialogDescription>{t("deleteResultConfirm")}</AlertDialogDescription>
+            <AlertDialogDescription>
+              {t("deleteResultConfirm")}
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-            <AlertDialogAction variant="destructive" onClick={() => deleteId !== null && handleDelete(deleteId)}>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => deleteId !== null && handleDelete(deleteId)}
+            >
               {t("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>

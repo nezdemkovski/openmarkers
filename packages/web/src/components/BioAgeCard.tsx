@@ -1,10 +1,33 @@
-import { memo, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ReferenceLine, CartesianGrid, ResponsiveContainer } from "recharts";
 import { HeartPulse, ChevronDown, Lock } from "lucide-react";
-import type { PhenoAgeResult, PhenoAgeScore, I18n } from "../types.ts";
+import { memo, useState } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ReferenceLine,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
+
 import { Card } from "@/components/ui/card";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableFooter, TableCell } from "@/components/ui/table";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableFooter,
+  TableCell,
+} from "@/components/ui/table";
+
+import type { PhenoAgeResult, PhenoAgeScore, I18n } from "../types.ts";
 
 const CHART_MARGIN = { top: 4, right: 4, bottom: 4, left: 4 };
 
@@ -18,12 +41,17 @@ function BioAgeTooltip({ active, payload, t }: BioAgeTooltipProps) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   const delta = d.delta;
-  const deltaColor = delta <= 0 ? "text-green-600 dark:text-green-400" : "text-destructive";
+  const deltaColor =
+    delta <= 0 ? "text-green-600 dark:text-green-400" : "text-destructive";
 
   return (
     <div className="bg-popover text-popover-foreground text-xs rounded-lg px-3 py-2 shadow-lg border border-border">
       <p className="font-medium">
-        {new Date(d.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+        {new Date(d.date).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
       </p>
       <p className="mt-1">
         {t("bioAge")}: <span className="font-mono font-bold">{d.phenoAge}</span>
@@ -40,9 +68,12 @@ function BioAgeTooltip({ active, payload, t }: BioAgeTooltipProps) {
 }
 
 function ScoreRow({ s, calcDate }: { s: PhenoAgeScore; calcDate: string }) {
-  const color = s.score < 0 ? "text-green-600 dark:text-green-400" : "text-foreground";
+  const color =
+    s.score < 0 ? "text-green-600 dark:text-green-400" : "text-foreground";
   const isSameDate = s.date === calcDate;
-  const outOfRange = (s.refMin != null && s.value < s.refMin) || (s.refMax != null && s.value > s.refMax);
+  const outOfRange =
+    (s.refMin != null && s.value < s.refMin) ||
+    (s.refMax != null && s.value > s.refMax);
   const fmt = (n: number) => +n.toPrecision(4);
   const refStr =
     s.refMin != null && s.refMax != null
@@ -54,16 +85,28 @@ function ScoreRow({ s, calcDate }: { s: PhenoAgeScore; calcDate: string }) {
           : "";
   return (
     <TableRow className="text-[11px] border-0 hover:bg-transparent">
-      <TableCell className="pr-2 py-0.5 text-muted-foreground">{s.id}</TableCell>
+      <TableCell className="pr-2 py-0.5 text-muted-foreground">
+        {s.id}
+      </TableCell>
       <TableCell
         className={`pr-2 py-0.5 font-mono text-right ${outOfRange ? "text-amber-600 dark:text-amber-400 font-semibold" : "text-foreground"}`}
       >
         {s.value}
       </TableCell>
-      <TableCell className="pr-2 py-0.5 text-muted-foreground/60">{s.unit}</TableCell>
-      <TableCell className="pr-2 py-0.5 font-mono text-muted-foreground/60 text-[10px]">{refStr}</TableCell>
-      <TableCell className={`pr-2 py-0.5 text-muted-foreground/60 ${isSameDate ? "" : "italic"}`}>
-        {new Date(s.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "2-digit" })}
+      <TableCell className="pr-2 py-0.5 text-muted-foreground/60">
+        {s.unit}
+      </TableCell>
+      <TableCell className="pr-2 py-0.5 font-mono text-muted-foreground/60 text-[10px]">
+        {refStr}
+      </TableCell>
+      <TableCell
+        className={`pr-2 py-0.5 text-muted-foreground/60 ${isSameDate ? "" : "italic"}`}
+      >
+        {new Date(s.date).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "2-digit",
+        })}
       </TableCell>
       <TableCell className={`py-0.5 font-mono text-right ${color}`}>
         {s.score > 0 ? "+" : ""}
@@ -84,14 +127,20 @@ function Stat({ label, value, sub, subColor }: StatProps) {
   return (
     <div className="text-center">
       <div className="text-[11px] text-muted-foreground">{label}</div>
-      <div className="text-xl font-bold text-foreground leading-tight">{value}</div>
+      <div className="text-xl font-bold text-foreground leading-tight">
+        {value}
+      </div>
       {sub &&
         (subColor ? (
-          <span className={`inline-block mt-1 text-[10px] font-medium px-2 py-0.5 rounded-full ${subColor}`}>
+          <span
+            className={`inline-block mt-1 text-[10px] font-medium px-2 py-0.5 rounded-full ${subColor}`}
+          >
             {sub}
           </span>
         ) : (
-          <div className="text-[10px] text-muted-foreground/60 mt-0.5">{sub}</div>
+          <div className="text-[10px] text-muted-foreground/60 mt-0.5">
+            {sub}
+          </div>
         ))}
     </div>
   );
@@ -104,7 +153,12 @@ interface BioAgeCardProps {
   missingMarkers?: string[];
 }
 
-export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers = [] }: BioAgeCardProps) {
+export default memo(function BioAgeCard({
+  results,
+  isDark,
+  i18n,
+  missingMarkers = [],
+}: BioAgeCardProps) {
   const [open, setOpen] = useState(false);
   const { t, tBio } = i18n;
 
@@ -117,21 +171,35 @@ export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers 
           <div className="blur-[6px] opacity-40 pointer-events-none">
             <div className="flex items-center gap-2 mb-1">
               <HeartPulse className="w-5 h-5 text-rose-500" />
-              <h3 className="text-sm font-semibold text-foreground">{t("bioAge")}</h3>
-              <span className="text-xs text-muted-foreground ml-auto">{t("chronoAge")}: --</span>
+              <h3 className="text-sm font-semibold text-foreground">
+                {t("bioAge")}
+              </h3>
+              <span className="text-xs text-muted-foreground ml-auto">
+                {t("chronoAge")}: --
+              </span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 items-center text-center mt-3">
               <Stat label={t("bioAge")} value="--" sub="-- years" />
-              <Stat label={t("mortalityScore")} value="--%" sub={t("mortalityScoreDesc")} />
+              <Stat
+                label={t("mortalityScore")}
+                value="--%"
+                sub={t("mortalityScoreDesc")}
+              />
               <div className="col-span-2 sm:col-span-1 h-16 bg-muted/30 rounded" />
               <Stat label={t("dnamAge")} value="--" sub={t("dnamAgeDesc")} />
-              <Stat label={t("dnamMortality")} value="--%" sub={t("dnamMortalityDesc")} />
+              <Stat
+                label={t("dnamMortality")}
+                value="--%"
+                sub={t("dnamMortalityDesc")}
+              />
             </div>
           </div>
         </div>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <Lock className="w-5 h-5 text-muted-foreground mb-2" />
-          <p className="text-sm font-medium text-foreground">{t("bioAgeLocked")}</p>
+          <p className="text-sm font-medium text-foreground">
+            {t("bioAgeLocked")}
+          </p>
           <div className="flex flex-wrap justify-center gap-1.5 mt-2 max-w-xs">
             {missingMarkers.map((id) => (
               <span
@@ -158,9 +226,11 @@ export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers 
         ? `+${absDelta} ${t("yearsOlder")}`
         : `-${absDelta} ${t("yearsYounger")}`;
 
-  const deltaColor = delta <= 0 ? "text-green-600 dark:text-green-400" : "text-destructive";
+  const deltaColor =
+    delta <= 0 ? "text-green-600 dark:text-green-400" : "text-destructive";
 
-  const deltaBg = delta <= 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-destructive/10";
+  const deltaBg =
+    delta <= 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-destructive/10";
 
   const tickColor = isDark ? "#6b7280" : "#9ca3af";
   const gridColor = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)";
@@ -179,22 +249,38 @@ export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers 
 
       <Collapsible open={open} onOpenChange={setOpen}>
         <CollapsibleTrigger className="flex items-center gap-1.5 text-xs mb-3 px-2 py-1 -mx-1 rounded-md text-muted-foreground hover:bg-muted transition-colors">
-          <ChevronDown className={`w-3.5 h-3.5 shrink-0 transition-transform ${open ? "rotate-180" : ""}`} />
+          <ChevronDown
+            className={`w-3.5 h-3.5 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+          />
           {t("bioAgeDesc")}
         </CollapsibleTrigger>
         <CollapsibleContent>
           <Card className="mb-4 p-3 shadow-lg">
-            <div className="text-xs font-semibold text-foreground mb-1.5">Levine PhenoAge Calculation</div>
+            <div className="text-xs font-semibold text-foreground mb-1.5">
+              Levine PhenoAge Calculation
+            </div>
             <div className="overflow-x-auto">
               <Table className="mb-2">
                 <TableHeader>
                   <TableRow className="text-[10px] text-muted-foreground border-b border-border hover:bg-transparent">
-                    <TableHead className="text-left pr-2 pb-1 h-auto font-medium">Biomarker</TableHead>
-                    <TableHead className="text-right pr-2 pb-1 h-auto font-medium">Value</TableHead>
-                    <TableHead className="text-left pr-2 pb-1 h-auto font-medium">Unit</TableHead>
-                    <TableHead className="text-left pr-2 pb-1 h-auto font-medium">Ref</TableHead>
-                    <TableHead className="text-left pr-2 pb-1 h-auto font-medium">Date</TableHead>
-                    <TableHead className="text-right pb-1 h-auto font-medium">Score</TableHead>
+                    <TableHead className="text-left pr-2 pb-1 h-auto font-medium">
+                      Biomarker
+                    </TableHead>
+                    <TableHead className="text-right pr-2 pb-1 h-auto font-medium">
+                      Value
+                    </TableHead>
+                    <TableHead className="text-left pr-2 pb-1 h-auto font-medium">
+                      Unit
+                    </TableHead>
+                    <TableHead className="text-left pr-2 pb-1 h-auto font-medium">
+                      Ref
+                    </TableHead>
+                    <TableHead className="text-left pr-2 pb-1 h-auto font-medium">
+                      Date
+                    </TableHead>
+                    <TableHead className="text-right pb-1 h-auto font-medium">
+                      Score
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -204,10 +290,15 @@ export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers 
                 </TableBody>
                 <TableFooter className="bg-transparent">
                   <TableRow className="text-[11px] border-t border-border font-medium hover:bg-transparent">
-                    <TableCell colSpan={5} className="pt-1 py-0.5 text-muted-foreground">
+                    <TableCell
+                      colSpan={5}
+                      className="pt-1 py-0.5 text-muted-foreground"
+                    >
                       Intercept (-19.91) + Sum
                     </TableCell>
-                    <TableCell className="pt-1 py-0.5 font-mono text-right text-foreground">xb = {latest.xb}</TableCell>
+                    <TableCell className="pt-1 py-0.5 font-mono text-right text-foreground">
+                      xb = {latest.xb}
+                    </TableCell>
                   </TableRow>
                 </TableFooter>
               </Table>
@@ -219,21 +310,37 @@ export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers 
                 <strong className="text-foreground">{latest.phenoAge}</strong>
               </p>
             </div>
-            <p className="text-[10px] text-muted-foreground/60 mt-2 italic">Levine et al. 2018, PMC5940111</p>
+            <p className="text-[10px] text-muted-foreground/60 mt-2 italic">
+              Levine et al. 2018, PMC5940111
+            </p>
           </Card>
         </CollapsibleContent>
       </Collapsible>
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 items-center text-center">
-        <Stat label={t("bioAge")} value={`${latest.phenoAge}`} sub={deltaLabel} subColor={`${deltaBg} ${deltaColor}`} />
-        <Stat label={t("mortalityScore")} value={`${latest.mortalityScore}%`} sub={t("mortalityScoreDesc")} />
+        <Stat
+          label={t("bioAge")}
+          value={`${latest.phenoAge}`}
+          sub={deltaLabel}
+          subColor={`${deltaBg} ${deltaColor}`}
+        />
+        <Stat
+          label={t("mortalityScore")}
+          value={`${latest.mortalityScore}%`}
+          sub={t("mortalityScoreDesc")}
+        />
         {results.length > 1 ? (
           <div className="col-span-2 sm:col-span-1 h-16">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={results} margin={{ top: 4, right: 4, bottom: 0, left: -24 }}>
+              <LineChart
+                data={results}
+                margin={{ top: 4, right: 4, bottom: 0, left: -24 }}
+              >
                 <XAxis
                   dataKey="date"
-                  tickFormatter={(d: string) => new Date(d).toLocaleDateString("en-GB", { year: "2-digit" })}
+                  tickFormatter={(d: string) =>
+                    new Date(d).toLocaleDateString("en-GB", { year: "2-digit" })
+                  }
                   tick={{ fontSize: 9, fill: tickColor }}
                   axisLine={false}
                   tickLine={false}
@@ -246,9 +353,17 @@ export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers 
                   tickLine={false}
                   tickCount={3}
                 />
-                <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={true} />
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke={gridColor}
+                  vertical={true}
+                />
                 <Tooltip content={<BioAgeTooltip t={t} />} />
-                <ReferenceLine y={latest.chronoAge} stroke={refLineColor} strokeDasharray="3 3" />
+                <ReferenceLine
+                  y={latest.chronoAge}
+                  stroke={refLineColor}
+                  strokeDasharray="3 3"
+                />
                 <Line
                   type="monotone"
                   dataKey="phenoAge"
@@ -263,8 +378,16 @@ export default memo(function BioAgeCard({ results, isDark, i18n, missingMarkers 
         ) : (
           <div />
         )}
-        <Stat label={t("dnamAge")} value={`${latest.dnamAge}`} sub={t("dnamAgeDesc")} />
-        <Stat label={t("dnamMortality")} value={`${latest.dnamMortality}%`} sub={t("dnamMortalityDesc")} />
+        <Stat
+          label={t("dnamAge")}
+          value={`${latest.dnamAge}`}
+          sub={t("dnamAgeDesc")}
+        />
+        <Stat
+          label={t("dnamMortality")}
+          value={`${latest.dnamMortality}%`}
+          sub={t("dnamMortalityDesc")}
+        />
       </div>
     </Card>
   );

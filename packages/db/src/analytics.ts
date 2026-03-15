@@ -25,15 +25,20 @@ export function analyzeTrend(
   refMin: number | null | undefined,
   refMax: number | null | undefined,
 ): TrendResult | null {
-  const numeric = results.filter((r): r is BiomarkerResult & { value: number } => typeof r.value === "number");
+  const numeric = results.filter(
+    (r): r is BiomarkerResult & { value: number } =>
+      typeof r.value === "number",
+  );
   if (numeric.length < 2) return null;
 
   const first = numeric[0].value;
   const prev = numeric[numeric.length - 2].value;
   const latest = numeric[numeric.length - 1].value;
   const rateChange = prev !== 0 ? ((latest - prev) / Math.abs(prev)) * 100 : 0;
-  const overallChange = first !== 0 ? ((latest - first) / Math.abs(first)) * 100 : 0;
-  const direction: TrendResult["direction"] = Math.abs(rateChange) < 1 ? "stable" : rateChange > 0 ? "up" : "down";
+  const overallChange =
+    first !== 0 ? ((latest - first) / Math.abs(first)) * 100 : 0;
+  const direction: TrendResult["direction"] =
+    Math.abs(rateChange) < 1 ? "stable" : rateChange > 0 ? "up" : "down";
 
   const inRange = !isOutOfRange(latest, refMin, refMax);
 
@@ -42,21 +47,24 @@ export function analyzeTrend(
     if (refMin != null && refMax != null) {
       const range = refMax - refMin;
       const buffer = range * 0.15;
-      if (direction === "down" && latest <= refMin + buffer) trendWarning = true;
+      if (direction === "down" && latest <= refMin + buffer)
+        trendWarning = true;
       if (direction === "up" && latest >= refMax - buffer) trendWarning = true;
     } else if (refMax != null) {
       const buffer = refMax * 0.15;
       if (direction === "up" && latest >= refMax - buffer) trendWarning = true;
     } else if (refMin != null) {
       const buffer = refMin * 0.15;
-      if (direction === "down" && latest <= refMin + buffer) trendWarning = true;
+      if (direction === "down" && latest <= refMin + buffer)
+        trendWarning = true;
     }
   }
 
   let improving: boolean | null = null;
   if (isOutOfRange(latest, refMin, refMax)) {
     if (refMin != null && latest < refMin) improving = direction === "up";
-    else if (refMax != null && latest > refMax) improving = direction === "down";
+    else if (refMax != null && latest > refMax)
+      improving = direction === "down";
   } else if (refMin != null && refMax != null) {
     const center = (refMin + refMax) / 2;
     const prevDist = Math.abs(prev - center);
@@ -65,7 +73,13 @@ export function analyzeTrend(
   }
 
   const hasOverall = numeric.length > 2;
-  return { direction, rateChange, overallChange: hasOverall ? overallChange : null, trendWarning, improving };
+  return {
+    direction,
+    rateChange,
+    overallChange: hasOverall ? overallChange : null,
+    trendWarning,
+    improving,
+  };
 }
 
 export const CORRELATION_GROUPS: CorrelationGroup[] = [
@@ -84,10 +98,22 @@ export const CORRELATION_GROUPS: CorrelationGroup[] = [
       "B-MCH",
     ],
   },
-  { id: "lipid_panel", biomarkers: ["S-CHOL", "S-HDL", "S-LDL", "S-TGL", "S-nHDL"] },
-  { id: "liver_panel", biomarkers: ["S-ALT", "S-AST", "S-GGT", "S-ALP", "S-BIL", "S-FIB4"] },
-  { id: "thyroid_panel", biomarkers: ["S-TSH", "S-fT4", "S-aTPO", "S-aTG", "S-aTSH"] },
-  { id: "kidney_panel", biomarkers: ["S-UREA", "S-CREA", "S-CKDEPI", "MDRD-UreaAlb"] },
+  {
+    id: "lipid_panel",
+    biomarkers: ["S-CHOL", "S-HDL", "S-LDL", "S-TGL", "S-nHDL"],
+  },
+  {
+    id: "liver_panel",
+    biomarkers: ["S-ALT", "S-AST", "S-GGT", "S-ALP", "S-BIL", "S-FIB4"],
+  },
+  {
+    id: "thyroid_panel",
+    biomarkers: ["S-TSH", "S-fT4", "S-aTPO", "S-aTG", "S-aTSH"],
+  },
+  {
+    id: "kidney_panel",
+    biomarkers: ["S-UREA", "S-CREA", "S-CKDEPI", "MDRD-UreaAlb"],
+  },
 ];
 
 export function getAllDates(categories: Category[]): string[] {
@@ -100,7 +126,10 @@ export function getAllDates(categories: Category[]): string[] {
   return [...dates].sort();
 }
 
-export function getDateSnapshot(categories: Category[], date: string): SnapshotItem[] {
+export function getDateSnapshot(
+  categories: Category[],
+  date: string,
+): SnapshotItem[] {
   const items: SnapshotItem[] = [];
   for (const cat of categories) {
     for (const bio of cat.biomarkers) {
@@ -115,7 +144,11 @@ export function getDateSnapshot(categories: Category[], date: string): SnapshotI
           refMin: effectiveRefMin,
           refMax: effectiveRefMax,
           value: result.value,
-          outOfRange: isOutOfRange(result.value, effectiveRefMin, effectiveRefMax),
+          outOfRange: isOutOfRange(
+            result.value,
+            effectiveRefMin,
+            effectiveRefMax,
+          ),
         });
       }
     }
@@ -133,12 +166,18 @@ export function daysSinceLastTest(categories: Category[]): DaysSinceResult[] {
       }
     }
     if (!latest) return { categoryId: cat.id, days: null, lastDate: null };
-    const days = Math.floor((now.getTime() - new Date(latest).getTime()) / 86400000);
+    const days = Math.floor(
+      (now.getTime() - new Date(latest).getTime()) / 86400000,
+    );
     return { categoryId: cat.id, days, lastDate: latest };
   });
 }
 
-export function compareDates(categories: Category[], date1: string, date2: string): ComparisonRow[] {
+export function compareDates(
+  categories: Category[],
+  date1: string,
+  date2: string,
+): ComparisonRow[] {
   const rows: ComparisonRow[] = [];
   for (const cat of categories) {
     for (const bio of cat.biomarkers) {
@@ -175,7 +214,9 @@ export function compareDates(categories: Category[], date1: string, date2: strin
   return rows;
 }
 
-export function getRelevantCorrelations(categories: Category[]): MatchedCorrelationGroup[] {
+export function getRelevantCorrelations(
+  categories: Category[],
+): MatchedCorrelationGroup[] {
   const allBioIds = new Set<string>();
   for (const cat of categories) {
     for (const bio of cat.biomarkers) allBioIds.add(bio.id);

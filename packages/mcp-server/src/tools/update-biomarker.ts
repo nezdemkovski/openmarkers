@@ -1,6 +1,7 @@
-import { z } from "zod";
-import { updateBiomarker } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { updateBiomarker } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpJson, mcpError } from "../index";
 
 export function registerUpdateBiomarker(server: McpServer) {
@@ -11,10 +12,26 @@ export function registerUpdateBiomarker(server: McpServer) {
       inputSchema: z.object({
         id: z.string().describe("Biomarker ID"),
         unit: z.string().nullable().optional().describe("Unit of measurement"),
-        ref_min_m: z.number().nullable().optional().describe("Male reference range minimum"),
-        ref_max_m: z.number().nullable().optional().describe("Male reference range maximum"),
-        ref_min_f: z.number().nullable().optional().describe("Female reference range minimum"),
-        ref_max_f: z.number().nullable().optional().describe("Female reference range maximum"),
+        ref_min_m: z
+          .number()
+          .nullable()
+          .optional()
+          .describe("Male reference range minimum"),
+        ref_max_m: z
+          .number()
+          .nullable()
+          .optional()
+          .describe("Male reference range maximum"),
+        ref_min_f: z
+          .number()
+          .nullable()
+          .optional()
+          .describe("Female reference range minimum"),
+        ref_max_f: z
+          .number()
+          .nullable()
+          .optional()
+          .describe("Female reference range maximum"),
       }),
     },
     async ({ id, ...data }) => {

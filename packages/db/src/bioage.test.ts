@@ -1,12 +1,24 @@
 import { describe, test, expect } from "bun:test";
-import { chronoAge, calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
+
+import {
+  chronoAge,
+  calculatePhenoAge,
+  getMissingPhenoAgeMarkers,
+} from "./bioage";
 import type { Category } from "./types";
 
-function makeCategory(id: string, biomarkers: Category["biomarkers"]): Category {
+function makeCategory(
+  id: string,
+  biomarkers: Category["biomarkers"],
+): Category {
   return { id, biomarkers };
 }
 
-function makeBio(id: string, results: { date: string; value: number }[], opts?: { refMin?: number; refMax?: number }) {
+function makeBio(
+  id: string,
+  results: { date: string; value: number }[],
+  opts?: { refMin?: number; refMax?: number },
+) {
   return { id, results, refMin: opts?.refMin, refMax: opts?.refMax };
 }
 

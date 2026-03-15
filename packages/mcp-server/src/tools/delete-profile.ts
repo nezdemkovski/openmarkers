@@ -1,6 +1,7 @@
-import { z } from "zod";
-import { deleteProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { deleteProfile } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpText, mcpError } from "../index";
 
 export function registerDeleteProfile(server: McpServer, authUserId: string) {

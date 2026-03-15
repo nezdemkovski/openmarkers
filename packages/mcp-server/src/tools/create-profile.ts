@@ -1,6 +1,7 @@
-import { z } from "zod";
-import { createProfile, sexEnum } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { createProfile, sexEnum } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpJson } from "../index";
 
 export function registerCreateProfile(server: McpServer, authUserId: string) {

@@ -1,9 +1,13 @@
-import { z } from "zod";
-import { getDaysSinceForProfile } from "@openmarkers/db";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { getDaysSinceForProfile } from "@openmarkers/db";
+import { z } from "zod";
+
 import { mcpJson, mcpError } from "../index";
 
-export function registerGetDaysSinceLastTest(server: McpServer, authUserId: string) {
+export function registerGetDaysSinceLastTest(
+  server: McpServer,
+  authUserId: string,
+) {
   server.registerTool(
     "get_days_since_last_test",
     {

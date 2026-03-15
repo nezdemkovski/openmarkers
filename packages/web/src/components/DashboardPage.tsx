@@ -1,18 +1,15 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { Copy, CheckCheck } from "lucide-react";
+import type { Lang } from "@openmarkers/db";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { makeI18n } from "../i18n.ts";
-import { authClient } from "../lib/auth-client.ts";
-import { api } from "../lib/api.ts";
-import Sidebar from "./Sidebar.tsx";
-import Dashboard from "./Dashboard.tsx";
-import CategoryView from "./CategoryView.tsx";
-import TimelineView from "./TimelineView.tsx";
-import ComparisonView from "./ComparisonView.tsx";
-import SettingsView from "./SettingsView.tsx";
-import Loading from "./Loading.tsx";
-import AddLabVisit from "./AddLabVisit.tsx";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Copy, CheckCheck } from "lucide-react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,
   DialogContent,
@@ -21,26 +18,41 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import { DatePicker } from "@/components/ui/date-picker";
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarProvider,
+  SidebarInset,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
+import { makeI18n } from "../i18n.ts";
+import { track, Event } from "../lib/analytics.ts";
+import { api } from "../lib/api.ts";
+import { authClient } from "../lib/auth-client.ts";
+import { errorMessage } from "../lib/utils.ts";
 import type { UserData, Route } from "../types.ts";
 import { Sex } from "../types.ts";
-import { errorMessage } from "../lib/utils.ts";
-import type { Lang } from "@openmarkers/db";
-import { track, Event } from "../lib/analytics.ts";
+import AddLabVisit from "./AddLabVisit.tsx";
+import CategoryView from "./CategoryView.tsx";
+import ComparisonView from "./ComparisonView.tsx";
+import Dashboard from "./Dashboard.tsx";
+import Loading from "./Loading.tsx";
+import SettingsView from "./SettingsView.tsx";
+import Sidebar from "./Sidebar.tsx";
+import TimelineView from "./TimelineView.tsx";
 
 interface ImportData {
   user: { name: string };
   [key: string]: unknown;
 }
 function isImportData(data: unknown): data is ImportData {
-  if (typeof data !== "object" || data === null || !("user" in data)) return false;
+  if (typeof data !== "object" || data === null || !("user" in data))
+    return false;
   const { user } = data;
-  if (typeof user !== "object" || user === null || !("name" in user)) return false;
+  if (typeof user !== "object" || user === null || !("name" in user))
+    return false;
   return typeof user.name === "string";
 }
 
@@ -100,7 +112,15 @@ export default function DashboardPage({
       return profileList.map((u) =>
         u.id === activeProfileId
           ? profileData
-          : { user: { id: u.id, name: u.name, dateOfBirth: u.dateOfBirth, sex: u.sex }, categories: [] },
+          : {
+              user: {
+                id: u.id,
+                name: u.name,
+                dateOfBirth: u.dateOfBirth,
+                sex: u.sex,
+              },
+              categories: [],
+            },
       );
     }
     return [];
@@ -114,7 +134,10 @@ export default function DashboardPage({
 
   const creatingProfile = route.view === "new-profile";
   const hasNoProfiles = profileListLoaded && profileList.length === 0;
-  const showGettingStarted = hasNoProfiles || creatingProfile || (profileData && profileData.categories.length === 0);
+  const showGettingStarted =
+    hasNoProfiles ||
+    creatingProfile ||
+    (profileData && profileData.categories.length === 0);
   const displayData = hasNoProfiles ? EMPTY_USER_DATA : profileData;
 
   const handleResultMutate = useCallback(() => {
@@ -127,7 +150,11 @@ export default function DashboardPage({
     (target: string | null) => {
       if (target === null) {
         navigateTo("/dashboard");
-      } else if (target === "timeline" || target === "compare" || target === "settings") {
+      } else if (
+        target === "timeline" ||
+        target === "compare" ||
+        target === "settings"
+      ) {
         navigateTo(`/dashboard/${target}`);
       } else {
         navigateTo(`/dashboard/category/${target}`);
@@ -147,10 +174,15 @@ export default function DashboardPage({
     [profileList, navigateTo],
   );
 
-  const [importPending, setImportPending] = useState<{ data: ImportData; name: string } | null>(null);
+  const [importPending, setImportPending] = useState<{
+    data: ImportData;
+    name: string;
+  } | null>(null);
   const [importName, setImportName] = useState("");
   const [importing, setImporting] = useState(false);
-  const [addLabVisitProfileId, setAddLabVisitProfileId] = useState<number | null>(null);
+  const [addLabVisitProfileId, setAddLabVisitProfileId] = useState<
+    number | null
+  >(null);
 
   const switchToProfile = useCallback(
     (profileId: number) => {
@@ -208,7 +240,10 @@ export default function DashboardPage({
   const confirmImport = useCallback(() => {
     if (!importPending) return;
     setImporting(true);
-    const data = { ...importPending.data, user: { ...importPending.data.user, name: importName } };
+    const data = {
+      ...importPending.data,
+      user: { ...importPending.data.user, name: importName },
+    };
     api
       .importProfile(data)
       .then(async (r) => {
@@ -240,8 +275,11 @@ export default function DashboardPage({
       track(Event.DataExported);
       api.exportProfile(profileId).then((data) => {
         const p = profileList.find((u) => u.id === profileId);
-        const userName = p?.name?.toLowerCase().replace(/\s+/g, "_") ?? "profile";
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const userName =
+          p?.name?.toLowerCase().replace(/\s+/g, "_") ?? "profile";
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -289,7 +327,10 @@ export default function DashboardPage({
 
   if (!displayData) return <Loading visible={true} text={i18n.t("loading")} />;
 
-  const category = route.view === "category" ? displayData.categories.find((c) => c.id === route.id) : null;
+  const category =
+    route.view === "category"
+      ? displayData.categories.find((c) => c.id === route.id)
+      : null;
 
   return (
     <TooltipProvider>
@@ -308,7 +349,11 @@ export default function DashboardPage({
           activeProfileIdx={activeProfileIdx}
           onChangeProfile={changeProfile}
           isDemo={false}
-          onAddLabVisit={activeProfileId != null ? () => setAddLabVisitProfileId(activeProfileId) : undefined}
+          onAddLabVisit={
+            activeProfileId != null
+              ? () => setAddLabVisitProfileId(activeProfileId)
+              : undefined
+          }
           onCreateProfile={() => navigateTo("/dashboard/new-profile")}
           authEmail={authEmail}
           onSignOut={handleSignOut}
@@ -324,7 +369,9 @@ export default function DashboardPage({
                 i18n={i18n}
                 profiles={profileList}
                 activeProfileId={activeProfileId}
-                onProfileUpdated={() => queryClient.invalidateQueries({ queryKey: ["profiles"] })}
+                onProfileUpdated={() =>
+                  queryClient.invalidateQueries({ queryKey: ["profiles"] })
+                }
                 onProfileDeleted={handleProfileDeleted}
                 onProfilesReordered={handleProfilesReordered}
                 authEmail={authEmail}
@@ -338,7 +385,9 @@ export default function DashboardPage({
                 i18n={i18n}
                 onImport={handleImport}
                 onCreated={switchToProfile}
-                onAddLabVisit={(profileId) => setAddLabVisitProfileId(profileId)}
+                onAddLabVisit={(profileId) =>
+                  setAddLabVisitProfileId(profileId)
+                }
                 importing={importing}
                 hasProfile={!hasNoProfiles && !creatingProfile}
                 activeProfileId={creatingProfile ? null : activeProfileId}
@@ -391,10 +440,18 @@ export default function DashboardPage({
           <DialogHeader>
             <DialogTitle>{i18n.t("importConflictTitle")}</DialogTitle>
             <DialogDescription>
-              {importPending ? i18n.t("importConflictMessage").replace("{name}", importPending.name) : ""}
+              {importPending
+                ? i18n
+                    .t("importConflictMessage")
+                    .replace("{name}", importPending.name)
+                : ""}
             </DialogDescription>
           </DialogHeader>
-          <Input type="text" value={importName} onChange={(e) => setImportName(e.target.value)} />
+          <Input
+            type="text"
+            value={importName}
+            onChange={(e) => setImportName(e.target.value)}
+          />
           <DialogFooter>
             <Button variant="ghost" onClick={() => setImportPending(null)}>
               {i18n.t("importCancel")}
@@ -461,7 +518,11 @@ function GettingStarted({
     setLoading(true);
     setError("");
     try {
-      const profile = await api.createProfile({ name: name.trim(), date_of_birth: dob, sex });
+      const profile = await api.createProfile({
+        name: name.trim(),
+        date_of_birth: dob,
+        sex,
+      });
       track(Event.ProfileCreated);
       onCreated(profile.id);
     } catch (err: unknown) {
@@ -487,7 +548,9 @@ function GettingStarted({
   return (
     <div className="max-w-lg mx-auto pt-8 md:pt-16">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-foreground">{t(hasActiveProfile ? "addYourData" : "allResults")}</h2>
+        <h2 className="text-2xl font-bold text-foreground">
+          {t(hasActiveProfile ? "addYourData" : "allResults")}
+        </h2>
         <p className="text-sm text-muted-foreground mt-1">
           {t(hasActiveProfile ? "addYourDataDesc" : "getStartedDesc")}
         </p>
@@ -508,12 +571,20 @@ function GettingStarted({
                 strokeWidth={2}
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4v16m8-8H4"
+                />
               </svg>
             </div>
             <div>
-              <div className="text-sm font-semibold text-foreground">{t("addLabVisit")}</div>
-              <div className="text-xs text-muted-foreground mt-0.5">{t("addLabVisitDesc")}</div>
+              <div className="text-sm font-semibold text-foreground">
+                {t("addLabVisit")}
+              </div>
+              <div className="text-xs text-muted-foreground mt-0.5">
+                {t("addLabVisitDesc")}
+              </div>
             </div>
           </Button>
         )}
@@ -535,12 +606,20 @@ function GettingStarted({
                   strokeWidth={2}
                   viewBox="0 0 24 24"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4v16m8-8H4"
+                  />
                 </svg>
               </div>
               <div className="flex-1">
-                <div className="text-sm font-semibold text-foreground">{t("createProfile")}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{t("createProfileDesc")}</div>
+                <div className="text-sm font-semibold text-foreground">
+                  {t("createProfile")}
+                </div>
+                <div className="text-xs text-muted-foreground mt-0.5">
+                  {t("createProfileDesc")}
+                </div>
               </div>
               <svg
                 className={`w-4 h-4 text-muted-foreground/60 transition-transform ${showCreate ? "rotate-180" : ""}`}
@@ -549,11 +628,18 @@ function GettingStarted({
                 strokeWidth={2}
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </Button>
             {showCreate && (
-              <form onSubmit={handleCreate} className="px-5 pb-5 space-y-3 border-t border-border pt-4">
+              <form
+                onSubmit={handleCreate}
+                className="px-5 pb-5 space-y-3 border-t border-border pt-4"
+              >
                 <Input
                   type="text"
                   value={name}
@@ -561,13 +647,18 @@ function GettingStarted({
                   placeholder={t("profileName")}
                   required
                 />
-                <DatePicker value={dob} onChange={setDob} placeholder={t("dateOfBirth")} />
+                <DatePicker
+                  value={dob}
+                  onChange={setDob}
+                  placeholder={t("dateOfBirth")}
+                />
                 <ToggleGroup
                   variant="outline"
                   value={sex ? [sex] : []}
                   onValueChange={(val) => {
                     const picked = (val as string[]).find((v) => v !== sex);
-                    if (picked === Sex.Male || picked === Sex.Female) setSex(picked);
+                    if (picked === Sex.Male || picked === Sex.Female)
+                      setSex(picked);
                   }}
                   className="w-full"
                 >
@@ -578,8 +669,16 @@ function GettingStarted({
                     {t("sexFemale")}
                   </ToggleGroupItem>
                 </ToggleGroup>
-                {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
-                <Button type="submit" disabled={loading || !name.trim() || !dob} className="w-full">
+                {error && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    {error}
+                  </p>
+                )}
+                <Button
+                  type="submit"
+                  disabled={loading || !name.trim() || !dob}
+                  className="w-full"
+                >
                   {loading ? "..." : t("createProfile")}
                 </Button>
               </form>
@@ -644,7 +743,11 @@ function CopyButton({ text }: { text: string }) {
       }}
       className="absolute top-2 right-2"
     >
-      {copied ? <CheckCheck className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+      {copied ? (
+        <CheckCheck className="w-3.5 h-3.5 text-green-600" />
+      ) : (
+        <Copy className="w-3.5 h-3.5" />
+      )}
     </Button>
   );
 }
@@ -667,9 +770,24 @@ function ImportButton({
     >
       <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
         {importing ? (
-          <svg className="w-5 h-5 text-green-600 dark:text-green-400 animate-spin" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          <svg
+            className="w-5 h-5 text-green-600 dark:text-green-400 animate-spin"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
         ) : (
           <svg
@@ -688,8 +806,12 @@ function ImportButton({
         )}
       </div>
       <div>
-        <div className="text-sm font-semibold text-foreground">{importing ? t("importingData") : t("import")}</div>
-        <div className="text-xs text-muted-foreground mt-0.5">{t("importDesc")}</div>
+        <div className="text-sm font-semibold text-foreground">
+          {importing ? t("importingData") : t("import")}
+        </div>
+        <div className="text-xs text-muted-foreground mt-0.5">
+          {t("importDesc")}
+        </div>
       </div>
     </Button>
   );
@@ -719,8 +841,12 @@ function AiImportSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
             </svg>
           </div>
           <div className="flex-1">
-            <div className="text-sm font-semibold text-foreground">{t("aiImport")}</div>
-            <div className="text-xs text-muted-foreground mt-0.5">{t("aiImportDesc")}</div>
+            <div className="text-sm font-semibold text-foreground">
+              {t("aiImport")}
+            </div>
+            <div className="text-xs text-muted-foreground mt-0.5">
+              {t("aiImportDesc")}
+            </div>
           </div>
           <svg
             className={`w-4 h-4 text-muted-foreground/60 transition-transform ${open ? "rotate-180" : ""}`}
@@ -729,12 +855,18 @@ function AiImportSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
             strokeWidth={2}
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="px-5 pb-5 border-t border-border pt-4 space-y-3">
-            <p className="text-sm text-muted-foreground">{t("aiImportInstructions")}</p>
+            <p className="text-sm text-muted-foreground">
+              {t("aiImportInstructions")}
+            </p>
             <div className="relative">
               <pre className="px-3 py-2 rounded-lg border border-border bg-muted text-xs text-foreground/80 font-mono whitespace-pre-wrap max-h-48 overflow-y-auto">
                 {AI_PROMPT.trim()}
@@ -743,8 +875,12 @@ function AiImportSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
             </div>
             <p className="text-xs text-muted-foreground">{t("aiImportThen")}</p>
             <div className="rounded-lg border border-border bg-muted p-3 space-y-1.5">
-              <p className="text-xs font-medium text-foreground/80">{t("schemaTip")}</p>
-              <p className="text-xs text-muted-foreground">{t("schemaTipDesc")}</p>
+              <p className="text-xs font-medium text-foreground/80">
+                {t("schemaTip")}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {t("schemaTipDesc")}
+              </p>
               <div className="relative">
                 <pre className="px-3 py-2 rounded-lg border border-border bg-card text-xs text-foreground font-mono overflow-x-auto">{`"$schema": "${SCHEMA_URL}"`}</pre>
                 <CopyButton text={`"$schema": "${SCHEMA_URL}"`} />
@@ -792,8 +928,12 @@ function McpSetupSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
             </svg>
           </div>
           <div className="flex-1">
-            <div className="text-sm font-semibold text-foreground">{t("mcpSetup")}</div>
-            <div className="text-xs text-muted-foreground mt-0.5">{t("mcpSetupDesc")}</div>
+            <div className="text-sm font-semibold text-foreground">
+              {t("mcpSetup")}
+            </div>
+            <div className="text-xs text-muted-foreground mt-0.5">
+              {t("mcpSetupDesc")}
+            </div>
           </div>
           <svg
             className={`w-4 h-4 text-muted-foreground/60 transition-transform ${open ? "rotate-180" : ""}`}
@@ -802,12 +942,18 @@ function McpSetupSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
             strokeWidth={2}
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="px-5 pb-5 border-t border-border pt-4 space-y-3">
-            <p className="text-sm text-muted-foreground">{t("mcpSetupInstructions")}</p>
+            <p className="text-sm text-muted-foreground">
+              {t("mcpSetupInstructions")}
+            </p>
             <div className="relative">
               <pre className="px-3 py-2 rounded-lg border border-border bg-muted text-sm text-foreground font-mono overflow-x-auto">
                 {mcpConfig}
@@ -816,25 +962,45 @@ function McpSetupSection({ i18n }: { i18n: ReturnType<typeof makeI18n> }) {
             </div>
             <p className="text-sm text-muted-foreground">{t("mcpSetupAuth")}</p>
             <div className="text-xs text-muted-foreground space-y-2">
-              <p className="font-medium text-foreground/80">{t("mcpSetupToolsTitle")}</p>
+              <p className="font-medium text-foreground/80">
+                {t("mcpSetupToolsTitle")}
+              </p>
               <ul className="list-disc pl-4 space-y-0.5">
                 <li>
-                  <span className="font-mono text-muted-foreground">import_profile_data</span> — {t("mcpToolImport")}
+                  <span className="font-mono text-muted-foreground">
+                    import_profile_data
+                  </span>{" "}
+                  — {t("mcpToolImport")}
                 </li>
                 <li>
-                  <span className="font-mono text-muted-foreground">get_schema</span> — {t("mcpToolSchema")}
+                  <span className="font-mono text-muted-foreground">
+                    get_schema
+                  </span>{" "}
+                  — {t("mcpToolSchema")}
                 </li>
                 <li>
-                  <span className="font-mono text-muted-foreground">add_result</span> — {t("mcpToolAddResult")}
+                  <span className="font-mono text-muted-foreground">
+                    add_result
+                  </span>{" "}
+                  — {t("mcpToolAddResult")}
                 </li>
                 <li>
-                  <span className="font-mono text-muted-foreground">get_profile</span> — {t("mcpToolGetProfile")}
+                  <span className="font-mono text-muted-foreground">
+                    get_profile
+                  </span>{" "}
+                  — {t("mcpToolGetProfile")}
                 </li>
                 <li>
-                  <span className="font-mono text-muted-foreground">get_trends</span> — {t("mcpToolTrends")}
+                  <span className="font-mono text-muted-foreground">
+                    get_trends
+                  </span>{" "}
+                  — {t("mcpToolTrends")}
                 </li>
                 <li>
-                  <span className="font-mono text-muted-foreground">get_analysis_prompt</span> — {t("mcpToolAnalysis")}
+                  <span className="font-mono text-muted-foreground">
+                    get_analysis_prompt
+                  </span>{" "}
+                  — {t("mcpToolAnalysis")}
                 </li>
               </ul>
               <p className="text-muted-foreground/60">{t("mcpToolsMore")}</p>

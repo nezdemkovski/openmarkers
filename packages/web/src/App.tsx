@@ -1,20 +1,21 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import type { Lang } from "@openmarkers/db";
 import { useQueryClient } from "@tanstack/react-query";
-import { makeI18n } from "./i18n.ts";
-import { authClient } from "./lib/auth-client.ts";
-import { setTokenProvider, setOnUnauthorized } from "./lib/api.ts";
+import { useState, useEffect, useCallback, useMemo } from "react";
+
 import AuthPage from "./components/AuthPage.tsx";
-import DemoPage from "./components/DemoPage.tsx";
 import DashboardPage from "./components/DashboardPage.tsx";
+import DemoPage from "./components/DemoPage.tsx";
 import Loading from "./components/Loading.tsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.tsx";
-import TermsOfService from "./components/TermsOfService.tsx";
 import PublicProfile from "./components/PublicProfile.tsx";
 import PublicProfilesList from "./components/PublicProfilesList.tsx";
-import type { Route } from "./types.ts";
-import { isLang } from "./lib/utils.ts";
-import type { Lang } from "@openmarkers/db";
+import TermsOfService from "./components/TermsOfService.tsx";
+import { makeI18n } from "./i18n.ts";
 import { track, Event } from "./lib/analytics.ts";
+import { setTokenProvider, setOnUnauthorized } from "./lib/api.ts";
+import { authClient } from "./lib/auth-client.ts";
+import { isLang } from "./lib/utils.ts";
+import type { Route } from "./types.ts";
 
 function getInitialTheme(): "dark" | "light" {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
@@ -25,7 +26,8 @@ function getRouteFromPath(): Route {
   if (path === "/privacy") return { view: "privacy" };
   if (path === "/terms") return { view: "terms" };
   const publicMatch = path.match(/^\/p\/([^/]+)$/);
-  if (publicMatch) return { view: "public-profile", id: decodeURIComponent(publicMatch[1]) };
+  if (publicMatch)
+    return { view: "public-profile", id: decodeURIComponent(publicMatch[1]) };
   if (path === "/profiles") return { view: "profiles" };
   const isDemo = path.startsWith("/demo");
   const prefix = isDemo ? "/demo" : "/dashboard";
@@ -34,7 +36,8 @@ function getRouteFromPath(): Route {
   if (path === `${prefix}/settings`) return { view: "settings", isDemo };
   if (path === `${prefix}/new-profile`) return { view: "new-profile", isDemo };
   const match = path.match(new RegExp(`^${prefix}/category/(.+)$`));
-  if (match) return { view: "category", id: decodeURIComponent(match[1]), isDemo };
+  if (match)
+    return { view: "category", id: decodeURIComponent(match[1]), isDemo };
   if (path.startsWith(prefix)) return { view: "dashboard", isDemo };
   return { view: "home" };
 }
@@ -107,7 +110,10 @@ export default function App() {
       document.documentElement.classList.add("theme-transition");
       document.documentElement.classList.toggle("dark");
       localStorage.theme = next;
-      setTimeout(() => document.documentElement.classList.remove("theme-transition"), 200);
+      setTimeout(
+        () => document.documentElement.classList.remove("theme-transition"),
+        200,
+      );
       return next;
     });
   }, []);
@@ -132,9 +138,12 @@ export default function App() {
   }, [queryClient]);
 
   // Static pages
-  if (route.view === "privacy") return <PrivacyPolicy onBack={() => window.history.back()} />;
-  if (route.view === "terms") return <TermsOfService onBack={() => window.history.back()} />;
-  if (route.view === "public-profile" && route.id) return <PublicProfile handle={route.id} />;
+  if (route.view === "privacy")
+    return <PrivacyPolicy onBack={() => window.history.back()} />;
+  if (route.view === "terms")
+    return <TermsOfService onBack={() => window.history.back()} />;
+  if (route.view === "public-profile" && route.id)
+    return <PublicProfile handle={route.id} />;
   if (route.view === "profiles") return <PublicProfilesList />;
 
   // Auth page
@@ -175,7 +184,8 @@ export default function App() {
   }
 
   // Auth guard
-  if (isAuthenticated === null) return <Loading visible={true} text={i18n.t("loading")} />;
+  if (isAuthenticated === null)
+    return <Loading visible={true} text={i18n.t("loading")} />;
   if (isAuthenticated !== true) {
     navigateTo("/");
     return null;

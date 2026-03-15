@@ -10,7 +10,14 @@ import {
   LayoutDashboard,
   Globe,
 } from "lucide-react";
-import type { Category, I18n, Lang, UserData, Route } from "../types.ts";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -18,10 +25,6 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import ThemeLangControls from "./ThemeLangControls";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import {
   Sidebar as SidebarRoot,
   SidebarHeader,
@@ -39,13 +42,20 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 
+import type { Category, I18n, Lang, UserData, Route } from "../types.ts";
+import ThemeLangControls from "./ThemeLangControls";
+
 function countOutOfRange(category: Category): number {
   let count = 0;
   for (const b of category.biomarkers) {
     if (b.results.length === 0) continue;
     const latest = b.results[b.results.length - 1];
     if (typeof latest.value === "number") {
-      if ((b.refMin != null && latest.value < b.refMin) || (b.refMax != null && latest.value > b.refMax)) count++;
+      if (
+        (b.refMin != null && latest.value < b.refMin) ||
+        (b.refMax != null && latest.value > b.refMax)
+      )
+        count++;
     }
   }
   return count;
@@ -116,9 +126,16 @@ export default function Sidebar({
             >
               {t("appName")}
             </a>
-            <p className="text-xs text-sidebar-foreground/50 mt-0.5">{t("subtitle")}</p>
+            <p className="text-xs text-sidebar-foreground/50 mt-0.5">
+              {t("subtitle")}
+            </p>
           </div>
-          <ThemeLangControls isDark={isDark} onToggleTheme={onToggleTheme} lang={lang} onChangeLang={onChangeLang} />
+          <ThemeLangControls
+            isDark={isDark}
+            onToggleTheme={onToggleTheme}
+            lang={lang}
+            onChangeLang={onChangeLang}
+          />
         </div>
 
         {activeUser ? (
@@ -129,14 +146,18 @@ export default function Sidebar({
                   {getInitials(activeUser.name)}
                 </div>
                 <div className="flex-1 text-left min-w-0">
-                  <div className="text-sm font-medium text-sidebar-foreground truncate">{activeUser.name}</div>
+                  <div className="text-sm font-medium text-sidebar-foreground truncate">
+                    {activeUser.name}
+                  </div>
                   {activeUser.publicHandle ? (
                     <div className="text-[11px] text-sidebar-foreground/40 flex items-center gap-1 truncate">
                       <Globe className="w-3 h-3 shrink-0" />
                       /p/{activeUser.publicHandle}
                     </div>
                   ) : activeUser.dateOfBirth ? (
-                    <div className="text-xs text-sidebar-foreground/40">{activeUser.dateOfBirth}</div>
+                    <div className="text-xs text-sidebar-foreground/40">
+                      {activeUser.dateOfBirth}
+                    </div>
                   ) : null}
                 </div>
                 <ChevronDown className="w-4 h-4 text-sidebar-foreground/40 shrink-0" />
@@ -152,9 +173,13 @@ export default function Sidebar({
                       {getInitials(u.user.name)}
                     </div>
                     <div className="min-w-0">
-                      <div className="text-sm font-medium text-sidebar-foreground truncate">{u.user.name}</div>
+                      <div className="text-sm font-medium text-sidebar-foreground truncate">
+                        {u.user.name}
+                      </div>
                       {u.user.dateOfBirth && (
-                        <div className="text-xs text-sidebar-foreground/40">{u.user.dateOfBirth}</div>
+                        <div className="text-xs text-sidebar-foreground/40">
+                          {u.user.dateOfBirth}
+                        </div>
                       )}
                     </div>
                   </DropdownMenuItem>
@@ -171,7 +196,11 @@ export default function Sidebar({
               </DropdownMenuContent>
             </DropdownMenu>
             {onAddLabVisit && (
-              <Button variant="outline" onClick={onAddLabVisit} className="w-full mt-2">
+              <Button
+                variant="outline"
+                onClick={onAddLabVisit}
+                className="w-full mt-2"
+              >
                 <PlusCircle className="w-4 h-4" />
                 {t("addLabVisit")}
               </Button>
@@ -185,7 +214,10 @@ export default function Sidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton isActive={activeRoute.view === "dashboard"} onClick={() => onNavigate(null)}>
+                <SidebarMenuButton
+                  isActive={activeRoute.view === "dashboard"}
+                  onClick={() => onNavigate(null)}
+                >
                   <LayoutDashboard className="w-4 h-4" />
                   <span>{t("viewAll")}</span>
                 </SidebarMenuButton>
@@ -201,7 +233,9 @@ export default function Sidebar({
                     <SidebarMenuSub className="mx-0 border-l-0 px-0">
                       {categories.map((cat) => {
                         const outCount = countOutOfRange(cat);
-                        const isActive = activeRoute.view === "category" && activeRoute.id === cat.id;
+                        const isActive =
+                          activeRoute.view === "category" &&
+                          activeRoute.id === cat.id;
                         return (
                           <SidebarMenuSubItem key={cat.id}>
                             <SidebarMenuSubButton
@@ -210,13 +244,21 @@ export default function Sidebar({
                               onClick={() => onNavigate(cat.id)}
                               className="w-full justify-between h-auto py-1.5 overflow-visible pl-8 rounded-none"
                             >
-                              <span className="flex-1 text-left">{tCat(cat.id, "name")}</span>
+                              <span className="flex-1 text-left">
+                                {tCat(cat.id, "name")}
+                              </span>
                               {outCount > 0 ? (
-                                <Badge variant="destructive" className="shrink-0 ml-auto">
+                                <Badge
+                                  variant="destructive"
+                                  className="shrink-0 ml-auto"
+                                >
                                   {outCount}
                                 </Badge>
                               ) : (
-                                <Badge variant="success" className="shrink-0 ml-auto">
+                                <Badge
+                                  variant="success"
+                                  className="shrink-0 ml-auto"
+                                >
                                   {t("ok")}
                                 </Badge>
                               )}
@@ -239,13 +281,19 @@ export default function Sidebar({
           {categories.length > 0 && (
             <>
               <SidebarMenuItem>
-                <SidebarMenuButton isActive={activeRoute.view === "timeline"} onClick={() => onNavigate("timeline")}>
+                <SidebarMenuButton
+                  isActive={activeRoute.view === "timeline"}
+                  onClick={() => onNavigate("timeline")}
+                >
                   <Clock className="w-4 h-4" />
                   <span>{t("timeline")}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton isActive={activeRoute.view === "compare"} onClick={() => onNavigate("compare")}>
+                <SidebarMenuButton
+                  isActive={activeRoute.view === "compare"}
+                  onClick={() => onNavigate("compare")}
+                >
                   <GitCompareArrows className="w-4 h-4" />
                   <span>{t("comparison")}</span>
                 </SidebarMenuButton>
@@ -254,7 +302,10 @@ export default function Sidebar({
           )}
           {!isDemo && (
             <SidebarMenuItem>
-              <SidebarMenuButton isActive={activeRoute.view === "settings"} onClick={() => onNavigate("settings")}>
+              <SidebarMenuButton
+                isActive={activeRoute.view === "settings"}
+                onClick={() => onNavigate("settings")}
+              >
                 <Settings className="w-4 h-4" />
                 <span>{t("settings")}</span>
               </SidebarMenuButton>
@@ -262,9 +313,16 @@ export default function Sidebar({
           )}
           {onSignOut && (
             <>
-              {authEmail && <div className="px-2.5 py-1 text-xs text-sidebar-foreground/40 truncate">{authEmail}</div>}
+              {authEmail && (
+                <div className="px-2.5 py-1 text-xs text-sidebar-foreground/40 truncate">
+                  {authEmail}
+                </div>
+              )}
               <SidebarMenuItem>
-                <SidebarMenuButton onClick={onSignOut} className="text-sidebar-foreground/60">
+                <SidebarMenuButton
+                  onClick={onSignOut}
+                  className="text-sidebar-foreground/60"
+                >
                   <LogOut className="w-4 h-4" />
                   <span>{t("authSignOut") || "Sign Out"}</span>
                 </SidebarMenuButton>

@@ -1,4 +1,9 @@
-import { isOutOfRange, analyzeTrend, daysSinceLastTest, getRelevantCorrelations } from "./analytics";
+import {
+  isOutOfRange,
+  analyzeTrend,
+  daysSinceLastTest,
+  getRelevantCorrelations,
+} from "./analytics";
 import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
 import type { UserData } from "./types";
 
@@ -21,9 +26,12 @@ export function enrichUserData(data: UserData): UserData {
   }
   data.daysSince = daysSinceLastTest(data.categories);
   data.correlations = getRelevantCorrelations(data.categories);
-  const hasDob = data.user.dateOfBirth && !isNaN(new Date(data.user.dateOfBirth).getTime());
+  const hasDob =
+    data.user.dateOfBirth && !isNaN(new Date(data.user.dateOfBirth).getTime());
   data.biologicalAge = {
-    results: hasDob ? calculatePhenoAge(data.categories, data.user.dateOfBirth) : [],
+    results: hasDob
+      ? calculatePhenoAge(data.categories, data.user.dateOfBirth)
+      : [],
     missingMarkers: getMissingPhenoAgeMarkers(data.categories),
   };
   return data;

@@ -1,18 +1,29 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import type { DbBiomarker } from "@openmarkers/db";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, Search } from "lucide-react";
-import { api } from "../lib/api.ts";
-import { track, Event } from "../lib/analytics.ts";
-import type { I18n } from "../types.ts";
-import { errorMessage } from "../lib/utils.ts";
-import type { DbBiomarker } from "@openmarkers/db";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { DatePicker } from "@/components/ui/date-picker";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { useState, useMemo, useRef, useEffect } from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
+import { DatePicker } from "@/components/ui/date-picker";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
+import { track, Event } from "../lib/analytics.ts";
+import { api } from "../lib/api.ts";
+import { errorMessage } from "../lib/utils.ts";
+import type { I18n } from "../types.ts";
 
 interface AddLabVisitProps {
   profileId: number;
@@ -21,7 +32,12 @@ interface AddLabVisitProps {
   onSuccess: () => void;
 }
 
-export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: AddLabVisitProps) {
+export default function AddLabVisit({
+  profileId,
+  i18n,
+  onClose,
+  onSuccess,
+}: AddLabVisitProps) {
   const { t, tCat, tBio } = i18n;
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [values, setValues] = useState<Record<string, string>>({});
@@ -57,7 +73,9 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
     const result = new Map<string, DbBiomarker[]>();
     for (const [catId, bios] of grouped) {
       const filtered = bios.filter(
-        (b) => tBio(b.id, "name").toLowerCase().includes(q) || b.id.toLowerCase().includes(q),
+        (b) =>
+          tBio(b.id, "name").toLowerCase().includes(q) ||
+          b.id.toLowerCase().includes(q),
       );
       if (filtered.length > 0) result.set(catId, filtered);
     }
@@ -82,7 +100,9 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
     setValues((prev) => ({ ...prev, [biomarkerId]: val }));
   };
 
-  const filledCount = Object.values(values).filter((v) => v.trim() !== "").length;
+  const filledCount = Object.values(values).filter(
+    (v) => v.trim() !== "",
+  ).length;
 
   const handleSubmit = async () => {
     if (!date || filledCount === 0) return;
@@ -120,7 +140,9 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
         showCloseButton={false}
       >
         <DialogHeader className="px-5 py-4 border-b border-border">
-          <DialogTitle className="text-lg font-bold">{t("addLabVisit")}</DialogTitle>
+          <DialogTitle className="text-lg font-bold">
+            {t("addLabVisit")}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="px-5 py-3 border-b border-border flex flex-col sm:flex-row sm:items-center gap-3">
@@ -140,20 +162,32 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
 
         <div className="flex-1 overflow-y-auto">
           {isLoading ? (
-            <div className="p-8 text-center text-sm text-muted-foreground">...</div>
+            <div className="p-8 text-center text-sm text-muted-foreground">
+              ...
+            </div>
           ) : filteredGrouped.size === 0 ? (
-            <div className="p-8 text-center text-sm text-muted-foreground">{t("addLabVisitNoMatch")}</div>
+            <div className="p-8 text-center text-sm text-muted-foreground">
+              {t("addLabVisitNoMatch")}
+            </div>
           ) : (
             Array.from(filteredGrouped.entries()).map(([catId, bios]) => {
               const isOpen = visibleCats.has(catId);
               const catFilled = bios.filter((b) => values[b.id]?.trim()).length;
               return (
-                <Collapsible key={catId} open={isOpen} onOpenChange={() => toggleCat(catId)}>
+                <Collapsible
+                  key={catId}
+                  open={isOpen}
+                  onOpenChange={() => toggleCat(catId)}
+                >
                   <div className="border-b border-border last:border-b-0">
                     <CollapsibleTrigger className="w-full flex items-center justify-between px-5 py-2.5 hover:bg-muted/50 transition-colors">
-                      <span className="text-sm font-semibold text-foreground">{tCat(catId, "name")}</span>
+                      <span className="text-sm font-semibold text-foreground">
+                        {tCat(catId, "name")}
+                      </span>
                       <div className="flex items-center gap-2">
-                        {catFilled > 0 && <Badge variant="default">{catFilled}</Badge>}
+                        {catFilled > 0 && (
+                          <Badge variant="default">{catFilled}</Badge>
+                        )}
                         <ChevronDown
                           className={`w-4 h-4 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
                         />
@@ -191,7 +225,10 @@ export default function AddLabVisit({ profileId, i18n, onClose, onSuccess }: Add
             <Button variant="ghost" onClick={onClose}>
               {t("importCancel")}
             </Button>
-            <Button onClick={handleSubmit} disabled={submitting || !date || filledCount === 0}>
+            <Button
+              onClick={handleSubmit}
+              disabled={submitting || !date || filledCount === 0}
+            >
               {submitting ? t("addLabVisitSaving") : t("addLabVisitSubmit")}
             </Button>
           </div>
@@ -217,9 +254,13 @@ function BiomarkerRow({
 
   return (
     <div className="flex items-center gap-3 py-1.5 group">
-      <Label className="flex-1 min-w-0 text-sm text-foreground cursor-default font-normal">{name}</Label>
+      <Label className="flex-1 min-w-0 text-sm text-foreground cursor-default font-normal">
+        {name}
+      </Label>
       <div className="flex items-center gap-1.5 shrink-0">
-        <span className="text-xs text-muted-foreground/60 w-20 truncate text-right">{biomarker.unit || ""}</span>
+        <span className="text-xs text-muted-foreground/60 w-20 truncate text-right">
+          {biomarker.unit || ""}
+        </span>
         <Input
           type={isQual ? "text" : "number"}
           step="any"

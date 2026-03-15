@@ -1,12 +1,21 @@
+import {
+  TriangleAlert,
+  CircleCheck,
+  Clock,
+  ChevronDown,
+  Link2,
+  ChevronRight,
+} from "lucide-react";
 import { useMemo, useRef, useState, useEffect } from "react";
-import { TriangleAlert, CircleCheck, Clock, ChevronDown, Link2, ChevronRight } from "lucide-react";
-import CategoryView from "./CategoryView.tsx";
-import AiAnalysis from "./AiAnalysis.tsx";
-import BioAgeCard from "./BioAgeCard.tsx";
+
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+
 import type { Category, UserData, I18n, Lang, Biomarker } from "../types.ts";
+import AiAnalysis from "./AiAnalysis.tsx";
+import BioAgeCard from "./BioAgeCard.tsx";
+import CategoryView from "./CategoryView.tsx";
 
 function CategorySkeleton({ count }: { count: number }) {
   return (
@@ -74,7 +83,13 @@ function LazyCategory({
   return (
     <div ref={ref}>
       {visible ? (
-        <CategoryView category={category} isDark={isDark} i18n={i18n} profileId={profileId} onMutate={onMutate} />
+        <CategoryView
+          category={category}
+          isDark={isDark}
+          i18n={i18n}
+          profileId={profileId}
+          onMutate={onMutate}
+        />
       ) : (
         <CategorySkeleton count={category.biomarkers.length} />
       )}
@@ -103,9 +118,17 @@ interface RemindersSectionProps {
   onNavigate: (target: string) => void;
 }
 
-function RemindersSection({ reminders, tCat, t, onNavigate }: RemindersSectionProps) {
+function RemindersSection({
+  reminders,
+  tCat,
+  t,
+  onNavigate,
+}: RemindersSectionProps) {
   const [open, setOpen] = useState(false);
-  const sorted = useMemo(() => [...reminders].sort((a, b) => (b.days ?? 0) - (a.days ?? 0)), [reminders]);
+  const sorted = useMemo(
+    () => [...reminders].sort((a, b) => (b.days ?? 0) - (a.days ?? 0)),
+    [reminders],
+  );
 
   return (
     <div className="mb-6 rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 overflow-hidden">
@@ -133,7 +156,8 @@ function RemindersSection({ reminders, tCat, t, onNavigate }: RemindersSectionPr
           {sorted.map((r) => {
             const days = r.days!;
             const months = Math.floor(days / 30);
-            const severity = days > 365 ? "high" : days > 270 ? "medium" : "low";
+            const severity =
+              days > 365 ? "high" : days > 270 ? "medium" : "low";
 
             return (
               <button
@@ -151,13 +175,19 @@ function RemindersSection({ reminders, tCat, t, onNavigate }: RemindersSectionPr
                         : "bg-amber-400 dark:bg-amber-600"
                   }`}
                 />
-                <span className="flex-1 text-sm text-foreground break-words min-w-0">{tCat(r.categoryId, "name")}</span>
+                <span className="flex-1 text-sm text-foreground break-words min-w-0">
+                  {tCat(r.categoryId, "name")}
+                </span>
                 <span
                   className={`text-xs tabular-nums ${
-                    severity === "high" ? "text-destructive font-medium" : "text-muted-foreground"
+                    severity === "high"
+                      ? "text-destructive font-medium"
+                      : "text-muted-foreground"
                   }`}
                 >
-                  {months > 0 ? `${months} ${t("monthsAgo")}` : `${days} ${t("daysAgo")}`}
+                  {months > 0
+                    ? `${months} ${t("monthsAgo")}`
+                    : `${days} ${t("daysAgo")}`}
                 </span>
                 <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
               </button>
@@ -193,7 +223,8 @@ export default function Dashboard({
   const { t, tCat, tBio } = i18n;
 
   const reminders = useMemo(
-    () => (userData.daysSince ?? []).filter((d) => d.days != null && d.days > 180),
+    () =>
+      (userData.daysSince ?? []).filter((d) => d.days != null && d.days > 180),
     [userData.daysSince],
   );
   const correlations = userData.correlations ?? [];
@@ -211,22 +242,45 @@ export default function Dashboard({
   return (
     <>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-foreground">{t("allResults")}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t("allResultsDesc")}</p>
+        <h2 className="text-2xl font-bold text-foreground">
+          {t("allResults")}
+        </h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          {t("allResultsDesc")}
+        </p>
       </div>
 
-      <AiAnalysis userData={userData} lang={lang} i18n={i18n} profileId={profileId} />
+      <AiAnalysis
+        userData={userData}
+        lang={lang}
+        i18n={i18n}
+        profileId={profileId}
+      />
 
-      <BioAgeCard results={bioAgeResults} isDark={isDark} i18n={i18n} missingMarkers={missingBioAgeMarkers} />
+      <BioAgeCard
+        results={bioAgeResults}
+        isDark={isDark}
+        i18n={i18n}
+        missingMarkers={missingBioAgeMarkers}
+      />
 
-      {reminders.length > 0 && <RemindersSection reminders={reminders} tCat={tCat} t={t} onNavigate={onNavigate} />}
+      {reminders.length > 0 && (
+        <RemindersSection
+          reminders={reminders}
+          tCat={tCat}
+          t={t}
+          onNavigate={onNavigate}
+        />
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
         {categories.map((cat) => {
           const total = cat.biomarkers.length;
           const outCount = countOutOfRange(cat);
           const border =
-            outCount > 0 ? "border-destructive/40 hover:border-destructive/60" : "border-border hover:border-ring";
+            outCount > 0
+              ? "border-destructive/40 hover:border-destructive/60"
+              : "border-border hover:border-ring";
           const bg = outCount > 0 ? "bg-destructive/5" : "bg-card";
 
           return (
@@ -274,16 +328,22 @@ export default function Dashboard({
             <Link2 className="w-5 h-5" />
             {t("correlations")}
           </h3>
-          <p className="text-sm text-muted-foreground mb-4">{t("correlationsDesc")}</p>
+          <p className="text-sm text-muted-foreground mb-4">
+            {t("correlationsDesc")}
+          </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {correlations.map((group) => {
-              const bios = group.matched.map((id) => bioLookup[id]).filter(Boolean);
+              const bios = group.matched
+                .map((id) => bioLookup[id])
+                .filter(Boolean);
               const outCount = bios.filter((b) => b.latestOutOfRange).length;
 
               return (
                 <Card key={group.id} className="p-4">
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-sm font-semibold text-foreground">{t(group.id)}</h4>
+                    <h4 className="text-sm font-semibold text-foreground">
+                      {t(group.id)}
+                    </h4>
                     {outCount > 0 ? (
                       <Badge variant="destructive">
                         {outCount} {t("flagged")}
@@ -298,7 +358,8 @@ export default function Dashboard({
                       const val = latest?.value;
                       const out =
                         typeof val === "number" &&
-                        ((bio.refMin != null && val < bio.refMin) || (bio.refMax != null && val > bio.refMax));
+                        ((bio.refMin != null && val < bio.refMin) ||
+                          (bio.refMax != null && val > bio.refMax));
                       const formatted =
                         typeof val === "number"
                           ? Number.isInteger(val)
@@ -307,8 +368,13 @@ export default function Dashboard({
                           : (val ?? "\u2014");
 
                       return (
-                        <div key={bio.id} className="flex items-center justify-between text-sm">
-                          <span className={`${out ? "text-destructive" : "text-foreground"}`}>
+                        <div
+                          key={bio.id}
+                          className="flex items-center justify-between text-sm"
+                        >
+                          <span
+                            className={`${out ? "text-destructive" : "text-foreground"}`}
+                          >
                             {tBio(bio.id, "name")}
                           </span>
                           <span

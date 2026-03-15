@@ -1,6 +1,7 @@
 import { describe, test, expect } from "bun:test";
-import { convert, convertRange, canConvert, getDisplayUnit } from "./units";
+
 import { UnitSystem } from "./types";
+import { convert, convertRange, canConvert, getDisplayUnit } from "./units";
 
 describe("convert", () => {
   describe("same unit → no conversion", () => {
@@ -205,10 +206,18 @@ describe("canConvert", () => {
 
 describe("getDisplayUnit", () => {
   test("conventional mode returns conventionalUnit when different from stored", () => {
-    expect(getDisplayUnit("µkat/l", "U/L", UnitSystem.Conventional)).toBe("U/L");
-    expect(getDisplayUnit("mmol/l", "mg/dL", UnitSystem.Conventional)).toBe("mg/dL");
-    expect(getDisplayUnit("µmol/l", "µg/dL", UnitSystem.Conventional)).toBe("µg/dL");
-    expect(getDisplayUnit("nmol/l", "ng/mL", UnitSystem.Conventional)).toBe("ng/mL");
+    expect(getDisplayUnit("µkat/l", "U/L", UnitSystem.Conventional)).toBe(
+      "U/L",
+    );
+    expect(getDisplayUnit("mmol/l", "mg/dL", UnitSystem.Conventional)).toBe(
+      "mg/dL",
+    );
+    expect(getDisplayUnit("µmol/l", "µg/dL", UnitSystem.Conventional)).toBe(
+      "µg/dL",
+    );
+    expect(getDisplayUnit("nmol/l", "ng/mL", UnitSystem.Conventional)).toBe(
+      "ng/mL",
+    );
   });
 
   test("conventional mode returns null when no conventionalUnit defined", () => {
@@ -218,8 +227,12 @@ describe("getDisplayUnit", () => {
   });
 
   test("conventional mode returns null when stored is already conventional", () => {
-    expect(getDisplayUnit("mg/dL", "mg/dL", UnitSystem.Conventional)).toBeNull();
-    expect(getDisplayUnit("ng/mL", "ng/mL", UnitSystem.Conventional)).toBeNull();
+    expect(
+      getDisplayUnit("mg/dL", "mg/dL", UnitSystem.Conventional),
+    ).toBeNull();
+    expect(
+      getDisplayUnit("ng/mL", "ng/mL", UnitSystem.Conventional),
+    ).toBeNull();
   });
 
   test("SI mode always returns null (stored unit is already SI)", () => {

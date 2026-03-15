@@ -1,4 +1,3 @@
-import { useState, useCallback, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Pencil,
@@ -15,19 +14,22 @@ import {
   Globe,
   Link,
 } from "lucide-react";
-import { authClient } from "../lib/auth-client.ts";
-import { api, type ProfileSummary } from "../lib/api.ts";
-import { track, Event } from "../lib/analytics.ts";
-import type { I18n } from "../types.ts";
-import { Sex, UnitSystem } from "../types.ts";
-import { errorMessage } from "../lib/utils.ts";
+import { useState, useCallback, useRef } from "react";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { DatePicker } from "@/components/ui/date-picker";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Checkbox } from "@/components/ui/checkbox";
+
+import { track, Event } from "../lib/analytics.ts";
+import { api, type ProfileSummary } from "../lib/api.ts";
+import { authClient } from "../lib/auth-client.ts";
+import { errorMessage } from "../lib/utils.ts";
+import type { I18n } from "../types.ts";
+import { Sex, UnitSystem } from "../types.ts";
 
 interface SettingsViewProps {
   i18n: I18n;
@@ -124,13 +126,19 @@ function ProfilesSection({
                 onDeleted={onProfileDeleted}
                 onExport={onExport}
                 onMoveUp={i > 0 ? () => moveProfile(i, -1) : undefined}
-                onMoveDown={i < profiles.length - 1 ? () => moveProfile(i, 1) : undefined}
+                onMoveDown={
+                  i < profiles.length - 1 ? () => moveProfile(i, 1) : undefined
+                }
               />
             ))}
           </div>
         )}
         {onCreateProfile && (
-          <Button variant="outline" onClick={onCreateProfile} className="w-full">
+          <Button
+            variant="outline"
+            onClick={onCreateProfile}
+            className="w-full"
+          >
             <PlusCircle className="w-4 h-4" />
             {t("createProfile")}
           </Button>
@@ -197,7 +205,12 @@ function ProfileRow({
   if (editing) {
     return (
       <div className="border border-primary rounded-lg p-4 space-y-3">
-        <Input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("profileName")} />
+        <Input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder={t("profileName")}
+        />
         <div className="flex gap-2">
           <DatePicker value={dob} onChange={setDob} className="flex-1" />
           <ToggleGroup
@@ -209,7 +222,9 @@ function ProfileRow({
             }}
           >
             <ToggleGroupItem value={Sex.Male}>{t("sexMale")}</ToggleGroupItem>
-            <ToggleGroupItem value={Sex.Female}>{t("sexFemale")}</ToggleGroupItem>
+            <ToggleGroupItem value={Sex.Female}>
+              {t("sexFemale")}
+            </ToggleGroupItem>
           </ToggleGroup>
         </div>
         {error && <p className="text-xs text-destructive">{error}</p>}
@@ -226,7 +241,11 @@ function ProfileRow({
           >
             <X className="w-4 h-4" />
           </Button>
-          <Button size="sm" onClick={handleSave} disabled={saving || !name.trim()}>
+          <Button
+            size="sm"
+            onClick={handleSave}
+            disabled={saving || !name.trim()}
+          >
             <Check className="w-4 h-4" />
           </Button>
         </div>
@@ -239,10 +258,20 @@ function ProfileRow({
       <div className="flex items-center gap-2 sm:gap-3 p-3 hover:bg-muted transition-colors">
         {(onMoveUp || onMoveDown) && (
           <div className="flex flex-col gap-0.5 shrink-0">
-            <Button variant="ghost" size="icon-xs" onClick={onMoveUp} disabled={!onMoveUp}>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              onClick={onMoveUp}
+              disabled={!onMoveUp}
+            >
               <ChevronUp className="w-3.5 h-3.5" />
             </Button>
-            <Button variant="ghost" size="icon-xs" onClick={onMoveDown} disabled={!onMoveDown}>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              onClick={onMoveDown}
+              disabled={!onMoveDown}
+            >
               <ChevronDown className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -250,10 +279,13 @@ function ProfileRow({
         <div className="flex-1 min-w-0">
           <div className="text-sm font-medium text-foreground truncate">
             {profile.name}
-            {profile.isPublic && <Globe className="w-3 h-3 inline ml-1.5 text-emerald-500" />}
+            {profile.isPublic && (
+              <Globe className="w-3 h-3 inline ml-1.5 text-emerald-500" />
+            )}
           </div>
           <div className="text-xs text-muted-foreground">
-            {profile.dateOfBirth} · {profile.sex === Sex.Male ? t("sexMale") : t("sexFemale")}
+            {profile.dateOfBirth} ·{" "}
+            {profile.sex === Sex.Male ? t("sexMale") : t("sexFemale")}
           </div>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
@@ -265,10 +297,20 @@ function ProfileRow({
           >
             <Link className="w-4 h-4" />
           </Button>
-          <Button variant="outline" size="icon-sm" onClick={handleExport} title={t("export")}>
+          <Button
+            variant="outline"
+            size="icon-sm"
+            onClick={handleExport}
+            title={t("export")}
+          >
             <Download className="w-4 h-4" />
           </Button>
-          <Button variant="outline" size="icon-sm" onClick={() => setEditing(true)} title={t("settingsEditProfile")}>
+          <Button
+            variant="outline"
+            size="icon-sm"
+            onClick={() => setEditing(true)}
+            title={t("settingsEditProfile")}
+          >
             <Pencil className="w-4 h-4" />
           </Button>
           {confirmDelete ? (
@@ -282,7 +324,11 @@ function ProfileRow({
               >
                 <Check className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="icon-sm" onClick={() => setConfirmDelete(false)}>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={() => setConfirmDelete(false)}
+              >
                 <X className="w-4 h-4" />
               </Button>
             </div>
@@ -299,7 +345,9 @@ function ProfileRow({
           )}
         </div>
       </div>
-      {showShare && <ShareProfileSection profile={profile} t={t} onUpdated={onUpdated} />}
+      {showShare && (
+        <ShareProfileSection profile={profile} t={t} onUpdated={onUpdated} />
+      )}
     </div>
   );
 }
@@ -322,7 +370,8 @@ function ShareProfileSection({
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const handleRegex = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/;
-  const isValidHandle = handle.length >= 3 && handle.length <= 40 && handleRegex.test(handle);
+  const isValidHandle =
+    handle.length >= 3 && handle.length <= 40 && handleRegex.test(handle);
   const publicUrl = `${window.location.origin}/p/${handle}`;
 
   const checkHandle = useCallback(
@@ -357,29 +406,43 @@ function ShareProfileSection({
     }
   };
 
-  const hasChanges = isPublic !== profile.isPublic || (isPublic && handle !== (profile.publicHandle ?? ""));
+  const hasChanges =
+    isPublic !== profile.isPublic ||
+    (isPublic && handle !== (profile.publicHandle ?? ""));
 
   return (
     <div className="border-t border-border p-3 space-y-3 bg-muted/30">
       <div className="flex items-start gap-3">
-        <Checkbox checked={isPublic} onCheckedChange={(checked) => setIsPublic(checked === true)} className="mt-0.5" />
+        <Checkbox
+          checked={isPublic}
+          onCheckedChange={(checked) => setIsPublic(checked === true)}
+          className="mt-0.5"
+        />
         <div className="flex-1 min-w-0">
           <Label className="text-sm font-medium">{t("shareProfile")}</Label>
-          <p className="text-xs text-muted-foreground mt-0.5">{t("shareProfileDesc")}</p>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {t("shareProfileDesc")}
+          </p>
         </div>
       </div>
 
       {isPublic && (
         <div className="space-y-2 pl-7">
           <div>
-            <Label className="text-xs text-muted-foreground mb-1">{t("publicHandle")}</Label>
+            <Label className="text-xs text-muted-foreground mb-1">
+              {t("publicHandle")}
+            </Label>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground shrink-0">/p/</span>
+              <span className="text-xs text-muted-foreground shrink-0">
+                /p/
+              </span>
               <Input
                 type="text"
                 value={handle}
                 onChange={(e) => {
-                  const v = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "");
+                  const v = e.target.value
+                    .toLowerCase()
+                    .replace(/[^a-z0-9-]/g, "");
                   setHandle(v);
                   checkHandle(v);
                 }}
@@ -405,27 +468,35 @@ function ShareProfileSection({
             )}
           </div>
 
-          {isValidHandle && profile.isPublic && profile.publicHandle === handle && (
-            <div>
-              <Label className="text-xs text-muted-foreground mb-1">{t("publicProfileUrl")}</Label>
-              <div className="flex items-center gap-2">
-                <code className="flex-1 px-2 py-1 rounded border border-border bg-muted text-xs font-mono truncate">
-                  {publicUrl}
-                </code>
-                <Button
-                  variant="outline"
-                  size="xs"
-                  onClick={() => {
-                    navigator.clipboard.writeText(publicUrl);
-                    setCopiedUrl(true);
-                    setTimeout(() => setCopiedUrl(false), 2000);
-                  }}
-                >
-                  {copiedUrl ? <CheckCheck className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                </Button>
+          {isValidHandle &&
+            profile.isPublic &&
+            profile.publicHandle === handle && (
+              <div>
+                <Label className="text-xs text-muted-foreground mb-1">
+                  {t("publicProfileUrl")}
+                </Label>
+                <div className="flex items-center gap-2">
+                  <code className="flex-1 px-2 py-1 rounded border border-border bg-muted text-xs font-mono truncate">
+                    {publicUrl}
+                  </code>
+                  <Button
+                    variant="outline"
+                    size="xs"
+                    onClick={() => {
+                      navigator.clipboard.writeText(publicUrl);
+                      setCopiedUrl(true);
+                      setTimeout(() => setCopiedUrl(false), 2000);
+                    }}
+                  >
+                    {copiedUrl ? (
+                      <CheckCheck className="w-3 h-3 text-emerald-600" />
+                    ) : (
+                      <Copy className="w-3 h-3" />
+                    )}
+                  </Button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       )}
 
@@ -434,7 +505,9 @@ function ShareProfileSection({
           <Button
             size="sm"
             onClick={handleSave}
-            disabled={saving || (isPublic && (!isValidHandle || available === false))}
+            disabled={
+              saving || (isPublic && (!isValidHandle || available === false))
+            }
           >
             {saving ? "..." : t("settingsSave")}
           </Button>
@@ -444,7 +517,13 @@ function ShareProfileSection({
   );
 }
 
-function AccountSection({ t, authEmail }: { t: (key: string) => string; authEmail: string | null }) {
+function AccountSection({
+  t,
+  authEmail,
+}: {
+  t: (key: string) => string;
+  authEmail: string | null;
+}) {
   return (
     <Card>
       <CardHeader>
@@ -458,9 +537,17 @@ function AccountSection({ t, authEmail }: { t: (key: string) => string; authEmai
   );
 }
 
-function ChangeEmailForm({ t, currentEmail }: { t: (key: string) => string; currentEmail: string | null }) {
+function ChangeEmailForm({
+  t,
+  currentEmail,
+}: {
+  t: (key: string) => string;
+  currentEmail: string | null;
+}) {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">(
+    "idle",
+  );
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -490,11 +577,21 @@ function ChangeEmailForm({ t, currentEmail }: { t: (key: string) => string; curr
           placeholder={currentEmail || t("settingsNewEmail")}
           className="flex-1"
         />
-        <Button type="submit" size="sm" disabled={!email.trim() || status === "saving"}>
-          {status === "saving" ? "..." : status === "saved" ? t("settingsSaved") : t("settingsSave")}
+        <Button
+          type="submit"
+          size="sm"
+          disabled={!email.trim() || status === "saving"}
+        >
+          {status === "saving"
+            ? "..."
+            : status === "saved"
+              ? t("settingsSaved")
+              : t("settingsSave")}
         </Button>
       </div>
-      {status === "error" && <p className="text-xs text-destructive">{error}</p>}
+      {status === "error" && (
+        <p className="text-xs text-destructive">{error}</p>
+      )}
     </form>
   );
 }
@@ -502,7 +599,9 @@ function ChangeEmailForm({ t, currentEmail }: { t: (key: string) => string; curr
 function ChangePasswordForm({ t }: { t: (key: string) => string }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">(
+    "idle",
+  );
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -539,16 +638,32 @@ function ChangePasswordForm({ t }: { t: (key: string) => string }) {
           placeholder={t("settingsNewPassword")}
           className="flex-1"
         />
-        <Button type="submit" size="sm" disabled={!currentPassword || !newPassword || status === "saving"}>
-          {status === "saving" ? "..." : status === "saved" ? t("settingsSaved") : t("settingsSave")}
+        <Button
+          type="submit"
+          size="sm"
+          disabled={!currentPassword || !newPassword || status === "saving"}
+        >
+          {status === "saving"
+            ? "..."
+            : status === "saved"
+              ? t("settingsSaved")
+              : t("settingsSave")}
         </Button>
       </div>
-      {status === "error" && <p className="text-xs text-destructive">{error}</p>}
+      {status === "error" && (
+        <p className="text-xs text-destructive">{error}</p>
+      )}
     </form>
   );
 }
 
-function ImportSection({ t, onImport }: { t: (key: string) => string; onImport: (file: File) => void }) {
+function ImportSection({
+  t,
+  onImport,
+}: {
+  t: (key: string) => string;
+  onImport: (file: File) => void;
+}) {
   const importRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -557,7 +672,9 @@ function ImportSection({ t, onImport }: { t: (key: string) => string; onImport: 
         <CardTitle>{t("import")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-sm text-muted-foreground">{t("importSettingsDesc")}</p>
+        <p className="text-sm text-muted-foreground">
+          {t("importSettingsDesc")}
+        </p>
         <input
           ref={importRef}
           type="file"
@@ -617,7 +734,11 @@ function McpSection({ t }: { t: (key: string) => string }) {
               <code className="flex-1 px-3 py-2 rounded-lg border border-input bg-muted text-sm font-mono truncate">
                 {mcpUrl}
               </code>
-              <Button variant="outline" size="sm" onClick={() => copyToClipboard(mcpUrl, "url")}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => copyToClipboard(mcpUrl, "url")}
+              >
                 {copiedField === "url" ? (
                   <CheckCheck className="w-4 h-4 text-green-600" />
                 ) : (
@@ -680,7 +801,11 @@ function CliSection({ t }: { t: (key: string) => string }) {
               {installCmd}
             </code>
             <Button variant="outline" size="sm" onClick={copyToClipboard}>
-              {copied ? <CheckCheck className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+              {copied ? (
+                <CheckCheck className="w-4 h-4 text-green-600" />
+              ) : (
+                <Copy className="w-4 h-4" />
+              )}
             </Button>
           </div>
         </div>
@@ -689,7 +814,13 @@ function CliSection({ t }: { t: (key: string) => string }) {
   );
 }
 
-function UnitSystemSection({ t, onUpdated }: { t: (key: string) => string; onUpdated: () => void }) {
+function UnitSystemSection({
+  t,
+  onUpdated,
+}: {
+  t: (key: string) => string;
+  onUpdated: () => void;
+}) {
   const queryClient = useQueryClient();
   const { data: prefs, isLoading: loading } = useQuery({
     queryKey: ["preferences"],
@@ -715,7 +846,9 @@ function UnitSystemSection({ t, onUpdated }: { t: (key: string) => string; onUpd
         <CardTitle>{t("settingsUnitSystem")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-sm text-muted-foreground">{t("settingsUnitSystemDesc")}</p>
+        <p className="text-sm text-muted-foreground">
+          {t("settingsUnitSystemDesc")}
+        </p>
         {loading ? (
           <div className="h-9" />
         ) : (
@@ -724,11 +857,19 @@ function UnitSystemSection({ t, onUpdated }: { t: (key: string) => string; onUpd
             value={[unitSystem]}
             onValueChange={(val) => {
               const picked = (val as string[]).find((v) => v !== unitSystem);
-              if (picked === UnitSystem.SI || picked === UnitSystem.Conventional) handleChange(picked);
+              if (
+                picked === UnitSystem.SI ||
+                picked === UnitSystem.Conventional
+              )
+                handleChange(picked);
             }}
           >
-            <ToggleGroupItem value={UnitSystem.SI}>{t("settingsUnitSI")}</ToggleGroupItem>
-            <ToggleGroupItem value={UnitSystem.Conventional}>{t("settingsUnitConventional")}</ToggleGroupItem>
+            <ToggleGroupItem value={UnitSystem.SI}>
+              {t("settingsUnitSI")}
+            </ToggleGroupItem>
+            <ToggleGroupItem value={UnitSystem.Conventional}>
+              {t("settingsUnitConventional")}
+            </ToggleGroupItem>
           </ToggleGroup>
         )}
       </CardContent>
@@ -736,7 +877,13 @@ function UnitSystemSection({ t, onUpdated }: { t: (key: string) => string; onUpd
   );
 }
 
-function DangerZoneSection({ t, onDeleteAccount }: { t: (key: string) => string; onDeleteAccount: () => void }) {
+function DangerZoneSection({
+  t,
+  onDeleteAccount,
+}: {
+  t: (key: string) => string;
+  onDeleteAccount: () => void;
+}) {
   const [confirmText, setConfirmText] = useState("");
   const [deleting, setDeleting] = useState(false);
 
@@ -749,10 +896,14 @@ function DangerZoneSection({ t, onDeleteAccount }: { t: (key: string) => string;
   return (
     <Card className="ring-destructive/30">
       <CardHeader>
-        <CardTitle className="text-destructive">{t("settingsDangerZone")}</CardTitle>
+        <CardTitle className="text-destructive">
+          {t("settingsDangerZone")}
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-sm text-muted-foreground">{t("settingsDeleteAccountDesc")}</p>
+        <p className="text-sm text-muted-foreground">
+          {t("settingsDeleteAccountDesc")}
+        </p>
         <div className="flex gap-2">
           <Input
             type="text"
@@ -761,7 +912,11 @@ function DangerZoneSection({ t, onDeleteAccount }: { t: (key: string) => string;
             placeholder={t("settingsDeleteAccountConfirm")}
             className="flex-1 focus-visible:border-destructive focus-visible:ring-destructive/50"
           />
-          <Button variant="destructive" onClick={handleDelete} disabled={confirmText !== "DELETE" || deleting}>
+          <Button
+            variant="destructive"
+            onClick={handleDelete}
+            disabled={confirmText !== "DELETE" || deleting}
+          >
             {deleting ? "..." : t("settingsDeleteAccount")}
           </Button>
         </div>

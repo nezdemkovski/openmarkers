@@ -1,5 +1,9 @@
+import { existsSync } from "node:fs";
+import { join, resolve } from "node:path";
+
 import { verifyToken } from "@openmarkers/db";
 import { createMcpHandler } from "@openmarkers/mcp-server";
+
 import {
   handleASMetadata,
   handleRSMetadata,
@@ -8,7 +12,18 @@ import {
   handleToken,
   handleOAuthPreflight,
 } from "./oauth.ts";
-import { json, error, ALLOWED_ORIGIN, SECURITY_HEADERS } from "./routes/_shared.ts";
+import {
+  json,
+  error,
+  ALLOWED_ORIGIN,
+  SECURITY_HEADERS,
+} from "./routes/_shared.ts";
+import { handleDeleteAccount } from "./routes/account.ts";
+import {
+  handleListCategories,
+  handleListBiomarkers,
+} from "./routes/biomarkers.ts";
+import { handleImportCheck, handleImport } from "./routes/import.ts";
 import {
   handleListProfiles,
   handleGetProfile,
@@ -28,22 +43,22 @@ import {
   handleAnalysisPrompt,
 } from "./routes/profiles.ts";
 import {
+  handleListPublicProfiles,
+  handleGetPublicProfile,
+} from "./routes/public.ts";
+import {
   handleListResults,
   handleAddResult,
   handleBatchResults,
   handleUpdateResult,
   handleDeleteResult,
 } from "./routes/results.ts";
-import { handleListCategories, handleListBiomarkers } from "./routes/biomarkers.ts";
-import { handleImportCheck, handleImport } from "./routes/import.ts";
-import { handleDeleteAccount } from "./routes/account.ts";
-import { handleListPublicProfiles, handleGetPublicProfile } from "./routes/public.ts";
-import { join, resolve } from "node:path";
-import { existsSync } from "node:fs";
 
 const MAX_BODY_SIZE = 5 * 1024 * 1024;
 
-async function requireAuth(req: Request): Promise<{ userId: string } | Response> {
+async function requireAuth(
+  req: Request,
+): Promise<{ userId: string } | Response> {
   const authHeader = req.headers.get("authorization");
   if (authHeader?.startsWith("Bearer ")) {
     const result = await verifyToken(authHeader.slice(7));
@@ -52,7 +67,9 @@ async function requireAuth(req: Request): Promise<{ userId: string } | Response>
   return error("Unauthorized", 401);
 }
 
-function authResult(result: { userId: string } | Response): result is { userId: string } {
+function authResult(
+  result: { userId: string } | Response,
+): result is { userId: string } {
   return "userId" in result;
 }
 
@@ -91,11 +108,18 @@ export function startWebServer(opts: {
     },
   });
 
-  async function handleRequest(req: Request, url: URL, path: string, method: string): Promise<Response> {
-    if (method === "GET" && path === "/.well-known/oauth-authorization-server") return handleASMetadata(req);
+  async function handleRequest(
+    req: Request,
+    url: URL,
+    path: string,
+    method: string,
+  ): Promise<Response> {
+    if (method === "GET" && path === "/.well-known/oauth-authorization-server")
+      return handleASMetadata(req);
     if (
       method === "GET" &&
-      (path === "/.well-known/oauth-protected-resource/mcp" || path === "/.well-known/oauth-protected-resource")
+      (path === "/.well-known/oauth-protected-resource/mcp" ||
+        path === "/.well-known/oauth-protected-resource")
     )
       return handleRSMetadata(req);
 
@@ -104,7 +128,8 @@ export function startWebServer(opts: {
       if (method === "POST") return handleRegister(req);
     }
 
-    if (path === "/authorize" && (method === "GET" || method === "POST")) return handleAuthorize(req);
+    if (path === "/authorize" && (method === "GET" || method === "POST"))
+      return handleAuthorize(req);
 
     if (path === "/token") {
       if (method === "OPTIONS") return handleOAuthPreflight();
@@ -112,7 +137,14 @@ export function startWebServer(opts: {
     }
 
     if (method === "GET" && path === "/schema.json") {
-      const schemaPath = join(import.meta.dir, "..", "..", "..", "data", "schema.json");
+      const schemaPath = join(
+        import.meta.dir,
+        "..",
+        "..",
+        "..",
+        "data",
+        "schema.json",
+      );
       const file = Bun.file(schemaPath);
       if (await file.exists()) {
         return new Response(file, {
@@ -126,10 +158,14 @@ export function startWebServer(opts: {
       return error("Schema not found", 404);
     }
 
-    if (method === "GET" && path === "/api/public") return handleListPublicProfiles();
+    if (method === "GET" && path === "/api/public")
+      return handleListPublicProfiles();
 
-    const publicHandleMatch = path.match(/^\/api\/public\/([a-z0-9][a-z0-9-]*[a-z0-9]|[a-z0-9]{1,2})$/);
-    if (method === "GET" && publicHandleMatch) return handleGetPublicProfile(publicHandleMatch[1]);
+    const publicHandleMatch = path.match(
+      /^\/api\/public\/([a-z0-9][a-z0-9-]*[a-z0-9]|[a-z0-9]{1,2})$/,
+    );
+    if (method === "GET" && publicHandleMatch)
+      return handleGetPublicProfile(publicHandleMatch[1]);
 
     if (method === "OPTIONS") {
       return new Response(null, {
@@ -146,8 +182,12 @@ export function startWebServer(opts: {
     if (path === "/mcp" && mcpHandler) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) {
-        const proto = req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
-        const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || url.host;
+        const proto =
+          req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
+        const host =
+          req.headers.get("x-forwarded-host") ||
+          req.headers.get("host") ||
+          url.host;
         const baseUrl = `${proto}://${host}`;
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
           status: 401,
@@ -214,7 +254,9 @@ export function startWebServer(opts: {
       return handleCompare(url, auth, Number(compareMatch[1]));
     }
 
-    const correlationsMatch = path.match(/^\/api\/profiles\/(\d+)\/correlations$/);
+    const correlationsMatch = path.match(
+      /^\/api\/profiles\/(\d+)\/correlations$/,
+    );
     if (method === "GET" && correlationsMatch) {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
@@ -322,7 +364,10 @@ export function startWebServer(opts: {
       const { updateUserPreferences } = await import("@openmarkers/db");
       const body = await req.json();
       const { UnitSystem } = await import("@openmarkers/db/src/types");
-      if (!body.unit_system || !Object.values(UnitSystem).includes(body.unit_system)) {
+      if (
+        !body.unit_system ||
+        !Object.values(UnitSystem).includes(body.unit_system)
+      ) {
         return error("Invalid unit_system");
       }
       return json(await updateUserPreferences(auth.userId, body));
@@ -347,13 +392,22 @@ export function startWebServer(opts: {
     }
 
     if (hasFrontend) {
-      const filePath = resolve(resolvedPublicDir, path === "/" ? "index.html" : path.slice(1));
-      if (!filePath.startsWith(resolvedPublicDir + "/") && filePath !== resolvedPublicDir) {
+      const filePath = resolve(
+        resolvedPublicDir,
+        path === "/" ? "index.html" : path.slice(1),
+      );
+      if (
+        !filePath.startsWith(resolvedPublicDir + "/") &&
+        filePath !== resolvedPublicDir
+      ) {
         return error("Forbidden", 403);
       }
       const file = Bun.file(filePath);
-      if (await file.exists()) return new Response(file, { headers: SECURITY_HEADERS });
-      return new Response(Bun.file(join(resolvedPublicDir, "index.html")), { headers: SECURITY_HEADERS });
+      if (await file.exists())
+        return new Response(file, { headers: SECURITY_HEADERS });
+      return new Response(Bun.file(join(resolvedPublicDir, "index.html")), {
+        headers: SECURITY_HEADERS,
+      });
     }
 
     return error("Not found", 404);

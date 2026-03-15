@@ -1,6 +1,15 @@
 import type { Category, PhenoAgeResult, PhenoAgeScore } from "./types";
 
-const REQUIRED_IDS = ["S-ALB", "S-CREA", "P-P-GLU", "B-lymf", "B-MCV", "B-RDW", "S-ALP", "B-WBC"];
+const REQUIRED_IDS = [
+  "S-ALB",
+  "S-CREA",
+  "P-P-GLU",
+  "B-lymf",
+  "B-MCV",
+  "B-RDW",
+  "S-ALP",
+  "B-WBC",
+];
 const CRP_IDS = ["S-hsCRP", "S-CRP"];
 
 const SCORE_META: Record<string, { label: string; unit: string }> = {
@@ -60,7 +69,10 @@ export function getMissingPhenoAgeMarkers(categories: Category[]): string[] {
   return missing;
 }
 
-export function calculatePhenoAge(categories: Category[], dateOfBirth: string): PhenoAgeResult[] {
+export function calculatePhenoAge(
+  categories: Category[],
+  dateOfBirth: string,
+): PhenoAgeResult[] {
   const bioEntries = new Map<string, { date: string; value: number }[]>();
   const bioRefs = new Map<string, { refMin?: number; refMax?: number }>();
   for (const cat of categories) {
@@ -68,7 +80,8 @@ export function calculatePhenoAge(categories: Category[], dateOfBirth: string): 
       if (!REQUIRED_IDS.includes(bio.id) && !CRP_IDS.includes(bio.id)) continue;
       const entries: { date: string; value: number }[] = [];
       for (const r of bio.results) {
-        if (typeof r.value === "number") entries.push({ date: r.date, value: r.value });
+        if (typeof r.value === "number")
+          entries.push({ date: r.date, value: r.value });
       }
       entries.sort((a, b) => a.date.localeCompare(b.date));
       bioEntries.set(bio.id, entries);
@@ -79,7 +92,10 @@ export function calculatePhenoAge(categories: Category[], dateOfBirth: string): 
     }
   }
 
-  function latestBefore(id: string, date: string): { value: number; date: string } | undefined {
+  function latestBefore(
+    id: string,
+    date: string,
+  ): { value: number; date: string } | undefined {
     const entries = bioEntries.get(id);
     if (!entries) return undefined;
     let result: { value: number; date: string } | undefined;
@@ -154,14 +170,22 @@ export function calculatePhenoAge(categories: Category[], dateOfBirth: string): 
     }
     const age = chronoAge(dateOfBirth, date);
     xb += AGE_COEFF * age;
-    scores.push({ id: "Age", value: age, unit: "yrs", score: Math.round(AGE_COEFF * age * 100) / 100, date });
+    scores.push({
+      id: "Age",
+      value: age,
+      unit: "yrs",
+      score: Math.round(AGE_COEFF * age * 100) / 100,
+      date,
+    });
 
     let M = 1 - Math.exp(-Math.exp(xb) * GOMPERTZ_MULT);
     M = Math.min(M, 0.99999);
 
-    const phenoAge = 141.50225 + Math.log(-0.00553 * Math.log(1 - M)) / 0.090165;
+    const phenoAge =
+      141.50225 + Math.log(-0.00553 * Math.log(1 - M)) / 0.090165;
 
-    const dnamAge = phenoAge / (1 + 1.28047 * Math.exp(0.0344329 * (phenoAge - 182.344)));
+    const dnamAge =
+      phenoAge / (1 + 1.28047 * Math.exp(0.0344329 * (phenoAge - 182.344)));
 
     const dnamInner = Math.exp((dnamAge - 141.50225) * 0.090165);
     const dnamM = 1 - Math.exp(dnamInner / -0.00553);

@@ -1,9 +1,18 @@
 import { useState } from "react";
-import ResultEditor from "./ResultEditor.tsx";
-import type { Biomarker, I18n } from "../types.ts";
-import { Card } from "@/components/ui/card";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
+
+import type { Biomarker, I18n } from "../types.ts";
+import ResultEditor from "./ResultEditor.tsx";
 
 interface QualitativeTableProps {
   biomarkers: Biomarker[];
@@ -12,8 +21,15 @@ interface QualitativeTableProps {
   onMutate?: () => void;
 }
 
-export default function QualitativeTable({ biomarkers, i18n, profileId, onMutate }: QualitativeTableProps) {
-  const [editingBiomarker, setEditingBiomarker] = useState<Biomarker | null>(null);
+export default function QualitativeTable({
+  biomarkers,
+  i18n,
+  profileId,
+  onMutate,
+}: QualitativeTableProps) {
+  const [editingBiomarker, setEditingBiomarker] = useState<Biomarker | null>(
+    null,
+  );
   const { t, tBio } = i18n;
   if (biomarkers.length === 0) return null;
 
@@ -23,7 +39,9 @@ export default function QualitativeTable({ biomarkers, i18n, profileId, onMutate
 
   return (
     <Card className="p-4 mb-6">
-      <h3 className="text-sm font-semibold text-foreground mb-3">{t("qualitativeResults")}</h3>
+      <h3 className="text-sm font-semibold text-foreground mb-3">
+        {t("qualitativeResults")}
+      </h3>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -31,7 +49,11 @@ export default function QualitativeTable({ biomarkers, i18n, profileId, onMutate
               <TableHead className="text-xs">{t("test")}</TableHead>
               {dates.map((d) => (
                 <TableHead key={d} className="text-xs text-center">
-                  {new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "2-digit" })}
+                  {new Date(d).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "2-digit",
+                  })}
                 </TableHead>
               ))}
             </TableRow>
@@ -40,9 +62,15 @@ export default function QualitativeTable({ biomarkers, i18n, profileId, onMutate
             {biomarkers.map((b) => (
               <TableRow key={b.id}>
                 <TableCell>
-                  <div className="text-sm font-medium text-foreground">{tBio(b.id, "name")}</div>
+                  <div className="text-sm font-medium text-foreground">
+                    {tBio(b.id, "name")}
+                  </div>
                   <div className="text-xs text-muted-foreground">{b.id}</div>
-                  {b.note && <div className="text-xs text-muted-foreground mt-0.5">{b.note}</div>}
+                  {b.note && (
+                    <div className="text-xs text-muted-foreground mt-0.5">
+                      {b.note}
+                    </div>
+                  )}
                   {profileId != null && onMutate && (
                     <Button
                       variant="link"
@@ -58,11 +86,16 @@ export default function QualitativeTable({ biomarkers, i18n, profileId, onMutate
                   const result = b.results.find((r) => r.date === d);
                   if (!result)
                     return (
-                      <TableCell key={d} className="text-center text-muted-foreground/40">
+                      <TableCell
+                        key={d}
+                        className="text-center text-muted-foreground/40"
+                      >
                         &mdash;
                       </TableCell>
                     );
-                  const isNeg = typeof result.value === "string" && result.value.toLowerCase() === "neg";
+                  const isNeg =
+                    typeof result.value === "string" &&
+                    result.value.toLowerCase() === "neg";
                   return (
                     <TableCell
                       key={d}

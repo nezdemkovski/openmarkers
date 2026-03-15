@@ -1,10 +1,13 @@
-import { renderLoginPage } from "./oauth-login.ts";
 import { oauthStore } from "@openmarkers/db";
+
+import { renderLoginPage } from "./oauth-login.ts";
 
 const NEON_AUTH_BASE_URL = process.env.NEON_AUTH_BASE_URL!;
 const OAUTH_SECRET = process.env.OAUTH_SECRET;
 if (!OAUTH_SECRET) {
-  throw new Error("OAUTH_SECRET environment variable is required. Generate one with: openssl rand -base64 32");
+  throw new Error(
+    "OAUTH_SECRET environment variable is required. Generate one with: openssl rand -base64 32",
+  );
 }
 
 let cryptoKey: CryptoKey | null = null;
@@ -13,7 +16,10 @@ async function getKey(): Promise<CryptoKey> {
   if (cryptoKey) return cryptoKey;
   const raw = new TextEncoder().encode(OAUTH_SECRET);
   const hash = await crypto.subtle.digest("SHA-256", raw);
-  cryptoKey = await crypto.subtle.importKey("raw", hash, "AES-GCM", false, ["encrypt", "decrypt"]);
+  cryptoKey = await crypto.subtle.importKey("raw", hash, "AES-GCM", false, [
+    "encrypt",
+    "decrypt",
+  ]);
   return cryptoKey;
 }
 
@@ -21,7 +27,11 @@ async function encrypt(plaintext: string): Promise<string> {
   const key = await getKey();
   const iv = crypto.getRandomValues(new Uint8Array(12));
   const encoded = new TextEncoder().encode(plaintext);
-  const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, encoded);
+  const ciphertext = await crypto.subtle.encrypt(
+    { name: "AES-GCM", iv },
+    key,
+    encoded,
+  );
   const combined = new Uint8Array(iv.length + ciphertext.byteLength);
   combined.set(iv);
   combined.set(new Uint8Array(ciphertext), iv.length);
@@ -33,7 +43,11 @@ async function decrypt(encoded: string): Promise<string> {
   const combined = Buffer.from(encoded, "base64");
   const iv = combined.subarray(0, 12);
   const ciphertext = combined.subarray(12);
-  const plaintext = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ciphertext);
+  const plaintext = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv },
+    key,
+    ciphertext,
+  );
   return new TextDecoder().decode(plaintext);
 }
 
@@ -72,7 +86,8 @@ async function signInViaNeonAuth(
       .filter((c) => c.includes("session_token") || c.includes("better-auth"))
       .join("; ");
 
-    const sessionCookie = headerCookie || `better-auth.session_token=${sessionToken}`;
+    const sessionCookie =
+      headerCookie || `better-auth.session_token=${sessionToken}`;
 
     const sessionRes = await fetch(`${base}/get-session`, {
       headers: { Cookie: sessionCookie },
@@ -96,7 +111,9 @@ async function signInViaNeonAuth(
   }
 }
 
-async function refreshViaNeonAuth(sessionCookie: string): Promise<string | null> {
+async function refreshViaNeonAuth(
+  sessionCookie: string,
+): Promise<string | null> {
   try {
     const base = NEON_AUTH_BASE_URL.replace(/\/+$/, "");
     const res = await fetch(`${base}/get-session`, {
@@ -116,13 +133,17 @@ function verifyPkce(codeVerifier: string, codeChallenge: string): boolean {
 }
 
 function generateCode(): string {
-  return Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString("hex");
+  return Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString(
+    "hex",
+  );
 }
 
 function getBaseUrl(req: Request): string {
   const url = new URL(req.url);
-  const proto = req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
-  const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || url.host;
+  const proto =
+    req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
+  const host =
+    req.headers.get("x-forwarded-host") || req.headers.get("host") || url.host;
   return `${proto}://${host}`;
 }
 
@@ -178,10 +199,18 @@ export function handleRegister(req: Request): Response | Promise<Response> {
       const clientName: string | undefined = body.client_name;
 
       if (!redirectUris.length) {
-        return Response.json({ error: "redirect_uris is required" }, { status: 400, headers: CORS_HEADERS });
+        return Response.json(
+          { error: "redirect_uris is required" },
+          { status: 400, headers: CORS_HEADERS },
+        );
       }
 
-      await oauthStore.registerClient({ clientId, clientSecret, redirectUris, clientName });
+      await oauthStore.registerClient({
+        clientId,
+        clientSecret,
+        redirectUris,
+        clientName,
+      });
       console.info("[oauth] Client registered:", clientId, clientName || "");
 
       return Response.json(
@@ -198,7 +227,10 @@ export function handleRegister(req: Request): Response | Promise<Response> {
         { status: 201, headers: CORS_HEADERS },
       );
     } catch {
-      return Response.json({ error: "invalid_request" }, { status: 400, headers: CORS_HEADERS });
+      return Response.json(
+        { error: "invalid_request" },
+        { status: 400, headers: CORS_HEADERS },
+      );
     }
   })();
 }
@@ -210,7 +242,8 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const clientId = url.searchParams.get("client_id") || "";
     const redirectUri = url.searchParams.get("redirect_uri") || "";
     const codeChallenge = url.searchParams.get("code_challenge") || "";
-    const codeChallengeMethod = url.searchParams.get("code_challenge_method") || "S256";
+    const codeChallengeMethod =
+      url.searchParams.get("code_challenge_method") || "S256";
     const state = url.searchParams.get("state") || "";
     const scope = url.searchParams.get("scope") || "";
 
@@ -222,12 +255,26 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     }
 
     return (async () => {
-      const validUri = await oauthStore.validateRedirectUri(clientId, redirectUri);
+      const validUri = await oauthStore.validateRedirectUri(
+        clientId,
+        redirectUri,
+      );
       if (!validUri) {
-        return new Response("Unknown client or redirect_uri not registered", { status: 400 });
+        return new Response("Unknown client or redirect_uri not registered", {
+          status: 400,
+        });
       }
-      const html = renderLoginPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, scope });
-      return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+      const html = renderLoginPage({
+        clientId,
+        redirectUri,
+        codeChallenge,
+        codeChallengeMethod,
+        state,
+        scope,
+      });
+      return new Response(html, {
+        headers: { "Content-Type": "text/html; charset=utf-8" },
+      });
     })();
   }
 
@@ -238,13 +285,20 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
     const clientId = String(formData.get("client_id") ?? "");
     const redirectUri = String(formData.get("redirect_uri") ?? "");
     const codeChallenge = String(formData.get("code_challenge") ?? "");
-    const codeChallengeMethod = String(formData.get("code_challenge_method") ?? "");
+    const codeChallengeMethod = String(
+      formData.get("code_challenge_method") ?? "",
+    );
     const state = String(formData.get("state") ?? "");
     const scope = String(formData.get("scope") ?? "");
 
-    const validUri = await oauthStore.validateRedirectUri(clientId, redirectUri);
+    const validUri = await oauthStore.validateRedirectUri(
+      clientId,
+      redirectUri,
+    );
     if (!validUri) {
-      return new Response("Unknown client or redirect_uri not registered", { status: 400 });
+      return new Response("Unknown client or redirect_uri not registered", {
+        status: 400,
+      });
     }
 
     const authResult = await signInViaNeonAuth(email, password);
@@ -258,7 +312,9 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
         scope,
         error: "Invalid email or password.",
       });
-      return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+      return new Response(html, {
+        headers: { "Content-Type": "text/html; charset=utf-8" },
+      });
     }
 
     const code = generateCode();
@@ -306,14 +362,24 @@ export function handleToken(req: Request): Response | Promise<Response> {
       const codeVerifier = params.get("code_verifier") || "";
 
       const stored = await oauthStore.getAuthCode(code);
-      if (!stored || stored.clientId !== clientId || stored.expiresAt < Date.now()) {
+      if (
+        !stored ||
+        stored.clientId !== clientId ||
+        stored.expiresAt < Date.now()
+      ) {
         if (stored) await oauthStore.deleteAuthCode(code);
-        return Response.json({ error: "invalid_grant" }, { status: 400, headers: CORS_HEADERS });
+        return Response.json(
+          { error: "invalid_grant" },
+          { status: 400, headers: CORS_HEADERS },
+        );
       }
 
       if (stored.redirectUri !== params.get("redirect_uri")) {
         return Response.json(
-          { error: "invalid_grant", error_description: "redirect_uri mismatch" },
+          {
+            error: "invalid_grant",
+            error_description: "redirect_uri mismatch",
+          },
           { status: 400, headers: CORS_HEADERS },
         );
       }
@@ -322,7 +388,10 @@ export function handleToken(req: Request): Response | Promise<Response> {
       if (!pkceValid) {
         await oauthStore.deleteAuthCode(code);
         return Response.json(
-          { error: "invalid_grant", error_description: "PKCE verification failed" },
+          {
+            error: "invalid_grant",
+            error_description: "PKCE verification failed",
+          },
           { status: 400, headers: CORS_HEADERS },
         );
       }
@@ -339,13 +408,23 @@ export function handleToken(req: Request): Response | Promise<Response> {
 
       let expiresIn = 3600;
       try {
-        const payload = JSON.parse(Buffer.from(stored.neonSessionToken.split(".")[1], "base64url").toString());
+        const payload = JSON.parse(
+          Buffer.from(
+            stored.neonSessionToken.split(".")[1],
+            "base64url",
+          ).toString(),
+        );
         if (payload.exp) {
           expiresIn = Math.max(1, payload.exp - Math.floor(Date.now() / 1000));
         }
       } catch {}
 
-      console.info("[oauth] Token issued for client:", clientId, "expires_in:", expiresIn);
+      console.info(
+        "[oauth] Token issued for client:",
+        clientId,
+        "expires_in:",
+        expiresIn,
+      );
       return Response.json(
         {
           access_token: stored.neonSessionToken,
@@ -358,18 +437,31 @@ export function handleToken(req: Request): Response | Promise<Response> {
     } else if (grantType === "refresh_token") {
       const refreshToken = params.get("refresh_token") || "";
       const stored = await oauthStore.getRefreshToken(refreshToken);
-      if (!stored || stored.clientId !== clientId || stored.expiresAt < Date.now()) {
+      if (
+        !stored ||
+        stored.clientId !== clientId ||
+        stored.expiresAt < Date.now()
+      ) {
         if (stored) await oauthStore.deleteRefreshToken(refreshToken);
-        return Response.json({ error: "invalid_grant" }, { status: 400, headers: CORS_HEADERS });
+        return Response.json(
+          { error: "invalid_grant" },
+          { status: 400, headers: CORS_HEADERS },
+        );
       }
 
       const decryptedCookie = await decrypt(stored.neonSessionCookie);
       const newJwt = await refreshViaNeonAuth(decryptedCookie);
       if (!newJwt) {
         await oauthStore.deleteRefreshToken(refreshToken);
-        console.warn("[oauth] Token refresh failed — session expired for client:", clientId);
+        console.warn(
+          "[oauth] Token refresh failed — session expired for client:",
+          clientId,
+        );
         return Response.json(
-          { error: "invalid_grant", error_description: "Session expired. Please re-authorize." },
+          {
+            error: "invalid_grant",
+            error_description: "Session expired. Please re-authorize.",
+          },
           { status: 400, headers: CORS_HEADERS },
         );
       }
@@ -386,7 +478,9 @@ export function handleToken(req: Request): Response | Promise<Response> {
 
       let expiresIn = 3600;
       try {
-        const payload = JSON.parse(Buffer.from(newJwt.split(".")[1], "base64url").toString());
+        const payload = JSON.parse(
+          Buffer.from(newJwt.split(".")[1], "base64url").toString(),
+        );
         if (payload.exp) {
           expiresIn = Math.max(1, payload.exp - Math.floor(Date.now() / 1000));
         }
@@ -402,7 +496,10 @@ export function handleToken(req: Request): Response | Promise<Response> {
         { headers: CORS_HEADERS },
       );
     } else {
-      return Response.json({ error: "unsupported_grant_type" }, { status: 400, headers: CORS_HEADERS });
+      return Response.json(
+        { error: "unsupported_grant_type" },
+        { status: 400, headers: CORS_HEADERS },
+      );
     }
   })();
 }

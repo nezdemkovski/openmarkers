@@ -6,7 +6,8 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "format": "prettier --write \"**/*.{ts,tsx,json}\" --ignore-path ../../.gitignore"
+    "format": "oxfmt -c ../../.oxfmtrc.json .",
+    "lint": "oxlint -c ../../.oxlintrc.json"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.1",
