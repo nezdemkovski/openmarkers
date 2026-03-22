@@ -83,6 +83,11 @@ export const api = {
     ),
   importProfile: (data: unknown) =>
     post<{ ok: boolean; profile_id: number }>("/api/import", data),
+  extractLabReport: (data: { file: string; fileName: string }) =>
+    post<{ data: Record<string, unknown>; resultCount: number; units: Record<string, string>; unknown: Array<{ id: string; value: number | string }> }>(
+      "/api/extract",
+      data,
+    ),
   updateProfile: (
     id: number,
     data: Partial<{
@@ -117,7 +122,11 @@ export const api = {
   batchResults: (data: {
     profile_id: number;
     date: string;
-    entries: Array<{ biomarker_id: string; value: string | number }>;
+    entries: Array<{
+      biomarker_id: string;
+      category_id?: string;
+      value: string | number;
+    }>;
   }) => post<{ inserted: number; skipped: number }>("/api/batch-results", data),
   addResult: (data: {
     profile_id: number;

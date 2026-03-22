@@ -133,6 +133,33 @@ const en: TranslationData = {
     addYourData: "Add Your Data",
     addYourDataDesc:
       "Your profile is ready. Add your first lab results to get started.",
+    uploadLabReport: "Upload Lab Report",
+    uploadLabReportDesc: "Drop a PDF or photo of your blood test results",
+    uploadDrop: "Drop your lab report here",
+    uploadFormats: "PDF, JPG, or PNG — up to 20 MB",
+    uploadChooseFile: "Choose file",
+    uploadUploading: "Uploading...",
+    uploadReading: "Reading your lab report...",
+    uploadReview: "Review extracted values",
+    uploadReviewDesc:
+      "Check the values below and fix any mistakes before importing.",
+    uploadAiDisclaimer:
+      "Values are extracted by AI and may contain errors. Please verify against your original report before importing.",
+    uploadConfirm: "Confirm & Import",
+    uploadCancel: "Cancel",
+    uploadDontClose: "Please don't close this page while processing.",
+    uploadImporting: "Importing...",
+    uploadSuccess: "Lab results imported successfully",
+    uploadColBiomarker: "Biomarker",
+    uploadColValue: "Value",
+    uploadColDate: "Date",
+    uploadTooLarge: "File is too large. Maximum size is 20 MB.",
+    uploadError:
+      "Could not extract results from this file. Try a clearer image or PDF.",
+    uploadLimitReached:
+      "Daily upload limit reached. You can still enter values manually.",
+    uploadUnknownTitle: "Biomarkers not yet supported — skipped",
+    uploadUnknownReport: "Report these on GitHub so we can add them",
     aiImport: "Create Import File with AI",
     aiImportDesc:
       "Have a PDF or lab report? Use AI to convert it into a file you can import here.",
@@ -212,8 +239,10 @@ const en: TranslationData = {
     authConsent: "I agree to store my blood test results and lab data",
     authDisclaimer:
       "This is not a medical device or healthcare service. Not medical advice.",
-    heroSubtitle:
-      "Your lab results, visualized. Spot trends your doctor might miss.",
+    heroH1: "See what your blood tests really say.",
+    heroDesc:
+      "Track 100+ biomarkers over time. Open source. Connect any AI via MCP.",
+    heroIntegrations: "Works with",
     heroBadgeOpenSource: "Open source",
     heroBadgeBiomarkers: "100+ biomarkers",
     heroBadgeMcp: "AI-ready via MCP",
@@ -221,17 +250,25 @@ const en: TranslationData = {
     heroMcpDesc: "Connect any AI assistant to your biomarker data via MCP",
     heroCliDesc:
       "Manage your data from the terminal — works great with {openClawLink} and similar personal agents",
-    landingFeaturesHeading: "Everything you need to track your health",
-    landingHowItWorks: "How it works",
-    landingStep1Title: "Upload your results",
-    landingStep1Desc:
-      "Import lab data as JSON, enter manually, or let AI convert your PDF reports.",
-    landingStep2Title: "Visualize trends",
-    landingStep2Desc:
-      "See every biomarker over time with interactive charts and reference ranges.",
-    landingStep3Title: "Get insights",
-    landingStep3Desc:
-      "Biological age, trend analysis, correlations — or connect any AI via MCP.",
+    useCasesHeading: "Why OpenMarkers",
+    useCase1Title: "Upload your lab report",
+    useCase1Desc:
+      "Drop a PDF or photo of your blood test results. AI reads every value — just review and confirm.",
+    useCase2Title: "Connect any AI assistant",
+    useCase2Desc:
+      "Add one line to your MCP config. Claude, ChatGPT, Cursor — they all work.",
+    useCase3Title: "Track trends over time",
+    useCase3Desc:
+      "See every biomarker charted with reference ranges. Biological age, correlations, and trend alerts.",
+    trustHeading: "Your data, your rules",
+    trustOpenSourceTitle: "Open Source",
+    trustOpenSourceDesc: "Fully open source. Audit every line of code.",
+    trustFamilyTitle: "For You & Your Family",
+    trustFamilyDesc:
+      "Create multiple profiles under one account. Track your own health and your loved ones — all in one place.",
+    trustShareTitle: "Share Your Profile",
+    trustShareDesc:
+      "Make your data public with a custom link. Let others see your biomarker journey.",
     featureChartsTitle: "Charts & Trends",
     featureChartsDesc:
       "Visualize every biomarker over time with interactive charts. Reference ranges shown inline so you can spot what's out of range at a glance.",

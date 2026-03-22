@@ -40,6 +40,7 @@ const batchResultsSchema = z.object({
     .array(
       z.object({
         biomarker_id: z.string().min(1).max(200),
+        category_id: z.string().min(1).max(200).optional(),
         value: z.union([z.number(), z.string().min(1).max(200)]),
         ref_min: z.number().nullish(),
         ref_max: z.number().nullish(),

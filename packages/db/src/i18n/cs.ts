@@ -134,6 +134,33 @@ const cs: TranslationData = {
     addYourData: "Přidejte svá data",
     addYourDataDesc:
       "Váš profil je připraven. Přidejte první výsledky z odběrů.",
+    uploadLabReport: "Nahrát laboratorní zprávu",
+    uploadLabReportDesc: "Přetáhněte PDF nebo foto výsledků krevních testů",
+    uploadDrop: "Přetáhněte laboratorní zprávu sem",
+    uploadFormats: "PDF, JPG nebo PNG — do 20 MB",
+    uploadChooseFile: "Vybrat soubor",
+    uploadUploading: "Nahrávání...",
+    uploadReading: "Čtení laboratorní zprávy...",
+    uploadReview: "Zkontrolujte extrahované hodnoty",
+    uploadReviewDesc:
+      "Zkontrolujte hodnoty níže a opravte případné chyby před importem.",
+    uploadAiDisclaimer:
+      "Hodnoty jsou extrahovány pomocí AI a mohou obsahovat chyby. Před importem je prosím ověřte oproti původní zprávě.",
+    uploadConfirm: "Potvrdit a importovat",
+    uploadCancel: "Zrušit",
+    uploadDontClose: "Prosím nezavírejte tuto stránku během zpracování.",
+    uploadImporting: "Importování...",
+    uploadSuccess: "Laboratorní výsledky úspěšně importovány",
+    uploadColBiomarker: "Biomarker",
+    uploadColValue: "Hodnota",
+    uploadColDate: "Datum",
+    uploadTooLarge: "Soubor je příliš velký. Maximální velikost je 20 MB.",
+    uploadError:
+      "Nepodařilo se extrahovat výsledky z tohoto souboru. Zkuste jasnější obrázek nebo PDF.",
+    uploadLimitReached:
+      "Denní limit nahrávání dosažen. Stále můžete zadat hodnoty ručně.",
+    uploadUnknownTitle: "Zatím nepodporované biomarkery — přeskočeny",
+    uploadUnknownReport: "Nahlaste je na GitHubu, abychom je mohli přidat",
     aiImport: "Vytvořit soubor pro import pomocí AI",
     aiImportDesc:
       "Máte PDF nebo laboratorní zprávu? Pomocí AI ji převeďte na soubor k importu.",
@@ -215,22 +242,32 @@ const cs: TranslationData = {
       "Souhlasím s uložením výsledků krevních testů a laboratorních dat",
     authDisclaimer:
       "Toto není zdravotnický prostředek ani zdravotní služba. Nejedná se o lékařskou radu.",
-    heroSubtitle:
-      "Vaše laboratorní výsledky, vizualizované. Odhalte trendy, které lékař přehlédne.",
+    heroH1: "Podívejte se, co vaše krevní testy opravdu říkají.",
+    heroDesc:
+      "Sledujte 100+ biomarkerů v čase. Open source. Připojte jakékoli AI přes MCP.",
+    heroIntegrations: "Funguje s",
     heroBadgeOpenSource: "Open source",
     heroBadgeBiomarkers: "100+ biomarkerů",
     heroBadgeMcp: "AI přes MCP",
-    landingFeaturesHeading: "Vše, co potřebujete ke sledování zdraví",
-    landingHowItWorks: "Jak to funguje",
-    landingStep1Title: "Nahrajte výsledky",
-    landingStep1Desc:
-      "Importujte laboratorní data jako JSON, zadejte ručně nebo nechte AI převést vaše PDF reporty.",
-    landingStep2Title: "Vizualizujte trendy",
-    landingStep2Desc:
-      "Sledujte každý biomarker v čase s interaktivními grafy a referenčními rozsahy.",
-    landingStep3Title: "Získejte přehledy",
-    landingStep3Desc:
-      "Biologický věk, analýza trendů, korelace — nebo připojte jakékoli AI přes MCP.",
+    useCasesHeading: "Proč OpenMarkers",
+    useCase1Title: "Nahrajte laboratorní zprávu",
+    useCase1Desc:
+      "Přetáhněte PDF nebo foto výsledků krevních testů. AI přečte každou hodnotu — stačí zkontrolovat a potvrdit.",
+    useCase2Title: "Připojte jakéhokoli AI asistenta",
+    useCase2Desc:
+      "Přidejte jeden řádek do MCP konfigurace. Claude, ChatGPT, Cursor — všechny fungují.",
+    useCase3Title: "Sledujte trendy v čase",
+    useCase3Desc:
+      "Každý biomarker v grafu s referenčními rozsahy. Biologický věk, korelace a upozornění na trendy.",
+    trustHeading: "Vaše data, vaše pravidla",
+    trustOpenSourceTitle: "Open Source",
+    trustOpenSourceDesc: "Plně otevřený zdrojový kód. Zkontrolujte každý řádek.",
+    trustFamilyTitle: "Pro vás a vaši rodinu",
+    trustFamilyDesc:
+      "Vytvořte více profilů pod jedním účtem. Sledujte své zdraví i zdraví svých blízkých — vše na jednom místě.",
+    trustShareTitle: "Sdílejte svůj profil",
+    trustShareDesc:
+      "Zveřejněte svá data s vlastním odkazem. Nechte ostatní sledovat vaši cestu biomarkery.",
     heroDemoButton: "Prozkoumat s ukázkovými daty",
     heroMcpDesc:
       "Připojte jakéhokoli AI asistenta k vašim biomarkerům přes MCP",

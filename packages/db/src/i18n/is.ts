@@ -133,6 +133,33 @@ const is: TranslationData = {
     addYourData: "Bættu við gögnum",
     addYourDataDesc:
       "Prófíllinn þinn er tilbúinn. Bættu við fyrstu rannsóknarniðurstöðunum.",
+    uploadLabReport: "Hlaða upp rannsóknarskýrslu",
+    uploadLabReportDesc: "Dragðu PDF eða mynd af blóðrannsóknarniðurstöðum",
+    uploadDrop: "Dragðu rannsóknarskýrslu hér",
+    uploadFormats: "PDF, JPG eða PNG — allt að 20 MB",
+    uploadChooseFile: "Velja skrá",
+    uploadUploading: "Hleður upp...",
+    uploadReading: "Les rannsóknarskýrslu...",
+    uploadReview: "Skoðaðu útdregin gildi",
+    uploadReviewDesc:
+      "Athugaðu gildin hér að neðan og leiðréttu villur áður en flutt er inn.",
+    uploadAiDisclaimer:
+      "Gildi eru dregin út af gervigreind og geta innihaldið villur. Vinsamlegast staðfestu við upprunalegu skýrsluna áður en þú flytur inn.",
+    uploadConfirm: "Staðfesta og flytja inn",
+    uploadCancel: "Hætta við",
+    uploadDontClose: "Vinsamlegast ekki loka þessari síðu meðan unnið er.",
+    uploadImporting: "Flytur inn...",
+    uploadSuccess: "Rannsóknarniðurstöður fluttar inn",
+    uploadColBiomarker: "Lífmerki",
+    uploadColValue: "Gildi",
+    uploadColDate: "Dagsetning",
+    uploadTooLarge: "Skráin er of stór. Hámarksstærð er 20 MB.",
+    uploadError:
+      "Gat ekki dregið niðurstöður úr þessari skrá. Prófaðu skýrari mynd eða PDF.",
+    uploadLimitReached:
+      "Dagleg upphleðslumörk náð. Þú getur enn slegið inn gildi handvirkt.",
+    uploadUnknownTitle: "Lífmerki ekki enn studd — sleppt",
+    uploadUnknownReport: "Tilkynntu þau á GitHub svo við getum bætt þeim við",
     aiImport: "Búa til innflutningsskrá með AI",
     aiImportDesc:
       "Ertu með PDF eða rannsóknarskýrslu? Notaðu AI til að búa til skrá til innflutnings.",
@@ -212,22 +239,32 @@ const is: TranslationData = {
       "Ég samþykki að geyma blóðrannsóknarniðurstöður og rannsóknargögn",
     authDisclaimer:
       "Þetta er ekki lækningatæki eða heilbrigðisþjónusta. Ekki læknisráðgjöf.",
-    heroSubtitle:
-      "Rannsóknaniðurstöður þínar, sjónrænar. Greindu þróun sem læknirinn gæti misst af.",
+    heroH1: "Sjáðu hvað blóðrannsóknirnar þínar segja í raun.",
+    heroDesc:
+      "Fylgstu með 100+ lífmerkjum yfir tíma. Opinn hugbúnaður. Tengdu hvaða AI sem er gegnum MCP.",
+    heroIntegrations: "Virkar með",
     heroBadgeOpenSource: "Opinn hugbúnaður",
     heroBadgeBiomarkers: "100+ lífmerki",
     heroBadgeMcp: "AI gegnum MCP",
-    landingFeaturesHeading: "Allt sem þú þarft til að fylgjast með heilsu",
-    landingHowItWorks: "Hvernig virkar það",
-    landingStep1Title: "Hladdu upp niðurstöðum",
-    landingStep1Desc:
-      "Flytjið inn rannsóknargögn sem JSON, sláðu inn handvirkt eða láttu AI umbreyta PDF-skýrslum.",
-    landingStep2Title: "Sjónrændu þróun",
-    landingStep2Desc:
-      "Sjáðu hvert lífmerki yfir tíma með gagnvirkum gröfum og viðmiðunarsviðum.",
-    landingStep3Title: "Fáðu innsýn",
-    landingStep3Desc:
-      "Líffræðilegur aldur, þróunargreining, fylgni — eða tengdu hvaða AI sem er gegnum MCP.",
+    useCasesHeading: "Af hverju OpenMarkers",
+    useCase1Title: "Hladdu upp rannsóknarskýrslu",
+    useCase1Desc:
+      "Dragðu PDF eða mynd af blóðrannsóknarniðurstöðum. AI les hvert gildi — skoðaðu og staðfestu.",
+    useCase2Title: "Tengdu hvaða AI aðstoðarmann sem er",
+    useCase2Desc:
+      "Bættu einni línu við MCP stillingarnar. Claude, ChatGPT, Cursor — öll virka.",
+    useCase3Title: "Fylgstu með þróun yfir tíma",
+    useCase3Desc:
+      "Hvert lífmerki á grafi með viðmiðunarsviðum. Líffræðilegur aldur, fylgni og þróunarviðvaranir.",
+    trustHeading: "Þín gögn, þínar reglur",
+    trustOpenSourceTitle: "Opinn hugbúnaður",
+    trustOpenSourceDesc: "Fullkomlega opinn kóði. Skoðaðu hverja línu.",
+    trustFamilyTitle: "Fyrir þig og fjölskylduna",
+    trustFamilyDesc:
+      "Búðu til marga prófíla undir einum reikningi. Fylgstu með heilsu þinni og ástvina — allt á einum stað.",
+    trustShareTitle: "Deildu prófílnum þínum",
+    trustShareDesc:
+      "Gerðu gögnin opinber með sérsniðnum hlekk. Láttu aðra sjá lífmerkjaferðalagið þitt.",
     heroDemoButton: "Skoða með sýnigögnum",
     heroMcpDesc:
       "Tengdu hvaða AI aðstoðarmann sem er við lífmerkjagögnin þín gegnum MCP",

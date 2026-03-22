@@ -1,4 +1,4 @@
-import { eq, and, sql, gte, lte } from "drizzle-orm";
+import { eq, and, sql, gte, lte, inArray } from "drizzle-orm";
 
 import { isOutOfRange, analyzeTrend } from "./analytics";
 import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
@@ -19,8 +19,7 @@ import type {
   ProfileSummary,
   UserData,
 } from "./types";
-import { Sex, BiomarkerType } from "./types";
-import { UnitSystem } from "./types";
+import { Sex, BiomarkerType, UnitSystem } from "./types";
 import { convert as convertUnit, convertRange, getDisplayUnit } from "./units";
 
 export type { DbProfile, DbBiomarker, DbResult, ProfileSummary, UserData };
@@ -658,6 +657,7 @@ export async function batchAddResults(
     date: string;
     entries: Array<{
       biomarker_id: string;
+      category_id?: string;
       value: string | number;
       ref_min?: number | null;
       ref_max?: number | null;
@@ -668,6 +668,48 @@ export async function batchAddResults(
   const profile = await getProfile(data.profile_id, authUserId);
   if (!profile) throw new Error("Profile not found or not owned by user");
   if (!data.entries.length) return { inserted: 0, skipped: 0 };
+
+  // Ensure categories and biomarkers exist before inserting results
+  const catIds = new Set<string>();
+  const bioIds = new Set<string>();
+  for (const e of data.entries) {
+    if (e.category_id) catIds.add(e.category_id);
+    bioIds.add(e.biomarker_id);
+  }
+
+  if (catIds.size > 0) {
+    await db
+      .insert(categories)
+      .values([...catIds].map((id) => ({ id })))
+      .onConflictDoNothing();
+  }
+
+  // Check which biomarkers already exist
+  const existingBios = await db
+    .select({ id: biomarkers.id })
+    .from(biomarkers)
+    .where(inArray(biomarkers.id, [...bioIds]));
+  const existingBioIds = new Set(existingBios.map((b) => b.id));
+
+  // Create missing biomarkers (need category_id)
+  const missingBios = data.entries
+    .filter((e) => !existingBioIds.has(e.biomarker_id) && e.category_id)
+    .reduce(
+      (acc, e) => {
+        if (!acc.has(e.biomarker_id)) {
+          acc.set(e.biomarker_id, { id: e.biomarker_id, categoryId: e.category_id! });
+        }
+        return acc;
+      },
+      new Map<string, { id: string; categoryId: string }>(),
+    );
+
+  if (missingBios.size > 0) {
+    await db
+      .insert(biomarkers)
+      .values([...missingBios.values()])
+      .onConflictDoNothing();
+  }
 
   const resValues = data.entries.map((e) => ({
     profileId: data.profile_id,

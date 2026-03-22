@@ -36,6 +36,7 @@ import type { UserData, Route } from "../types.ts";
 import { Sex } from "../types.ts";
 import AddLabVisit from "./AddLabVisit.tsx";
 import CategoryView from "./CategoryView.tsx";
+import UploadLabReport from "./UploadLabReport.tsx";
 import ComparisonView from "./ComparisonView.tsx";
 import Dashboard from "./Dashboard.tsx";
 import Loading from "./Loading.tsx";
@@ -391,6 +392,9 @@ export default function DashboardPage({
                 importing={importing}
                 hasProfile={!hasNoProfiles && !creatingProfile}
                 activeProfileId={creatingProfile ? null : activeProfileId}
+                activeProfileName={
+                  profileList.find((p) => p.id === activeProfileId)?.name
+                }
                 defaultShowCreate={creatingProfile}
               />
             ) : route.view === "category" && category ? (
@@ -488,6 +492,7 @@ function GettingStarted({
   importing,
   hasProfile,
   activeProfileId,
+  activeProfileName,
   defaultShowCreate = false,
 }: {
   i18n: ReturnType<typeof makeI18n>;
@@ -497,10 +502,12 @@ function GettingStarted({
   importing: boolean;
   hasProfile: boolean;
   activeProfileId: number | null;
+  activeProfileName?: string;
   defaultShowCreate?: boolean;
 }) {
   const { t } = i18n;
   const [showCreate, setShowCreate] = useState(defaultShowCreate);
+  const [uploadActive, setUploadActive] = useState(false);
   useEffect(() => {
     if (defaultShowCreate) setShowCreate(true);
   }, [defaultShowCreate]);
@@ -543,150 +550,116 @@ function GettingStarted({
 
   const hasActiveProfile = hasProfile && activeProfileId !== null;
 
+  if (!hasActiveProfile) {
+    return (
+      <div className="max-w-sm mx-auto pt-12 md:pt-20">
+        <div className="text-center mb-8">
+          <h2 className="text-xl font-bold text-foreground">
+            {t("getStarted")}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1.5">
+            {t("createProfileDesc")}
+          </p>
+        </div>
+
+        <form onSubmit={handleCreate} className="space-y-3">
+          <Input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={t("profileName")}
+            required
+            className="h-10"
+          />
+          <DatePicker
+            value={dob}
+            onChange={setDob}
+            placeholder={t("dateOfBirth")}
+          />
+          <ToggleGroup
+            variant="outline"
+            value={sex ? [sex] : []}
+            onValueChange={(val) => {
+              const picked = (val as string[]).find((v) => v !== sex);
+              if (picked === Sex.Male || picked === Sex.Female)
+                setSex(picked);
+            }}
+            className="w-full"
+          >
+            <ToggleGroupItem value={Sex.Male} className="flex-1">
+              {t("sexMale")}
+            </ToggleGroupItem>
+            <ToggleGroupItem value={Sex.Female} className="flex-1">
+              {t("sexFemale")}
+            </ToggleGroupItem>
+          </ToggleGroup>
+          {error && (
+            <p className="text-sm text-red-600 dark:text-red-400">
+              {error}
+            </p>
+          )}
+          <Button
+            type="submit"
+            disabled={loading || !name.trim() || !dob}
+            className="w-full h-10"
+          >
+            {loading ? "..." : t("createProfile")}
+          </Button>
+        </form>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-lg mx-auto pt-8 md:pt-16">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-foreground">
-          {t(hasActiveProfile ? "addYourData" : "allResults")}
+    <div className="max-w-md mx-auto pt-12 md:pt-20">
+      <div className="text-center mb-8">
+        <h2 className="text-xl font-bold text-foreground">
+          {t("addYourData")}
         </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          {t(hasActiveProfile ? "addYourDataDesc" : "getStartedDesc")}
+        <p className="text-sm text-muted-foreground mt-1.5">
+          {t("addYourDataDesc")}
         </p>
       </div>
 
-      <div className="space-y-3">
-        {hasActiveProfile && (
-          <Button
-            variant="outline"
-            onClick={() => onAddLabVisit(activeProfileId)}
-            className="w-full flex items-center justify-start gap-4 rounded-xl p-5 h-auto shadow-sm hover:border-ring text-left"
-          >
-            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
-              <svg
-                className="w-5 h-5 text-foreground"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-foreground">
-                {t("addLabVisit")}
-              </div>
-              <div className="text-xs text-muted-foreground mt-0.5">
-                {t("addLabVisitDesc")}
-              </div>
-            </div>
-          </Button>
-        )}
+      <UploadLabReport
+        i18n={i18n}
+        profileId={activeProfileId}
+        onImported={() => onCreated(activeProfileId)}
+        onActiveChange={setUploadActive}
+      />
 
-        <ImportButton importing={importing} onClick={handleFileSelect} t={t} />
-
-        {!hasActiveProfile && (
-          <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-            <Button
-              variant="ghost"
-              onClick={() => setShowCreate(!showCreate)}
-              className="w-full flex items-center gap-4 p-5 h-auto rounded-none text-left"
-            >
-              <div className="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-900/30 flex items-center justify-center shrink-0">
-                <svg
-                  className="w-5 h-5 text-green-600 dark:text-green-400"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <div className="text-sm font-semibold text-foreground">
-                  {t("createProfile")}
-                </div>
-                <div className="text-xs text-muted-foreground mt-0.5">
-                  {t("createProfileDesc")}
-                </div>
-              </div>
-              <svg
-                className={`w-4 h-4 text-muted-foreground/60 transition-transform ${showCreate ? "rotate-180" : ""}`}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </Button>
-            {showCreate && (
-              <form
-                onSubmit={handleCreate}
-                className="px-5 pb-5 space-y-3 border-t border-border pt-4"
-              >
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={t("profileName")}
-                  required
-                />
-                <DatePicker
-                  value={dob}
-                  onChange={setDob}
-                  placeholder={t("dateOfBirth")}
-                />
-                <ToggleGroup
-                  variant="outline"
-                  value={sex ? [sex] : []}
-                  onValueChange={(val) => {
-                    const picked = (val as string[]).find((v) => v !== sex);
-                    if (picked === Sex.Male || picked === Sex.Female)
-                      setSex(picked);
-                  }}
-                  className="w-full"
-                >
-                  <ToggleGroupItem value={Sex.Male} className="flex-1">
-                    {t("sexMale")}
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value={Sex.Female} className="flex-1">
-                    {t("sexFemale")}
-                  </ToggleGroupItem>
-                </ToggleGroup>
-                {error && (
-                  <p className="text-sm text-red-600 dark:text-red-400">
-                    {error}
-                  </p>
-                )}
-                <Button
-                  type="submit"
-                  disabled={loading || !name.trim() || !dob}
-                  className="w-full"
-                >
-                  {loading ? "..." : t("createProfile")}
-                </Button>
-              </form>
-            )}
+      {!uploadActive && (
+        <>
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-border/60" />
+            <span className="text-[11px] text-muted-foreground/50 uppercase tracking-wider">
+              or
+            </span>
+            <div className="flex-1 h-px bg-border/60" />
           </div>
-        )}
 
-        <AiImportSection i18n={i18n} />
-        <McpSetupSection i18n={i18n} />
-      </div>
+          <div className="space-y-2">
+            <button
+              onClick={() => onAddLabVisit(activeProfileId)}
+              className="w-full flex items-center gap-3 rounded-lg border border-border/60 px-4 py-3 hover:bg-muted/30 transition-colors text-left"
+            >
+              <div className="text-sm text-foreground">{t("addLabVisit")}</div>
+              <span className="text-xs text-muted-foreground/50 ml-auto">
+                {t("addLabVisitDesc")}
+              </span>
+            </button>
+            <button
+              onClick={handleFileSelect}
+              disabled={importing}
+              className="w-full flex items-center gap-3 rounded-lg border border-border/60 px-4 py-3 hover:bg-muted/30 transition-colors text-left disabled:opacity-50"
+            >
+              <div className="text-sm text-foreground">
+                {importing ? t("importingData") : t("importDesc")}
+              </div>
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

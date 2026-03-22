@@ -23,6 +23,7 @@ import {
   handleListCategories,
   handleListBiomarkers,
 } from "./routes/biomarkers.ts";
+import { handleExtract } from "./routes/extract.ts";
 import { handleImportCheck, handleImport } from "./routes/import.ts";
 import {
   handleListProfiles,
@@ -54,7 +55,7 @@ import {
   handleDeleteResult,
 } from "./routes/results.ts";
 
-const MAX_BODY_SIZE = 5 * 1024 * 1024;
+const MAX_BODY_SIZE = 20 * 1024 * 1024;
 
 async function requireAuth(
   req: Request,
@@ -377,6 +378,12 @@ export function startWebServer(opts: {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
       return handleDeleteAccount(auth);
+    }
+
+    if (method === "POST" && path === "/api/extract") {
+      const auth = await requireAuth(req);
+      if (!authResult(auth)) return auth;
+      return handleExtract(req, auth);
     }
 
     if (method === "POST" && path === "/api/import/check") {
