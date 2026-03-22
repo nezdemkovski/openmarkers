@@ -6,6 +6,8 @@ import { anthropic } from "@ai-sdk/anthropic";
 import { parse, format, isValid } from "date-fns";
 import { z } from "zod";
 
+import { checkExtractLimit, incrementExtractCount } from "@openmarkers/db";
+
 import { json, error, parseBody, isResponse } from "./_shared.ts";
 
 
@@ -83,31 +85,6 @@ function normalizeDate(d: string): string {
 }
 
 
-const rateLimits = new Map<string, { count: number; resetAt: number }>();
-const MAX_EXTRACTIONS_PER_DAY = 5;
-
-function checkRateLimit(userId: string): boolean {
-  const now = Date.now();
-  const entry = rateLimits.get(userId);
-  if (!entry || now > entry.resetAt) {
-    rateLimits.set(userId, {
-      count: 1,
-      resetAt: now + 24 * 60 * 60 * 1000,
-    });
-    return true;
-  }
-  if (entry.count >= MAX_EXTRACTIONS_PER_DAY) return false;
-  entry.count++;
-  return true;
-}
-
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, entry] of rateLimits) {
-    if (now > entry.resetAt) rateLimits.delete(key);
-  }
-}, 60 * 60 * 1000);
-
 
 const extractRequestSchema = z.object({
   file: z.string().min(1),
@@ -156,8 +133,9 @@ export async function handleExtract(
   req: Request,
   auth: { userId: string },
 ): Promise<Response> {
-  if (!checkRateLimit(auth.userId)) {
-    return error("Daily extraction limit reached", 429);
+  const allowed = await checkExtractLimit(auth.userId);
+  if (!allowed) {
+    return error("Monthly extraction limit reached", 429);
   }
 
   const body = await parseBody(req, extractRequestSchema);
@@ -312,6 +290,8 @@ export async function handleExtract(
     const unknownDeduped = [
       ...new Map(unknown.map((u) => [u.id, u])).values(),
     ];
+
+    await incrementExtractCount(auth.userId);
 
     return json({
       data,

@@ -122,6 +122,7 @@ const is: TranslationData = {
     demoMode: "Þú skoðar sýnigögn",
     exitDemo: "Hætta kynningu",
     addLabVisit: "Bæta við rannsókn",
+    addManually: "Slá inn handvirkt",
     addLabVisitDesc: "Sláðu inn niðurstöður úr blóðrannsókn handvirkt.",
     addLabVisitDate: "Dagsetning rannsóknar",
     addLabVisitSearch: "Leita að lífvísum...",
@@ -137,6 +138,8 @@ const is: TranslationData = {
     uploadLabReportDesc: "Dragðu PDF eða mynd af blóðrannsóknarniðurstöðum",
     uploadDrop: "Dragðu rannsóknarskýrslu hér",
     uploadFormats: "PDF, JPG eða PNG — allt að 20 MB",
+    uploadHint:
+      "Best árangur með einni rannsókn. Stórar skýrslur með mörgum dagsetningum geta misst nokkur gildi.",
     uploadChooseFile: "Velja skrá",
     uploadUploading: "Hleður upp...",
     uploadReading: "Les rannsóknarskýrslu...",
@@ -156,8 +159,9 @@ const is: TranslationData = {
     uploadTooLarge: "Skráin er of stór. Hámarksstærð er 20 MB.",
     uploadError:
       "Gat ekki dregið niðurstöður úr þessari skrá. Prófaðu skýrari mynd eða PDF.",
+    uploadRemaining: "upphleðslur eftir í þessum mánuði",
     uploadLimitReached:
-      "Dagleg upphleðslumörk náð. Þú getur enn slegið inn gildi handvirkt.",
+      "Mánaðarleg upphleðslumörk náð (5 á mánuði). Þú getur enn slegið inn gildi handvirkt.",
     uploadUnknownTitle: "Lífmerki ekki enn studd — sleppt",
     uploadUnknownReport: "Tilkynntu þau á GitHub svo við getum bætt þeim við",
     aiImport: "Búa til innflutningsskrá með AI",
@@ -200,6 +204,9 @@ const is: TranslationData = {
     settingsUnitConventional: "Hefðbundið (BNA)",
     settingsProfiles: "Prófílar",
     settingsEditProfile: "Breyta prófíl",
+    settingsAiUsage: "AI útdráttur rannsóknarskýrslna",
+    settingsAiUsageDesc:
+      "Hladdu upp PDF eða mynd af rannsóknarskýrslu og AI dregur gildin út. Takmarkað við 5 upphleðslur á mánuði.",
     settingsAccount: "Reikningur",
     settingsChangeEmail: "Breyta netfangi",
     settingsChangePassword: "Breyta lykilorði",

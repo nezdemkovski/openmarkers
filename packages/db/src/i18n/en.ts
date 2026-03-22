@@ -122,6 +122,7 @@ const en: TranslationData = {
     demoMode: "You are viewing sample data",
     exitDemo: "Exit demo",
     addLabVisit: "Add Lab Visit",
+    addManually: "Add manually",
     addLabVisitDesc: "Enter results from a blood test manually.",
     addLabVisitDate: "Test Date",
     addLabVisitSearch: "Search biomarkers...",
@@ -137,6 +138,8 @@ const en: TranslationData = {
     uploadLabReportDesc: "Drop a PDF or photo of your blood test results",
     uploadDrop: "Drop your lab report here",
     uploadFormats: "PDF, JPG, or PNG — up to 20 MB",
+    uploadHint:
+      "Best results with a single lab visit. Large reports with many dates may lose some values.",
     uploadChooseFile: "Choose file",
     uploadUploading: "Uploading...",
     uploadReading: "Reading your lab report...",
@@ -156,8 +159,9 @@ const en: TranslationData = {
     uploadTooLarge: "File is too large. Maximum size is 20 MB.",
     uploadError:
       "Could not extract results from this file. Try a clearer image or PDF.",
+    uploadRemaining: "uploads remaining this month",
     uploadLimitReached:
-      "Daily upload limit reached. You can still enter values manually.",
+      "Monthly upload limit reached (5 per month). You can still enter values manually.",
     uploadUnknownTitle: "Biomarkers not yet supported — skipped",
     uploadUnknownReport: "Report these on GitHub so we can add them",
     aiImport: "Create Import File with AI",
@@ -201,6 +205,9 @@ const en: TranslationData = {
     settingsUnitConventional: "Conventional (US)",
     settingsProfiles: "Profiles",
     settingsEditProfile: "Edit Profile",
+    settingsAiUsage: "AI Lab Report Extraction",
+    settingsAiUsageDesc:
+      "Upload a PDF or photo of your lab report and AI will extract the values. Limited to 5 uploads per month.",
     settingsAccount: "Account",
     settingsChangeEmail: "Change Email",
     settingsChangePassword: "Change Password",

@@ -123,6 +123,7 @@ const cs: TranslationData = {
     demoMode: "Prohlížíte si vzorová data",
     exitDemo: "Ukončit demo",
     addLabVisit: "Přidat odběr",
+    addManually: "Zadat ručně",
     addLabVisitDesc: "Zadejte výsledky z krevního odběru ručně.",
     addLabVisitDate: "Datum odběru",
     addLabVisitSearch: "Hledat biomarkery...",
@@ -138,6 +139,8 @@ const cs: TranslationData = {
     uploadLabReportDesc: "Přetáhněte PDF nebo foto výsledků krevních testů",
     uploadDrop: "Přetáhněte laboratorní zprávu sem",
     uploadFormats: "PDF, JPG nebo PNG — do 20 MB",
+    uploadHint:
+      "Nejlepší výsledky s jednou návštěvou laboratoře. Velké zprávy s mnoha daty mohou ztratit některé hodnoty.",
     uploadChooseFile: "Vybrat soubor",
     uploadUploading: "Nahrávání...",
     uploadReading: "Čtení laboratorní zprávy...",
@@ -157,8 +160,9 @@ const cs: TranslationData = {
     uploadTooLarge: "Soubor je příliš velký. Maximální velikost je 20 MB.",
     uploadError:
       "Nepodařilo se extrahovat výsledky z tohoto souboru. Zkuste jasnější obrázek nebo PDF.",
+    uploadRemaining: "nahrávání zbývá tento měsíc",
     uploadLimitReached:
-      "Denní limit nahrávání dosažen. Stále můžete zadat hodnoty ručně.",
+      "Měsíční limit nahrávání dosažen (5 za měsíc). Stále můžete zadat hodnoty ručně.",
     uploadUnknownTitle: "Zatím nepodporované biomarkery — přeskočeny",
     uploadUnknownReport: "Nahlaste je na GitHubu, abychom je mohli přidat",
     aiImport: "Vytvořit soubor pro import pomocí AI",
@@ -202,6 +206,9 @@ const cs: TranslationData = {
     settingsUnitConventional: "Konvenční (USA)",
     settingsProfiles: "Profily",
     settingsEditProfile: "Upravit profil",
+    settingsAiUsage: "AI extrakce laboratorních zpráv",
+    settingsAiUsageDesc:
+      "Nahrajte PDF nebo foto laboratorní zprávy a AI extrahuje hodnoty. Omezeno na 5 nahrávání za měsíc.",
     settingsAccount: "Účet",
     settingsChangeEmail: "Změnit email",
     settingsChangePassword: "Změnit heslo",

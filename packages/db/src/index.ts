@@ -977,3 +977,97 @@ export async function updateUserPreferences(
     .returning();
   return { unitSystem: row.unitSystem };
 }
+
+const PLAN_LIMITS: Record<string, number> = {
+  free: 5,
+  pro: 100,
+};
+const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+
+function getExtractLimit(plan: string): number {
+  return PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
+}
+
+export async function getExtractUsage(
+  authUserId: string,
+): Promise<{ used: number; limit: number; remaining: number; plan: string }> {
+  const [row] = await db
+    .select({
+      plan: userPreferences.plan,
+      count: userPreferences.extractCount,
+      resetAt: userPreferences.extractResetAt,
+    })
+    .from(userPreferences)
+    .where(eq(userPreferences.authUserId, authUserId))
+    .limit(1);
+
+  const plan = row?.plan ?? "free";
+  const limit = getExtractLimit(plan);
+
+  if (!row || !row.resetAt || row.resetAt.getTime() < Date.now()) {
+    return { used: 0, limit, remaining: limit, plan };
+  }
+
+  const used = row.count ?? 0;
+  return {
+    used,
+    limit,
+    remaining: Math.max(0, limit - used),
+    plan,
+  };
+}
+
+export async function checkExtractLimit(
+  authUserId: string,
+): Promise<boolean> {
+  const usage = await getExtractUsage(authUserId);
+  return usage.remaining > 0;
+}
+
+export async function incrementExtractCount(
+  authUserId: string,
+): Promise<void> {
+  const [row] = await db
+    .select({ resetAt: userPreferences.extractResetAt })
+    .from(userPreferences)
+    .where(eq(userPreferences.authUserId, authUserId))
+    .limit(1);
+
+  const now = new Date();
+  const needsReset = !row || !row.resetAt || row.resetAt.getTime() < now.getTime();
+
+  if (needsReset) {
+    await db
+      .insert(userPreferences)
+      .values({
+        authUserId,
+        extractCount: 1,
+        extractResetAt: new Date(now.getTime() + ONE_MONTH_MS),
+      })
+      .onConflictDoUpdate({
+        target: userPreferences.authUserId,
+        set: {
+          extractCount: 1,
+          extractResetAt: new Date(now.getTime() + ONE_MONTH_MS),
+        },
+      });
+  } else {
+    await db
+      .update(userPreferences)
+      .set({ extractCount: sql`${userPreferences.extractCount} + 1` })
+      .where(eq(userPreferences.authUserId, authUserId));
+  }
+}
+
+export async function setUserPlan(
+  authUserId: string,
+  plan: "free" | "pro",
+): Promise<void> {
+  await db
+    .insert(userPreferences)
+    .values({ authUserId, plan })
+    .onConflictDoUpdate({
+      target: userPreferences.authUserId,
+      set: { plan },
+    });
+}

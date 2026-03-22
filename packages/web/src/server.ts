@@ -380,6 +380,13 @@ export function startWebServer(opts: {
       return handleDeleteAccount(auth);
     }
 
+    if (method === "GET" && path === "/api/extract/usage") {
+      const auth = await requireAuth(req);
+      if (!authResult(auth)) return auth;
+      const { getExtractUsage } = await import("@openmarkers/db");
+      return json(await getExtractUsage(auth.userId));
+    }
+
     if (method === "POST" && path === "/api/extract") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;

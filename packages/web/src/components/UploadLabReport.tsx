@@ -6,6 +6,7 @@ import {
   AlertCircle,
   X,
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { useState, useRef, useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -62,6 +63,13 @@ export default function UploadLabReport({
     Array<{ id: string; value: number | string }>
   >([]);
 
+  const { data: usage, refetch: refetchUsage } = useQuery({
+    queryKey: ["extract-usage"],
+    queryFn: api.getExtractUsage,
+    staleTime: 60_000,
+  });
+  const limitReached = usage?.remaining === 0;
+
   const processFile = useCallback(
     async (file: File) => {
       if (file.size > MAX_FILE_SIZE) {
@@ -116,6 +124,7 @@ export default function UploadLabReport({
 
         setResults(flat);
         setPhase("reviewing");
+        refetchUsage();
       } catch (err: unknown) {
         setPhase("error");
         onActiveChange?.(false);
@@ -209,6 +218,16 @@ export default function UploadLabReport({
   };
 
   if (phase === "idle" || phase === "error") {
+    if (limitReached) {
+      return (
+        <div className="rounded-xl border border-amber-200/60 dark:border-amber-800/30 bg-amber-50/50 dark:bg-amber-950/20 p-5 text-center">
+          <p className="text-sm text-amber-700 dark:text-amber-400">
+            {t("uploadLimitReached")}
+          </p>
+        </div>
+      );
+    }
+
     return (
       <div className="space-y-3">
         <button
@@ -233,6 +252,14 @@ export default function UploadLabReport({
           <p className="text-xs text-muted-foreground mt-1">
             {t("uploadFormats")}
           </p>
+          <p className="text-[10px] text-muted-foreground/40 mt-2 max-w-xs mx-auto">
+            {t("uploadHint")}
+          </p>
+          {usage && (
+            <p className="text-[10px] text-muted-foreground/30 mt-1">
+              {usage.remaining}/{usage.limit} {t("uploadRemaining")}
+            </p>
+          )}
         </button>
         <input
           ref={fileRef}

@@ -88,6 +88,10 @@ export const api = {
       "/api/extract",
       data,
     ),
+  getExtractUsage: () =>
+    request<{ used: number; limit: number; remaining: number }>(
+      "/api/extract/usage",
+    ),
   updateProfile: (
     id: number,
     data: Partial<{

@@ -122,6 +122,7 @@ const ru: TranslationData = {
     demoMode: "Вы просматриваете демо-данные",
     exitDemo: "Выйти из демо",
     addLabVisit: "Добавить анализы",
+    addManually: "Ввести вручную",
     addLabVisitDesc: "Введите результаты анализов вручную.",
     addLabVisitDate: "Дата анализа",
     addLabVisitSearch: "Поиск биомаркеров...",
@@ -136,6 +137,8 @@ const ru: TranslationData = {
     uploadLabReportDesc: "Перетащите PDF или фото результатов анализов крови",
     uploadDrop: "Перетащите результаты анализов сюда",
     uploadFormats: "PDF, JPG или PNG — до 20 МБ",
+    uploadHint:
+      "Лучшие результаты с одним визитом в лабораторию. Большие отчёты с множеством дат могут потерять часть значений.",
     uploadChooseFile: "Выбрать файл",
     uploadUploading: "Загрузка...",
     uploadReading: "Читаем ваши результаты...",
@@ -155,8 +158,9 @@ const ru: TranslationData = {
     uploadTooLarge: "Файл слишком большой. Максимальный размер — 20 МБ.",
     uploadError:
       "Не удалось извлечь результаты из файла. Попробуйте более чёткое изображение или PDF.",
+    uploadRemaining: "загрузок осталось в этом месяце",
     uploadLimitReached:
-      "Дневной лимит загрузок исчерпан. Вы можете ввести значения вручную.",
+      "Месячный лимит загрузок исчерпан (5 в месяц). Вы можете ввести значения вручную.",
     uploadUnknownTitle: "Биомаркеры пока не поддерживаются — пропущены",
     uploadUnknownReport: "Сообщите о них на GitHub, чтобы мы могли добавить",
     aiImport: "Создать файл для импорта с помощью AI",
@@ -199,6 +203,9 @@ const ru: TranslationData = {
     settingsUnitConventional: "Традиционные (США)",
     settingsProfiles: "Профили",
     settingsEditProfile: "Редактировать профиль",
+    settingsAiUsage: "ИИ-извлечение из лабораторных отчётов",
+    settingsAiUsageDesc:
+      "Загрузите PDF или фото лабораторного отчёта, и ИИ извлечёт значения. Лимит — 5 загрузок в месяц.",
     settingsAccount: "Аккаунт",
     settingsChangeEmail: "Сменить email",
     settingsChangePassword: "Сменить пароль",

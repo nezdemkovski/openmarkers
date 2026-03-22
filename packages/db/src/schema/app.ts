@@ -89,6 +89,9 @@ export const userPreferences = pgTable("user_preferences", {
   unitSystem: text("unit_system", { enum: ["si", "conventional"] })
     .notNull()
     .default("si"),
+  plan: text("plan", { enum: ["free", "pro"] }).notNull().default("free"),
+  extractCount: integer("extract_count").notNull().default(0),
+  extractResetAt: timestamp("extract_reset_at"),
 });
 
 export const oauthClients = pgTable("oauth_clients", {

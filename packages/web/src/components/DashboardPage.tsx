@@ -181,9 +181,11 @@ export default function DashboardPage({
   } | null>(null);
   const [importName, setImportName] = useState("");
   const [importing, setImporting] = useState(false);
-  const [addLabVisitProfileId, setAddLabVisitProfileId] = useState<
-    number | null
-  >(null);
+  const [addDataProfileId, setAddDataProfileId] = useState<number | null>(null);
+  const [addDataMode, setAddDataMode] = useState<"upload" | "manual">(
+    "upload",
+  );
+  const [dialogUploadActive, setDialogUploadActive] = useState(false);
 
   const switchToProfile = useCallback(
     (profileId: number) => {
@@ -352,7 +354,10 @@ export default function DashboardPage({
           isDemo={false}
           onAddLabVisit={
             activeProfileId != null
-              ? () => setAddLabVisitProfileId(activeProfileId)
+              ? () => {
+                  setAddDataMode("upload");
+                  setAddDataProfileId(activeProfileId);
+                }
               : undefined
           }
           onCreateProfile={() => navigateTo("/dashboard/new-profile")}
@@ -386,9 +391,10 @@ export default function DashboardPage({
                 i18n={i18n}
                 onImport={handleImport}
                 onCreated={switchToProfile}
-                onAddLabVisit={(profileId) =>
-                  setAddLabVisitProfileId(profileId)
-                }
+                onAddLabVisit={(profileId) => {
+                  setAddDataMode("manual");
+                  setAddDataProfileId(profileId);
+                }}
                 importing={importing}
                 hasProfile={!hasNoProfiles && !creatingProfile}
                 activeProfileId={creatingProfile ? null : activeProfileId}
@@ -464,21 +470,63 @@ export default function DashboardPage({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {addLabVisitProfileId !== null && (
+      {addDataProfileId !== null && addDataMode === "manual" && (
         <AddLabVisit
-          profileId={addLabVisitProfileId}
+          profileId={addDataProfileId}
           i18n={i18n}
           onClose={() => {
-            const pid = addLabVisitProfileId;
-            setAddLabVisitProfileId(null);
+            const pid = addDataProfileId;
+            setAddDataProfileId(null);
             switchToProfile(pid);
           }}
           onSuccess={() => {
-            const pid = addLabVisitProfileId;
-            setAddLabVisitProfileId(null);
+            const pid = addDataProfileId;
+            setAddDataProfileId(null);
             switchToProfile(pid);
           }}
         />
+      )}
+      {addDataProfileId !== null && addDataMode === "upload" && (
+        <Dialog
+          open
+          onOpenChange={(open) => {
+            if (!open) setAddDataProfileId(null);
+          }}
+        >
+          <DialogContent className="sm:max-w-lg p-5 gap-4 max-h-[85vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{i18n.t("addYourData")}</DialogTitle>
+            </DialogHeader>
+            <UploadLabReport
+              i18n={i18n}
+              profileId={addDataProfileId}
+              onImported={() => {
+                const pid = addDataProfileId;
+                setAddDataProfileId(null);
+                switchToProfile(pid);
+              }}
+              onActiveChange={setDialogUploadActive}
+            />
+            {!dialogUploadActive && (
+              <>
+                <div className="flex items-center gap-3 mt-2">
+                  <div className="flex-1 h-px bg-border/60" />
+                  <span className="text-[11px] text-muted-foreground/50 uppercase tracking-wider">
+                    or
+                  </span>
+                  <div className="flex-1 h-px bg-border/60" />
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => setAddDataMode("manual")}
+                  className="w-full text-xs"
+                >
+                  {i18n.t("addManually")}
+                </Button>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       )}
     </TooltipProvider>
   );

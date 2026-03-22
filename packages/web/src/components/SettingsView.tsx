@@ -64,6 +64,7 @@ export default function SettingsView({
       <h1 className="text-2xl font-bold text-foreground">{t("settings")}</h1>
 
       <UnitSystemSection t={t} onUpdated={onProfileUpdated} />
+      <AiUsageSection t={t} />
       <ProfilesSection
         t={t}
         profiles={profiles}
@@ -514,6 +515,53 @@ function ShareProfileSection({
         </div>
       )}
     </div>
+  );
+}
+
+function AiUsageSection({ t }: { t: (key: string) => string }) {
+  const { data: usage } = useQuery({
+    queryKey: ["extract-usage"],
+    queryFn: api.getExtractUsage,
+    staleTime: 60_000,
+  });
+
+  if (!usage) return null;
+
+  const pct = Math.round((usage.used / usage.limit) * 100);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{t("settingsAiUsage")}</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm text-muted-foreground">
+          {t("settingsAiUsageDesc")}
+        </p>
+        <div>
+          <div className="flex items-center justify-between text-sm mb-1.5">
+            <span className="text-foreground font-medium">
+              {usage.used} / {usage.limit}
+            </span>
+            <span className="text-muted-foreground text-xs">
+              {usage.remaining} {t("uploadRemaining")}
+            </span>
+          </div>
+          <div className="h-2 rounded-full bg-muted overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all ${
+                pct >= 100
+                  ? "bg-destructive"
+                  : pct >= 80
+                    ? "bg-amber-500"
+                    : "bg-emerald-500"
+              }`}
+              style={{ width: `${Math.min(pct, 100)}%` }}
+            />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
