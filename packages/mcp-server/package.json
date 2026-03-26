@@ -9,7 +9,7 @@
     "lint": "oxlint -c ../../.oxlintrc.json"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.27.0",
+    "@modelcontextprotocol/sdk": "^1.28.0",
     "@openmarkers/db": "workspace:*",
     "zod": "^3.25.76"
   }

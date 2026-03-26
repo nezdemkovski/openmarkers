@@ -170,13 +170,17 @@ export async function handleExtract(
     console.log(`[extract] AI returned ${aiOutput.results.length} raw results`);
 
     const accepted: ValidatedResult[] = [];
-    const unknown: Array<{ id: string; value: number | string }> = [];
+    const unknown: Array<{ id: string; value: number | string; date?: string; suggestions?: string[] }> = [];
     const seen = new Set<string>();
     const errors: string[] = [];
 
     for (const { biomarker_id, value: rawValue, date } of aiOutput.results) {
       if (!VALID_IDS.has(biomarker_id)) {
-        unknown.push({ id: biomarker_id, value: rawValue });
+        const suffix = biomarker_id.replace(/^[A-Z]-/, "");
+        const suggestions = [...VALID_IDS]
+          .filter((id) => id.includes(suffix) || suffix.includes(id.replace(/^[A-Z]-/, "")))
+          .slice(0, 5);
+        unknown.push({ id: biomarker_id, value: rawValue, date, suggestions });
         errors.push(`${biomarker_id}: unknown ID`);
         continue;
       }

@@ -164,8 +164,9 @@ const cs: TranslationData = {
     uploadRemaining: "nahrávání zbývá tento měsíc",
     uploadLimitReached:
       "Měsíční limit nahrávání dosažen (5 za měsíc). Stále můžete zadat hodnoty ručně.",
-    uploadUnknownTitle: "Zatím nepodporované biomarkery — přeskočeny",
-    uploadUnknownReport: "Nahlaste je na GitHubu, abychom je mohli přidat",
+    uploadUnknownTitle: "Nepodařilo se přiřadit tyto markery",
+    uploadUnknownSelect: "Mysleli jste...",
+    uploadUnknownReport: "Nahlásit chybějící biomarkery na GitHubu",
     aiImport: "Vytvořit soubor pro import pomocí AI",
     aiImportDesc:
       "Máte PDF nebo laboratorní zprávu? Pomocí AI ji převeďte na soubor k importu.",

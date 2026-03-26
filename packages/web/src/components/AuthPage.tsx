@@ -1,9 +1,17 @@
 import type { Lang } from "@openmarkers/db";
 import { enrichUserData } from "@openmarkers/db/src/enrich";
+import {
+  ClaudeCode,
+  Codex,
+  Copilot,
+  Cursor,
+  Github,
+  GithubCopilot,
+  OpenClaw,
+} from "@lobehub/icons";
 import { useQuery } from "@tanstack/react-query";
 import {
   Loader2,
-  Github,
   Play,
   Globe,
   ArrowRight,
@@ -16,6 +24,7 @@ import {
 import { useState, useEffect, useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
+import HeroTerminal from "./HeroTerminal";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -42,54 +51,13 @@ interface AuthPageProps {
   isAuthenticated?: boolean;
 }
 
-function ClaudeIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M16.14 8.65l-4.87 8.44a.38.38 0 01-.66 0L5.74 8.65a.38.38 0 01.33-.57h3.47c.14 0 .26.07.33.19l2.14 3.7 2.14-3.7a.38.38 0 01.33-.19h3.33a.38.38 0 01.33.57z" />
-    </svg>
-  );
-}
-
-function OpenAIIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M22.28 9.37a6.07 6.07 0 00-.52-4.98A6.12 6.12 0 0015.17 1a6.1 6.1 0 00-5.82 4.22A6.07 6.07 0 005.3 6.68a6.12 6.12 0 00-.95 7.08 6.07 6.07 0 00.52 4.98A6.12 6.12 0 0011.46 22a6.1 6.1 0 005.82-4.22 6.07 6.07 0 004.06-1.46 6.12 6.12 0 00.94-7.08v.13zM11.46 20.78a4.56 4.56 0 01-2.93-1.06l.15-.08 4.87-2.81a.79.79 0 00.4-.69v-6.86l2.06 1.19a.07.07 0 01.04.06v5.69a4.59 4.59 0 01-4.59 4.56zM4.12 17a4.56 4.56 0 01-.55-3.07l.15.09 4.87 2.81a.79.79 0 00.79 0l5.95-3.44v2.38a.07.07 0 01-.03.06l-4.92 2.84A4.59 4.59 0 014.12 17zM3.05 8.26a4.56 4.56 0 012.39-2.01V12a.79.79 0 00.4.69l5.95 3.43-2.06 1.19a.07.07 0 01-.07 0L4.74 14.5a4.59 4.59 0 01-1.69-6.24zm15.49 3.6l-5.95-3.44 2.06-1.18a.07.07 0 01.07 0l4.92 2.84a4.58 4.58 0 01-.7 8.28v-5.75a.79.79 0 00-.4-.69v-.06zm2.05-3.1l-.15-.09-4.87-2.81a.79.79 0 00-.79 0L8.83 9.3V6.92a.07.07 0 01.03-.06l4.92-2.84a4.58 4.58 0 016.81 4.74zM7.88 12.51L5.82 11.3a.07.07 0 01-.04-.06V5.55a4.58 4.58 0 017.52-3.52l-.15.08-4.87 2.81a.79.79 0 00-.4.69v6.86l.04.04h-.04zm1.12-2.4l2.65-1.53 2.65 1.53v3.06l-2.65 1.53L9 13.17v-3.06z" />
-    </svg>
-  );
-}
-
-function CursorIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M5.5 3l13 9-5.5 1.5L11.5 19z" />
-    </svg>
-  );
-}
-
-function VSCodeIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M17.58 2L8.26 10.6 4.42 7.52 2 8.7v6.59l2.42 1.2 3.84-3.1L17.58 22 22 20.18V3.82L17.58 2zM4.42 13.52v-3.04l1.85 1.52-1.85 1.52zm13.16 4.28L10.47 12l7.11-5.8v11.6z" />
-    </svg>
-  );
-}
-
 function IntegrationIcons({ label }: { label: string }) {
-  const icons = [
-    { Icon: ClaudeIcon, name: "Claude" },
-    { Icon: OpenAIIcon, name: "ChatGPT" },
-    { Icon: CursorIcon, name: "Cursor" },
-    { Icon: VSCodeIcon, name: "VS Code" },
-    { Icon: Terminal, name: "Terminal" },
-  ];
   return (
-    <div className="flex items-center gap-2 text-muted-foreground/50 dark:text-muted-foreground/30">
-      <span className="text-[11px]">{label}</span>
-      <div className="flex items-center gap-1.5">
-        {icons.map(({ Icon, name }) => (
-          <Icon key={name} className="w-4 h-4" />
-        ))}
-      </div>
+    <div className="flex items-center gap-3 text-muted-foreground/50 dark:text-muted-foreground/30 flex-wrap">
+      <span className="text-[11px] shrink-0">{label}</span>
+      {[ClaudeCode, OpenClaw, Codex, Cursor, GithubCopilot].map((Icon, i) => (
+        <Icon key={i} size={20} type="mono" />
+      ))}
     </div>
   );
 }
@@ -114,7 +82,7 @@ function CopyableCommand({
       onClick={() => onCopy(text, id)}
       className="flex items-center gap-2.5 group/copy rounded-lg border border-border/60 dark:border-border/30 bg-zinc-950 dark:bg-zinc-900 px-3 py-2.5 w-full hover:bg-zinc-900 dark:hover:bg-zinc-800 transition-colors text-left"
     >
-      <span className="text-zinc-400 shrink-0">{icon}</span>
+      <div className="text-zinc-400 shrink-0">{icon}</div>
       <span className="text-[11px] text-zinc-500 shrink-0 w-20">{label}</span>
       <code className="text-[11px] text-zinc-300 font-mono flex-1 truncate">
         {text}
@@ -161,7 +129,7 @@ function ChatMockup() {
       </div>
       <div className="flex gap-2.5">
         <div className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center shrink-0">
-          <ClaudeIcon className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
+          <ClaudeCode size={14} />
         </div>
         <div className="rounded-lg bg-violet-50 dark:bg-violet-950/30 border border-violet-200/50 dark:border-violet-800/30 px-3 py-2 text-xs text-foreground leading-relaxed">
           Your <strong>ferritin</strong> has been declining over the last 3
@@ -411,24 +379,8 @@ export default function AuthPage({
               </div>
             </div>
 
-            {/* Right: Live demo charts */}
-            <div className="space-y-3 max-h-[min(72vh,600px)] overflow-y-auto pr-1">
-              {heroBiomarkers.length > 0 ? (
-                <TooltipProvider>
-                  {heroBiomarkers.map((bio) => (
-                    <ChartCard
-                      key={bio.id}
-                      biomarker={bio}
-                      isDark={isDark}
-                      i18n={i18n}
-                    />
-                  ))}
-                </TooltipProvider>
-              ) : (
-                <div className="flex items-center justify-center h-64">
-                  <Loader2 className="w-6 h-6 text-muted-foreground/40 animate-spin" />
-                </div>
-              )}
+            <div>
+              <HeroTerminal />
             </div>
           </div>
         </div>
@@ -517,7 +469,7 @@ export default function AuthPage({
               </p>
               <div className="space-y-2">
                 <CopyableCommand
-                  icon={<ClaudeIcon className="w-3.5 h-3.5" />}
+                  icon={<ClaudeCode size={14} />}
                   label="Claude Code"
                   text="claude mcp add --transport http openmarkers https://openmarkers.com/mcp"
                   copied={copied}
@@ -525,7 +477,7 @@ export default function AuthPage({
                   id="claude-mcp"
                 />
                 <CopyableCommand
-                  icon={<OpenAIIcon className="w-3.5 h-3.5" />}
+                  icon={<Codex size={14} />}
                   label="Codex"
                   text="codex mcp add openmarkers --url https://openmarkers.com/mcp"
                   copied={copied}
@@ -605,7 +557,7 @@ export default function AuthPage({
           </h2>
           <div className="grid sm:grid-cols-3 gap-4">
             <div className="rounded-xl border border-border/60 dark:border-border/40 bg-card p-5">
-              <Github className="w-5 h-5 text-foreground/70 mb-3" />
+              <Github size={20} className="mb-3" />
               <h3 className="text-sm font-semibold text-foreground">
                 {t("trustOpenSourceTitle")}
               </h3>
@@ -761,7 +713,7 @@ export default function AuthPage({
               rel="noopener noreferrer"
               className="hover:text-muted-foreground transition-colors inline-flex items-center gap-1"
             >
-              <Github className="w-2.5 h-2.5" />
+              <Github size={10} />
               GitHub
             </a>
           </div>

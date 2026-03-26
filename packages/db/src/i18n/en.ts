@@ -163,8 +163,9 @@ const en: TranslationData = {
     uploadRemaining: "uploads remaining this month",
     uploadLimitReached:
       "Monthly upload limit reached (5 per month). You can still enter values manually.",
-    uploadUnknownTitle: "Biomarkers not yet supported — skipped",
-    uploadUnknownReport: "Report these on GitHub so we can add them",
+    uploadUnknownTitle: "Could not match these markers",
+    uploadUnknownSelect: "Did you mean...",
+    uploadUnknownReport: "Report missing biomarkers on GitHub",
     aiImport: "Create Import File with AI",
     aiImportDesc:
       "Have a PDF or lab report? Use AI to convert it into a file you can import here.",

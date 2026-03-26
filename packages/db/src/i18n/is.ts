@@ -163,8 +163,9 @@ const is: TranslationData = {
     uploadRemaining: "upphleðslur eftir í þessum mánuði",
     uploadLimitReached:
       "Mánaðarleg upphleðslumörk náð (5 á mánuði). Þú getur enn slegið inn gildi handvirkt.",
-    uploadUnknownTitle: "Lífmerki ekki enn studd — sleppt",
-    uploadUnknownReport: "Tilkynntu þau á GitHub svo við getum bætt þeim við",
+    uploadUnknownTitle: "Gat ekki samsvörun þessum merkjum",
+    uploadUnknownSelect: "Áttirðu við...",
+    uploadUnknownReport: "Tilkynntu vantar lífmerki á GitHub",
     aiImport: "Búa til innflutningsskrá með AI",
     aiImportDesc:
       "Ertu með PDF eða rannsóknarskýrslu? Notaðu AI til að búa til skrá til innflutnings.",

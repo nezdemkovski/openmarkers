@@ -67,7 +67,12 @@ export default function UploadLabReport({
   const [dragOver, setDragOver] = useState(false);
   const [results, setResults] = useState<ExtractedResult[]>([]);
   const [unknownMarkers, setUnknownMarkers] = useState<
-    Array<{ id: string; value: number | string }>
+    Array<{
+      id: string;
+      value: number | string;
+      date?: string;
+      suggestions?: string[];
+    }>
   >([]);
 
   const { data: usage, refetch: refetchUsage } = useQuery({
@@ -185,6 +190,22 @@ export default function UploadLabReport({
           : r,
       ),
     );
+  };
+
+  const remapUnknown = (unknownIdx: number, targetBioId: string) => {
+    const marker = unknownMarkers[unknownIdx];
+    if (!marker || !targetBioId) return;
+    setResults((prev) => [
+      ...prev,
+      {
+        biomarkerId: targetBioId,
+        biomarkerName: tBio(targetBioId, "name") || targetBioId,
+        categoryId: "",
+        date: marker.date || new Date().toISOString().split("T")[0],
+        value: marker.value,
+      },
+    ]);
+    setUnknownMarkers((prev) => prev.filter((_, i) => i !== unknownIdx));
   };
 
   const handleConfirm = async () => {
@@ -414,20 +435,36 @@ export default function UploadLabReport({
       </div>
 
       {unknownMarkers.length > 0 && (
-        <div className="rounded-lg border border-amber-200/60 dark:border-amber-800/30 bg-amber-50/50 dark:bg-amber-950/20 p-3">
-          <p className="text-xs font-medium text-amber-700 dark:text-amber-400 mb-1.5">
+        <div className="rounded-lg border border-amber-200/60 dark:border-amber-800/30 bg-amber-50/50 dark:bg-amber-950/20 p-3 space-y-2">
+          <p className="text-xs font-medium text-amber-700 dark:text-amber-400">
             {t("uploadUnknownTitle")} ({unknownMarkers.length})
           </p>
-          <div className="flex flex-wrap gap-1.5 mb-2">
-            {unknownMarkers.map((u) => (
-              <span
-                key={u.id}
-                className="text-[11px] text-amber-600/80 dark:text-amber-400/60 bg-amber-100/60 dark:bg-amber-900/30 px-1.5 py-0.5 rounded"
-              >
+          {unknownMarkers.map((u, idx) => (
+            <div
+              key={u.id}
+              className="flex items-center gap-2 text-xs"
+            >
+              <span className="text-amber-600/80 dark:text-amber-400/60 font-mono shrink-0">
                 {u.id}: {String(u.value)}
               </span>
-            ))}
-          </div>
+              {u.suggestions && u.suggestions.length > 0 ? (
+                <select
+                  className="h-6 text-[11px] rounded border border-amber-300/50 dark:border-amber-700/50 bg-transparent text-foreground px-1"
+                  defaultValue=""
+                  onChange={(e) => {
+                    if (e.target.value) remapUnknown(idx, e.target.value);
+                  }}
+                >
+                  <option value="">{t("uploadUnknownSelect")}</option>
+                  {u.suggestions.map((s) => (
+                    <option key={s} value={s}>
+                      {tBio(s, "name")} ({s})
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+            </div>
+          ))}
           <a
             href={`https://github.com/nezdemkovski/openmarkers/issues/new?title=${encodeURIComponent("Missing biomarkers: " + unknownMarkers.map((u) => u.id).join(", "))}&body=${encodeURIComponent("These biomarkers were found in my lab report but not supported yet:\n\n" + unknownMarkers.map((u) => `- ${u.id}: ${u.value}`).join("\n"))}`}
             target="_blank"

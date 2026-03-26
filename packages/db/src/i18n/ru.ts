@@ -162,8 +162,9 @@ const ru: TranslationData = {
     uploadRemaining: "загрузок осталось в этом месяце",
     uploadLimitReached:
       "Месячный лимит загрузок исчерпан (5 в месяц). Вы можете ввести значения вручную.",
-    uploadUnknownTitle: "Биомаркеры пока не поддерживаются — пропущены",
-    uploadUnknownReport: "Сообщите о них на GitHub, чтобы мы могли добавить",
+    uploadUnknownTitle: "Не удалось сопоставить эти маркеры",
+    uploadUnknownSelect: "Возможно, вы имели в виду...",
+    uploadUnknownReport: "Сообщить о недостающих биомаркерах на GitHub",
     aiImport: "Создать файл для импорта с помощью AI",
     aiImportDesc:
       "Есть PDF или результаты анализов? AI поможет создать файл для импорта.",
