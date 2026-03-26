@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/table";
 
 import { api } from "../lib/api.ts";
+import { track, Event } from "../lib/analytics.ts";
 import type { Category, I18n, ComparisonRow } from "../types.ts";
 
 function formatDate(dateStr: string): string {
@@ -162,7 +163,7 @@ export default function ComparisonView({
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
             <div className="grid grid-cols-[auto_1fr] items-center gap-2">
               <Label className="shrink-0">{t("from")}</Label>
-              <Select value={activeDate1} onValueChange={(v) => setDate1(v)}>
+              <Select value={activeDate1} onValueChange={(v) => { setDate1(v); track(Event.ComparisonViewed); }}>
                 <SelectTrigger className="!w-full sm:!w-fit">
                   <SelectValue placeholder={t("from")} />
                 </SelectTrigger>
@@ -177,7 +178,7 @@ export default function ComparisonView({
             </div>
             <div className="grid grid-cols-[auto_1fr] items-center gap-2">
               <Label className="shrink-0">{t("to")}</Label>
-              <Select value={activeDate2} onValueChange={(v) => setDate2(v)}>
+              <Select value={activeDate2} onValueChange={(v) => { setDate2(v); track(Event.ComparisonViewed); }}>
                 <SelectTrigger className="!w-full sm:!w-fit">
                   <SelectValue placeholder={t("to")} />
                 </SelectTrigger>

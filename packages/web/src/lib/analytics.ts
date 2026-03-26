@@ -22,6 +22,10 @@ export const Event = {
   LabVisitAdded: "Lab Visit Added",
   DemoStarted: "Demo Started",
   AiPromptCopied: "AI Prompt Copied",
+  LabReportExtracted: "Lab Report Extracted",
+  LabReportImported: "Lab Report Imported",
+  UnitSystemChanged: "Unit System Changed",
+  ComparisonViewed: "Comparison Viewed",
   ThemeToggled: "Theme Toggled",
   LanguageChanged: "Language Changed",
 } as const;

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { api } from "../lib/api";
+import { track, Event } from "../lib/analytics";
 import { errorMessage } from "../lib/utils";
 import type { I18n } from "../types";
 
@@ -140,6 +141,7 @@ export default function UploadLabReport({
 
         setResults(flat);
         setPhase("reviewing");
+        track(Event.LabReportExtracted, { results: flat.length });
         refetchUsage();
       } catch (err: unknown) {
         setPhase("error");
@@ -241,6 +243,7 @@ export default function UploadLabReport({
       );
 
       setPhase("done");
+      track(Event.LabReportImported, { results: results.length });
       onImported();
     } catch (err: unknown) {
       setPhase("error");

@@ -878,6 +878,7 @@ function UnitSystemSection({
 
   const handleChange = async (value: UnitSystem) => {
     queryClient.setQueryData(["preferences"], { unitSystem: value });
+    track(Event.UnitSystemChanged, { system: value });
     try {
       await api.updatePreferences({ unit_system: value });
 
