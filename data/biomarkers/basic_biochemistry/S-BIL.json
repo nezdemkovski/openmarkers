@@ -1,0 +1,30 @@
+{
+  "id": "S-BIL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 584.66,
+  "refRanges": {
+    "male": {
+      "min": 0.0,
+      "max": 21.0
+    },
+    "female": {
+      "min": 0.0,
+      "max": 21.0
+    }
+  },
+  "name": {
+    "en": "Total Bilirubin",
+    "cs": "Celkový bilirubin",
+    "ru": "Общий билирубин",
+    "is": "Heildarbílirúbín"
+  },
+  "description": {
+    "en": "Pigment from red blood cell breakdown processed by the liver. Elevated levels cause jaundice. Mildly elevated values may indicate Gilbert syndrome (benign).",
+    "cs": "Pigment z rozpadu červených krvinek zpracovávaný játry. Zvýšené hladiny způsobují žloutenku. Mírně zvýšené hodnoty mohou ukazovat na Gilbertův syndrom (benigní).",
+    "ru": "Пигмент из распада эритроцитов, перерабатываемый печенью. Повышенные уровни вызывают желтуху. Умеренно повышенные значения могут указывать на синдром Жильбера (доброкачественный).",
+    "is": "Litarefni frá niðurbroti rauðra blóðkorna unnið af lifrinni. Hækkuð gildi valda gulu. Vægt hækkuð gildi geta bent til Gilbert heilkennis (góðkynja)."
+  }
+}

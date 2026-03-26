@@ -1,0 +1,28 @@
+{
+  "id": "C-INR",
+  "category": "coagulation",
+  "type": "quantitative",
+  "unit": "INR",
+  "refRanges": {
+    "male": {
+      "min": 0.8,
+      "max": 1.2
+    },
+    "female": {
+      "min": 0.8,
+      "max": 1.2
+    }
+  },
+  "name": {
+    "en": "INR",
+    "cs": "INR",
+    "ru": "МНО",
+    "is": "INR"
+  },
+  "description": {
+    "en": "International Normalized Ratio - standardized prothrombin time used to monitor warfarin therapy. Normal is ~1.0; therapeutic range on warfarin is typically 2.0-3.0.",
+    "cs": "Mezinárodní normalizovaný poměr — standardizovaný protrombinový čas pro monitorování terapie warfarinem. Normální je ~1,0; terapeutické rozmezí na warfarinu je obvykle 2,0–3,0.",
+    "ru": "Международное нормализованное отношение — стандартизированное протромбиновое время для контроля терапии варфарином. Нормально ~1,0; терапевтический диапазон на варфарине обычно 2,0–3,0.",
+    "is": "Alþjóðlegt staðlað hlutfall - staðlað prótrombíntímapróf notað til eftirlits með warfarínmeðferð. Eðlilegt er ~1,0; meðferðarsvið á warfaríni er venjulega 2,0-3,0."
+  }
+}

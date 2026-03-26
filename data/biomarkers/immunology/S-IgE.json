@@ -1,0 +1,26 @@
+{
+  "id": "S-IgE",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "kU/l",
+  "refRanges": {
+    "male": {
+      "max": 100.0
+    },
+    "female": {
+      "max": 100.0
+    }
+  },
+  "name": {
+    "en": "IgE (Immunoglobulin E)",
+    "cs": "IgE (Imunoglobulin E)",
+    "ru": "IgE (Иммуноглобулин E)",
+    "is": "IgE (Ónæmisglóbúlín E)"
+  },
+  "description": {
+    "en": "Antibody involved in allergic reactions and parasitic defense. Elevated in allergies, asthma, eczema, and parasitic infections. Used to assess allergic status and monitor treatment.",
+    "cs": "Protilátka zapojená do alergických reakcí a obrany proti parazitům. Zvýšená u alergií, astmatu, ekzému a parazitárních infekcí. Používá se k hodnocení alergického stavu a monitorování léčby.",
+    "ru": "Антитело, участвующее в аллергических реакциях и защите от паразитов. Повышено при аллергии, астме, экземе и паразитарных инфекциях. Используется для оценки аллергического статуса и мониторинга лечения.",
+    "is": "Mótefni tengt ofnæmisviðbrögðum og sníkjudýravörnum. Hækkað við ofnæmi, astma og exemi."
+  }
+}

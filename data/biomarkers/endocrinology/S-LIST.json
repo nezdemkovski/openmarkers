@@ -1,0 +1,17 @@
+{
+  "id": "S-LIST",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "name": {
+    "en": "Free Testosterone Index (LIST)",
+    "cs": "Index volného testosteronu (LIST)",
+    "ru": "Индекс свободного тестостерона (LIST)",
+    "is": "Frjáls testósterónvísitala (LIST)"
+  },
+  "description": {
+    "en": "Lab-calculated index of free testosterone. Different from FAI — uses a distinct formula. A higher value indicates more bioavailable testosterone relative to binding proteins.",
+    "cs": "Laboratorně vypočtený index volného testosteronu. Odlišný od FAI — používá jiný vzorec. Vyšší hodnota ukazuje na více biologicky dostupného testosteronu.",
+    "ru": "Лабораторно рассчитанный индекс свободного тестостерона. Отличается от FAI — использует другую формулу. Более высокое значение указывает на больше биодоступного тестостерона.",
+    "is": "Reiknuð vísitala frjáls testósteróns. Hærra gildi bendir til meira lífvirks testósteróns."
+  }
+}

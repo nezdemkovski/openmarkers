@@ -1,0 +1,28 @@
+{
+  "id": "B-MOabs",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "×10⁹/l",
+  "refRanges": {
+    "male": {
+      "min": 0.1,
+      "max": 1.0
+    },
+    "female": {
+      "min": 0.1,
+      "max": 1.0
+    }
+  },
+  "name": {
+    "en": "Monocytes (Absolute)",
+    "cs": "Monocyty (absolutní počet)",
+    "ru": "Моноциты (абсолютное число)",
+    "is": "Einkyrningar (heildarfjöldi)"
+  },
+  "description": {
+    "en": "Absolute count of monocytes. Elevated in chronic infections, autoimmune diseases, and some blood disorders.",
+    "cs": "Absolutní počet monocytů. Zvýšené při chronických infekcích, autoimunitních onemocněních a některých poruchách krve.",
+    "ru": "Абсолютное число моноцитов. Повышены при хронических инфекциях, аутоиммунных заболеваниях и некоторых нарушениях крови.",
+    "is": "Heildarfjöldi einkyrni. Hækkað við langvinnar sýkingar, sjálfsofnæmissjúkdóma og sumar blóðraskanir."
+  }
+}

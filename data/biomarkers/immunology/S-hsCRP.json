@@ -1,0 +1,33 @@
+{
+  "id": "S-hsCRP",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "mg/l",
+  "conventionalUnit": "mg/dL",
+  "refRanges": {
+    "male": {
+      "max": 3.0
+    },
+    "female": {
+      "max": 3.0
+    }
+  },
+  "phenoAge": {
+    "coefficient": 0.0954,
+    "unit": "mg/L→ln",
+    "label": "ln(CRP)",
+    "transform": "ln"
+  },
+  "name": {
+    "en": "hs-CRP (High-Sensitivity C-Reactive Protein)",
+    "cs": "hs-CRP (Vysoce citlivý C-reaktivní protein)",
+    "ru": "вч-СРБ (Высокочувствительный С-реактивный белок)",
+    "is": "hs-CRP (Háviðkvæmt C-viðbragðsprótín)"
+  },
+  "description": {
+    "en": "Ultra-sensitive measure of systemic inflammation. Gold standard inflammatory marker — elevated levels are strongly linked to cardiovascular risk, cognitive decline, and chronic disease.",
+    "cs": "Ultracitlivé měření systémového zánětu. Zlatý standard zánětlivého markeru — zvýšené hodnoty jsou silně spojeny s kardiovaskulárním rizikem, kognitivním poklesem a chronickými onemocněními.",
+    "ru": "Сверхчувствительное измерение системного воспаления. Золотой стандарт маркера воспаления — повышенные значения тесно связаны с сердечно-сосудистым риском, когнитивным снижением и хроническими заболеваниями.",
+    "is": "Ofurviðkvæm mæling á kerfisbólgu. Gullstaðall bólgumerki - hækkuð gildi tengjast hjarta- og æðaáhættu, vitsmunalegu hnignun og langvinnum sjúkdómum."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "S-fTESTO",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "pmol/l",
+  "conventionalUnit": "pg/mL",
+  "molecularWeight": 288.42,
+  "refRanges": {
+    "male": {
+      "min": 174.0,
+      "max": 729.0
+    },
+    "female": {
+      "min": 2.4,
+      "max": 30.2
+    }
+  },
+  "name": {
+    "en": "Free Testosterone",
+    "cs": "Volný testosteron",
+    "ru": "Свободный тестостерон",
+    "is": "Frjálst testósterón"
+  },
+  "description": {
+    "en": "Bioavailable form of testosterone not bound to proteins. More clinically relevant than total testosterone as it reflects the hormone actually available to tissues.",
+    "cs": "Biologicky dostupná forma testosteronu nevázaná na bílkoviny. Klinicky relevantnější než celkový testosteron, protože odráží hormon skutečně dostupný tkáním.",
+    "ru": "Биодоступная форма тестостерона, не связанная с белками. Клинически более значим, чем общий тестостерон, так как отражает гормон, реально доступный тканям.",
+    "is": "Lífvirkt form testósteróns sem er ekki bundið próteinum. Klínískt mikilvægara en heildartestósterón."
+  }
+}

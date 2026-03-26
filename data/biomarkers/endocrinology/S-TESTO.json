@@ -1,0 +1,30 @@
+{
+  "id": "S-TESTO",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "nmol/l",
+  "conventionalUnit": "ng/dL",
+  "molecularWeight": 288.42,
+  "refRanges": {
+    "male": {
+      "min": 8.64,
+      "max": 29.0
+    },
+    "female": {
+      "min": 0.35,
+      "max": 1.9
+    }
+  },
+  "name": {
+    "en": "Testosterone (Total)",
+    "cs": "Testosteron (celkový)",
+    "ru": "Тестостерон (общий)",
+    "is": "Testósterón (heild)"
+  },
+  "description": {
+    "en": "Primary male sex hormone, crucial for both men and women. Supports muscle strength, bone density, mood, libido, and cardiovascular health. Declines with age.",
+    "cs": "Primární mužský pohlavní hormon, důležitý pro muže i ženy. Podporuje svalovou sílu, kostní denzitu, náladu, libido a kardiovaskulární zdraví. S věkem klesá.",
+    "ru": "Основной мужской половой гормон, важный как для мужчин, так и для женщин. Поддерживает мышечную силу, плотность костей, настроение, либидо и сердечно-сосудистое здоровье. Снижается с возрастом.",
+    "is": "Aðalkynhormón karla, mikilvægt fyrir bæði kyn. Styður vöðvastyrk, beindíðni, skap, kynhvöt og hjarta- og æðaheilsu."
+  }
+}

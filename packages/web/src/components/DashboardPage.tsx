@@ -36,13 +36,13 @@ import type { UserData, Route } from "../types.ts";
 import { Sex } from "../types.ts";
 import AddLabVisit from "./AddLabVisit.tsx";
 import CategoryView from "./CategoryView.tsx";
-import UploadLabReport from "./UploadLabReport.tsx";
 import ComparisonView from "./ComparisonView.tsx";
 import Dashboard from "./Dashboard.tsx";
 import Loading from "./Loading.tsx";
 import SettingsView from "./SettingsView.tsx";
 import Sidebar from "./Sidebar.tsx";
 import TimelineView from "./TimelineView.tsx";
+import UploadLabReport from "./UploadLabReport.tsx";
 
 interface ImportData {
   user: { name: string };
@@ -182,9 +182,7 @@ export default function DashboardPage({
   const [importName, setImportName] = useState("");
   const [importing, setImporting] = useState(false);
   const [addDataProfileId, setAddDataProfileId] = useState<number | null>(null);
-  const [addDataMode, setAddDataMode] = useState<"upload" | "manual">(
-    "upload",
-  );
+  const [addDataMode, setAddDataMode] = useState<"upload" | "manual">("upload");
   const [dialogUploadActive, setDialogUploadActive] = useState(false);
 
   const switchToProfile = useCallback(
@@ -629,8 +627,7 @@ function GettingStarted({
             value={sex ? [sex] : []}
             onValueChange={(val) => {
               const picked = (val as string[]).find((v) => v !== sex);
-              if (picked === Sex.Male || picked === Sex.Female)
-                setSex(picked);
+              if (picked === Sex.Male || picked === Sex.Female) setSex(picked);
             }}
             className="w-full"
           >
@@ -642,9 +639,7 @@ function GettingStarted({
             </ToggleGroupItem>
           </ToggleGroup>
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400">
-              {error}
-            </p>
+            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
           )}
           <Button
             type="submit"

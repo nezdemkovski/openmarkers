@@ -1,0 +1,23 @@
+{
+  "id": "S-PSA",
+  "category": "tumor_markers",
+  "type": "quantitative",
+  "unit": "ng/mL",
+  "refRanges": {
+    "male": {
+      "max": 4.0
+    }
+  },
+  "name": {
+    "en": "PSA (Prostate-Specific Antigen)",
+    "cs": "PSA (Prostatický specifický antigen)",
+    "ru": "ПСА (Простатический специфический антиген)",
+    "is": "PSA (Blöðruhálskirtilssértækt mótefnavaki)"
+  },
+  "description": {
+    "en": "Protein produced by the prostate gland. Primary screening marker for prostate cancer in men. Also elevated in benign prostatic hyperplasia and prostatitis. Rising trend is more significant than absolute value.",
+    "cs": "Protein produkovaný prostatou. Primární screeningový marker karcinomu prostaty u mužů. Také zvýšený u benigní hyperplazie prostaty a prostatitidy. Rostoucí trend je významnější než absolutní hodnota.",
+    "ru": "Белок, вырабатываемый предстательной железой. Основной скрининговый маркер рака простаты у мужчин. Также повышен при доброкачественной гиперплазии простаты и простатите. Растущий тренд важнее абсолютного значения.",
+    "is": "Prótín framleitt af blöðruhálskirtli. Aðalskimunarmersik fyrir blöðruhálskirtilskrabbamein hjá körlum."
+  }
+}

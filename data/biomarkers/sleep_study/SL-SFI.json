@@ -1,0 +1,17 @@
+{
+  "id": "SL-SFI",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "name": {
+    "en": "Snoring Frequency Index (SFI)",
+    "cs": "Index chrápání (SFI)",
+    "ru": "Индекс храпа (SFI)",
+    "is": "Hroturstíðnivísitala (SFI)"
+  },
+  "description": {
+    "en": "Proportion of sleep time spent snoring. Higher values indicate more persistent snoring, a hallmark of upper airway resistance.",
+    "cs": "Podíl doby spánku strávené chrápáním. Vyšší hodnoty znamenají častější chrápání, znak zvýšeného odporu horních cest dýchacích.",
+    "ru": "Доля времени сна, проведённая с храпом. Высокие значения указывают на постоянный храп — признак повышенного сопротивления верхних дыхательных путей.",
+    "is": "Hlutfall svefntíma sem varið er í hrotum."
+  }
+}

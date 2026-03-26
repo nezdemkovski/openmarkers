@@ -1,0 +1,30 @@
+{
+  "id": "S-Cl",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mEq/L",
+  "molecularWeight": 35.453,
+  "refRanges": {
+    "male": {
+      "min": 98.0,
+      "max": 107.0
+    },
+    "female": {
+      "min": 98.0,
+      "max": 107.0
+    }
+  },
+  "name": {
+    "en": "Chloride",
+    "cs": "Chloridy",
+    "ru": "Хлориды",
+    "is": "Klóríð"
+  },
+  "description": {
+    "en": "Electrolyte that helps maintain fluid balance and acid-base status. Usually moves in tandem with sodium.",
+    "cs": "Elektrolyt pomáhající udržovat rovnováhu tekutin a acidobazický stav. Obvykle se pohybuje společně se sodíkem.",
+    "ru": "Электролит, помогающий поддерживать водный баланс и кислотно-щелочное равновесие. Обычно изменяется параллельно с натрием.",
+    "is": "Saltsteind sem hjálpar til við að viðhalda vökvajafnvægi og sýru-basajafnvægi. Fylgist venjulega með natríumi."
+  }
+}

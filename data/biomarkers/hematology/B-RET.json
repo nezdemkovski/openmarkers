@@ -1,0 +1,28 @@
+{
+  "id": "B-RET",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 0.5,
+      "max": 2.0
+    },
+    "female": {
+      "min": 0.5,
+      "max": 2.0
+    }
+  },
+  "name": {
+    "en": "Reticulocytes",
+    "cs": "Retikulocyty",
+    "ru": "Ретикулоциты",
+    "is": "Frumstæð rauð blóðkorn"
+  },
+  "description": {
+    "en": "Immature red blood cells freshly released from bone marrow. Elevated count indicates active red blood cell production (response to anemia or blood loss). Low count suggests bone marrow suppression.",
+    "cs": "Nezralé červené krvinky čerstvě uvolněné z kostní dřeně. Zvýšený počet ukazuje na aktivní tvorbu červených krvinek (odpověď na anémii nebo ztrátu krve). Nízký počet naznačuje útlum kostní dřeně.",
+    "ru": "Незрелые эритроциты, только что выпущенные из костного мозга. Повышенный показатель указывает на активное образование эритроцитов (ответ на анемию или кровопотерю). Низкий — на угнетение костного мозга.",
+    "is": "Ung rauð blóðkorn nýkomin úr beinmerg. Hækkuð gildi benda til virkrar rauðkornamyndunar."
+  }
+}

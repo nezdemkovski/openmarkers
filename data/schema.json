@@ -4,10 +4,7 @@
   "title": "OpenMarkers User Data",
   "description": "Schema for OpenMarkers lab data files. Each file represents one person's lab history organized by medical categories, each containing biomarkers with timestamped results. See x-category-metadata and x-biomarker-metadata for the full list of supported categories and biomarkers with their names, descriptions, units, and reference ranges.",
   "type": "object",
-  "required": [
-    "user",
-    "categories"
-  ],
+  "required": ["user", "categories"],
   "additionalProperties": false,
   "properties": {
     "$schema": {
@@ -15,11 +12,7 @@
     },
     "user": {
       "type": "object",
-      "required": [
-        "name",
-        "dateOfBirth",
-        "sex"
-      ],
+      "required": ["name", "dateOfBirth", "sex"],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -33,10 +26,7 @@
         },
         "sex": {
           "type": "string",
-          "enum": [
-            "M",
-            "F"
-          ],
+          "enum": ["M", "F"],
           "description": "Biological sex (M or F). Affects reference ranges."
         }
       }
@@ -46,10 +36,7 @@
       "description": "Lab result categories (e.g. hematology, biochemistry, sleep study).",
       "items": {
         "type": "object",
-        "required": [
-          "id",
-          "biomarkers"
-        ],
+        "required": ["id", "biomarkers"],
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -200,10 +187,7 @@
   "$defs": {
     "biomarker": {
       "type": "object",
-      "required": [
-        "id",
-        "results"
-      ],
+      "required": ["id", "results"],
       "additionalProperties": false,
       "properties": {
         "id": {
@@ -211,313 +195,228 @@
           "description": "Biomarker identifier. Must be one of the allowed enum values. Each biomarker belongs to a specific category — see x-category-mapping for which IDs belong to which category, and x-biomarker-metadata for the human-readable name, clinical description, expected unit, and reference ranges for each biomarker.",
           "x-category-mapping": {
             "basic_biochemistry": [
-              "S-UREA",
-              "S-CREA",
-              "S-KM",
-              "S-CKDEPI",
-              "S-Na",
-              "S-K",
-              "S-Cl",
-              "S-Mg",
-              "S-BIL",
-              "S-DBIL",
+              "S-ALB",
+              "S-ALP",
               "S-ALT",
               "S-AST",
-              "S-GGT",
-              "S-ALP",
-              "S-LDH",
-              "S-PAMS",
-              "S-CB",
-              "S-ALB",
-              "S-CHOL",
-              "S-HDL",
-              "S-LDL",
-              "S-TGL",
-              "S-nHDL",
-              "S-VLDL",
               "S-ApoA1",
               "S-ApoB",
-              "S-LDLP",
-              "S-oxLDL",
-              "S-Lpa",
-              "S-CysC",
-              "S-HCY",
-              "S-VITD",
               "S-B12",
-              "S-FOL",
+              "S-BIL",
+              "S-CB",
+              "S-CHOL",
+              "S-CKDEPI",
+              "S-CREA",
               "S-Ca",
               "S-Cai",
-              "S-P",
+              "S-Cl",
+              "S-CysC",
+              "S-DBIL",
+              "S-FOL",
+              "S-GGT",
+              "S-GSH",
+              "S-HCY",
+              "S-HDL",
+              "S-K",
+              "S-KM",
+              "S-LDH",
+              "S-LDL",
+              "S-LDLP",
+              "S-Lpa",
+              "S-Mg",
+              "S-Na",
               "S-O3I",
-              "S-GSH"
-            ],
-            "diabetology": [
-              "P-P-GLU",
-              "B-HbA1c",
-              "S-INS",
-              "S-Cpep"
-            ],
-            "hematology": [
-              "B-WBC",
-              "B-RBC",
-              "B-HB",
-              "B-HCT",
-              "B-MCV",
-              "B-MCH",
-              "B-MCHC",
-              "B-PLT",
-              "B-MPV",
-              "B-RDW",
-              "B-neu",
-              "B-lymf",
-              "B-mono",
-              "B-eo",
-              "B-baso",
-              "B-NEabs",
-              "B-LYabs",
-              "B-MOabs",
-              "B-EOabs",
-              "B-BAabs",
-              "B-RET"
-            ],
-            "coagulation": [
-              "C-Quick",
-              "C-INR",
-              "C-QT",
-              "C-APTTr",
-              "C-APTT"
-            ],
-            "immunology": [
-              "S-CRP",
-              "S-hsCRP",
-              "B-ESR",
-              "S-TNF",
-              "S-S100B",
-              "S-IgA",
-              "S-IgG",
-              "S-IgM",
-              "S-IgE",
-              "S-Anti-tTg-IgA"
-            ],
-            "endocrinology": [
-              "S-TSH",
-              "S-fT3",
-              "S-fT4",
-              "S-aTSH",
-              "S-aTG",
-              "S-aTPO",
-              "S-TESTO",
-              "S-fTESTO",
-              "S-E2",
-              "S-DHEA",
-              "S-CORT",
-              "S-IGF1",
-              "S-SHBG",
-              "S-PRL",
-              "S-LH",
-              "S-FSH",
-              "S-FAI",
-              "S-PTH",
-              "S-PROG",
-              "S-LIST"
-            ],
-            "urine_dipstick": [
-              "U-GLU",
-              "U-PROT",
-              "U-BILI",
-              "U-UBG",
-              "U-PH",
-              "U-KREV",
-              "U-LEUC",
-              "U-KETO",
-              "U-NIT",
-              "U-HUST"
-            ],
-            "urine_sediment": [
-              "U-EPPL",
-              "U-ERY",
-              "U-LEUKU",
-              "U-UBAKT"
-            ],
-            "immunity": [
-              "S-MorbilliG",
-              "S-Tetanus"
+              "S-P",
+              "S-PAMS",
+              "S-TGL",
+              "S-UREA",
+              "S-VITD",
+              "S-VLDL",
+              "S-nHDL",
+              "S-oxLDL"
             ],
             "calculated_indices": [
               "MDRD-UreaAlb",
-              "S-FIB4",
               "S-AMS",
+              "S-FIB4",
               "S-HOMA",
               "S-TelL"
+            ],
+            "cardiovascular": ["S-BNP", "S-CAC"],
+            "coagulation": ["C-APTT", "C-APTTr", "C-INR", "C-QT", "C-Quick"],
+            "diabetology": ["B-HbA1c", "P-P-GLU", "S-Cpep", "S-INS"],
+            "endocrinology": [
+              "S-CORT",
+              "S-DHEA",
+              "S-E2",
+              "S-FAI",
+              "S-FSH",
+              "S-IGF1",
+              "S-LH",
+              "S-LIST",
+              "S-PRL",
+              "S-PROG",
+              "S-PTH",
+              "S-SHBG",
+              "S-TESTO",
+              "S-TSH",
+              "S-aTG",
+              "S-aTPO",
+              "S-aTSH",
+              "S-fT3",
+              "S-fT4",
+              "S-fTESTO"
+            ],
+            "hematology": [
+              "B-BAabs",
+              "B-EOabs",
+              "B-HB",
+              "B-HCT",
+              "B-LYabs",
+              "B-MCH",
+              "B-MCHC",
+              "B-MCV",
+              "B-MOabs",
+              "B-MPV",
+              "B-NEabs",
+              "B-PLT",
+              "B-RBC",
+              "B-RDW",
+              "B-RET",
+              "B-WBC",
+              "B-baso",
+              "B-eo",
+              "B-lymf",
+              "B-mono",
+              "B-neu"
+            ],
+            "immunity": ["S-MorbilliG", "S-Tetanus"],
+            "immunology": [
+              "B-ESR",
+              "S-Anti-tTg-IgA",
+              "S-CRP",
+              "S-IgA",
+              "S-IgE",
+              "S-IgG",
+              "S-IgM",
+              "S-S100B",
+              "S-TNF",
+              "S-hsCRP"
             ],
             "iron_metabolism": [
               "S-Fe",
               "S-Feritin",
-              "S-Transferin",
-              "S-TransSat",
+              "S-TIBC",
               "S-TransRec",
-              "S-UIBC",
-              "S-TIBC"
+              "S-TransSat",
+              "S-Transferin",
+              "S-UIBC"
             ],
             "sleep_study": [
               "SL-AHI",
-              "SL-OA",
+              "SL-CA",
               "SL-HY",
               "SL-MA",
-              "SL-CA",
+              "SL-OA",
               "SL-ODI",
-              "SL-SpO2min",
+              "SL-SFI",
               "SL-SpO2avg",
-              "SL-T90",
-              "SL-SFI"
+              "SL-SpO2min",
+              "SL-T90"
             ],
-            "cardiovascular": [
-              "S-BNP",
-              "S-CAC"
+            "tumor_markers": ["S-PSA"],
+            "urine_dipstick": [
+              "U-BILI",
+              "U-GLU",
+              "U-HUST",
+              "U-KETO",
+              "U-KREV",
+              "U-LEUC",
+              "U-NIT",
+              "U-PH",
+              "U-PROT",
+              "U-UBG"
             ],
-            "tumor_markers": [
-              "S-PSA"
-            ]
+            "urine_sediment": ["U-EPPL", "U-ERY", "U-LEUKU", "U-UBAKT"]
           },
           "x-biomarker-metadata": {
-            "S-UREA": {
-              "name": "Urea",
-              "description": "Waste product from protein metabolism, filtered by the kidneys. Elevated levels may indicate impaired kidney function or high protein intake.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 2.8,
-              "refMaxM": 8.1
-            },
-            "S-CREA": {
-              "name": "Creatinine",
-              "description": "Byproduct of muscle metabolism filtered by kidneys. High values suggest reduced kidney filtration capacity. Naturally higher in muscular individuals.",
-              "unit": "µmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinF": 44,
-              "refMaxF": 80,
-              "refMinM": 62,
-              "refMaxM": 106
-            },
-            "S-KM": {
-              "name": "Uric Acid",
-              "description": "End product of purine metabolism. Elevated levels increase the risk of gout and kidney stones. Can be affected by diet (red meat, alcohol, fructose).",
-              "unit": "µmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinF": 143,
-              "refMaxF": 339,
-              "refMinM": 202,
-              "refMaxM": 417
-            },
-            "S-CKDEPI": {
-              "name": "eGFR (CKD-EPI)",
-              "description": "Estimated glomerular filtration rate calculated from creatinine using the CKD-EPI formula. Measures how well the kidneys filter blood. Values >1.5 ml/s are normal; <1.0 may indicate significant kidney impairment.",
-              "unit": "ml/s/1.73m²",
-              "refMinM": 1.5,
-              "refMaxM": null
-            },
-            "S-Na": {
-              "name": "Sodium",
-              "description": "Major electrolyte regulating fluid balance and nerve/muscle function. Both low (hyponatremia) and high (hypernatremia) values can be clinically significant.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mEq/L",
-              "refMinM": 136,
-              "refMaxM": 145
-            },
-            "S-K": {
-              "name": "Potassium",
-              "description": "Essential electrolyte for heart rhythm, muscle contraction, and nerve signaling. Both low and high levels can cause dangerous cardiac arrhythmias.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mEq/L",
-              "refMinM": 3.5,
-              "refMaxM": 5.1
-            },
-            "S-Cl": {
-              "name": "Chloride",
-              "description": "Electrolyte that helps maintain fluid balance and acid-base status. Usually moves in tandem with sodium.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mEq/L",
-              "refMinM": 98,
-              "refMaxM": 107
-            },
-            "S-Mg": {
-              "name": "Magnesium",
-              "description": "Mineral important for muscle and nerve function, blood sugar control, and bone health. Deficiency is common and can cause fatigue, cramps, and arrhythmias.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 0.66,
-              "refMaxM": 1.07
-            },
-            "S-BIL": {
-              "name": "Total Bilirubin",
-              "description": "Pigment from red blood cell breakdown processed by the liver. Elevated levels cause jaundice. Mildly elevated values may indicate Gilbert syndrome (benign).",
-              "unit": "µmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 0,
-              "refMaxM": 21
-            },
-            "S-DBIL": {
-              "name": "Direct Bilirubin (Conjugated)",
-              "description": "Bilirubin processed by the liver. Elevated specifically in bile duct obstruction, liver disease, or hepatitis. Helps differentiate causes of jaundice when total bilirubin is high.",
-              "unit": "µmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 0,
-              "refMaxM": 5.1
-            },
-            "S-ALT": {
-              "name": "ALT (Alanine Aminotransferase)",
-              "description": "Liver enzyme. Elevated levels indicate liver cell damage. Most specific marker for liver injury. Can be raised by alcohol, medications, fatty liver, or viral hepatitis.",
-              "unit": "µkat/l",
-              "conventionalUnit": "U/L",
-              "refMinF": 0.12,
-              "refMaxF": 0.52,
-              "refMinM": 0.12,
-              "refMaxM": 0.73
-            },
-            "S-AST": {
-              "name": "AST (Aspartate Aminotransferase)",
-              "description": "Enzyme found in liver, heart, and muscle. Elevated with liver damage, heart attack, or intense exercise. Less liver-specific than ALT.",
-              "unit": "µkat/l",
-              "conventionalUnit": "U/L",
-              "refMinF": 0.17,
-              "refMaxF": 0.52,
-              "refMinM": 0.17,
-              "refMaxM": 0.67
-            },
-            "S-GGT": {
-              "name": "GGT (Gamma-Glutamyl Transferase)",
-              "description": "Liver and bile duct enzyme. Sensitive marker for bile duct obstruction and alcohol use. Often the first liver enzyme to rise with alcohol-related liver damage.",
-              "unit": "µkat/l",
-              "conventionalUnit": "U/L",
-              "refMinF": 0.1,
-              "refMaxF": 0.53,
-              "refMinM": 0.17,
-              "refMaxM": 1.08
+            "S-ALB": {
+              "name": "Albumin",
+              "description": "Most abundant blood protein, made by the liver. Maintains fluid balance and transports hormones/drugs. Low values indicate liver disease, malnutrition, or kidney loss.",
+              "unit": "g/l",
+              "conventionalUnit": "g/dL",
+              "refMinM": 35,
+              "refMaxM": 52,
+              "refMinF": 35,
+              "refMaxF": 52
             },
             "S-ALP": {
               "name": "ALP (Alkaline Phosphatase)",
               "description": "Enzyme found in liver, bone, and bile ducts. Elevated in bone growth, bile duct obstruction, or liver disease. Normally higher in growing adolescents.",
               "unit": "µkat/l",
               "conventionalUnit": "U/L",
-              "refMinF": 0.75,
-              "refMaxF": 1.92,
               "refMinM": 0.75,
-              "refMaxM": 2.17
+              "refMaxM": 2.17,
+              "refMinF": 0.75,
+              "refMaxF": 1.92
             },
-            "S-LDH": {
-              "name": "LDH (Lactate Dehydrogenase)",
-              "description": "Enzyme released when cells are damaged. Elevated in many conditions including heart attack, liver disease, hemolytic anemia, and cancer. Non-specific but useful as a general tissue damage marker.",
+            "S-ALT": {
+              "name": "ALT (Alanine Aminotransferase)",
+              "description": "Liver enzyme. Elevated levels indicate liver cell damage. Most specific marker for liver injury. Can be raised by alcohol, medications, fatty liver, or viral hepatitis.",
               "unit": "µkat/l",
               "conventionalUnit": "U/L",
-              "refMinM": 2,
-              "refMaxM": 3.75
+              "refMinM": 0.12,
+              "refMaxM": 0.73,
+              "refMinF": 0.12,
+              "refMaxF": 0.52
             },
-            "S-PAMS": {
-              "name": "Pancreatic Amylase",
-              "description": "Enzyme produced by the pancreas to digest starch. Elevated levels may indicate pancreatitis or pancreatic disease.",
+            "S-AST": {
+              "name": "AST (Aspartate Aminotransferase)",
+              "description": "Enzyme found in liver, heart, and muscle. Elevated with liver damage, heart attack, or intense exercise. Less liver-specific than ALT.",
               "unit": "µkat/l",
               "conventionalUnit": "U/L",
-              "refMinM": 0.22,
-              "refMaxM": 0.88
+              "refMinM": 0.17,
+              "refMaxM": 0.67,
+              "refMinF": 0.17,
+              "refMaxF": 0.52
+            },
+            "S-ApoA1": {
+              "name": "Apolipoprotein A1 (Apo-A1)",
+              "description": "Primary protein component of HDL particles. A more accurate metric to measure HDL particles and thus cardiovascular protection. Higher levels indicate better reverse cholesterol transport.",
+              "unit": "mg/dL",
+              "refMinM": 120,
+              "refMaxM": 175,
+              "refMinF": 140,
+              "refMaxF": 210
+            },
+            "S-ApoB": {
+              "name": "Apolipoprotein B (ApoB)",
+              "description": "One ApoB molecule per atherogenic lipoprotein particle (LDL, VLDL, Lp(a)). Considered the single best measure of atherogenic risk — better than LDL-C alone. Lower is better.",
+              "unit": "mg/dL",
+              "refMaxM": 100,
+              "refMaxF": 100
+            },
+            "S-B12": {
+              "name": "Vitamin B12 (Cobalamin)",
+              "description": "Essential vitamin for nerve function, red blood cell formation, and DNA synthesis. Deficiency causes megaloblastic anemia and neurological damage. Common in vegetarians and older adults.",
+              "unit": "pmol/l",
+              "conventionalUnit": "pg/mL",
+              "molecularWeight": 1355.37,
+              "refMinM": 145,
+              "refMaxM": 569,
+              "refMinF": 145,
+              "refMaxF": 569
+            },
+            "S-BIL": {
+              "name": "Total Bilirubin",
+              "description": "Pigment from red blood cell breakdown processed by the liver. Elevated levels cause jaundice. Mildly elevated values may indicate Gilbert syndrome (benign).",
+              "unit": "µmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 584.66,
+              "refMinM": 0,
+              "refMaxM": 21,
+              "refMinF": 0,
+              "refMaxF": 21
             },
             "S-CB": {
               "name": "Total Protein",
@@ -525,763 +424,311 @@
               "unit": "g/l",
               "conventionalUnit": "g/dL",
               "refMinM": 64,
-              "refMaxM": 83
-            },
-            "S-ALB": {
-              "name": "Albumin",
-              "description": "Most abundant blood protein, made by the liver. Maintains fluid balance and transports hormones/drugs. Low values indicate liver disease, malnutrition, or kidney loss.",
-              "unit": "g/l",
-              "conventionalUnit": "g/dL",
-              "refMinM": 35,
-              "refMaxM": 52
+              "refMaxM": 83,
+              "refMinF": 64,
+              "refMaxF": 83
             },
             "S-CHOL": {
               "name": "Total Cholesterol",
               "description": "Total amount of cholesterol in blood including LDL, HDL, and VLDL. Elevated levels increase cardiovascular disease risk. Target depends on individual risk factors.",
               "unit": "mmol/l",
               "conventionalUnit": "mg/dL",
+              "molecularWeight": 386.65,
               "refMinM": 2.9,
-              "refMaxM": 5
+              "refMaxM": 5,
+              "refMinF": 2.9,
+              "refMaxF": 5
             },
-            "S-HDL": {
-              "name": "HDL Cholesterol",
-              "description": "\"Good\" cholesterol that removes excess cholesterol from arteries. Higher values are protective against cardiovascular disease. Low HDL increases heart disease risk.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinF": 1.2,
-              "refMaxF": 2.1,
-              "refMinM": 1,
-              "refMaxM": 2.1
+            "S-CKDEPI": {
+              "name": "eGFR (CKD-EPI)",
+              "description": "Estimated glomerular filtration rate calculated from creatinine using the CKD-EPI formula. Measures how well the kidneys filter blood. Values >1.5 ml/s are normal; <1.0 may indicate significant kidney impairment.",
+              "unit": "ml/s/1.73m²",
+              "refMinM": 1.5,
+              "refMinF": 1.5
             },
-            "S-LDL": {
-              "name": "LDL Cholesterol",
-              "description": "\"Bad\" cholesterol that deposits in artery walls causing atherosclerosis. Primary target for cardiovascular risk reduction. Lower is better, especially with other risk factors.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 1.2,
-              "refMaxM": 3
-            },
-            "S-TGL": {
-              "name": "Triglycerides",
-              "description": "Fat molecules in the blood, mainly from dietary sources. Elevated by high carbohydrate/alcohol intake. Very high levels (>10 mmol/l) risk pancreatitis.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 0.45,
-              "refMaxM": 1.7
-            },
-            "S-nHDL": {
-              "name": "Non-HDL Cholesterol",
-              "description": "Total cholesterol minus HDL. Captures all atherogenic lipoproteins (LDL + VLDL). Better predictor of cardiovascular risk than LDL alone, especially with high triglycerides.",
-              "unit": "mmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": null,
-              "refMaxM": 3.8
-            },
-            "S-VLDL": {
-              "name": "VLDL Cholesterol",
-              "description": "Very low-density lipoprotein cholesterol, mainly carrying triglycerides. Elevated with high carbohydrate/alcohol intake and metabolic syndrome. Contributes to atherosclerosis alongside LDL.",
-              "unit": "mmol/l",
-              "refMinM": null,
-              "refMaxM": 0.77
-            },
-            "S-ApoA1": {
-              "name": "Apolipoprotein A1 (Apo-A1)",
-              "description": "Primary protein component of HDL particles. A more accurate metric to measure HDL particles and thus cardiovascular protection. Higher levels indicate better reverse cholesterol transport.",
-              "unit": "mg/dL",
-              "refMinM": 120,
-              "refMaxM": 175
-            },
-            "S-ApoB": {
-              "name": "Apolipoprotein B (ApoB)",
-              "description": "One ApoB molecule per atherogenic lipoprotein particle (LDL, VLDL, Lp(a)). Considered the single best measure of atherogenic risk — better than LDL-C alone. Lower is better.",
-              "unit": "mg/dL",
-              "refMinM": null,
-              "refMaxM": 100
-            },
-            "S-LDLP": {
-              "name": "LDL Particle Number (LDL-P)",
-              "description": "Counts the actual number of LDL particles, not just cholesterol content. A more accurate measure of LDL-driven cardiovascular risk than standard LDL-C, especially when particle size varies.",
-              "unit": "nmol/L",
-              "refMinM": null,
-              "refMaxM": 1000
-            },
-            "S-oxLDL": {
-              "name": "Oxidized LDL (oxLDL)",
-              "description": "LDL cholesterol that has been damaged by oxidation. Directly measures oxidative stress, inflammation, endothelial dysfunction, and the development of arterial plaque.",
-              "unit": "U/L",
-              "refMinM": null,
-              "refMaxM": 60
-            },
-            "S-Lpa": {
-              "name": "Lipoprotein(a) [Lp(a)]",
-              "description": "Genetically determined lipoprotein promoting atherosclerosis and thrombosis. Elevated levels are linked to increased risk of heart disease and stroke. Largely unaffected by lifestyle changes.",
-              "unit": "nmol/L",
-              "refMinM": null,
-              "refMaxM": 75
-            },
-            "S-CysC": {
-              "name": "Cystatin C",
-              "description": "A more sensitive biomarker of kidney function and cardiovascular risk than creatinine. Not affected by muscle mass, diet, or age — provides a cleaner estimate of true kidney filtration.",
-              "unit": "mg/L",
-              "refMinM": 0.56,
-              "refMaxM": 0.98
-            },
-            "S-HCY": {
-              "name": "Homocysteine",
-              "description": "Amino acid linked to cardiovascular disease, stroke, and cognitive decline when elevated. High levels indicate B12/folate deficiency or methylation issues. Easily treatable with B vitamins.",
+            "S-CREA": {
+              "name": "Creatinine",
+              "description": "Byproduct of muscle metabolism filtered by kidneys. High values suggest reduced kidney filtration capacity. Naturally higher in muscular individuals.",
               "unit": "µmol/l",
-              "refMinM": null,
-              "refMaxM": 15
-            },
-            "S-VITD": {
-              "name": "Vitamin D (25-OH)",
-              "description": "Measures vitamin D stores. Essential for bone health, immune function, and mood. Deficiency is very common, especially in northern latitudes and winter months.",
-              "unit": "nmol/l",
-              "conventionalUnit": "ng/mL",
-              "refMinM": 75,
-              "refMaxM": 125
-            },
-            "S-B12": {
-              "name": "Vitamin B12 (Cobalamin)",
-              "description": "Essential vitamin for nerve function, red blood cell formation, and DNA synthesis. Deficiency causes megaloblastic anemia and neurological damage. Common in vegetarians and older adults.",
-              "unit": "pmol/l",
-              "conventionalUnit": "pg/mL",
-              "refMinM": 145,
-              "refMaxM": 569
-            },
-            "S-FOL": {
-              "name": "Folate (Folic Acid)",
-              "description": "B vitamin essential for DNA synthesis, red blood cell production, and neural tube development. Deficiency causes megaloblastic anemia. Important in pregnancy and alongside B12.",
-              "unit": "nmol/l",
-              "refMinM": 7,
-              "refMaxM": 46
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 113.12,
+              "refMinM": 62,
+              "refMaxM": 106,
+              "refMinF": 44,
+              "refMaxF": 80
             },
             "S-Ca": {
               "name": "Calcium",
               "description": "Essential mineral for bones, muscle contraction, nerve signaling, and blood clotting. Both high (hyperparathyroidism, cancer) and low (vitamin D deficiency) values are clinically significant.",
               "unit": "mmol/l",
               "conventionalUnit": "mg/dL",
+              "molecularWeight": 40.078,
               "refMinM": 2.15,
-              "refMaxM": 2.55
+              "refMaxM": 2.55,
+              "refMinF": 2.15,
+              "refMaxF": 2.55
             },
             "S-Cai": {
               "name": "Ionized Calcium",
               "description": "Biologically active form of calcium in the blood, not bound to proteins. More accurate than total calcium, especially when albumin is abnormal. Low levels may indicate hypoparathyroidism or vitamin D deficiency.",
               "unit": "mmol/l",
               "conventionalUnit": "mg/dL",
+              "molecularWeight": 40.078,
               "refMinM": 1.15,
-              "refMaxM": 1.29
+              "refMaxM": 1.29,
+              "refMinF": 1.15,
+              "refMaxF": 1.29
             },
-            "S-P": {
-              "name": "Phosphorus (Phosphate)",
-              "description": "Mineral essential for bone health, energy production, and acid-base balance. Works in tandem with calcium. Abnormal levels can indicate kidney disease, parathyroid disorders, or vitamin D issues.",
+            "S-Cl": {
+              "name": "Chloride",
+              "description": "Electrolyte that helps maintain fluid balance and acid-base status. Usually moves in tandem with sodium.",
               "unit": "mmol/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 0.81,
-              "refMaxM": 1.45
+              "conventionalUnit": "mEq/L",
+              "molecularWeight": 35.453,
+              "refMinM": 98,
+              "refMaxM": 107,
+              "refMinF": 98,
+              "refMaxF": 107
             },
-            "S-O3I": {
-              "name": "Omega-3 Index",
-              "description": "Measures EPA and DHA as a percentage of red blood cell membranes. Higher levels (>8%) are strongly linked to reduced cardiovascular risk, lower inflammation, and better brain health.",
-              "unit": "%",
-              "refMinM": 8,
-              "refMaxM": null
+            "S-CysC": {
+              "name": "Cystatin C",
+              "description": "A more sensitive biomarker of kidney function and cardiovascular risk than creatinine. Not affected by muscle mass, diet, or age — provides a cleaner estimate of true kidney filtration.",
+              "unit": "mg/L",
+              "refMinM": 0.56,
+              "refMaxM": 0.98,
+              "refMinF": 0.56,
+              "refMaxF": 0.98
+            },
+            "S-DBIL": {
+              "name": "Direct Bilirubin (Conjugated)",
+              "description": "Bilirubin processed by the liver. Elevated specifically in bile duct obstruction, liver disease, or hepatitis. Helps differentiate causes of jaundice when total bilirubin is high.",
+              "unit": "µmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 584.66,
+              "refMinM": 0,
+              "refMaxM": 5.1,
+              "refMinF": 0,
+              "refMaxF": 5.1
+            },
+            "S-FOL": {
+              "name": "Folate (Folic Acid)",
+              "description": "B vitamin essential for DNA synthesis, red blood cell production, and neural tube development. Deficiency causes megaloblastic anemia. Important in pregnancy and alongside B12.",
+              "unit": "nmol/l",
+              "conventionalUnit": "ng/mL",
+              "molecularWeight": 441.4,
+              "refMinM": 7,
+              "refMaxM": 46,
+              "refMinF": 7,
+              "refMaxF": 46
+            },
+            "S-GGT": {
+              "name": "GGT (Gamma-Glutamyl Transferase)",
+              "description": "Liver and bile duct enzyme. Sensitive marker for bile duct obstruction and alcohol use. Often the first liver enzyme to rise with alcohol-related liver damage.",
+              "unit": "µkat/l",
+              "conventionalUnit": "U/L",
+              "refMinM": 0.17,
+              "refMaxM": 1.08,
+              "refMinF": 0.1,
+              "refMaxF": 0.53
             },
             "S-GSH": {
               "name": "Glutathione",
               "description": "The body's master antioxidant, essential for detoxification, reducing oxidative stress, and supporting immune function. Declines with age; maintaining high levels is linked to longevity.",
               "unit": "µg/mL",
               "refMinM": 340,
-              "refMaxM": 1070
+              "refMaxM": 1070,
+              "refMinF": 340,
+              "refMaxF": 1070
             },
-            "P-P-GLU": {
-              "name": "Fasting Glucose",
-              "description": "Blood sugar measured after fasting. Primary screening test for diabetes. Values 5.6-6.9 indicate prediabetes; >=7.0 suggests diabetes.",
+            "S-HCY": {
+              "name": "Homocysteine",
+              "description": "Amino acid linked to cardiovascular disease, stroke, and cognitive decline when elevated. High levels indicate B12/folate deficiency or methylation issues. Easily treatable with B vitamins.",
+              "unit": "µmol/l",
+              "refMaxM": 15,
+              "refMaxF": 15
+            },
+            "S-HDL": {
+              "name": "HDL Cholesterol",
+              "description": "\"Good\" cholesterol that removes excess cholesterol from arteries. Higher values are protective against cardiovascular disease. Low HDL increases heart disease risk.",
               "unit": "mmol/l",
               "conventionalUnit": "mg/dL",
-              "refMinM": 3.9,
-              "refMaxM": 5.6
-            },
-            "B-HbA1c": {
-              "name": "HbA1c (Glycated Hemoglobin)",
-              "description": "Measures average blood sugar over the past 2-3 months. Gold standard for long-term glucose control. <5.7% normal, 5.7-6.4% prediabetes, ≥6.5% diabetes.",
-              "unit": "%",
-              "refMinM": null,
-              "refMaxM": 5.7
-            },
-            "S-INS": {
-              "name": "Fasting Insulin",
-              "description": "Insulin released by the pancreas to regulate blood sugar. Fasting levels reveal insulin resistance — elevated insulin with normal glucose is an early warning sign of metabolic dysfunction.",
-              "unit": "µIU/mL",
-              "refMinM": 2.6,
-              "refMaxM": 24.9
-            },
-            "S-Cpep": {
-              "name": "C-Peptide",
-              "description": "Byproduct of insulin production, released in equal amounts. Measures endogenous insulin secretion independent of exogenous insulin. Useful for distinguishing type 1 from type 2 diabetes.",
-              "unit": "pmol/l",
-              "conventionalUnit": "ng/mL",
-              "refMinM": 370,
-              "refMaxM": 1470
-            },
-            "B-WBC": {
-              "name": "White Blood Cells",
-              "description": "Total count of immune cells. Elevated with infection, inflammation, or stress. Low values (leukopenia) increase infection risk.",
-              "unit": "×10⁹/l",
-              "refMinM": 4.5,
-              "refMaxM": 11
-            },
-            "B-RBC": {
-              "name": "Red Blood Cells",
-              "description": "Oxygen-carrying cells. Low count indicates anemia. High count may indicate dehydration or polycythemia.",
-              "unit": "×10¹²/l",
-              "refMinF": 3.8,
-              "refMaxF": 5.2,
-              "refMinM": 4.5,
-              "refMaxM": 5.9
-            },
-            "B-HB": {
-              "name": "Hemoglobin",
-              "description": "Oxygen-carrying protein in red blood cells. Low values indicate anemia. Key marker for blood's oxygen-carrying capacity.",
-              "unit": "g/l",
-              "conventionalUnit": "g/dL",
-              "refMinF": 120,
-              "refMaxF": 160,
-              "refMinM": 140,
-              "refMaxM": 175
-            },
-            "B-HCT": {
-              "name": "Hematocrit",
-              "description": "Percentage of blood volume occupied by red blood cells. Elevated with dehydration; low with anemia or fluid overload.",
-              "unit": "l/l",
-              "refMinF": 0.36,
-              "refMaxF": 0.46,
-              "refMinM": 0.4,
-              "refMaxM": 0.54
-            },
-            "B-MCV": {
-              "name": "Mean Corpuscular Volume",
-              "description": "Average size of red blood cells. Low MCV suggests iron deficiency; high MCV suggests B12/folate deficiency or alcohol use.",
-              "unit": "fl",
-              "refMinM": 80,
-              "refMaxM": 100
-            },
-            "B-MCH": {
-              "name": "Mean Corpuscular Hemoglobin",
-              "description": "Average amount of hemoglobin per red blood cell. Correlates with MCV - low in iron deficiency, high in B12/folate deficiency.",
-              "unit": "pg",
-              "refMinM": 27,
-              "refMaxM": 33
-            },
-            "B-MCHC": {
-              "name": "Mean Corpuscular Hemoglobin Concentration",
-              "description": "Average hemoglobin concentration within red blood cells. Helps classify types of anemia.",
-              "unit": "g/l",
-              "conventionalUnit": "g/dL",
-              "refMinM": 320,
-              "refMaxM": 360
-            },
-            "B-PLT": {
-              "name": "Platelets",
-              "description": "Cell fragments essential for blood clotting. Low counts (thrombocytopenia) risk bleeding; high counts (thrombocytosis) may indicate inflammation or blood disorder.",
-              "unit": "×10⁹/l",
-              "refMinM": 150,
-              "refMaxM": 400
-            },
-            "B-MPV": {
-              "name": "Mean Platelet Volume",
-              "description": "Average size of platelets. Larger platelets are younger and more active. Elevated MPV with low platelet count suggests increased platelet destruction or consumption.",
-              "unit": "fl",
-              "refMinM": 7.5,
-              "refMaxM": 12
-            },
-            "B-RDW": {
-              "name": "Red Cell Distribution Width",
-              "description": "Measures variation in red blood cell size. Elevated values suggest mixed causes of anemia (e.g., combined iron and B12 deficiency).",
-              "unit": "%",
-              "refMinM": 11.5,
-              "refMaxM": 14.5
-            },
-            "B-neu": {
-              "name": "Neutrophils (%)",
-              "description": "Percentage of white blood cells that are neutrophils - the first responders to bacterial infection. Low percentage may indicate viral infection or benign ethnic neutropenia.",
-              "unit": "%",
-              "refMinM": 40,
-              "refMaxM": 70
-            },
-            "B-lymf": {
-              "name": "Lymphocytes (%)",
-              "description": "Percentage of white blood cells that are lymphocytes - key to adaptive immunity (T-cells, B-cells). Elevated percentage often reflects low neutrophils (relative lymphocytosis) or viral infection.",
-              "unit": "%",
-              "refMinM": 20,
-              "refMaxM": 40
-            },
-            "B-mono": {
-              "name": "Monocytes (%)",
-              "description": "Percentage of white blood cells that are monocytes - involved in chronic inflammation and immune defense. Mildly elevated in infections and autoimmune conditions.",
-              "unit": "%",
-              "refMinM": 2,
-              "refMaxM": 10
-            },
-            "B-eo": {
-              "name": "Eosinophils (%)",
-              "description": "Percentage of white blood cells that are eosinophils - involved in allergic reactions and parasitic infections. Elevated in allergies, asthma, and parasitic disease.",
-              "unit": "%",
+              "molecularWeight": 386.65,
               "refMinM": 1,
-              "refMaxM": 6
+              "refMaxM": 2.1,
+              "refMinF": 1.2,
+              "refMaxF": 2.1
             },
-            "B-baso": {
-              "name": "Basophils (%)",
-              "description": "Rarest white blood cell type. Involved in allergic and inflammatory reactions. Rarely clinically significant in isolation.",
-              "unit": "%",
-              "refMinM": 0,
-              "refMaxM": 2
+            "S-K": {
+              "name": "Potassium",
+              "description": "Essential electrolyte for heart rhythm, muscle contraction, and nerve signaling. Both low and high levels can cause dangerous cardiac arrhythmias.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mEq/L",
+              "molecularWeight": 39.098,
+              "refMinM": 3.5,
+              "refMaxM": 5.1,
+              "refMinF": 3.5,
+              "refMaxF": 5.1
             },
-            "B-NEabs": {
-              "name": "Neutrophils (Absolute)",
-              "description": "Absolute count of neutrophils. Values below 2.0 are mildly low (mild neutropenia); below 1.0 significantly increases infection risk. More clinically useful than the percentage.",
-              "unit": "×10⁹/l",
-              "refMinM": 2,
-              "refMaxM": 7.5
-            },
-            "B-LYabs": {
-              "name": "Lymphocytes (Absolute)",
-              "description": "Absolute count of lymphocytes. Low values indicate immunodeficiency risk. Elevated in viral infections and some blood cancers.",
-              "unit": "×10⁹/l",
-              "refMinM": 1,
-              "refMaxM": 4
-            },
-            "B-MOabs": {
-              "name": "Monocytes (Absolute)",
-              "description": "Absolute count of monocytes. Elevated in chronic infections, autoimmune diseases, and some blood disorders.",
-              "unit": "×10⁹/l",
-              "refMinM": 0.1,
-              "refMaxM": 1
-            },
-            "B-EOabs": {
-              "name": "Eosinophils (Absolute)",
-              "description": "Absolute count of eosinophils. Elevated in allergic conditions, parasitic infections, and eosinophilic disorders.",
-              "unit": "×10⁹/l",
-              "refMinM": 0,
-              "refMaxM": 0.5
-            },
-            "B-BAabs": {
-              "name": "Basophils (Absolute)",
-              "description": "Absolute count of basophils. Rarely abnormal in isolation. Very high values may suggest a myeloproliferative disorder.",
-              "unit": "×10⁹/l",
-              "refMinM": 0,
-              "refMaxM": 0.1
-            },
-            "B-RET": {
-              "name": "Reticulocytes",
-              "description": "Immature red blood cells freshly released from bone marrow. Elevated count indicates active red blood cell production (response to anemia or blood loss). Low count suggests bone marrow suppression.",
-              "unit": "%",
-              "refMinM": 0.5,
-              "refMaxM": 2
-            },
-            "C-Quick": {
-              "name": "Prothrombin Time (Quick Ratio)",
-              "description": "Measures the extrinsic clotting pathway. Expressed as a ratio - values within 0.8-1.2 are normal. Prolonged in liver disease, vitamin K deficiency, or warfarin use.",
-              "unit": null,
-              "refMinM": 0.8,
-              "refMaxM": 1.2
-            },
-            "C-INR": {
-              "name": "INR",
-              "description": "International Normalized Ratio - standardized prothrombin time used to monitor warfarin therapy. Normal is ~1.0; therapeutic range on warfarin is typically 2.0-3.0.",
-              "unit": "INR",
-              "refMinM": 0.8,
-              "refMaxM": 1.2
-            },
-            "C-QT": {
-              "name": "Prothrombin Time (seconds)",
-              "description": "Time in seconds for blood to clot via the extrinsic pathway. Raw measurement used to calculate INR and Quick ratio.",
-              "unit": "sec",
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "C-APTTr": {
-              "name": "APTT Ratio",
-              "description": "Activated partial thromboplastin time ratio - measures the intrinsic clotting pathway. Prolonged in hemophilia, heparin use, or lupus anticoagulant.",
-              "unit": null,
-              "refMinM": 0.8,
-              "refMaxM": 1.2
-            },
-            "C-APTT": {
-              "name": "APTT (seconds)",
-              "description": "Activated partial thromboplastin time - raw clotting time for the intrinsic pathway. Normal range is typically 25-35 seconds.",
-              "unit": "sec",
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "S-CRP": {
-              "name": "C-Reactive Protein",
-              "description": "Acute-phase protein produced by the liver in response to inflammation. Rises rapidly with infection, injury, or inflammatory disease. Non-specific but very sensitive marker.",
-              "unit": "mg/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": null,
-              "refMaxM": 5
-            },
-            "S-hsCRP": {
-              "name": "hs-CRP (High-Sensitivity C-Reactive Protein)",
-              "description": "Ultra-sensitive measure of systemic inflammation. Gold standard inflammatory marker — elevated levels are strongly linked to cardiovascular risk, cognitive decline, and chronic disease.",
-              "unit": "mg/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": null,
-              "refMaxM": 3
-            },
-            "B-ESR": {
-              "name": "Erythrocyte Sedimentation Rate",
-              "description": "Non-specific marker of inflammation. Measures how fast red blood cells settle in a tube. Elevated in infection, autoimmune disease, and cancer. Slower to change than CRP.",
-              "unit": "mm/h",
-              "refMinF": 0,
-              "refMaxF": 20,
-              "refMinM": 0,
-              "refMaxM": 15
-            },
-            "S-TNF": {
-              "name": "TNF-alpha (Tumor Necrosis Factor)",
-              "description": "Key inflammatory cytokine involved in systemic inflammation and immune regulation. Elevated levels are associated with chronic inflammatory conditions, autoimmune diseases, and metabolic dysfunction.",
-              "unit": "pg/mL",
-              "refMinM": null,
-              "refMaxM": 8.1
-            },
-            "S-S100B": {
-              "name": "S-100B Protein",
-              "description": "Neuroinflammation marker. Elevated levels indicate blood-brain barrier disruption, brain injury, or neuroinflammation. Both high and low levels are linked to cognitive decline.",
-              "unit": "ng/L",
-              "refMinM": null,
-              "refMaxM": 100
-            },
-            "S-IgA": {
-              "name": "IgA (Immunoglobulin A)",
-              "description": "Antibody protecting mucosal surfaces (gut, respiratory tract). Measured to rule out IgA deficiency before celiac disease testing, as low IgA causes false-negative celiac results.",
-              "unit": "g/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 0.7,
-              "refMaxM": 4
-            },
-            "S-IgG": {
-              "name": "IgG (Immunoglobulin G)",
-              "description": "Most abundant antibody in blood, providing long-term immunity. Elevated in chronic infections, autoimmune diseases, and liver disease. Low levels indicate immunodeficiency.",
-              "unit": "g/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 7,
-              "refMaxM": 16
-            },
-            "S-IgM": {
-              "name": "IgM (Immunoglobulin M)",
-              "description": "First antibody produced in response to new infections. Elevated IgM indicates acute or recent infection. Also elevated in Waldenstrom's macroglobulinemia and some autoimmune conditions.",
-              "unit": "g/l",
-              "conventionalUnit": "mg/dL",
-              "refMinM": 0.4,
-              "refMaxM": 2.3
-            },
-            "S-IgE": {
-              "name": "IgE (Immunoglobulin E)",
-              "description": "Antibody involved in allergic reactions and parasitic defense. Elevated in allergies, asthma, eczema, and parasitic infections. Used to assess allergic status and monitor treatment.",
-              "unit": "kU/l",
-              "refMinM": null,
-              "refMaxM": 100
-            },
-            "S-Anti-tTg-IgA": {
-              "name": "Anti-tTG IgA (Tissue Transglutaminase)",
-              "description": "Primary screening antibody for celiac disease. Elevated levels suggest immune reaction to gluten. Requires normal IgA levels for reliable results.",
-              "unit": "U/ml",
-              "refMinM": null,
-              "refMaxM": 7
-            },
-            "S-TSH": {
-              "name": "TSH (Thyroid-Stimulating Hormone)",
-              "description": "Pituitary hormone that stimulates the thyroid. Primary screening test for thyroid disorders. High TSH = underactive thyroid (hypothyroidism); low TSH = overactive (hyperthyroidism).",
-              "unit": "µIU/ml",
-              "refMinM": 0.27,
-              "refMaxM": 4.2
-            },
-            "S-fT3": {
-              "name": "Free T3 (Triiodothyronine)",
-              "description": "The most active thyroid hormone — T4 is converted to T3 in tissues. Low fT3 with normal TSH/fT4 may indicate 'sick euthyroid syndrome' or poor T4-to-T3 conversion.",
-              "unit": "pmol/l",
-              "refMinM": 3.1,
-              "refMaxM": 6.8
-            },
-            "S-fT4": {
-              "name": "Free T4 (Thyroxine)",
-              "description": "Active thyroid hormone available to tissues. Low fT4 with high TSH confirms hypothyroidism. Normal fT4 with mildly elevated TSH is subclinical hypothyroidism.",
-              "unit": "pmol/l",
-              "conventionalUnit": "ng/dL",
-              "refMinM": 12,
-              "refMaxM": 22
-            },
-            "S-aTSH": {
-              "name": "Anti-TSH Receptor Antibodies (TRAb)",
-              "description": "Antibodies against the TSH receptor. Elevated in Graves' disease (autoimmune hyperthyroidism). Important for differential diagnosis of thyroid disorders.",
-              "unit": "IU/l",
-              "refMinM": null,
-              "refMaxM": 1.75
-            },
-            "S-aTG": {
-              "name": "Anti-Thyroglobulin Antibodies",
-              "description": "Antibodies against thyroglobulin protein. Elevated in Hashimoto's thyroiditis and other autoimmune thyroid diseases. Present in ~10% of healthy individuals.",
-              "unit": "IU/ml",
-              "refMinM": null,
-              "refMaxM": 115
-            },
-            "S-aTPO": {
-              "name": "Anti-TPO Antibodies",
-              "description": "Antibodies against thyroid peroxidase enzyme. Most sensitive marker for autoimmune thyroid disease (Hashimoto's). Positive in ~90% of Hashimoto's patients.",
-              "unit": "IU/ml",
-              "refMinM": null,
-              "refMaxM": 34
-            },
-            "S-TESTO": {
-              "name": "Testosterone (Total)",
-              "description": "Primary male sex hormone, crucial for both men and women. Supports muscle strength, bone density, mood, libido, and cardiovascular health. Declines with age.",
-              "unit": "nmol/l",
-              "conventionalUnit": "ng/dL",
-              "refMinF": 0.35,
-              "refMaxF": 1.9,
-              "refMinM": 8.64,
-              "refMaxM": 29
-            },
-            "S-fTESTO": {
-              "name": "Free Testosterone",
-              "description": "Bioavailable form of testosterone not bound to proteins. More clinically relevant than total testosterone as it reflects the hormone actually available to tissues.",
-              "unit": "ng/dL",
-              "refMinM": 5,
-              "refMaxM": 21
-            },
-            "S-E2": {
-              "name": "Estradiol (E2)",
-              "description": "Primary estrogen hormone. Important in both sexes — regulates bone density, cardiovascular health, mood, and libido. In men, very high or very low levels are both problematic.",
-              "unit": "pmol/l",
-              "conventionalUnit": "pg/mL",
-              "refMinF": 46,
-              "refMaxF": 607,
-              "refMinM": 28,
-              "refMaxM": 156
-            },
-            "S-DHEA": {
-              "name": "DHEA-S (Dehydroepiandrosterone Sulfate)",
-              "description": "Adrenal 'recovery hormone' supporting stress resilience, repair processes, immune function, and vitality. Declines with age; higher levels are associated with longevity.",
+            "S-KM": {
+              "name": "Uric Acid",
+              "description": "End product of purine metabolism. Elevated levels increase the risk of gout and kidney stones. Can be affected by diet (red meat, alcohol, fructose).",
               "unit": "µmol/l",
-              "conventionalUnit": "µg/dL",
-              "refMinF": 1.6,
-              "refMaxF": 8.9,
-              "refMinM": 4.34,
-              "refMaxM": 12.2
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 168.11,
+              "refMinM": 202,
+              "refMaxM": 417,
+              "refMinF": 143,
+              "refMaxF": 339
             },
-            "S-CORT": {
-              "name": "Cortisol",
-              "description": "Primary stress hormone produced by the adrenal glands. Follows a diurnal pattern (high in morning, low at night). Chronically elevated levels indicate stress, Cushing's syndrome; low levels suggest adrenal insufficiency.",
-              "unit": "nmol/l",
-              "conventionalUnit": "µg/dL",
-              "refMinF": 133,
-              "refMaxF": 537,
-              "refMinM": 133,
-              "refMaxM": 537
+            "S-LDH": {
+              "name": "LDH (Lactate Dehydrogenase)",
+              "description": "Enzyme released when cells are damaged. Elevated in many conditions including heart attack, liver disease, hemolytic anemia, and cancer. Non-specific but useful as a general tissue damage marker.",
+              "unit": "µkat/l",
+              "conventionalUnit": "U/L",
+              "refMinM": 2,
+              "refMaxM": 3.75,
+              "refMinF": 2,
+              "refMaxF": 3.75
             },
-            "S-IGF1": {
-              "name": "IGF-1 (Insulin-like Growth Factor 1)",
-              "description": "Growth factor mediating the effects of growth hormone. Involved in muscle growth, bone density, and tissue repair. High levels may increase cancer risk; low levels indicate GH deficiency.",
-              "unit": "ng/mL",
-              "refMinM": 83,
-              "refMaxM": 244
+            "S-LDL": {
+              "name": "LDL Cholesterol",
+              "description": "\"Bad\" cholesterol that deposits in artery walls causing atherosclerosis. Primary target for cardiovascular risk reduction. Lower is better, especially with other risk factors.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 386.65,
+              "refMinM": 1.2,
+              "refMaxM": 3,
+              "refMinF": 1.2,
+              "refMaxF": 3
             },
-            "S-SHBG": {
-              "name": "SHBG (Sex Hormone Binding Globulin)",
-              "description": "Protein that binds and transports sex hormones (testosterone, estradiol). High SHBG reduces free/bioavailable hormones. Affected by thyroid function, liver health, obesity, and aging.",
-              "unit": "nmol/l",
-              "refMinF": 24.6,
-              "refMaxF": 122,
-              "refMinM": 16.5,
-              "refMaxM": 55.9
+            "S-LDLP": {
+              "name": "LDL Particle Number (LDL-P)",
+              "description": "Counts the actual number of LDL particles, not just cholesterol content. A more accurate measure of LDL-driven cardiovascular risk than standard LDL-C, especially when particle size varies.",
+              "unit": "nmol/L",
+              "refMaxM": 1000,
+              "refMaxF": 1000
             },
-            "S-PRL": {
-              "name": "Prolactin",
-              "description": "Pituitary hormone primarily involved in lactation. Elevated in both sexes by pituitary adenomas, medications, stress, or hypothyroidism. High levels can suppress testosterone and cause symptoms.",
-              "unit": "mIU/l",
-              "refMinF": 102,
-              "refMaxF": 496,
-              "refMinM": 86,
-              "refMaxM": 324
+            "S-Lpa": {
+              "name": "Lipoprotein(a) [Lp(a)]",
+              "description": "Genetically determined lipoprotein promoting atherosclerosis and thrombosis. Elevated levels are linked to increased risk of heart disease and stroke. Largely unaffected by lifestyle changes.",
+              "unit": "nmol/L",
+              "refMaxM": 75,
+              "refMaxF": 75
             },
-            "S-LH": {
-              "name": "LH (Luteinizing Hormone)",
-              "description": "Pituitary hormone stimulating testosterone production in men and ovulation in women. Used with FSH to evaluate fertility, hypogonadism, and pituitary function.",
-              "unit": "IU/l",
-              "refMinF": 1.1,
-              "refMaxF": 11.6,
-              "refMinM": 1.7,
-              "refMaxM": 8.6
+            "S-Mg": {
+              "name": "Magnesium",
+              "description": "Mineral important for muscle and nerve function, blood sugar control, and bone health. Deficiency is common and can cause fatigue, cramps, and arrhythmias.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 24.305,
+              "refMinM": 0.66,
+              "refMaxM": 1.07,
+              "refMinF": 0.66,
+              "refMaxF": 1.07
             },
-            "S-FSH": {
-              "name": "FSH (Follicle-Stimulating Hormone)",
-              "description": "Pituitary hormone regulating reproductive function. In men, stimulates sperm production. Elevated FSH with low testosterone indicates primary hypogonadism (testicular failure).",
-              "unit": "IU/l",
-              "refMinF": 2.8,
-              "refMaxF": 11.3,
-              "refMinM": 1.5,
-              "refMaxM": 12.4
+            "S-Na": {
+              "name": "Sodium",
+              "description": "Major electrolyte regulating fluid balance and nerve/muscle function. Both low (hyponatremia) and high (hypernatremia) values can be clinically significant.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mEq/L",
+              "molecularWeight": 22.99,
+              "refMinM": 136,
+              "refMaxM": 145,
+              "refMinF": 136,
+              "refMaxF": 145
             },
-            "S-FAI": {
-              "name": "Free Androgen Index",
-              "description": "Calculated ratio of total testosterone to SHBG, estimating bioavailable testosterone. Useful when SHBG is abnormal. High values may indicate PCOS in women or androgen excess.",
+            "S-O3I": {
+              "name": "Omega-3 Index",
+              "description": "Measures EPA and DHA as a percentage of red blood cell membranes. Higher levels (>8%) are strongly linked to reduced cardiovascular risk, lower inflammation, and better brain health.",
               "unit": "%",
-              "refMinF": 0.5,
-              "refMaxF": 6,
-              "refMinM": 30,
-              "refMaxM": 150
+              "refMinM": 8,
+              "refMinF": 8
             },
-            "S-PTH": {
-              "name": "PTH (Parathyroid Hormone)",
-              "description": "Hormone regulating calcium and phosphorus balance. Elevated in vitamin D deficiency (secondary hyperparathyroidism), primary hyperparathyroidism, or kidney disease. Low levels seen after thyroid surgery.",
-              "unit": "pg/ml",
-              "refMinM": 15,
-              "refMaxM": 65
+            "S-P": {
+              "name": "Phosphorus (Phosphate)",
+              "description": "Mineral essential for bone health, energy production, and acid-base balance. Works in tandem with calcium. Abnormal levels can indicate kidney disease, parathyroid disorders, or vitamin D issues.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 30.974,
+              "refMinM": 0.81,
+              "refMaxM": 1.45,
+              "refMinF": 0.81,
+              "refMaxF": 1.45
             },
-            "S-PROG": {
-              "name": "Progesterone",
-              "description": "Steroid hormone primarily involved in the menstrual cycle and pregnancy. In men, produced in small amounts by the adrenal glands and testes. Elevated levels are uncommon and may indicate adrenal or testicular pathology.",
+            "S-PAMS": {
+              "name": "Pancreatic Amylase",
+              "description": "Enzyme produced by the pancreas to digest starch. Elevated levels may indicate pancreatitis or pancreatic disease.",
+              "unit": "µkat/l",
+              "conventionalUnit": "U/L",
+              "refMinM": 0.22,
+              "refMaxM": 0.88,
+              "refMinF": 0.22,
+              "refMaxF": 0.88
+            },
+            "S-TGL": {
+              "name": "Triglycerides",
+              "description": "Fat molecules in the blood, mainly from dietary sources. Elevated by high carbohydrate/alcohol intake. Very high levels (>10 mmol/l) risk pancreatitis.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 885.4,
+              "refMinM": 0.45,
+              "refMaxM": 1.7,
+              "refMinF": 0.45,
+              "refMaxF": 1.7
+            },
+            "S-UREA": {
+              "name": "Urea",
+              "description": "Waste product from protein metabolism, filtered by the kidneys. Elevated levels may indicate impaired kidney function or high protein intake.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 60.06,
+              "refMinM": 2.8,
+              "refMaxM": 8.1,
+              "refMinF": 2.8,
+              "refMaxF": 8.1
+            },
+            "S-VITD": {
+              "name": "Vitamin D (25-OH)",
+              "description": "Measures vitamin D stores. Essential for bone health, immune function, and mood. Deficiency is very common, especially in northern latitudes and winter months.",
               "unit": "nmol/l",
               "conventionalUnit": "ng/mL",
-              "refMinF": null,
-              "refMaxF": 0.19,
-              "refMinM": null,
-              "refMaxM": 0.47
+              "molecularWeight": 400.64,
+              "refMinM": 75,
+              "refMaxM": 125,
+              "refMinF": 75,
+              "refMaxF": 125
             },
-            "S-LIST": {
-              "name": "Free Testosterone Index (LIST)",
-              "description": "Lab-calculated index of free testosterone. Different from FAI — uses a distinct formula. A higher value indicates more bioavailable testosterone relative to binding proteins.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
+            "S-VLDL": {
+              "name": "VLDL Cholesterol",
+              "description": "Very low-density lipoprotein cholesterol, mainly carrying triglycerides. Elevated with high carbohydrate/alcohol intake and metabolic syndrome. Contributes to atherosclerosis alongside LDL.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 386.65,
+              "refMaxM": 0.77,
+              "refMaxF": 0.77
             },
-            "U-GLU": {
-              "name": "Urine Glucose",
-              "description": "Glucose in urine. Normally absent - presence suggests blood sugar exceeding the kidney's reabsorption threshold (typically >10 mmol/l), as in uncontrolled diabetes.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
+            "S-nHDL": {
+              "name": "Non-HDL Cholesterol",
+              "description": "Total cholesterol minus HDL. Captures all atherogenic lipoproteins (LDL + VLDL). Better predictor of cardiovascular risk than LDL alone, especially with high triglycerides.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 386.65,
+              "refMaxM": 3.8,
+              "refMaxF": 3.8
             },
-            "U-PROT": {
-              "name": "Urine Protein",
-              "description": "Protein in urine. Normally absent or trace. Persistent proteinuria indicates kidney damage, especially in diabetes or hypertension.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "U-BILI": {
-              "name": "Urine Bilirubin",
-              "description": "Bilirubin in urine. Normally absent - presence suggests liver or bile duct disease causing conjugated bilirubin to spill into urine.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "U-UBG": {
-              "name": "Urobilinogen",
-              "description": "Breakdown product of bilirubin. Small amounts are normal. Elevated in hemolytic anemia or liver disease; absent in complete bile duct obstruction.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "U-PH": {
-              "name": "Urine pH",
-              "description": "Acidity/alkalinity of urine. Normal range 4.5-8.0. Affected by diet, medications, and metabolic conditions. Acidic urine is common with high protein diets.",
-              "unit": null,
-              "refMinM": 5,
-              "refMaxM": 8
-            },
-            "U-KREV": {
-              "name": "Urine Blood",
-              "description": "Blood in urine (hematuria). Normally absent. Presence may indicate kidney stones, urinary tract infection, or bladder/kidney disease.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "U-LEUC": {
-              "name": "Urine Leukocytes",
-              "description": "White blood cells in urine. Normally absent. Presence suggests urinary tract infection or kidney inflammation.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "U-KETO": {
-              "name": "Urine Ketones",
-              "description": "Ketone bodies in urine. Normally absent. Present during fasting, low-carb diets, uncontrolled diabetes (diabetic ketoacidosis), or prolonged vomiting.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "U-NIT": {
-              "name": "Urine Nitrites",
-              "description": "Bacterial metabolite in urine. Normally absent. Positive result strongly suggests urinary tract infection with gram-negative bacteria.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "U-HUST": {
-              "name": "Urine Specific Gravity",
-              "description": "Measures urine concentration. Reflects hydration status and kidney concentrating ability. Low values suggest overhydration; high values suggest dehydration.",
-              "unit": null,
-              "refMinM": 1.003,
-              "refMaxM": 1.03
-            },
-            "U-EPPL": {
-              "name": "Epithelial Cells",
-              "description": "Cells lining the urinary tract. Small numbers are normal from natural shedding. High counts may indicate contamination or urinary tract inflammation.",
-              "unit": "/µl",
-              "refMinM": null,
-              "refMaxM": 5
-            },
-            "U-ERY": {
-              "name": "Urine Erythrocytes (Microscopy)",
-              "description": "Red blood cells seen under microscope. More precise than dipstick blood test. Elevated counts require investigation for kidney stones, infection, or malignancy.",
-              "unit": "/µl",
-              "refMinM": null,
-              "refMaxM": 5
-            },
-            "U-LEUKU": {
-              "name": "Urine Leukocytes (Microscopy)",
-              "description": "White blood cells seen under microscope. Elevated counts indicate urinary tract infection or kidney inflammation.",
-              "unit": "/µl",
-              "refMinM": null,
-              "refMaxM": 10
-            },
-            "U-UBAKT": {
-              "name": "Urine Bacteria",
-              "description": "Bacteria seen under microscope. Small numbers may be contamination. Significant bacteriuria with symptoms suggests urinary tract infection.",
-              "unit": "/µl",
-              "refMinM": null,
-              "refMaxM": 40
-            },
-            "S-MorbilliG": {
-              "name": "Measles IgG Antibodies",
-              "description": "IgG antibodies against measles virus. Indicates immunity from vaccination or past infection. Sufficient level for post-vaccination is >=275 IU/l. High values confirm strong protection.",
-              "unit": "IU/l",
-              "refMinM": 275,
-              "refMaxM": null
-            },
-            "S-Tetanus": {
-              "name": "Tetanus Antibodies",
-              "description": "IgG antibodies against tetanus toxoid. Measures vaccine-induced immunity. 1.0-5.0 IU/ml indicates long-term protection; recheck in 5 years.",
-              "unit": "IU/ml",
-              "refMinM": 0.1,
-              "refMaxM": null
+            "S-oxLDL": {
+              "name": "Oxidized LDL (oxLDL)",
+              "description": "LDL cholesterol that has been damaged by oxidation. Directly measures oxidative stress, inflammation, endothelial dysfunction, and the development of arterial plaque.",
+              "unit": "U/L",
+              "refMaxM": 60,
+              "refMaxF": 60
             },
             "MDRD-UreaAlb": {
               "name": "eGFR (MDRD with Urea & Albumin)",
               "description": "Alternative kidney function estimate using MDRD formula with urea and albumin. Similar to CKD-EPI but uses additional inputs. Values >1.5 ml/s are normal.",
               "unit": "ml/s/1.73m²",
               "refMinM": 1.5,
-              "refMaxM": null
-            },
-            "S-FIB4": {
-              "name": "FIB-4 Index",
-              "description": "Non-invasive fibrosis score calculated from age, AST, ALT, and platelets. Estimates liver fibrosis risk. <1.3 = low risk; 1.3-2.67 = intermediate; >2.67 = high risk.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": 1.3
+              "refMinF": 1.5
             },
             "S-AMS": {
               "name": "Serum Amylase",
@@ -1289,890 +736,975 @@
               "unit": "µkat/l",
               "conventionalUnit": "U/L",
               "refMinM": 0.47,
-              "refMaxM": 1.67
+              "refMaxM": 1.67,
+              "refMinF": 0.47,
+              "refMaxF": 1.67
+            },
+            "S-FIB4": {
+              "name": "FIB-4 Index",
+              "description": "Non-invasive fibrosis score calculated from age, AST, ALT, and platelets. Estimates liver fibrosis risk. <1.3 = low risk; 1.3-2.67 = intermediate; >2.67 = high risk.",
+              "refMaxM": 1.3,
+              "refMaxF": 1.3
             },
             "S-HOMA": {
               "name": "HOMA-IR (Insulin Resistance Index)",
               "description": "Calculated from fasting glucose and insulin: (glucose × insulin) / 22.5. Estimates insulin resistance. Values <1.0 are optimal; >2.5 suggests significant insulin resistance and metabolic risk.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": 2.5
+              "refMaxM": 2.5,
+              "refMaxF": 2.5
             },
             "S-TelL": {
               "name": "Telomere Length",
               "description": "Measures the protective caps on chromosomes that shorten with age. Reflects cellular aging and impacts the risk of age-related diseases. Longer telomeres are associated with biological youth.",
               "unit": "Kb",
               "refMinM": 7,
-              "refMaxM": null
+              "refMinF": 7
+            },
+            "S-BNP": {
+              "name": "BNP (B-type Natriuretic Peptide)",
+              "description": "Hormone released by the heart in response to stretching of heart muscle. Measures heart stress or failure. Low values indicate a healthy heart; elevated levels suggest cardiac strain or heart failure.",
+              "unit": "pg/mL",
+              "refMaxM": 100,
+              "refMaxF": 100
+            },
+            "S-CAC": {
+              "name": "CAC Score (Coronary Artery Calcium)",
+              "description": "CT scan measurement of calcium buildup in coronary arteries. Score of 0 is perfect — indicates no detectable plaque. Higher scores quantify atherosclerotic burden and cardiovascular risk.",
+              "refMaxM": 0,
+              "refMaxF": 0
+            },
+            "C-APTT": {
+              "name": "APTT (seconds)",
+              "description": "Activated partial thromboplastin time - raw clotting time for the intrinsic pathway. Normal range is typically 25-35 seconds.",
+              "unit": "sec"
+            },
+            "C-APTTr": {
+              "name": "APTT Ratio",
+              "description": "Activated partial thromboplastin time ratio - measures the intrinsic clotting pathway. Prolonged in hemophilia, heparin use, or lupus anticoagulant.",
+              "refMinM": 0.8,
+              "refMaxM": 1.2,
+              "refMinF": 0.8,
+              "refMaxF": 1.2
+            },
+            "C-INR": {
+              "name": "INR",
+              "description": "International Normalized Ratio - standardized prothrombin time used to monitor warfarin therapy. Normal is ~1.0; therapeutic range on warfarin is typically 2.0-3.0.",
+              "unit": "INR",
+              "refMinM": 0.8,
+              "refMaxM": 1.2,
+              "refMinF": 0.8,
+              "refMaxF": 1.2
+            },
+            "C-QT": {
+              "name": "Prothrombin Time (seconds)",
+              "description": "Time in seconds for blood to clot via the extrinsic pathway. Raw measurement used to calculate INR and Quick ratio.",
+              "unit": "sec"
+            },
+            "C-Quick": {
+              "name": "Prothrombin Time (Quick Ratio)",
+              "description": "Measures the extrinsic clotting pathway. Expressed as a ratio - values within 0.8-1.2 are normal. Prolonged in liver disease, vitamin K deficiency, or warfarin use.",
+              "refMinM": 0.8,
+              "refMaxM": 1.2,
+              "refMinF": 0.8,
+              "refMaxF": 1.2
+            },
+            "B-HbA1c": {
+              "name": "HbA1c (Glycated Hemoglobin)",
+              "description": "Measures average blood sugar over the past 2-3 months. Gold standard for long-term glucose control. <5.7% normal, 5.7-6.4% prediabetes, ≥6.5% diabetes.",
+              "unit": "%",
+              "refMaxM": 5.7,
+              "refMaxF": 5.7
+            },
+            "P-P-GLU": {
+              "name": "Fasting Glucose",
+              "description": "Blood sugar measured after fasting. Primary screening test for diabetes. Values 5.6-6.9 indicate prediabetes; >=7.0 suggests diabetes.",
+              "unit": "mmol/l",
+              "conventionalUnit": "mg/dL",
+              "molecularWeight": 180.16,
+              "refMinM": 3.9,
+              "refMaxM": 5.6,
+              "refMinF": 3.9,
+              "refMaxF": 5.6
+            },
+            "S-Cpep": {
+              "name": "C-Peptide",
+              "description": "Byproduct of insulin production, released in equal amounts. Measures endogenous insulin secretion independent of exogenous insulin. Useful for distinguishing type 1 from type 2 diabetes.",
+              "unit": "pmol/l",
+              "conventionalUnit": "ng/mL",
+              "molecularWeight": 3020.29,
+              "refMinM": 370,
+              "refMaxM": 1470,
+              "refMinF": 370,
+              "refMaxF": 1470
+            },
+            "S-INS": {
+              "name": "Fasting Insulin",
+              "description": "Insulin released by the pancreas to regulate blood sugar. Fasting levels reveal insulin resistance — elevated insulin with normal glucose is an early warning sign of metabolic dysfunction.",
+              "unit": "µIU/mL",
+              "refMinM": 2.6,
+              "refMaxM": 24.9,
+              "refMinF": 2.6,
+              "refMaxF": 24.9
+            },
+            "S-CORT": {
+              "name": "Cortisol",
+              "description": "Primary stress hormone produced by the adrenal glands. Follows a diurnal pattern (high in morning, low at night). Chronically elevated levels indicate stress, Cushing's syndrome; low levels suggest adrenal insufficiency.",
+              "unit": "nmol/l",
+              "conventionalUnit": "µg/dL",
+              "molecularWeight": 362.46,
+              "refMinM": 133,
+              "refMaxM": 537,
+              "refMinF": 133,
+              "refMaxF": 537
+            },
+            "S-DHEA": {
+              "name": "DHEA-S (Dehydroepiandrosterone Sulfate)",
+              "description": "Adrenal 'recovery hormone' supporting stress resilience, repair processes, immune function, and vitality. Declines with age; higher levels are associated with longevity.",
+              "unit": "µmol/l",
+              "conventionalUnit": "µg/dL",
+              "molecularWeight": 368.49,
+              "refMinM": 4.34,
+              "refMaxM": 12.2,
+              "refMinF": 1.6,
+              "refMaxF": 8.9
+            },
+            "S-E2": {
+              "name": "Estradiol (E2)",
+              "description": "Primary estrogen hormone. Important in both sexes — regulates bone density, cardiovascular health, mood, and libido. In men, very high or very low levels are both problematic.",
+              "unit": "pmol/l",
+              "conventionalUnit": "pg/mL",
+              "molecularWeight": 272.38,
+              "refMinM": 28,
+              "refMaxM": 156,
+              "refMinF": 46,
+              "refMaxF": 607
+            },
+            "S-FAI": {
+              "name": "Free Androgen Index",
+              "description": "Calculated ratio of total testosterone to SHBG, estimating bioavailable testosterone. Useful when SHBG is abnormal. High values may indicate PCOS in women or androgen excess.",
+              "unit": "%",
+              "refMinM": 30,
+              "refMaxM": 150,
+              "refMinF": 0.5,
+              "refMaxF": 6
+            },
+            "S-FSH": {
+              "name": "FSH (Follicle-Stimulating Hormone)",
+              "description": "Pituitary hormone regulating reproductive function. In men, stimulates sperm production. Elevated FSH with low testosterone indicates primary hypogonadism (testicular failure).",
+              "unit": "IU/l",
+              "refMinM": 1.5,
+              "refMaxM": 12.4,
+              "refMinF": 2.8,
+              "refMaxF": 11.3
+            },
+            "S-IGF1": {
+              "name": "IGF-1 (Insulin-like Growth Factor 1)",
+              "description": "Growth factor mediating the effects of growth hormone. Involved in muscle growth, bone density, and tissue repair. High levels may increase cancer risk; low levels indicate GH deficiency.",
+              "unit": "ng/mL",
+              "refMinM": 83,
+              "refMaxM": 244,
+              "refMinF": 83,
+              "refMaxF": 244
+            },
+            "S-LH": {
+              "name": "LH (Luteinizing Hormone)",
+              "description": "Pituitary hormone stimulating testosterone production in men and ovulation in women. Used with FSH to evaluate fertility, hypogonadism, and pituitary function.",
+              "unit": "IU/l",
+              "refMinM": 1.7,
+              "refMaxM": 8.6,
+              "refMinF": 1.1,
+              "refMaxF": 11.6
+            },
+            "S-LIST": {
+              "name": "Free Testosterone Index (LIST)",
+              "description": "Lab-calculated index of free testosterone. Different from FAI — uses a distinct formula. A higher value indicates more bioavailable testosterone relative to binding proteins."
+            },
+            "S-PRL": {
+              "name": "Prolactin",
+              "description": "Pituitary hormone primarily involved in lactation. Elevated in both sexes by pituitary adenomas, medications, stress, or hypothyroidism. High levels can suppress testosterone and cause symptoms.",
+              "unit": "mIU/l",
+              "refMinM": 86,
+              "refMaxM": 324,
+              "refMinF": 102,
+              "refMaxF": 496
+            },
+            "S-PROG": {
+              "name": "Progesterone",
+              "description": "Steroid hormone primarily involved in the menstrual cycle and pregnancy. In men, produced in small amounts by the adrenal glands and testes. Elevated levels are uncommon and may indicate adrenal or testicular pathology.",
+              "unit": "nmol/l",
+              "conventionalUnit": "ng/mL",
+              "molecularWeight": 314.46,
+              "refMaxM": 0.47,
+              "refMaxF": 0.19
+            },
+            "S-PTH": {
+              "name": "PTH (Parathyroid Hormone)",
+              "description": "Hormone regulating calcium and phosphorus balance. Elevated in vitamin D deficiency (secondary hyperparathyroidism), primary hyperparathyroidism, or kidney disease. Low levels seen after thyroid surgery.",
+              "unit": "pg/ml",
+              "refMinM": 15,
+              "refMaxM": 65,
+              "refMinF": 15,
+              "refMaxF": 65
+            },
+            "S-SHBG": {
+              "name": "SHBG (Sex Hormone Binding Globulin)",
+              "description": "Protein that binds and transports sex hormones (testosterone, estradiol). High SHBG reduces free/bioavailable hormones. Affected by thyroid function, liver health, obesity, and aging.",
+              "unit": "nmol/l",
+              "refMinM": 16.5,
+              "refMaxM": 55.9,
+              "refMinF": 24.6,
+              "refMaxF": 122
+            },
+            "S-TESTO": {
+              "name": "Testosterone (Total)",
+              "description": "Primary male sex hormone, crucial for both men and women. Supports muscle strength, bone density, mood, libido, and cardiovascular health. Declines with age.",
+              "unit": "nmol/l",
+              "conventionalUnit": "ng/dL",
+              "molecularWeight": 288.42,
+              "refMinM": 8.64,
+              "refMaxM": 29,
+              "refMinF": 0.35,
+              "refMaxF": 1.9
+            },
+            "S-TSH": {
+              "name": "TSH (Thyroid-Stimulating Hormone)",
+              "description": "Pituitary hormone that stimulates the thyroid. Primary screening test for thyroid disorders. High TSH = underactive thyroid (hypothyroidism); low TSH = overactive (hyperthyroidism).",
+              "unit": "µIU/ml",
+              "refMinM": 0.27,
+              "refMaxM": 4.2,
+              "refMinF": 0.27,
+              "refMaxF": 4.2
+            },
+            "S-aTG": {
+              "name": "Anti-Thyroglobulin Antibodies",
+              "description": "Antibodies against thyroglobulin protein. Elevated in Hashimoto's thyroiditis and other autoimmune thyroid diseases. Present in ~10% of healthy individuals.",
+              "unit": "IU/ml",
+              "refMaxM": 115,
+              "refMaxF": 115
+            },
+            "S-aTPO": {
+              "name": "Anti-TPO Antibodies",
+              "description": "Antibodies against thyroid peroxidase enzyme. Most sensitive marker for autoimmune thyroid disease (Hashimoto's). Positive in ~90% of Hashimoto's patients.",
+              "unit": "IU/ml",
+              "refMaxM": 34,
+              "refMaxF": 34
+            },
+            "S-aTSH": {
+              "name": "Anti-TSH Receptor Antibodies (TRAb)",
+              "description": "Antibodies against the TSH receptor. Elevated in Graves' disease (autoimmune hyperthyroidism). Important for differential diagnosis of thyroid disorders.",
+              "unit": "IU/l",
+              "refMaxM": 1.75,
+              "refMaxF": 1.75
+            },
+            "S-fT3": {
+              "name": "Free T3 (Triiodothyronine)",
+              "description": "The most active thyroid hormone — T4 is converted to T3 in tissues. Low fT3 with normal TSH/fT4 may indicate 'sick euthyroid syndrome' or poor T4-to-T3 conversion.",
+              "unit": "pmol/l",
+              "conventionalUnit": "pg/mL",
+              "molecularWeight": 650.97,
+              "refMinM": 3.1,
+              "refMaxM": 6.8,
+              "refMinF": 3.1,
+              "refMaxF": 6.8
+            },
+            "S-fT4": {
+              "name": "Free T4 (Thyroxine)",
+              "description": "Active thyroid hormone available to tissues. Low fT4 with high TSH confirms hypothyroidism. Normal fT4 with mildly elevated TSH is subclinical hypothyroidism.",
+              "unit": "pmol/l",
+              "conventionalUnit": "ng/dL",
+              "molecularWeight": 776.87,
+              "refMinM": 12,
+              "refMaxM": 22,
+              "refMinF": 12,
+              "refMaxF": 22
+            },
+            "S-fTESTO": {
+              "name": "Free Testosterone",
+              "description": "Bioavailable form of testosterone not bound to proteins. More clinically relevant than total testosterone as it reflects the hormone actually available to tissues.",
+              "unit": "pmol/l",
+              "conventionalUnit": "pg/mL",
+              "molecularWeight": 288.42,
+              "refMinM": 174,
+              "refMaxM": 729,
+              "refMinF": 2.4,
+              "refMaxF": 30.2
+            },
+            "B-BAabs": {
+              "name": "Basophils (Absolute)",
+              "description": "Absolute count of basophils. Rarely abnormal in isolation. Very high values may suggest a myeloproliferative disorder.",
+              "unit": "×10⁹/l",
+              "refMinM": 0,
+              "refMaxM": 0.1,
+              "refMinF": 0,
+              "refMaxF": 0.1
+            },
+            "B-EOabs": {
+              "name": "Eosinophils (Absolute)",
+              "description": "Absolute count of eosinophils. Elevated in allergic conditions, parasitic infections, and eosinophilic disorders.",
+              "unit": "×10⁹/l",
+              "refMinM": 0,
+              "refMaxM": 0.5,
+              "refMinF": 0,
+              "refMaxF": 0.5
+            },
+            "B-HB": {
+              "name": "Hemoglobin",
+              "description": "Oxygen-carrying protein in red blood cells. Low values indicate anemia. Key marker for blood's oxygen-carrying capacity.",
+              "unit": "g/l",
+              "conventionalUnit": "g/dL",
+              "refMinM": 140,
+              "refMaxM": 175,
+              "refMinF": 120,
+              "refMaxF": 160
+            },
+            "B-HCT": {
+              "name": "Hematocrit",
+              "description": "Percentage of blood volume occupied by red blood cells. Elevated with dehydration; low with anemia or fluid overload.",
+              "unit": "l/l",
+              "conventionalUnit": "%",
+              "refMinM": 0.4,
+              "refMaxM": 0.54,
+              "refMinF": 0.36,
+              "refMaxF": 0.46
+            },
+            "B-LYabs": {
+              "name": "Lymphocytes (Absolute)",
+              "description": "Absolute count of lymphocytes. Low values indicate immunodeficiency risk. Elevated in viral infections and some blood cancers.",
+              "unit": "×10⁹/l",
+              "refMinM": 1,
+              "refMaxM": 4,
+              "refMinF": 1,
+              "refMaxF": 4
+            },
+            "B-MCH": {
+              "name": "Mean Corpuscular Hemoglobin",
+              "description": "Average amount of hemoglobin per red blood cell. Correlates with MCV - low in iron deficiency, high in B12/folate deficiency.",
+              "unit": "pg",
+              "refMinM": 27,
+              "refMaxM": 33,
+              "refMinF": 27,
+              "refMaxF": 33
+            },
+            "B-MCHC": {
+              "name": "Mean Corpuscular Hemoglobin Concentration",
+              "description": "Average hemoglobin concentration within red blood cells. Helps classify types of anemia.",
+              "unit": "g/l",
+              "conventionalUnit": "g/dL",
+              "refMinM": 320,
+              "refMaxM": 360,
+              "refMinF": 320,
+              "refMaxF": 360
+            },
+            "B-MCV": {
+              "name": "Mean Corpuscular Volume",
+              "description": "Average size of red blood cells. Low MCV suggests iron deficiency; high MCV suggests B12/folate deficiency or alcohol use.",
+              "unit": "fl",
+              "refMinM": 80,
+              "refMaxM": 100,
+              "refMinF": 80,
+              "refMaxF": 100
+            },
+            "B-MOabs": {
+              "name": "Monocytes (Absolute)",
+              "description": "Absolute count of monocytes. Elevated in chronic infections, autoimmune diseases, and some blood disorders.",
+              "unit": "×10⁹/l",
+              "refMinM": 0.1,
+              "refMaxM": 1,
+              "refMinF": 0.1,
+              "refMaxF": 1
+            },
+            "B-MPV": {
+              "name": "Mean Platelet Volume",
+              "description": "Average size of platelets. Larger platelets are younger and more active. Elevated MPV with low platelet count suggests increased platelet destruction or consumption.",
+              "unit": "fl",
+              "refMinM": 7.5,
+              "refMaxM": 12,
+              "refMinF": 7.5,
+              "refMaxF": 12
+            },
+            "B-NEabs": {
+              "name": "Neutrophils (Absolute)",
+              "description": "Absolute count of neutrophils. Values below 2.0 are mildly low (mild neutropenia); below 1.0 significantly increases infection risk. More clinically useful than the percentage.",
+              "unit": "×10⁹/l",
+              "refMinM": 2,
+              "refMaxM": 7.5,
+              "refMinF": 2,
+              "refMaxF": 7.5
+            },
+            "B-PLT": {
+              "name": "Platelets",
+              "description": "Cell fragments essential for blood clotting. Low counts (thrombocytopenia) risk bleeding; high counts (thrombocytosis) may indicate inflammation or blood disorder.",
+              "unit": "×10⁹/l",
+              "refMinM": 150,
+              "refMaxM": 400,
+              "refMinF": 150,
+              "refMaxF": 400
+            },
+            "B-RBC": {
+              "name": "Red Blood Cells",
+              "description": "Oxygen-carrying cells. Low count indicates anemia. High count may indicate dehydration or polycythemia.",
+              "unit": "×10¹²/l",
+              "refMinM": 4.5,
+              "refMaxM": 5.9,
+              "refMinF": 3.8,
+              "refMaxF": 5.2
+            },
+            "B-RDW": {
+              "name": "Red Cell Distribution Width",
+              "description": "Measures variation in red blood cell size. Elevated values suggest mixed causes of anemia (e.g., combined iron and B12 deficiency).",
+              "unit": "%",
+              "refMinM": 11.5,
+              "refMaxM": 14.5,
+              "refMinF": 11.5,
+              "refMaxF": 14.5
+            },
+            "B-RET": {
+              "name": "Reticulocytes",
+              "description": "Immature red blood cells freshly released from bone marrow. Elevated count indicates active red blood cell production (response to anemia or blood loss). Low count suggests bone marrow suppression.",
+              "unit": "%",
+              "refMinM": 0.5,
+              "refMaxM": 2,
+              "refMinF": 0.5,
+              "refMaxF": 2
+            },
+            "B-WBC": {
+              "name": "White Blood Cells",
+              "description": "Total count of immune cells. Elevated with infection, inflammation, or stress. Low values (leukopenia) increase infection risk.",
+              "unit": "×10⁹/l",
+              "refMinM": 4.5,
+              "refMaxM": 11,
+              "refMinF": 4.5,
+              "refMaxF": 11
+            },
+            "B-baso": {
+              "name": "Basophils (%)",
+              "description": "Rarest white blood cell type. Involved in allergic and inflammatory reactions. Rarely clinically significant in isolation.",
+              "unit": "%",
+              "refMinM": 0,
+              "refMaxM": 2,
+              "refMinF": 0,
+              "refMaxF": 2
+            },
+            "B-eo": {
+              "name": "Eosinophils (%)",
+              "description": "Percentage of white blood cells that are eosinophils - involved in allergic reactions and parasitic infections. Elevated in allergies, asthma, and parasitic disease.",
+              "unit": "%",
+              "refMinM": 1,
+              "refMaxM": 6,
+              "refMinF": 1,
+              "refMaxF": 6
+            },
+            "B-lymf": {
+              "name": "Lymphocytes (%)",
+              "description": "Percentage of white blood cells that are lymphocytes - key to adaptive immunity (T-cells, B-cells). Elevated percentage often reflects low neutrophils (relative lymphocytosis) or viral infection.",
+              "unit": "%",
+              "refMinM": 20,
+              "refMaxM": 40,
+              "refMinF": 20,
+              "refMaxF": 40
+            },
+            "B-mono": {
+              "name": "Monocytes (%)",
+              "description": "Percentage of white blood cells that are monocytes - involved in chronic inflammation and immune defense. Mildly elevated in infections and autoimmune conditions.",
+              "unit": "%",
+              "refMinM": 2,
+              "refMaxM": 10,
+              "refMinF": 2,
+              "refMaxF": 10
+            },
+            "B-neu": {
+              "name": "Neutrophils (%)",
+              "description": "Percentage of white blood cells that are neutrophils - the first responders to bacterial infection. Low percentage may indicate viral infection or benign ethnic neutropenia.",
+              "unit": "%",
+              "refMinM": 40,
+              "refMaxM": 70,
+              "refMinF": 40,
+              "refMaxF": 70
+            },
+            "S-MorbilliG": {
+              "name": "Measles IgG Antibodies",
+              "description": "IgG antibodies against measles virus. Indicates immunity from vaccination or past infection. Sufficient level for post-vaccination is >=275 IU/l. High values confirm strong protection.",
+              "unit": "IU/l",
+              "refMinM": 275,
+              "refMinF": 275
+            },
+            "S-Tetanus": {
+              "name": "Tetanus Antibodies",
+              "description": "IgG antibodies against tetanus toxoid. Measures vaccine-induced immunity. 1.0-5.0 IU/ml indicates long-term protection; recheck in 5 years.",
+              "unit": "IU/ml",
+              "refMinM": 0.1,
+              "refMinF": 0.1
+            },
+            "B-ESR": {
+              "name": "Erythrocyte Sedimentation Rate",
+              "description": "Non-specific marker of inflammation. Measures how fast red blood cells settle in a tube. Elevated in infection, autoimmune disease, and cancer. Slower to change than CRP.",
+              "unit": "mm/h",
+              "refMinM": 0,
+              "refMaxM": 15,
+              "refMinF": 0,
+              "refMaxF": 20
+            },
+            "S-Anti-tTg-IgA": {
+              "name": "Anti-tTG IgA (Tissue Transglutaminase)",
+              "description": "Primary screening antibody for celiac disease. Elevated levels suggest immune reaction to gluten. Requires normal IgA levels for reliable results.",
+              "unit": "U/ml",
+              "refMaxM": 7,
+              "refMaxF": 7
+            },
+            "S-CRP": {
+              "name": "C-Reactive Protein",
+              "description": "Acute-phase protein produced by the liver in response to inflammation. Rises rapidly with infection, injury, or inflammatory disease. Non-specific but very sensitive marker.",
+              "unit": "mg/l",
+              "conventionalUnit": "mg/dL",
+              "refMaxM": 5,
+              "refMaxF": 5
+            },
+            "S-IgA": {
+              "name": "IgA (Immunoglobulin A)",
+              "description": "Antibody protecting mucosal surfaces (gut, respiratory tract). Measured to rule out IgA deficiency before celiac disease testing, as low IgA causes false-negative celiac results.",
+              "unit": "g/l",
+              "conventionalUnit": "mg/dL",
+              "refMinM": 0.7,
+              "refMaxM": 4,
+              "refMinF": 0.7,
+              "refMaxF": 4
+            },
+            "S-IgE": {
+              "name": "IgE (Immunoglobulin E)",
+              "description": "Antibody involved in allergic reactions and parasitic defense. Elevated in allergies, asthma, eczema, and parasitic infections. Used to assess allergic status and monitor treatment.",
+              "unit": "kU/l",
+              "refMaxM": 100,
+              "refMaxF": 100
+            },
+            "S-IgG": {
+              "name": "IgG (Immunoglobulin G)",
+              "description": "Most abundant antibody in blood, providing long-term immunity. Elevated in chronic infections, autoimmune diseases, and liver disease. Low levels indicate immunodeficiency.",
+              "unit": "g/l",
+              "conventionalUnit": "mg/dL",
+              "refMinM": 7,
+              "refMaxM": 16,
+              "refMinF": 7,
+              "refMaxF": 16
+            },
+            "S-IgM": {
+              "name": "IgM (Immunoglobulin M)",
+              "description": "First antibody produced in response to new infections. Elevated IgM indicates acute or recent infection. Also elevated in Waldenstrom's macroglobulinemia and some autoimmune conditions.",
+              "unit": "g/l",
+              "conventionalUnit": "mg/dL",
+              "refMinM": 0.4,
+              "refMaxM": 2.3,
+              "refMinF": 0.4,
+              "refMaxF": 2.3
+            },
+            "S-S100B": {
+              "name": "S-100B Protein",
+              "description": "Neuroinflammation marker. Elevated levels indicate blood-brain barrier disruption, brain injury, or neuroinflammation. Both high and low levels are linked to cognitive decline.",
+              "unit": "ng/L",
+              "refMaxM": 100,
+              "refMaxF": 100
+            },
+            "S-TNF": {
+              "name": "TNF-alpha (Tumor Necrosis Factor)",
+              "description": "Key inflammatory cytokine involved in systemic inflammation and immune regulation. Elevated levels are associated with chronic inflammatory conditions, autoimmune diseases, and metabolic dysfunction.",
+              "unit": "pg/mL",
+              "refMaxM": 8.1,
+              "refMaxF": 8.1
+            },
+            "S-hsCRP": {
+              "name": "hs-CRP (High-Sensitivity C-Reactive Protein)",
+              "description": "Ultra-sensitive measure of systemic inflammation. Gold standard inflammatory marker — elevated levels are strongly linked to cardiovascular risk, cognitive decline, and chronic disease.",
+              "unit": "mg/l",
+              "conventionalUnit": "mg/dL",
+              "refMaxM": 3,
+              "refMaxF": 3
             },
             "S-Fe": {
               "name": "Serum Iron",
               "description": "Iron circulating in the blood bound to transferrin. Low levels indicate iron deficiency; very high levels may suggest iron overload or recent iron supplementation.",
               "unit": "µmol/l",
               "conventionalUnit": "µg/dL",
-              "refMinF": 6.6,
-              "refMaxF": 26,
+              "molecularWeight": 55.845,
               "refMinM": 10.6,
-              "refMaxM": 28.3
+              "refMaxM": 28.3,
+              "refMinF": 6.6,
+              "refMaxF": 26
             },
             "S-Feritin": {
               "name": "Ferritin",
               "description": "Primary iron storage protein. The most sensitive marker for iron deficiency - low ferritin is the earliest sign. Also an acute-phase reactant (rises with inflammation).",
               "unit": "ng/ml",
-              "refMinF": 10,
-              "refMaxF": 150,
               "refMinM": 30,
-              "refMaxM": 400
-            },
-            "S-Transferin": {
-              "name": "Transferrin",
-              "description": "Iron transport protein in blood. Elevated when the body needs more iron (iron deficiency). Low in liver disease, malnutrition, or inflammation.",
-              "unit": "g/l",
-              "conventionalUnit": "mg/dL",
-              "refMinF": 2,
-              "refMaxF": 3.8,
-              "refMinM": 2,
-              "refMaxM": 4
-            },
-            "S-TransSat": {
-              "name": "Transferrin Saturation",
-              "description": "Percentage of transferrin binding sites occupied by iron. Low saturation (<20%) strongly suggests iron deficiency. High saturation (>45%) may indicate iron overload.",
-              "unit": "%",
-              "refMinF": 15,
-              "refMaxF": 50,
-              "refMinM": 20,
-              "refMaxM": 48
-            },
-            "S-TransRec": {
-              "name": "Soluble Transferrin Receptors",
-              "description": "Receptor fragments shed into blood when cells need more iron. Elevated in iron deficiency anemia. Unlike ferritin, not affected by inflammation - useful when ferritin is unreliable.",
-              "unit": "mg/l",
-              "refMinM": 0.7,
-              "refMaxM": 2
-            },
-            "S-UIBC": {
-              "name": "UIBC (Unsaturated Iron Binding Capacity)",
-              "description": "Available iron-binding capacity of transferrin. Elevated in iron deficiency as the body produces more transferrin to capture scarce iron.",
-              "unit": "µmol/l",
-              "conventionalUnit": "µg/dL",
-              "refMinM": 20,
-              "refMaxM": 62
+              "refMaxM": 400,
+              "refMinF": 10,
+              "refMaxF": 150
             },
             "S-TIBC": {
               "name": "TIBC (Total Iron Binding Capacity)",
               "description": "Total capacity of transferrin to bind iron (UIBC + serum iron). Elevated in iron deficiency; low in iron overload, liver disease, or chronic inflammation.",
               "unit": "µmol/l",
               "conventionalUnit": "µg/dL",
+              "molecularWeight": 55.845,
               "refMinM": 45,
-              "refMaxM": 82
+              "refMaxM": 82,
+              "refMinF": 45,
+              "refMaxF": 82
+            },
+            "S-TransRec": {
+              "name": "Soluble Transferrin Receptors",
+              "description": "Receptor fragments shed into blood when cells need more iron. Elevated in iron deficiency anemia. Unlike ferritin, not affected by inflammation - useful when ferritin is unreliable.",
+              "unit": "mg/l",
+              "refMinM": 0.7,
+              "refMaxM": 2,
+              "refMinF": 0.7,
+              "refMaxF": 2
+            },
+            "S-TransSat": {
+              "name": "Transferrin Saturation",
+              "description": "Percentage of transferrin binding sites occupied by iron. Low saturation (<20%) strongly suggests iron deficiency. High saturation (>45%) may indicate iron overload.",
+              "unit": "%",
+              "refMinM": 20,
+              "refMaxM": 50,
+              "refMinF": 15,
+              "refMaxF": 50
+            },
+            "S-Transferin": {
+              "name": "Transferrin",
+              "description": "Iron transport protein in blood. Elevated when the body needs more iron (iron deficiency). Low in liver disease, malnutrition, or inflammation.",
+              "unit": "g/l",
+              "conventionalUnit": "mg/dL",
+              "refMinM": 2,
+              "refMaxM": 3.6,
+              "refMinF": 2,
+              "refMaxF": 3.8
+            },
+            "S-UIBC": {
+              "name": "UIBC (Unsaturated Iron Binding Capacity)",
+              "description": "Available iron-binding capacity of transferrin. Elevated in iron deficiency as the body produces more transferrin to capture scarce iron.",
+              "unit": "µmol/l",
+              "conventionalUnit": "µg/dL",
+              "molecularWeight": 55.845,
+              "refMinM": 20,
+              "refMaxM": 62,
+              "refMinF": 20,
+              "refMaxF": 62
             },
             "SL-AHI": {
               "name": "Apnea-Hypopnea Index (AHI)",
               "description": "Number of apneas and hypopneas per hour of sleep. Primary metric for sleep apnea severity. Normal <5, mild 5-15, moderate 15-30, severe >30.",
               "unit": "/hr",
-              "refMinM": null,
-              "refMaxM": 5
-            },
-            "SL-OA": {
-              "name": "Obstructive Apneas",
-              "description": "Obstructive apnea events per hour - complete airway blockage for >=10 seconds during sleep despite breathing effort.",
-              "unit": "/hr",
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "SL-HY": {
-              "name": "Hypopneas",
-              "description": "Partial airway obstruction events per hour - reduced airflow (>=30%) with oxygen desaturation or arousal. Usually the largest component of AHI.",
-              "unit": "/hr",
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "SL-MA": {
-              "name": "Mixed Apneas",
-              "description": "Events per hour that begin as central apnea (no breathing effort) and transition to obstructive apnea. Rare in most patients.",
-              "unit": "/hr",
-              "refMinM": null,
-              "refMaxM": null
+              "refMaxM": 5,
+              "refMaxF": 5
             },
             "SL-CA": {
               "name": "Central Apneas",
               "description": "Events per hour where the brain temporarily stops sending signals to breathe. No airway obstruction, no breathing effort. Common in heart failure patients.",
-              "unit": "/hr",
-              "refMinM": null,
-              "refMaxM": null
+              "unit": "/hr"
+            },
+            "SL-HY": {
+              "name": "Hypopneas",
+              "description": "Partial airway obstruction events per hour - reduced airflow (>=30%) with oxygen desaturation or arousal. Usually the largest component of AHI.",
+              "unit": "/hr"
+            },
+            "SL-MA": {
+              "name": "Mixed Apneas",
+              "description": "Events per hour that begin as central apnea (no breathing effort) and transition to obstructive apnea. Rare in most patients.",
+              "unit": "/hr"
+            },
+            "SL-OA": {
+              "name": "Obstructive Apneas",
+              "description": "Obstructive apnea events per hour - complete airway blockage for >=10 seconds during sleep despite breathing effort.",
+              "unit": "/hr"
             },
             "SL-ODI": {
               "name": "Oxygen Desaturation Index (ODI)",
               "description": "Number of >=3% oxygen desaturation events per hour. Closely correlates with AHI. Normal <5; elevated values indicate significant intermittent hypoxia.",
               "unit": "/hr",
-              "refMinM": null,
-              "refMaxM": 5
+              "refMaxM": 5,
+              "refMaxF": 5
             },
-            "SL-SpO2min": {
-              "name": "Minimum SpO2",
-              "description": "Lowest oxygen saturation recorded during the night. Values below 90% are clinically significant; below 80% indicates severe desaturation.",
-              "unit": "%",
-              "refMinM": 90,
-              "refMaxM": null
+            "SL-SFI": {
+              "name": "Snoring Frequency Index (SFI)",
+              "description": "Proportion of sleep time spent snoring. Higher values indicate more persistent snoring, a hallmark of upper airway resistance."
             },
             "SL-SpO2avg": {
               "name": "Average SpO2",
               "description": "Mean oxygen saturation throughout the entire sleep period. Normal >=94%. Reduced values suggest chronic intermittent hypoxia from sleep-disordered breathing.",
               "unit": "%",
               "refMinM": 94,
-              "refMaxM": null
+              "refMinF": 94
+            },
+            "SL-SpO2min": {
+              "name": "Minimum SpO2",
+              "description": "Lowest oxygen saturation recorded during the night. Values below 90% are clinically significant; below 80% indicates severe desaturation.",
+              "unit": "%",
+              "refMinM": 90,
+              "refMinF": 90
             },
             "SL-T90": {
               "name": "Time Below 90% SpO2",
               "description": "Percentage of total sleep time spent with oxygen saturation below 90%. Normal <1%. Elevated values indicate significant nocturnal hypoxemia.",
               "unit": "%",
-              "refMinM": null,
-              "refMaxM": 1
-            },
-            "SL-SFI": {
-              "name": "Snoring Frequency Index (SFI)",
-              "description": "Proportion of sleep time spent snoring. Higher values indicate more persistent snoring, a hallmark of upper airway resistance.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": null
-            },
-            "S-BNP": {
-              "name": "BNP (B-type Natriuretic Peptide)",
-              "description": "Hormone released by the heart in response to stretching of heart muscle. Measures heart stress or failure. Low values indicate a healthy heart; elevated levels suggest cardiac strain or heart failure.",
-              "unit": "pg/mL",
-              "refMinM": null,
-              "refMaxM": 100
-            },
-            "S-CAC": {
-              "name": "CAC Score (Coronary Artery Calcium)",
-              "description": "CT scan measurement of calcium buildup in coronary arteries. Score of 0 is perfect — indicates no detectable plaque. Higher scores quantify atherosclerotic burden and cardiovascular risk.",
-              "unit": null,
-              "refMinM": null,
-              "refMaxM": 0
+              "refMaxM": 1,
+              "refMaxF": 1
             },
             "S-PSA": {
               "name": "PSA (Prostate-Specific Antigen)",
               "description": "Protein produced by the prostate gland. Primary screening marker for prostate cancer in men. Also elevated in benign prostatic hyperplasia and prostatitis. Rising trend is more significant than absolute value.",
               "unit": "ng/mL",
-              "refMinM": null,
               "refMaxM": 4
+            },
+            "U-BILI": {
+              "name": "Urine Bilirubin",
+              "description": "Bilirubin in urine. Normally absent - presence suggests liver or bile duct disease causing conjugated bilirubin to spill into urine."
+            },
+            "U-GLU": {
+              "name": "Urine Glucose",
+              "description": "Glucose in urine. Normally absent - presence suggests blood sugar exceeding the kidney's reabsorption threshold (typically >10 mmol/l), as in uncontrolled diabetes."
+            },
+            "U-HUST": {
+              "name": "Urine Specific Gravity",
+              "description": "Measures urine concentration. Reflects hydration status and kidney concentrating ability. Low values suggest overhydration; high values suggest dehydration.",
+              "refMinM": 1.003,
+              "refMaxM": 1.03,
+              "refMinF": 1.003,
+              "refMaxF": 1.03
+            },
+            "U-KETO": {
+              "name": "Urine Ketones",
+              "description": "Ketone bodies in urine. Normally absent. Present during fasting, low-carb diets, uncontrolled diabetes (diabetic ketoacidosis), or prolonged vomiting."
+            },
+            "U-KREV": {
+              "name": "Urine Blood",
+              "description": "Blood in urine (hematuria). Normally absent. Presence may indicate kidney stones, urinary tract infection, or bladder/kidney disease."
+            },
+            "U-LEUC": {
+              "name": "Urine Leukocytes",
+              "description": "White blood cells in urine. Normally absent. Presence suggests urinary tract infection or kidney inflammation."
+            },
+            "U-NIT": {
+              "name": "Urine Nitrites",
+              "description": "Bacterial metabolite in urine. Normally absent. Positive result strongly suggests urinary tract infection with gram-negative bacteria."
+            },
+            "U-PH": {
+              "name": "Urine pH",
+              "description": "Acidity/alkalinity of urine. Normal range 4.5-8.0. Affected by diet, medications, and metabolic conditions. Acidic urine is common with high protein diets.",
+              "refMinM": 5,
+              "refMaxM": 8,
+              "refMinF": 5,
+              "refMaxF": 8
+            },
+            "U-PROT": {
+              "name": "Urine Protein",
+              "description": "Protein in urine. Normally absent or trace. Persistent proteinuria indicates kidney damage, especially in diabetes or hypertension."
+            },
+            "U-UBG": {
+              "name": "Urobilinogen",
+              "description": "Breakdown product of bilirubin. Small amounts are normal. Elevated in hemolytic anemia or liver disease; absent in complete bile duct obstruction."
+            },
+            "U-EPPL": {
+              "name": "Epithelial Cells",
+              "description": "Cells lining the urinary tract. Small numbers are normal from natural shedding. High counts may indicate contamination or urinary tract inflammation.",
+              "unit": "/µl",
+              "refMaxM": 5,
+              "refMaxF": 5
+            },
+            "U-ERY": {
+              "name": "Urine Erythrocytes (Microscopy)",
+              "description": "Red blood cells seen under microscope. More precise than dipstick blood test. Elevated counts require investigation for kidney stones, infection, or malignancy.",
+              "unit": "/µl",
+              "refMaxM": 5,
+              "refMaxF": 5
+            },
+            "U-LEUKU": {
+              "name": "Urine Leukocytes (Microscopy)",
+              "description": "White blood cells seen under microscope. Elevated counts indicate urinary tract infection or kidney inflammation.",
+              "unit": "/µl",
+              "refMaxM": 10,
+              "refMaxF": 10
+            },
+            "U-UBAKT": {
+              "name": "Urine Bacteria",
+              "description": "Bacteria seen under microscope. Small numbers may be contamination. Significant bacteriuria with symptoms suggests urinary tract infection.",
+              "unit": "/µl",
+              "refMaxM": 40,
+              "refMaxF": 40
             }
           },
           "oneOf": [
             {
-              "const": "S-UREA",
-              "title": "Urea",
-              "description": "Waste product from protein metabolism, filtered by the kidneys. Elevated levels may indicate impaired kidney function or high protein intake.\n\nUnit: mmol/l\n\nReference range: min: 2.8, max: 8.1"
-            },
-            {
-              "const": "S-CREA",
-              "title": "Creatinine",
-              "description": "Byproduct of muscle metabolism filtered by kidneys. High values suggest reduced kidney filtration capacity. Naturally higher in muscular individuals.\n\nUnit: µmol/l\n\nReference range: min: 62, max: 106"
-            },
-            {
-              "const": "S-KM",
-              "title": "Uric Acid",
-              "description": "End product of purine metabolism. Elevated levels increase the risk of gout and kidney stones. Can be affected by diet (red meat, alcohol, fructose).\n\nUnit: µmol/l\n\nReference range: min: 202, max: 417"
-            },
-            {
-              "const": "S-CKDEPI",
-              "title": "eGFR (CKD-EPI)",
-              "description": "Estimated glomerular filtration rate calculated from creatinine using the CKD-EPI formula. Measures how well the kidneys filter blood. Values >1.5 ml/s are normal; <1.0 may indicate significant kidney impairment.\n\nUnit: ml/s/1.73m²\n\nReference range: min: 1"
-            },
-            {
-              "const": "S-Na",
-              "title": "Sodium",
-              "description": "Major electrolyte regulating fluid balance and nerve/muscle function. Both low (hyponatremia) and high (hypernatremia) values can be clinically significant.\n\nUnit: mmol/l\n\nReference range: min: 136, max: 145"
-            },
-            {
-              "const": "S-K",
-              "title": "Potassium",
-              "description": "Essential electrolyte for heart rhythm, muscle contraction, and nerve signaling. Both low and high levels can cause dangerous cardiac arrhythmias.\n\nUnit: mmol/l\n\nReference range: min: 3.5, max: 5.1"
-            },
-            {
-              "const": "S-Cl",
-              "title": "Chloride",
-              "description": "Electrolyte that helps maintain fluid balance and acid-base status. Usually moves in tandem with sodium.\n\nUnit: mmol/l\n\nReference range: min: 98, max: 107"
-            },
-            {
-              "const": "S-Mg",
-              "title": "Magnesium",
-              "description": "Mineral important for muscle and nerve function, blood sugar control, and bone health. Deficiency is common and can cause fatigue, cramps, and arrhythmias.\n\nUnit: mmol/l\n\nReference range: min: 0.66, max: 1.07"
-            },
-            {
-              "const": "S-BIL",
-              "title": "Total Bilirubin",
-              "description": "Pigment from red blood cell breakdown processed by the liver. Elevated levels cause jaundice. Mildly elevated values may indicate Gilbert syndrome (benign).\n\nUnit: µmol/l\n\nReference range: min: 0, max: 21"
-            },
-            {
-              "const": "S-DBIL",
-              "title": "Direct Bilirubin (Conjugated)",
-              "description": "Bilirubin processed by the liver. Elevated specifically in bile duct obstruction, liver disease, or hepatitis. Helps differentiate causes of jaundice when total bilirubin is high.\n\nUnit: µmol/l\n\nReference range: min: 0, max: 5.1"
-            },
-            {
-              "const": "S-ALT",
-              "title": "ALT (Alanine Aminotransferase)",
-              "description": "Liver enzyme. Elevated levels indicate liver cell damage. Most specific marker for liver injury. Can be raised by alcohol, medications, fatty liver, or viral hepatitis.\n\nUnit: µkat/l\n\nReference range: min: 0.1, max: 0.68"
-            },
-            {
-              "const": "S-AST",
-              "title": "AST (Aspartate Aminotransferase)",
-              "description": "Enzyme found in liver, heart, and muscle. Elevated with liver damage, heart attack, or intense exercise. Less liver-specific than ALT.\n\nUnit: µkat/l\n\nReference range: min: 0.1, max: 0.67"
-            },
-            {
-              "const": "S-GGT",
-              "title": "GGT (Gamma-Glutamyl Transferase)",
-              "description": "Liver and bile duct enzyme. Sensitive marker for bile duct obstruction and alcohol use. Often the first liver enzyme to rise with alcohol-related liver damage.\n\nUnit: µkat/l\n\nReference range: min: 0.17, max: 1.19"
-            },
-            {
-              "const": "S-ALP",
-              "title": "ALP (Alkaline Phosphatase)",
-              "description": "Enzyme found in liver, bone, and bile ducts. Elevated in bone growth, bile duct obstruction, or liver disease. Normally higher in growing adolescents.\n\nUnit: µkat/l\n\nReference range: min: 0.67, max: 2.17"
-            },
-            {
-              "const": "S-LDH",
-              "title": "LDH (Lactate Dehydrogenase)",
-              "description": "Enzyme released when cells are damaged. Elevated in many conditions including heart attack, liver disease, hemolytic anemia, and cancer. Non-specific but useful as a general tissue damage marker.\n\nUnit: µkat/l\n\nReference range: min: 2, max: 3.75"
-            },
-            {
-              "const": "S-PAMS",
-              "title": "Pancreatic Amylase",
-              "description": "Enzyme produced by the pancreas to digest starch. Elevated levels may indicate pancreatitis or pancreatic disease.\n\nUnit: µkat/l\n\nReference range: min: 0.22, max: 0.88"
-            },
-            {
-              "const": "S-CB",
-              "title": "Total Protein",
-              "description": "Total amount of albumin and globulin proteins in blood. Reflects nutritional status, liver synthetic function, and immune system activity.\n\nUnit: g/l\n\nReference range: min: 64, max: 83"
-            },
-            {
-              "const": "S-ALB",
-              "title": "Albumin",
-              "description": "Most abundant blood protein, made by the liver. Maintains fluid balance and transports hormones/drugs. Low values indicate liver disease, malnutrition, or kidney loss.\n\nUnit: g/l\n\nReference range: min: 35, max: 52"
-            },
-            {
-              "const": "S-CHOL",
-              "title": "Total Cholesterol",
-              "description": "Total amount of cholesterol in blood including LDL, HDL, and VLDL. Elevated levels increase cardiovascular disease risk. Target depends on individual risk factors.\n\nUnit: mmol/l\n\nReference range: min: 2.9, max: 5"
-            },
-            {
-              "const": "S-HDL",
-              "title": "HDL Cholesterol",
-              "description": "\"Good\" cholesterol that removes excess cholesterol from arteries. Higher values are protective against cardiovascular disease. Low HDL increases heart disease risk.\n\nUnit: mmol/l\n\nReference range: min: 1, max: 2.1"
-            },
-            {
-              "const": "S-LDL",
-              "title": "LDL Cholesterol",
-              "description": "\"Bad\" cholesterol that deposits in artery walls causing atherosclerosis. Primary target for cardiovascular risk reduction. Lower is better, especially with other risk factors.\n\nUnit: mmol/l\n\nReference range: min: 1.2, max: 3"
-            },
-            {
-              "const": "S-TGL",
-              "title": "Triglycerides",
-              "description": "Fat molecules in the blood, mainly from dietary sources. Elevated by high carbohydrate/alcohol intake. Very high levels (>10 mmol/l) risk pancreatitis.\n\nUnit: mmol/l\n\nReference range: min: 0.45, max: 1.7"
-            },
-            {
-              "const": "S-nHDL",
-              "title": "Non-HDL Cholesterol",
-              "description": "Total cholesterol minus HDL. Captures all atherogenic lipoproteins (LDL + VLDL). Better predictor of cardiovascular risk than LDL alone, especially with high triglycerides.\n\nUnit: mmol/l\n\nReference range: max: 3.8"
-            },
-            {
-              "const": "S-VLDL",
-              "title": "VLDL Cholesterol",
-              "description": "Very low-density lipoprotein cholesterol, mainly carrying triglycerides. Elevated with high carbohydrate/alcohol intake and metabolic syndrome. Contributes to atherosclerosis alongside LDL.\n\nUnit: mmol/l\n\nReference range: max: 0.77"
-            },
-            {
-              "const": "S-ApoA1",
-              "title": "Apolipoprotein A1 (Apo-A1)",
-              "description": "Primary protein component of HDL particles. A more accurate metric to measure HDL particles and thus cardiovascular protection. Higher levels indicate better reverse cholesterol transport.\n\nUnit: mg/dL\n\nReference range: min: 120, max: 175"
-            },
-            {
-              "const": "S-ApoB",
-              "title": "Apolipoprotein B (ApoB)",
-              "description": "One ApoB molecule per atherogenic lipoprotein particle (LDL, VLDL, Lp(a)). Considered the single best measure of atherogenic risk — better than LDL-C alone. Lower is better.\n\nUnit: mg/dL\n\nReference range: max: 100"
-            },
-            {
-              "const": "S-LDLP",
-              "title": "LDL Particle Number (LDL-P)",
-              "description": "Counts the actual number of LDL particles, not just cholesterol content. A more accurate measure of LDL-driven cardiovascular risk than standard LDL-C, especially when particle size varies.\n\nUnit: nmol/L\n\nReference range: max: 1000"
-            },
-            {
-              "const": "S-oxLDL",
-              "title": "Oxidized LDL (oxLDL)",
-              "description": "LDL cholesterol that has been damaged by oxidation. Directly measures oxidative stress, inflammation, endothelial dysfunction, and the development of arterial plaque.\n\nUnit: U/L\n\nReference range: max: 60"
-            },
-            {
-              "const": "S-Lpa",
-              "title": "Lipoprotein(a) [Lp(a)]",
-              "description": "Genetically determined lipoprotein promoting atherosclerosis and thrombosis. Elevated levels are linked to increased risk of heart disease and stroke. Largely unaffected by lifestyle changes.\n\nUnit: nmol/L\n\nReference range: max: 75"
-            },
-            {
-              "const": "S-CysC",
-              "title": "Cystatin C",
-              "description": "A more sensitive biomarker of kidney function and cardiovascular risk than creatinine. Not affected by muscle mass, diet, or age — provides a cleaner estimate of true kidney filtration.\n\nUnit: mg/L\n\nReference range: min: 0.56, max: 0.98"
-            },
-            {
-              "const": "S-HCY",
-              "title": "Homocysteine",
-              "description": "Amino acid linked to cardiovascular disease, stroke, and cognitive decline when elevated. High levels indicate B12/folate deficiency or methylation issues. Easily treatable with B vitamins.\n\nUnit: µmol/l\n\nReference range: max: 15"
-            },
-            {
-              "const": "S-VITD",
-              "title": "Vitamin D (25-OH)",
-              "description": "Measures vitamin D stores. Essential for bone health, immune function, and mood. Deficiency is very common, especially in northern latitudes and winter months.\n\nUnit: nmol/l\n\nReference range: min: 75, max: 125"
-            },
-            {
-              "const": "S-B12",
-              "title": "Vitamin B12 (Cobalamin)",
-              "description": "Essential vitamin for nerve function, red blood cell formation, and DNA synthesis. Deficiency causes megaloblastic anemia and neurological damage. Common in vegetarians and older adults.\n\nUnit: pmol/l\n\nReference range: min: 145, max: 569"
-            },
-            {
-              "const": "S-FOL",
-              "title": "Folate (Folic Acid)",
-              "description": "B vitamin essential for DNA synthesis, red blood cell production, and neural tube development. Deficiency causes megaloblastic anemia. Important in pregnancy and alongside B12.\n\nUnit: nmol/l\n\nReference range: min: 7, max: 46"
-            },
-            {
-              "const": "S-Ca",
-              "title": "Calcium",
-              "description": "Essential mineral for bones, muscle contraction, nerve signaling, and blood clotting. Both high (hyperparathyroidism, cancer) and low (vitamin D deficiency) values are clinically significant.\n\nUnit: mmol/l\n\nReference range: min: 2.15, max: 2.55"
-            },
-            {
-              "const": "S-Cai",
-              "title": "Ionized Calcium",
-              "description": "Biologically active form of calcium in the blood, not bound to proteins. More accurate than total calcium, especially when albumin is abnormal. Low levels may indicate hypoparathyroidism or vitamin D deficiency.\n\nUnit: mmol/l\n\nReference range: min: 1.15, max: 1.29"
-            },
-            {
-              "const": "S-P",
-              "title": "Phosphorus (Phosphate)",
-              "description": "Mineral essential for bone health, energy production, and acid-base balance. Works in tandem with calcium. Abnormal levels can indicate kidney disease, parathyroid disorders, or vitamin D issues.\n\nUnit: mmol/l\n\nReference range: min: 0.81, max: 1.45"
-            },
-            {
-              "const": "S-O3I",
-              "title": "Omega-3 Index",
-              "description": "Measures EPA and DHA as a percentage of red blood cell membranes. Higher levels (>8%) are strongly linked to reduced cardiovascular risk, lower inflammation, and better brain health.\n\nUnit: %\n\nReference range: min: 8"
-            },
-            {
-              "const": "S-GSH",
-              "title": "Glutathione",
-              "description": "The body's master antioxidant, essential for detoxification, reducing oxidative stress, and supporting immune function. Declines with age; maintaining high levels is linked to longevity.\n\nUnit: µg/mL\n\nReference range: min: 340, max: 1070"
-            },
-            {
-              "const": "P-P-GLU",
-              "title": "Fasting Glucose",
-              "description": "Blood sugar measured after fasting. Primary screening test for diabetes. Values 5.6-6.9 indicate prediabetes; >=7.0 suggests diabetes.\n\nUnit: mmol/l\n\nReference range: min: 3.9, max: 5.6"
-            },
-            {
-              "const": "B-HbA1c",
-              "title": "HbA1c (Glycated Hemoglobin)",
-              "description": "Measures average blood sugar over the past 2-3 months. Gold standard for long-term glucose control. <5.7% normal, 5.7-6.4% prediabetes, ≥6.5% diabetes.\n\nUnit: %\n\nReference range: max: 5.7"
-            },
-            {
-              "const": "S-INS",
-              "title": "Fasting Insulin",
-              "description": "Insulin released by the pancreas to regulate blood sugar. Fasting levels reveal insulin resistance — elevated insulin with normal glucose is an early warning sign of metabolic dysfunction.\n\nUnit: µIU/mL\n\nReference range: min: 2.6, max: 24.9"
-            },
-            {
-              "const": "S-Cpep",
-              "title": "C-Peptide",
-              "description": "Byproduct of insulin production, released in equal amounts. Measures endogenous insulin secretion independent of exogenous insulin. Useful for distinguishing type 1 from type 2 diabetes.\n\nUnit: nmol/l\n\nReference range: min: 260, max: 1730"
-            },
-            {
-              "const": "B-WBC",
-              "title": "White Blood Cells",
-              "description": "Total count of immune cells. Elevated with infection, inflammation, or stress. Low values (leukopenia) increase infection risk.\n\nUnit: ×10⁹/l\n\nReference range: min: 4, max: 10"
-            },
-            {
-              "const": "B-RBC",
-              "title": "Red Blood Cells",
-              "description": "Oxygen-carrying cells. Low count indicates anemia. High count may indicate dehydration or polycythemia.\n\nUnit: ×10¹²/l\n\nReference range: min: 4, max: 5.8"
-            },
-            {
-              "const": "B-HB",
-              "title": "Hemoglobin",
-              "description": "Oxygen-carrying protein in red blood cells. Low values indicate anemia. Key marker for blood's oxygen-carrying capacity.\n\nUnit: g/l\n\nReference range: min: 135, max: 175"
-            },
-            {
-              "const": "B-HCT",
-              "title": "Hematocrit",
-              "description": "Percentage of blood volume occupied by red blood cells. Elevated with dehydration; low with anemia or fluid overload.\n\nUnit: l/l\n\nReference range: min: 0.4, max: 0.5"
-            },
-            {
-              "const": "B-MCV",
-              "title": "Mean Corpuscular Volume",
-              "description": "Average size of red blood cells. Low MCV suggests iron deficiency; high MCV suggests B12/folate deficiency or alcohol use.\n\nUnit: fl\n\nReference range: min: 82, max: 98"
-            },
-            {
-              "const": "B-MCH",
-              "title": "Mean Corpuscular Hemoglobin",
-              "description": "Average amount of hemoglobin per red blood cell. Correlates with MCV - low in iron deficiency, high in B12/folate deficiency.\n\nUnit: pg\n\nReference range: min: 28, max: 34"
-            },
-            {
-              "const": "B-MCHC",
-              "title": "Mean Corpuscular Hemoglobin Concentration",
-              "description": "Average hemoglobin concentration within red blood cells. Helps classify types of anemia.\n\nUnit: g/l\n\nReference range: min: 320, max: 360"
-            },
-            {
-              "const": "B-PLT",
-              "title": "Platelets",
-              "description": "Cell fragments essential for blood clotting. Low counts (thrombocytopenia) risk bleeding; high counts (thrombocytosis) may indicate inflammation or blood disorder.\n\nUnit: ×10⁹/l\n\nReference range: min: 150, max: 400"
-            },
-            {
-              "const": "B-MPV",
-              "title": "Mean Platelet Volume",
-              "description": "Average size of platelets. Larger platelets are younger and more active. Elevated MPV with low platelet count suggests increased platelet destruction or consumption.\n\nUnit: fl\n\nReference range: min: 7.8, max: 11"
-            },
-            {
-              "const": "B-RDW",
-              "title": "Red Cell Distribution Width",
-              "description": "Measures variation in red blood cell size. Elevated values suggest mixed causes of anemia (e.g., combined iron and B12 deficiency).\n\nUnit: %\n\nReference range: min: 10, max: 15.2"
-            },
-            {
-              "const": "B-neu",
-              "title": "Neutrophils (%)",
-              "description": "Percentage of white blood cells that are neutrophils - the first responders to bacterial infection. Low percentage may indicate viral infection or benign ethnic neutropenia.\n\nUnit: %\n\nReference range: min: 45, max: 70"
-            },
-            {
-              "const": "B-lymf",
-              "title": "Lymphocytes (%)",
-              "description": "Percentage of white blood cells that are lymphocytes - key to adaptive immunity (T-cells, B-cells). Elevated percentage often reflects low neutrophils (relative lymphocytosis) or viral infection.\n\nUnit: %\n\nReference range: min: 20, max: 45"
-            },
-            {
-              "const": "B-mono",
-              "title": "Monocytes (%)",
-              "description": "Percentage of white blood cells that are monocytes - involved in chronic inflammation and immune defense. Mildly elevated in infections and autoimmune conditions.\n\nUnit: %\n\nReference range: min: 2, max: 12"
-            },
-            {
-              "const": "B-eo",
-              "title": "Eosinophils (%)",
-              "description": "Percentage of white blood cells that are eosinophils - involved in allergic reactions and parasitic infections. Elevated in allergies, asthma, and parasitic disease.\n\nUnit: %\n\nReference range: min: 0, max: 5"
-            },
-            {
-              "const": "B-baso",
-              "title": "Basophils (%)",
-              "description": "Rarest white blood cell type. Involved in allergic and inflammatory reactions. Rarely clinically significant in isolation.\n\nUnit: %\n\nReference range: min: 0, max: 2"
-            },
-            {
-              "const": "B-NEabs",
-              "title": "Neutrophils (Absolute)",
-              "description": "Absolute count of neutrophils. Values below 2.0 are mildly low (mild neutropenia); below 1.0 significantly increases infection risk. More clinically useful than the percentage.\n\nUnit: ×10⁹/l\n\nReference range: min: 2, max: 7"
-            },
-            {
-              "const": "B-LYabs",
-              "title": "Lymphocytes (Absolute)",
-              "description": "Absolute count of lymphocytes. Low values indicate immunodeficiency risk. Elevated in viral infections and some blood cancers.\n\nUnit: ×10⁹/l\n\nReference range: min: 0.8, max: 4"
-            },
-            {
-              "const": "B-MOabs",
-              "title": "Monocytes (Absolute)",
-              "description": "Absolute count of monocytes. Elevated in chronic infections, autoimmune diseases, and some blood disorders.\n\nUnit: ×10⁹/l\n\nReference range: min: 0.08, max: 1.2"
-            },
-            {
-              "const": "B-EOabs",
-              "title": "Eosinophils (Absolute)",
-              "description": "Absolute count of eosinophils. Elevated in allergic conditions, parasitic infections, and eosinophilic disorders.\n\nUnit: ×10⁹/l\n\nReference range: min: 0, max: 0.5"
-            },
-            {
-              "const": "B-BAabs",
-              "title": "Basophils (Absolute)",
-              "description": "Absolute count of basophils. Rarely abnormal in isolation. Very high values may suggest a myeloproliferative disorder.\n\nUnit: ×10⁹/l\n\nReference range: min: 0, max: 0.2"
-            },
-            {
-              "const": "B-RET",
-              "title": "Reticulocytes",
-              "description": "Immature red blood cells freshly released from bone marrow. Elevated count indicates active red blood cell production (response to anemia or blood loss). Low count suggests bone marrow suppression.\n\nUnit: %\n\nReference range: min: 0.5, max: 2"
-            },
-            {
-              "const": "C-Quick",
-              "title": "Prothrombin Time (Quick Ratio)",
-              "description": "Measures the extrinsic clotting pathway. Expressed as a ratio - values within 0.8-1.2 are normal. Prolonged in liver disease, vitamin K deficiency, or warfarin use.\n\nReference range: min: 0.8, max: 1.2"
-            },
-            {
-              "const": "C-INR",
-              "title": "INR",
-              "description": "International Normalized Ratio - standardized prothrombin time used to monitor warfarin therapy. Normal is ~1.0; therapeutic range on warfarin is typically 2.0-3.0.\n\nUnit: INR\n\nReference range: min: 0.8, max: 1.2"
-            },
-            {
-              "const": "C-QT",
-              "title": "Prothrombin Time (seconds)",
-              "description": "Time in seconds for blood to clot via the extrinsic pathway. Raw measurement used to calculate INR and Quick ratio.\n\nUnit: sec"
-            },
-            {
-              "const": "C-APTTr",
-              "title": "APTT Ratio",
-              "description": "Activated partial thromboplastin time ratio - measures the intrinsic clotting pathway. Prolonged in hemophilia, heparin use, or lupus anticoagulant.\n\nReference range: min: 0.8, max: 1.2"
-            },
-            {
-              "const": "C-APTT",
-              "title": "APTT (seconds)",
-              "description": "Activated partial thromboplastin time - raw clotting time for the intrinsic pathway. Normal range is typically 25-35 seconds.\n\nUnit: sec"
-            },
-            {
-              "const": "S-CRP",
-              "title": "C-Reactive Protein",
-              "description": "Acute-phase protein produced by the liver in response to inflammation. Rises rapidly with infection, injury, or inflammatory disease. Non-specific but very sensitive marker.\n\nUnit: mg/l\n\nReference range: max: 5"
-            },
-            {
-              "const": "S-hsCRP",
-              "title": "hs-CRP (High-Sensitivity C-Reactive Protein)",
-              "description": "Ultra-sensitive measure of systemic inflammation. Gold standard inflammatory marker — elevated levels are strongly linked to cardiovascular risk, cognitive decline, and chronic disease.\n\nUnit: mg/l\n\nReference range: max: 3"
-            },
-            {
-              "const": "B-ESR",
-              "title": "Erythrocyte Sedimentation Rate",
-              "description": "Non-specific marker of inflammation. Measures how fast red blood cells settle in a tube. Elevated in infection, autoimmune disease, and cancer. Slower to change than CRP.\n\nUnit: mm/h\n\nReference range: min: 2, max: 28"
-            },
-            {
-              "const": "S-TNF",
-              "title": "TNF-alpha (Tumor Necrosis Factor)",
-              "description": "Key inflammatory cytokine involved in systemic inflammation and immune regulation. Elevated levels are associated with chronic inflammatory conditions, autoimmune diseases, and metabolic dysfunction.\n\nUnit: pg/mL\n\nReference range: max: 8.1"
-            },
-            {
-              "const": "S-S100B",
-              "title": "S-100B Protein",
-              "description": "Neuroinflammation marker. Elevated levels indicate blood-brain barrier disruption, brain injury, or neuroinflammation. Both high and low levels are linked to cognitive decline.\n\nUnit: ng/L\n\nReference range: max: 100"
-            },
-            {
-              "const": "S-IgA",
-              "title": "IgA (Immunoglobulin A)",
-              "description": "Antibody protecting mucosal surfaces (gut, respiratory tract). Measured to rule out IgA deficiency before celiac disease testing, as low IgA causes false-negative celiac results.\n\nUnit: g/l\n\nReference range: min: 0.4, max: 3.5"
-            },
-            {
-              "const": "S-IgG",
-              "title": "IgG (Immunoglobulin G)",
-              "description": "Most abundant antibody in blood, providing long-term immunity. Elevated in chronic infections, autoimmune diseases, and liver disease. Low levels indicate immunodeficiency.\n\nUnit: g/l\n\nReference range: min: 7, max: 16"
-            },
-            {
-              "const": "S-IgM",
-              "title": "IgM (Immunoglobulin M)",
-              "description": "First antibody produced in response to new infections. Elevated IgM indicates acute or recent infection. Also elevated in Waldenstrom's macroglobulinemia and some autoimmune conditions.\n\nUnit: g/l\n\nReference range: min: 0.4, max: 2.3"
-            },
-            {
-              "const": "S-IgE",
-              "title": "IgE (Immunoglobulin E)",
-              "description": "Antibody involved in allergic reactions and parasitic defense. Elevated in allergies, asthma, eczema, and parasitic infections. Used to assess allergic status and monitor treatment.\n\nUnit: kU/l\n\nReference range: max: 100"
-            },
-            {
-              "const": "S-Anti-tTg-IgA",
-              "title": "Anti-tTG IgA (Tissue Transglutaminase)",
-              "description": "Primary screening antibody for celiac disease. Elevated levels suggest immune reaction to gluten. Requires normal IgA levels for reliable results.\n\nUnit: U/ml\n\nReference range: max: 7"
-            },
-            {
-              "const": "S-TSH",
-              "title": "TSH (Thyroid-Stimulating Hormone)",
-              "description": "Pituitary hormone that stimulates the thyroid. Primary screening test for thyroid disorders. High TSH = underactive thyroid (hypothyroidism); low TSH = overactive (hyperthyroidism).\n\nUnit: µIU/ml\n\nReference range: min: 0.27, max: 4.2"
-            },
-            {
-              "const": "S-fT3",
-              "title": "Free T3 (Triiodothyronine)",
-              "description": "The most active thyroid hormone — T4 is converted to T3 in tissues. Low fT3 with normal TSH/fT4 may indicate 'sick euthyroid syndrome' or poor T4-to-T3 conversion.\n\nUnit: pmol/l\n\nReference range: min: 3.1, max: 6.8"
-            },
-            {
-              "const": "S-fT4",
-              "title": "Free T4 (Thyroxine)",
-              "description": "Active thyroid hormone available to tissues. Low fT4 with high TSH confirms hypothyroidism. Normal fT4 with mildly elevated TSH is subclinical hypothyroidism.\n\nUnit: pmol/l\n\nReference range: min: 12, max: 22"
-            },
-            {
-              "const": "S-aTSH",
-              "title": "Anti-TSH Receptor Antibodies (TRAb)",
-              "description": "Antibodies against the TSH receptor. Elevated in Graves' disease (autoimmune hyperthyroidism). Important for differential diagnosis of thyroid disorders.\n\nUnit: IU/l\n\nReference range: max: 1.75"
-            },
-            {
-              "const": "S-aTG",
-              "title": "Anti-Thyroglobulin Antibodies",
-              "description": "Antibodies against thyroglobulin protein. Elevated in Hashimoto's thyroiditis and other autoimmune thyroid diseases. Present in ~10% of healthy individuals.\n\nUnit: IU/ml\n\nReference range: max: 115"
-            },
-            {
-              "const": "S-aTPO",
-              "title": "Anti-TPO Antibodies",
-              "description": "Antibodies against thyroid peroxidase enzyme. Most sensitive marker for autoimmune thyroid disease (Hashimoto's). Positive in ~90% of Hashimoto's patients.\n\nUnit: IU/ml\n\nReference range: max: 34"
-            },
-            {
-              "const": "S-TESTO",
-              "title": "Testosterone (Total)",
-              "description": "Primary male sex hormone, crucial for both men and women. Supports muscle strength, bone density, mood, libido, and cardiovascular health. Declines with age.\n\nUnit: nmol/l\n\nReference range: min: 8.64, max: 29"
-            },
-            {
-              "const": "S-fTESTO",
-              "title": "Free Testosterone",
-              "description": "Bioavailable form of testosterone not bound to proteins. More clinically relevant than total testosterone as it reflects the hormone actually available to tissues.\n\nUnit: ng/dL\n\nReference range: min: 5, max: 21"
-            },
-            {
-              "const": "S-E2",
-              "title": "Estradiol (E2)",
-              "description": "Primary estrogen hormone. Important in both sexes — regulates bone density, cardiovascular health, mood, and libido. In men, very high or very low levels are both problematic.\n\nUnit: pmol/l\n\nReference range: min: 28, max: 156"
-            },
-            {
-              "const": "S-DHEA",
-              "title": "DHEA-S (Dehydroepiandrosterone Sulfate)",
-              "description": "Adrenal 'recovery hormone' supporting stress resilience, repair processes, immune function, and vitality. Declines with age; higher levels are associated with longevity.\n\nUnit: µmol/l\n\nReference range: min: 4.34, max: 12.2"
-            },
-            {
-              "const": "S-CORT",
-              "title": "Cortisol",
-              "description": "Primary stress hormone produced by the adrenal glands. Follows a diurnal pattern (high in morning, low at night). Chronically elevated levels indicate stress, Cushing's syndrome; low levels suggest adrenal insufficiency.\n\nUnit: nmol/l\n\nReference range: min: 133, max: 537"
-            },
-            {
-              "const": "S-IGF1",
-              "title": "IGF-1 (Insulin-like Growth Factor 1)",
-              "description": "Growth factor mediating the effects of growth hormone. Involved in muscle growth, bone density, and tissue repair. High levels may increase cancer risk; low levels indicate GH deficiency.\n\nUnit: ng/mL\n\nReference range: min: 83, max: 244"
-            },
-            {
-              "const": "S-SHBG",
-              "title": "SHBG (Sex Hormone Binding Globulin)",
-              "description": "Protein that binds and transports sex hormones (testosterone, estradiol). High SHBG reduces free/bioavailable hormones. Affected by thyroid function, liver health, obesity, and aging.\n\nUnit: nmol/l\n\nReference range: min: 18.3, max: 54.1"
-            },
-            {
-              "const": "S-PRL",
-              "title": "Prolactin",
-              "description": "Pituitary hormone primarily involved in lactation. Elevated in both sexes by pituitary adenomas, medications, stress, or hypothyroidism. High levels can suppress testosterone and cause symptoms.\n\nUnit: mIU/l\n\nReference range: min: 86, max: 324"
-            },
-            {
-              "const": "S-LH",
-              "title": "LH (Luteinizing Hormone)",
-              "description": "Pituitary hormone stimulating testosterone production in men and ovulation in women. Used with FSH to evaluate fertility, hypogonadism, and pituitary function.\n\nUnit: IU/l\n\nReference range: min: 1.7, max: 8.6"
-            },
-            {
-              "const": "S-FSH",
-              "title": "FSH (Follicle-Stimulating Hormone)",
-              "description": "Pituitary hormone regulating reproductive function. In men, stimulates sperm production. Elevated FSH with low testosterone indicates primary hypogonadism (testicular failure).\n\nUnit: IU/l\n\nReference range: min: 1.5, max: 12.4"
-            },
-            {
-              "const": "S-FAI",
-              "title": "Free Androgen Index",
-              "description": "Calculated ratio of total testosterone to SHBG, estimating bioavailable testosterone. Useful when SHBG is abnormal. High values may indicate PCOS in women or androgen excess.\n\nUnit: %\n\nReference range: min: 24, max: 104"
-            },
-            {
-              "const": "S-PTH",
-              "title": "PTH (Parathyroid Hormone)",
-              "description": "Hormone regulating calcium and phosphorus balance. Elevated in vitamin D deficiency (secondary hyperparathyroidism), primary hyperparathyroidism, or kidney disease. Low levels seen after thyroid surgery.\n\nUnit: pg/ml\n\nReference range: min: 15, max: 65"
-            },
-            {
-              "const": "S-PROG",
-              "title": "Progesterone",
-              "description": "Steroid hormone primarily involved in the menstrual cycle and pregnancy. In men, produced in small amounts by the adrenal glands and testes. Elevated levels are uncommon and may indicate adrenal or testicular pathology.\n\nUnit: nmol/l\n\nReference range: max: 0.47"
-            },
-            {
-              "const": "S-LIST",
-              "title": "Free Testosterone Index (LIST)",
-              "description": "Lab-calculated index of free testosterone. Different from FAI — uses a distinct formula. A higher value indicates more bioavailable testosterone relative to binding proteins."
-            },
-            {
-              "const": "U-GLU",
-              "title": "Urine Glucose",
-              "description": "Glucose in urine. Normally absent - presence suggests blood sugar exceeding the kidney's reabsorption threshold (typically >10 mmol/l), as in uncontrolled diabetes."
-            },
-            {
-              "const": "U-PROT",
-              "title": "Urine Protein",
-              "description": "Protein in urine. Normally absent or trace. Persistent proteinuria indicates kidney damage, especially in diabetes or hypertension."
-            },
-            {
-              "const": "U-BILI",
-              "title": "Urine Bilirubin",
-              "description": "Bilirubin in urine. Normally absent - presence suggests liver or bile duct disease causing conjugated bilirubin to spill into urine."
-            },
-            {
-              "const": "U-UBG",
-              "title": "Urobilinogen",
-              "description": "Breakdown product of bilirubin. Small amounts are normal. Elevated in hemolytic anemia or liver disease; absent in complete bile duct obstruction."
-            },
-            {
-              "const": "U-PH",
-              "title": "Urine pH",
-              "description": "Acidity/alkalinity of urine. Normal range 4.5-8.0. Affected by diet, medications, and metabolic conditions. Acidic urine is common with high protein diets.\n\nReference range: min: 5, max: 8"
-            },
-            {
-              "const": "U-KREV",
-              "title": "Urine Blood",
-              "description": "Blood in urine (hematuria). Normally absent. Presence may indicate kidney stones, urinary tract infection, or bladder/kidney disease."
-            },
-            {
-              "const": "U-LEUC",
-              "title": "Urine Leukocytes",
-              "description": "White blood cells in urine. Normally absent. Presence suggests urinary tract infection or kidney inflammation."
-            },
-            {
-              "const": "U-KETO",
-              "title": "Urine Ketones",
-              "description": "Ketone bodies in urine. Normally absent. Present during fasting, low-carb diets, uncontrolled diabetes (diabetic ketoacidosis), or prolonged vomiting."
-            },
-            {
-              "const": "U-NIT",
-              "title": "Urine Nitrites",
-              "description": "Bacterial metabolite in urine. Normally absent. Positive result strongly suggests urinary tract infection with gram-negative bacteria."
-            },
-            {
-              "const": "U-HUST",
-              "title": "Urine Specific Gravity",
-              "description": "Measures urine concentration. Reflects hydration status and kidney concentrating ability. Low values suggest overhydration; high values suggest dehydration.\n\nReference range: min: 1.003, max: 1.03"
-            },
-            {
-              "const": "U-EPPL",
-              "title": "Epithelial Cells",
-              "description": "Cells lining the urinary tract. Small numbers are normal from natural shedding. High counts may indicate contamination or urinary tract inflammation.\n\nUnit: /µl\n\nReference range: max: 5"
-            },
-            {
-              "const": "U-ERY",
-              "title": "Urine Erythrocytes (Microscopy)",
-              "description": "Red blood cells seen under microscope. More precise than dipstick blood test. Elevated counts require investigation for kidney stones, infection, or malignancy.\n\nUnit: /µl\n\nReference range: max: 5"
-            },
-            {
-              "const": "U-LEUKU",
-              "title": "Urine Leukocytes (Microscopy)",
-              "description": "White blood cells seen under microscope. Elevated counts indicate urinary tract infection or kidney inflammation.\n\nUnit: /µl\n\nReference range: max: 10"
-            },
-            {
-              "const": "U-UBAKT",
-              "title": "Urine Bacteria",
-              "description": "Bacteria seen under microscope. Small numbers may be contamination. Significant bacteriuria with symptoms suggests urinary tract infection.\n\nUnit: /µl\n\nReference range: max: 40"
-            },
-            {
-              "const": "S-MorbilliG",
-              "title": "Measles IgG Antibodies",
-              "description": "IgG antibodies against measles virus. Indicates immunity from vaccination or past infection. Sufficient level for post-vaccination is >=275 IU/l. High values confirm strong protection.\n\nUnit: IU/l\n\nReference range: min: 275"
-            },
-            {
-              "const": "S-Tetanus",
-              "title": "Tetanus Antibodies",
-              "description": "IgG antibodies against tetanus toxoid. Measures vaccine-induced immunity. 1.0-5.0 IU/ml indicates long-term protection; recheck in 5 years.\n\nUnit: IU/ml\n\nReference range: min: 1"
-            },
-            {
-              "const": "MDRD-UreaAlb",
-              "title": "eGFR (MDRD with Urea & Albumin)",
-              "description": "Alternative kidney function estimate using MDRD formula with urea and albumin. Similar to CKD-EPI but uses additional inputs. Values >1.5 ml/s are normal.\n\nUnit: ml/s/1.73m²\n\nReference range: min: 1"
-            },
-            {
-              "const": "S-FIB4",
-              "title": "FIB-4 Index",
-              "description": "Non-invasive fibrosis score calculated from age, AST, ALT, and platelets. Estimates liver fibrosis risk. <1.3 = low risk; 1.3-2.67 = intermediate; >2.67 = high risk.\n\nReference range: max: 1.3"
-            },
-            {
-              "const": "S-AMS",
-              "title": "Serum Amylase",
-              "description": "Enzyme that breaks down starch, produced by the pancreas and salivary glands. Elevated in pancreatitis, salivary gland inflammation, or bowel obstruction.\n\nUnit: µkat/l\n\nReference range: min: 0.47, max: 1.67"
-            },
-            {
-              "const": "S-HOMA",
-              "title": "HOMA-IR (Insulin Resistance Index)",
-              "description": "Calculated from fasting glucose and insulin: (glucose × insulin) / 22.5. Estimates insulin resistance. Values <1.0 are optimal; >2.5 suggests significant insulin resistance and metabolic risk.\n\nReference range: max: 2.5"
-            },
-            {
-              "const": "S-TelL",
-              "title": "Telomere Length",
-              "description": "Measures the protective caps on chromosomes that shorten with age. Reflects cellular aging and impacts the risk of age-related diseases. Longer telomeres are associated with biological youth.\n\nUnit: Kb\n\nReference range: min: 7"
-            },
-            {
-              "const": "S-Fe",
-              "title": "Serum Iron",
-              "description": "Iron circulating in the blood bound to transferrin. Low levels indicate iron deficiency; very high levels may suggest iron overload or recent iron supplementation.\n\nUnit: µmol/l\n\nReference range: min: 10.6, max: 28.3"
-            },
-            {
-              "const": "S-Feritin",
-              "title": "Ferritin",
-              "description": "Primary iron storage protein. The most sensitive marker for iron deficiency - low ferritin is the earliest sign. Also an acute-phase reactant (rises with inflammation).\n\nUnit: ng/ml\n\nReference range: min: 30, max: 400"
-            },
-            {
-              "const": "S-Transferin",
-              "title": "Transferrin",
-              "description": "Iron transport protein in blood. Elevated when the body needs more iron (iron deficiency). Low in liver disease, malnutrition, or inflammation.\n\nUnit: g/l\n\nReference range: min: 2, max: 4"
-            },
-            {
-              "const": "S-TransSat",
-              "title": "Transferrin Saturation",
-              "description": "Percentage of transferrin binding sites occupied by iron. Low saturation (<20%) strongly suggests iron deficiency. High saturation (>45%) may indicate iron overload.\n\nUnit: %\n\nReference range: min: 20, max: 48"
-            },
-            {
-              "const": "S-TransRec",
-              "title": "Soluble Transferrin Receptors",
-              "description": "Receptor fragments shed into blood when cells need more iron. Elevated in iron deficiency anemia. Unlike ferritin, not affected by inflammation - useful when ferritin is unreliable.\n\nUnit: mg/l\n\nReference range: min: 0.7, max: 2"
-            },
-            {
-              "const": "S-UIBC",
-              "title": "UIBC (Unsaturated Iron Binding Capacity)",
-              "description": "Available iron-binding capacity of transferrin. Elevated in iron deficiency as the body produces more transferrin to capture scarce iron.\n\nUnit: µmol/l\n\nReference range: min: 15, max: 63"
-            },
-            {
-              "const": "S-TIBC",
-              "title": "TIBC (Total Iron Binding Capacity)",
-              "description": "Total capacity of transferrin to bind iron (UIBC + serum iron). Elevated in iron deficiency; low in iron overload, liver disease, or chronic inflammation.\n\nUnit: µmol/l\n\nReference range: min: 45, max: 72"
-            },
-            {
-              "const": "SL-AHI",
-              "title": "Apnea-Hypopnea Index (AHI)",
-              "description": "Number of apneas and hypopneas per hour of sleep. Primary metric for sleep apnea severity. Normal <5, mild 5-15, moderate 15-30, severe >30.\n\nUnit: /hr\n\nReference range: max: 5"
-            },
-            {
-              "const": "SL-OA",
-              "title": "Obstructive Apneas",
-              "description": "Obstructive apnea events per hour - complete airway blockage for >=10 seconds during sleep despite breathing effort.\n\nUnit: /hr"
-            },
-            {
-              "const": "SL-HY",
-              "title": "Hypopneas",
-              "description": "Partial airway obstruction events per hour - reduced airflow (>=30%) with oxygen desaturation or arousal. Usually the largest component of AHI.\n\nUnit: /hr"
-            },
-            {
-              "const": "SL-MA",
-              "title": "Mixed Apneas",
-              "description": "Events per hour that begin as central apnea (no breathing effort) and transition to obstructive apnea. Rare in most patients.\n\nUnit: /hr"
-            },
-            {
-              "const": "SL-CA",
-              "title": "Central Apneas",
-              "description": "Events per hour where the brain temporarily stops sending signals to breathe. No airway obstruction, no breathing effort. Common in heart failure patients.\n\nUnit: /hr"
-            },
-            {
-              "const": "SL-ODI",
-              "title": "Oxygen Desaturation Index (ODI)",
-              "description": "Number of >=3% oxygen desaturation events per hour. Closely correlates with AHI. Normal <5; elevated values indicate significant intermittent hypoxia.\n\nUnit: /hr\n\nReference range: max: 5"
-            },
-            {
-              "const": "SL-SpO2min",
-              "title": "Minimum SpO2",
-              "description": "Lowest oxygen saturation recorded during the night. Values below 90% are clinically significant; below 80% indicates severe desaturation.\n\nUnit: %\n\nReference range: min: 90"
-            },
-            {
-              "const": "SL-SpO2avg",
-              "title": "Average SpO2",
-              "description": "Mean oxygen saturation throughout the entire sleep period. Normal >=94%. Reduced values suggest chronic intermittent hypoxia from sleep-disordered breathing.\n\nUnit: %\n\nReference range: min: 94"
-            },
-            {
-              "const": "SL-T90",
-              "title": "Time Below 90% SpO2",
-              "description": "Percentage of total sleep time spent with oxygen saturation below 90%. Normal <1%. Elevated values indicate significant nocturnal hypoxemia.\n\nUnit: %\n\nReference range: max: 1"
-            },
-            {
-              "const": "SL-SFI",
-              "title": "Snoring Frequency Index (SFI)",
-              "description": "Proportion of sleep time spent snoring. Higher values indicate more persistent snoring, a hallmark of upper airway resistance."
-            },
-            {
-              "const": "S-BNP",
-              "title": "BNP (B-type Natriuretic Peptide)",
-              "description": "Hormone released by the heart in response to stretching of heart muscle. Measures heart stress or failure. Low values indicate a healthy heart; elevated levels suggest cardiac strain or heart failure.\n\nUnit: pg/mL\n\nReference range: max: 100"
-            },
-            {
-              "const": "S-CAC",
-              "title": "CAC Score (Coronary Artery Calcium)",
-              "description": "CT scan measurement of calcium buildup in coronary arteries. Score of 0 is perfect — indicates no detectable plaque. Higher scores quantify atherosclerotic burden and cardiovascular risk.\n\nReference range: max: 0"
-            },
-            {
-              "const": "S-PSA",
-              "title": "PSA (Prostate-Specific Antigen)",
-              "description": "Protein produced by the prostate gland. Primary screening marker for prostate cancer in men. Also elevated in benign prostatic hyperplasia and prostatitis. Rising trend is more significant than absolute value.\n\nUnit: ng/mL\n\nReference range: max: 4"
+              "enum": [
+                "S-ALB",
+                "S-ALP",
+                "S-ALT",
+                "S-AST",
+                "S-ApoA1",
+                "S-ApoB",
+                "S-B12",
+                "S-BIL",
+                "S-CB",
+                "S-CHOL",
+                "S-CKDEPI",
+                "S-CREA",
+                "S-Ca",
+                "S-Cai",
+                "S-Cl",
+                "S-CysC",
+                "S-DBIL",
+                "S-FOL",
+                "S-GGT",
+                "S-GSH",
+                "S-HCY",
+                "S-HDL",
+                "S-K",
+                "S-KM",
+                "S-LDH",
+                "S-LDL",
+                "S-LDLP",
+                "S-Lpa",
+                "S-Mg",
+                "S-Na",
+                "S-O3I",
+                "S-P",
+                "S-PAMS",
+                "S-TGL",
+                "S-UREA",
+                "S-VITD",
+                "S-VLDL",
+                "S-nHDL",
+                "S-oxLDL"
+              ]
+            },
+            {
+              "enum": ["MDRD-UreaAlb", "S-AMS", "S-FIB4", "S-HOMA", "S-TelL"]
+            },
+            {
+              "enum": ["S-BNP", "S-CAC"]
+            },
+            {
+              "enum": ["C-APTT", "C-APTTr", "C-INR", "C-QT", "C-Quick"]
+            },
+            {
+              "enum": ["B-HbA1c", "P-P-GLU", "S-Cpep", "S-INS"]
+            },
+            {
+              "enum": [
+                "S-CORT",
+                "S-DHEA",
+                "S-E2",
+                "S-FAI",
+                "S-FSH",
+                "S-IGF1",
+                "S-LH",
+                "S-LIST",
+                "S-PRL",
+                "S-PROG",
+                "S-PTH",
+                "S-SHBG",
+                "S-TESTO",
+                "S-TSH",
+                "S-aTG",
+                "S-aTPO",
+                "S-aTSH",
+                "S-fT3",
+                "S-fT4",
+                "S-fTESTO"
+              ]
+            },
+            {
+              "enum": [
+                "B-BAabs",
+                "B-EOabs",
+                "B-HB",
+                "B-HCT",
+                "B-LYabs",
+                "B-MCH",
+                "B-MCHC",
+                "B-MCV",
+                "B-MOabs",
+                "B-MPV",
+                "B-NEabs",
+                "B-PLT",
+                "B-RBC",
+                "B-RDW",
+                "B-RET",
+                "B-WBC",
+                "B-baso",
+                "B-eo",
+                "B-lymf",
+                "B-mono",
+                "B-neu"
+              ]
+            },
+            {
+              "enum": ["S-MorbilliG", "S-Tetanus"]
+            },
+            {
+              "enum": [
+                "B-ESR",
+                "S-Anti-tTg-IgA",
+                "S-CRP",
+                "S-IgA",
+                "S-IgE",
+                "S-IgG",
+                "S-IgM",
+                "S-S100B",
+                "S-TNF",
+                "S-hsCRP"
+              ]
+            },
+            {
+              "enum": [
+                "S-Fe",
+                "S-Feritin",
+                "S-TIBC",
+                "S-TransRec",
+                "S-TransSat",
+                "S-Transferin",
+                "S-UIBC"
+              ]
+            },
+            {
+              "enum": [
+                "SL-AHI",
+                "SL-CA",
+                "SL-HY",
+                "SL-MA",
+                "SL-OA",
+                "SL-ODI",
+                "SL-SFI",
+                "SL-SpO2avg",
+                "SL-SpO2min",
+                "SL-T90"
+              ]
+            },
+            {
+              "enum": ["S-PSA"]
+            },
+            {
+              "enum": [
+                "U-BILI",
+                "U-GLU",
+                "U-HUST",
+                "U-KETO",
+                "U-KREV",
+                "U-LEUC",
+                "U-NIT",
+                "U-PH",
+                "U-PROT",
+                "U-UBG"
+              ]
+            },
+            {
+              "enum": ["U-EPPL", "U-ERY", "U-LEUKU", "U-UBAKT"]
             }
           ]
         },
         "type": {
           "type": "string",
-          "enum": [
-            "qualitative"
-          ],
+          "enum": ["qualitative"],
           "description": "Set to 'qualitative' for non-numeric results (e.g. neg/pos). Omit for quantitative."
         },
         "unit": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": ["string", "null"],
           "description": "Unit of measurement (e.g. mmol/l, g/l, %). Null for unitless values.",
           "examples": [
             "mmol/l",
@@ -2213,31 +1745,19 @@
           ]
         },
         "refMinM": {
-          "type": [
-            "number",
-            "null"
-          ],
+          "type": ["number", "null"],
           "description": "Lower bound of male reference range. Null if no lower limit. Required for sex-specific ranges."
         },
         "refMaxM": {
-          "type": [
-            "number",
-            "null"
-          ],
+          "type": ["number", "null"],
           "description": "Upper bound of male reference range. Null if no upper limit. Required for sex-specific ranges."
         },
         "refMinF": {
-          "type": [
-            "number",
-            "null"
-          ],
+          "type": ["number", "null"],
           "description": "Lower bound of female reference range. Null if no lower limit. Falls back to refMinM if omitted."
         },
         "refMaxF": {
-          "type": [
-            "number",
-            "null"
-          ],
+          "type": ["number", "null"],
           "description": "Upper bound of female reference range. Null if no upper limit. Falls back to refMaxM if omitted."
         },
         "molecularWeight": {
@@ -2263,10 +1783,7 @@
     },
     "result": {
       "type": "object",
-      "required": [
-        "date",
-        "value"
-      ],
+      "required": ["date", "value"],
       "additionalProperties": false,
       "properties": {
         "date": {
@@ -2275,10 +1792,7 @@
           "description": "Test date in YYYY-MM-DD format."
         },
         "value": {
-          "type": [
-            "number",
-            "string"
-          ],
+          "type": ["number", "string"],
           "description": "Test result. Number for quantitative, string for qualitative (e.g. 'neg', 'pos')."
         },
         "refMin": {

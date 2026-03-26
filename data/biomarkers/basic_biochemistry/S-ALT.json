@@ -1,0 +1,29 @@
+{
+  "id": "S-ALT",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µkat/l",
+  "conventionalUnit": "U/L",
+  "refRanges": {
+    "male": {
+      "min": 0.12,
+      "max": 0.73
+    },
+    "female": {
+      "min": 0.12,
+      "max": 0.52
+    }
+  },
+  "name": {
+    "en": "ALT (Alanine Aminotransferase)",
+    "cs": "ALT (Alaninaminotransferáza)",
+    "ru": "АЛТ (Аланинаминотрансфераза)",
+    "is": "ALT (Alanín amínótransferasi)"
+  },
+  "description": {
+    "en": "Liver enzyme. Elevated levels indicate liver cell damage. Most specific marker for liver injury. Can be raised by alcohol, medications, fatty liver, or viral hepatitis.",
+    "cs": "Jaterní enzym. Zvýšené hodnoty ukazují na poškození jaterních buněk. Nejspecifičtější marker poškození jater. Může být zvýšený alkoholem, léky, steatózou nebo virovou hepatitidou.",
+    "ru": "Фермент печени. Повышенные значения указывают на повреждение клеток печени. Наиболее специфичный маркер поражения печени. Может повышаться от алкоголя, лекарств, жировой дистрофии или вирусного гепатита.",
+    "is": "Lifrarensím. Hækkuð gildi benda til lifrarskaða. Sértækasta merki um lifrarskaða. Getur hækkað vegna áfengis, lyfja, fitulifrar eða veirulifrarbólgu."
+  }
+}

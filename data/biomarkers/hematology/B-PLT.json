@@ -1,0 +1,28 @@
+{
+  "id": "B-PLT",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "×10⁹/l",
+  "refRanges": {
+    "male": {
+      "min": 150.0,
+      "max": 400.0
+    },
+    "female": {
+      "min": 150.0,
+      "max": 400.0
+    }
+  },
+  "name": {
+    "en": "Platelets",
+    "cs": "Trombocyty (krevní destičky)",
+    "ru": "Тромбоциты",
+    "is": "Blóðflögur"
+  },
+  "description": {
+    "en": "Cell fragments essential for blood clotting. Low counts (thrombocytopenia) risk bleeding; high counts (thrombocytosis) may indicate inflammation or blood disorder.",
+    "cs": "Buněčné fragmenty nezbytné pro srážení krve. Nízký počet (trombocytopenie) hrozí krvácením; vysoký počet (trombocytóza) může ukazovat na zánět nebo poruchu krve.",
+    "ru": "Клеточные фрагменты, необходимые для свёртывания крови. Низкий уровень (тромбоцитопения) грозит кровотечением; высокий (тромбоцитоз) может указывать на воспаление.",
+    "is": "Frumubrot nauðsynleg fyrir blóðstorknun. Lágur fjöldi (blóðflögufæð) hefur blæðingarhættu; hár fjöldi (blóðflöguaukninng) getur bent til bólgu eða blóðsjúkdóms."
+  }
+}

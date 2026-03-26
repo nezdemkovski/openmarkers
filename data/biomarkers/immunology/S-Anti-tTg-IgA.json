@@ -1,0 +1,26 @@
+{
+  "id": "S-Anti-tTg-IgA",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "U/ml",
+  "refRanges": {
+    "male": {
+      "max": 7.0
+    },
+    "female": {
+      "max": 7.0
+    }
+  },
+  "name": {
+    "en": "Anti-tTG IgA (Tissue Transglutaminase)",
+    "cs": "Anti-tTG IgA (Tkáňová transglutamináza)",
+    "ru": "Анти-тТГ IgA (Тканевая трансглутаминаза)",
+    "is": "Anti-tTG IgA (Vefjatransglútamínasi)"
+  },
+  "description": {
+    "en": "Primary screening antibody for celiac disease. Elevated levels suggest immune reaction to gluten. Requires normal IgA levels for reliable results.",
+    "cs": "Primární screeningová protilátka pro celiakii. Zvýšené hodnoty naznačují imunitní reakci na lepek. Vyžaduje normální hladinu IgA pro spolehlivé výsledky.",
+    "ru": "Основное скрининговое антитело для целиакии. Повышенные значения указывают на иммунную реакцию на глютен. Требуется нормальный уровень IgA для надёжных результатов.",
+    "is": "Aðalskimunarmótefni fyrir cölíakíu. Hækkuð gildi benda til ónæmisviðbragða gegn glúten."
+  }
+}

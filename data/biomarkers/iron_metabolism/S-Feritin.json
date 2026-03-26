@@ -1,0 +1,28 @@
+{
+  "id": "S-Feritin",
+  "category": "iron_metabolism",
+  "type": "quantitative",
+  "unit": "ng/ml",
+  "refRanges": {
+    "male": {
+      "min": 30.0,
+      "max": 400.0
+    },
+    "female": {
+      "min": 10.0,
+      "max": 150.0
+    }
+  },
+  "name": {
+    "en": "Ferritin",
+    "cs": "Feritin",
+    "ru": "Ферритин",
+    "is": "Ferritín"
+  },
+  "description": {
+    "en": "Primary iron storage protein. The most sensitive marker for iron deficiency - low ferritin is the earliest sign. Also an acute-phase reactant (rises with inflammation).",
+    "cs": "Hlavní zásobní protein železa. Nejcitlivější marker nedostatku železa — nízký feritin je nejranějším příznakem. Také protein akutní fáze (stoupá při zánětu).",
+    "ru": "Основной белок запаса железа. Самый чувствительный маркер дефицита железа — снижение ферритина является самым ранним признаком. Также белок острой фазы (повышается при воспалении).",
+    "is": "Aðaljárngeymsluprótín. Viðkvæmasta merkið um járnskort. Einnig bráðaviðbragðsefni (hækkar við bólgu)."
+  }
+}

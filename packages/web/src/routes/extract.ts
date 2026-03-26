@@ -1,70 +1,22 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-
-import { generateText, Output } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
+import { checkExtractLimit, incrementExtractCount } from "@openmarkers/db";
+import {
+  buildCompactReference,
+  buildMolecularWeightMap,
+  getValidBiomarkerIds,
+  getBiomarkerById,
+} from "@openmarkers/db/src/biomarkerRegistry";
+import { convert as convertUnit } from "@openmarkers/db/src/units";
+import { generateText, Output } from "ai";
 import { parse, format, isValid } from "date-fns";
 import { z } from "zod";
 
-import { checkExtractLimit, incrementExtractCount } from "@openmarkers/db";
-
 import { json, error, parseBody, isResponse } from "./_shared.ts";
 
-
-interface BiomarkerRef {
-  category: string;
-  unit: string;
-  name: string;
-  qualitative: boolean;
-}
-
-function loadBiomarkerReference(): {
-  ref: Record<string, BiomarkerRef>;
-  validIds: Set<string>;
-} {
-  const schemaPath = resolve(import.meta.dir, "../../../../data/schema.json");
-  const schema = JSON.parse(readFileSync(schemaPath, "utf-8"));
-  const catProps = schema.properties.categories.items.properties;
-  const defRef = catProps.biomarkers.items.$ref.replace("#/$defs/", "");
-  const bioIdField = schema.$defs[defRef].properties.id;
-
-  const meta = bioIdField["x-biomarker-metadata"] as Record<
-    string,
-    Record<string, unknown>
-  >;
-
-  const catMapping = bioIdField["x-category-mapping"] as Record<
-    string,
-    string[]
-  >;
-  const bioToCategory: Record<string, string> = {};
-  for (const [catId, bioIds] of Object.entries(catMapping)) {
-    for (const bioId of bioIds) {
-      bioToCategory[bioId] = catId;
-    }
-  }
-
-  const dipstickIds = new Set(catMapping["urine_dipstick"] || []);
-
-  const ref: Record<string, BiomarkerRef> = {};
-  const validIds = new Set<string>();
-  for (const [id, m] of Object.entries(meta)) {
-    const category = bioToCategory[id] || "";
-    if (!category) continue;
-    ref[id] = {
-      category,
-      unit: (m.unit as string) || "",
-      name: (m.name as string) || "",
-      qualitative: dipstickIds.has(id) && !m.unit,
-    };
-    validIds.add(id);
-  }
-  return { ref, validIds };
-}
-
-const { ref: BIOMARKER_REF, validIds: VALID_IDS } = loadBiomarkerReference();
+const BIOMARKER_REF = buildCompactReference();
 const BIOMARKER_REF_TEXT = JSON.stringify(BIOMARKER_REF);
-
+const VALID_IDS = getValidBiomarkerIds();
+const MW_MAP = buildMolecularWeightMap();
 
 function normalizeDate(d: string): string {
   if (!d) return "";
@@ -84,13 +36,10 @@ function normalizeDate(d: string): string {
   return "";
 }
 
-
-
 const extractRequestSchema = z.object({
   file: z.string().min(1),
   fileName: z.string().min(1),
 });
-
 
 interface ValidatedResult {
   biomarkerId: string;
@@ -98,8 +47,38 @@ interface ValidatedResult {
   date: string;
   value: number | string;
   unit: string;
+  suspicious: boolean;
 }
 
+function isOutOfExpectedRange(
+  value: number,
+  refMin?: number,
+  refMax?: number,
+): boolean {
+  if (refMin != null && refMax != null) {
+    const range = refMax - refMin;
+    return value < refMin - range * 3 || value > refMax + range * 3;
+  }
+  if (refMax != null) return value > refMax * 5;
+  if (refMin != null) return value < refMin * 0.1;
+  return false;
+}
+
+function tryAutoConvert(
+  value: number,
+  bioId: string,
+): { value: number; converted: boolean } {
+  const ref = BIOMARKER_REF[bioId];
+  if (!ref?.conventionalUnit || !ref.unit) return { value, converted: false };
+
+  const mw = MW_MAP[bioId];
+  const converted = convertUnit(value, ref.conventionalUnit, ref.unit, mw);
+  if (converted != null && !isOutOfExpectedRange(converted, ref.refMin, ref.refMax)) {
+    return { value: converted, converted: true };
+  }
+
+  return { value, converted: false };
+}
 
 const extractionSchema = z.object({
   results: z.array(
@@ -127,7 +106,6 @@ RULES:
 8. Extract ALL results — do not stop early.
 
 Extract ALL results from this document:`;
-
 
 export async function handleExtract(
   req: Request,
@@ -159,7 +137,6 @@ export async function handleExtract(
 
   try {
     const isPdf = mediaType === "application/pdf";
-
     const filePart = isPdf
       ? {
           type: "file" as const,
@@ -181,15 +158,12 @@ export async function handleExtract(
       messages: [
         {
           role: "user",
-          content: [
-            { type: "text", text: PROMPT },
-            filePart,
-          ],
+          content: [{ type: "text", text: PROMPT }, filePart],
         },
       ],
     });
 
-    if (!aiOutput || !aiOutput.results) {
+    if (!aiOutput?.results) {
       return error("Could not extract results from this file.", 400);
     }
 
@@ -207,10 +181,11 @@ export async function handleExtract(
         continue;
       }
 
+      const def = getBiomarkerById(biomarker_id);
       const ref = BIOMARKER_REF[biomarker_id];
 
       let parsedValue: number | string;
-      if (ref.qualitative) {
+      if (def?.type === "qualitative") {
         parsedValue = String(rawValue);
       } else {
         const num = Number(rawValue);
@@ -231,12 +206,34 @@ export async function handleExtract(
       }
       seen.add(key);
 
+      let finalValue = parsedValue;
+      let suspicious = false;
+
+      if (
+        typeof parsedValue === "number" &&
+        isOutOfExpectedRange(parsedValue, ref?.refMin, ref?.refMax)
+      ) {
+        const { value: converted, converted: didConvert } = tryAutoConvert(
+          parsedValue,
+          biomarker_id,
+        );
+        if (didConvert) {
+          finalValue = converted;
+          console.log(
+            `[extract] Auto-converted ${biomarker_id}: ${parsedValue} → ${converted} (${ref?.conventionalUnit} → ${ref?.unit})`,
+          );
+        } else {
+          suspicious = true;
+        }
+      }
+
       accepted.push({
         biomarkerId: biomarker_id,
-        categoryId: ref.category,
+        categoryId: ref?.category ?? "",
         date: normalizedDate,
-        value: parsedValue,
-        unit: ref.unit,
+        value: finalValue,
+        unit: ref?.unit ?? "",
+        suspicious,
       });
     }
 
@@ -277,26 +274,22 @@ export async function handleExtract(
       }),
     );
 
-    const data = {
-      user: { name: "Extracted" },
-      categories,
-    };
-
     const units: Record<string, string> = {};
+    const suspicious: Record<string, boolean> = {};
     for (const r of accepted) {
       if (r.unit) units[r.biomarkerId] = r.unit;
+      if (r.suspicious) suspicious[`${r.biomarkerId}:${r.date}`] = true;
     }
 
-    const unknownDeduped = [
-      ...new Map(unknown.map((u) => [u.id, u])).values(),
-    ];
+    const unknownDeduped = [...new Map(unknown.map((u) => [u.id, u])).values()];
 
     await incrementExtractCount(auth.userId);
 
     return json({
-      data,
+      data: { user: { name: "Extracted" }, categories },
       resultCount: accepted.length,
       units,
+      suspicious,
       unknown: unknownDeduped,
     });
   } catch (err: unknown) {

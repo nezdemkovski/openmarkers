@@ -694,15 +694,15 @@ export async function batchAddResults(
   // Create missing biomarkers (need category_id)
   const missingBios = data.entries
     .filter((e) => !existingBioIds.has(e.biomarker_id) && e.category_id)
-    .reduce(
-      (acc, e) => {
-        if (!acc.has(e.biomarker_id)) {
-          acc.set(e.biomarker_id, { id: e.biomarker_id, categoryId: e.category_id! });
-        }
-        return acc;
-      },
-      new Map<string, { id: string; categoryId: string }>(),
-    );
+    .reduce((acc, e) => {
+      if (!acc.has(e.biomarker_id)) {
+        acc.set(e.biomarker_id, {
+          id: e.biomarker_id,
+          categoryId: e.category_id!,
+        });
+      }
+      return acc;
+    }, new Map<string, { id: string; categoryId: string }>());
 
   if (missingBios.size > 0) {
     await db
@@ -1017,16 +1017,12 @@ export async function getExtractUsage(
   };
 }
 
-export async function checkExtractLimit(
-  authUserId: string,
-): Promise<boolean> {
+export async function checkExtractLimit(authUserId: string): Promise<boolean> {
   const usage = await getExtractUsage(authUserId);
   return usage.remaining > 0;
 }
 
-export async function incrementExtractCount(
-  authUserId: string,
-): Promise<void> {
+export async function incrementExtractCount(authUserId: string): Promise<void> {
   const [row] = await db
     .select({ resetAt: userPreferences.extractResetAt })
     .from(userPreferences)
@@ -1034,7 +1030,8 @@ export async function incrementExtractCount(
     .limit(1);
 
   const now = new Date();
-  const needsReset = !row || !row.resetAt || row.resetAt.getTime() < now.getTime();
+  const needsReset =
+    !row || !row.resetAt || row.resetAt.getTime() < now.getTime();
 
   if (needsReset) {
     await db
@@ -1070,4 +1067,79 @@ export async function setUserPlan(
       target: userPreferences.authUserId,
       set: { plan },
     });
+}
+
+export async function syncBiomarkers(): Promise<{
+  inserted: number;
+  updated: number;
+  unchanged: number;
+  orphans: string[];
+}> {
+  const { getAllBiomarkers } = await import("./biomarkerRegistry");
+  const defs = getAllBiomarkers();
+
+  const catIds = new Set(defs.map((d) => d.category));
+  for (const catId of catIds) {
+    await db.insert(categories).values({ id: catId }).onConflictDoNothing();
+  }
+
+  let inserted = 0;
+  let updated = 0;
+  let unchanged = 0;
+
+  for (const def of defs) {
+    const [existing] = await db
+      .select()
+      .from(biomarkers)
+      .where(eq(biomarkers.id, def.id))
+      .limit(1);
+
+    const values = {
+      id: def.id,
+      categoryId: def.category,
+      unit: def.unit ?? null,
+      conventionalUnit: def.conventionalUnit ?? null,
+      molecularWeight: def.molecularWeight ?? null,
+      refMinM: def.refRanges?.male?.min ?? null,
+      refMaxM: def.refRanges?.male?.max ?? null,
+      refMinF: def.refRanges?.female?.min ?? null,
+      refMaxF: def.refRanges?.female?.max ?? null,
+      type:
+        def.type === "qualitative"
+          ? ("qualitative" as const)
+          : ("quantitative" as const),
+    };
+
+    if (!existing) {
+      await db.insert(biomarkers).values(values);
+      inserted++;
+    } else {
+      const needsUpdate =
+        existing.categoryId !== values.categoryId ||
+        existing.unit !== values.unit ||
+        existing.conventionalUnit !== values.conventionalUnit ||
+        existing.molecularWeight !== values.molecularWeight ||
+        existing.refMinM !== values.refMinM ||
+        existing.refMaxM !== values.refMaxM ||
+        existing.refMinF !== values.refMinF ||
+        existing.refMaxF !== values.refMaxF ||
+        existing.type !== values.type;
+
+      if (needsUpdate) {
+        await db
+          .update(biomarkers)
+          .set(values)
+          .where(eq(biomarkers.id, def.id));
+        updated++;
+      } else {
+        unchanged++;
+      }
+    }
+  }
+
+  const dbBios = await db.select({ id: biomarkers.id }).from(biomarkers);
+  const jsonIds = new Set(defs.map((d) => d.id));
+  const orphans = dbBios.filter((b) => !jsonIds.has(b.id)).map((b) => b.id);
+
+  return { inserted, updated, unchanged, orphans };
 }

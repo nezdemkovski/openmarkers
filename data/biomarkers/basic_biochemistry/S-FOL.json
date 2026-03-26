@@ -1,0 +1,30 @@
+{
+  "id": "S-FOL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "nmol/l",
+  "conventionalUnit": "ng/mL",
+  "molecularWeight": 441.4,
+  "refRanges": {
+    "male": {
+      "min": 7.0,
+      "max": 46.0
+    },
+    "female": {
+      "min": 7.0,
+      "max": 46.0
+    }
+  },
+  "name": {
+    "en": "Folate (Folic Acid)",
+    "cs": "Kyselina listová (folát)",
+    "ru": "Фолиевая кислота (фолат)",
+    "is": "Fólsýra"
+  },
+  "description": {
+    "en": "B vitamin essential for DNA synthesis, red blood cell production, and neural tube development. Deficiency causes megaloblastic anemia. Important in pregnancy and alongside B12.",
+    "cs": "Vitamin skupiny B nezbytný pro syntézu DNA, tvorbu červených krvinek a vývoj nervové trubice. Nedostatek způsobuje megaloblastickou anémii. Důležitý v těhotenství a společně s B12.",
+    "ru": "Витамин группы B, необходимый для синтеза ДНК, образования эритроцитов и развития нервной трубки. Дефицит вызывает мегалобластную анемию. Важен при беременности и совместно с B12.",
+    "is": "B-vítamín nauðsynlegt fyrir DNA-efnasmíðar og myndun rauðra blóðkorna. Mikilvægt á meðgöngu."
+  }
+}

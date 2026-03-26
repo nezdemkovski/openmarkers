@@ -1,0 +1,28 @@
+{
+  "id": "S-LH",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "IU/l",
+  "refRanges": {
+    "male": {
+      "min": 1.7,
+      "max": 8.6
+    },
+    "female": {
+      "min": 1.1,
+      "max": 11.6
+    }
+  },
+  "name": {
+    "en": "LH (Luteinizing Hormone)",
+    "cs": "LH (Luteinizační hormon)",
+    "ru": "ЛГ (Лютеинизирующий гормон)",
+    "is": "LH (Gulbúshormón)"
+  },
+  "description": {
+    "en": "Pituitary hormone stimulating testosterone production in men and ovulation in women. Used with FSH to evaluate fertility, hypogonadism, and pituitary function.",
+    "cs": "Hormon hypofýzy stimulující produkci testosteronu u mužů a ovulaci u žen. Používá se s FSH k hodnocení plodnosti, hypogonadismu a funkce hypofýzy.",
+    "ru": "Гормон гипофиза, стимулирующий выработку тестостерона у мужчин и овуляцию у женщин. Используется с ФСГ для оценки фертильности, гипогонадизма и функции гипофиза.",
+    "is": "Heiladingulshormón sem örvar testósterónframleiðslu hjá körlum og egglos hjá konum."
+  }
+}

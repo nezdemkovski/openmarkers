@@ -1,0 +1,29 @@
+{
+  "id": "S-Transferin",
+  "category": "iron_metabolism",
+  "type": "quantitative",
+  "unit": "g/l",
+  "conventionalUnit": "mg/dL",
+  "refRanges": {
+    "male": {
+      "min": 2.0,
+      "max": 3.6
+    },
+    "female": {
+      "min": 2.0,
+      "max": 3.8
+    }
+  },
+  "name": {
+    "en": "Transferrin",
+    "cs": "Transferin",
+    "ru": "Трансферрин",
+    "is": "Transferrín"
+  },
+  "description": {
+    "en": "Iron transport protein in blood. Elevated when the body needs more iron (iron deficiency). Low in liver disease, malnutrition, or inflammation.",
+    "cs": "Transportní protein železa v krvi. Zvýšený když tělo potřebuje více železa. Snížený při onemocnění jater, malnutrici nebo zánětu.",
+    "ru": "Транспортный белок железа в крови. Повышается, когда организму нужно больше железа. Снижен при заболеваниях печени, недостаточном питании или воспалении.",
+    "is": "Járnflutningsprótín í blóði. Hækkað þegar líkaminn þarfnast meiri járns (járnskortur)."
+  }
+}

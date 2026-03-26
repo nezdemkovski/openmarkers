@@ -1,0 +1,26 @@
+{
+  "id": "S-TelL",
+  "category": "calculated_indices",
+  "type": "quantitative",
+  "unit": "Kb",
+  "refRanges": {
+    "male": {
+      "min": 7.0
+    },
+    "female": {
+      "min": 7.0
+    }
+  },
+  "name": {
+    "en": "Telomere Length",
+    "cs": "Délka telomer",
+    "ru": "Длина теломер",
+    "is": "Litningaendahettulengd"
+  },
+  "description": {
+    "en": "Measures the protective caps on chromosomes that shorten with age. Reflects cellular aging and impacts the risk of age-related diseases. Longer telomeres are associated with biological youth.",
+    "cs": "Měří ochranné čepičky na chromozomech, které se s věkem zkracují. Odráží buněčné stárnutí a ovlivňuje riziko věkově podmíněných onemocnění. Delší telomery jsou spojeny s biologickým mládím.",
+    "ru": "Измеряет защитные колпачки на хромосомах, которые укорачиваются с возрастом. Отражает клеточное старение и влияет на риск возрастных заболеваний. Более длинные теломеры связаны с биологической молодостью.",
+    "is": "Mælir verndarhetturnar á litningum sem styttast með aldri. Endurspeglar frumuöldrun."
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "S-nHDL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 386.65,
+  "refRanges": {
+    "male": {
+      "max": 3.8
+    },
+    "female": {
+      "max": 3.8
+    }
+  },
+  "name": {
+    "en": "Non-HDL Cholesterol",
+    "cs": "Non-HDL cholesterol",
+    "ru": "Не-ЛПВП холестерин",
+    "is": "Ekki-HDL kólesteról"
+  },
+  "description": {
+    "en": "Total cholesterol minus HDL. Captures all atherogenic lipoproteins (LDL + VLDL). Better predictor of cardiovascular risk than LDL alone, especially with high triglycerides.",
+    "cs": "Celkový cholesterol minus HDL. Zahrnuje všechny aterogenní lipoproteiny (LDL + VLDL). Lepší prediktor kardiovaskulárního rizika než samotný LDL.",
+    "ru": "Общий холестерин минус ЛПВП. Включает все атерогенные липопротеины (ЛПНП + ЛПОНП). Лучший предиктор сердечно-сосудистого риска, чем ЛПНП в отдельности.",
+    "is": "Heildarkólesteról mínus HDL. Nær yfir allar æðaskaðandi fitupróteinsagnir (LDL + VLDL). Betri spáþáttur hjarta- og æðaáhættu en LDL eitt og sér."
+  }
+}

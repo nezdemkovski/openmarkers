@@ -1,0 +1,28 @@
+{
+  "id": "S-DHEA",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "conventionalUnit": "µg/dL",
+  "molecularWeight": 368.49,
+  "refRanges": {
+    "male": {
+      "min": 4.34,
+      "max": 12.2
+    },
+    "female": {
+      "min": 1.6,
+      "max": 8.9
+    }
+  },
+  "name": {
+    "en": "DHEA-S (Dehydroepiandrosterone Sulfate)",
+    "ru": "ДГЭА-С (Дегидроэпиандростерон-сульфат)",
+    "is": "DHEA-S"
+  },
+  "description": {
+    "en": "Adrenal 'recovery hormone' supporting stress resilience, repair processes, immune function, and vitality. Declines with age; higher levels are associated with longevity.",
+    "ru": "Надпочечниковый «гормон восстановления», поддерживающий стрессоустойчивость, процессы репарации, иммунную функцию и жизненную силу. Снижается с возрастом; высокие уровни связаны с долголетием.",
+    "is": "Nýrnahettuhormón sem styður streituþol, viðgerðarferla, ónæmisstarfsemi og lífsorku. Minnkar með aldri."
+  }
+}

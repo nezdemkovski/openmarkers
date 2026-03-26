@@ -1,0 +1,29 @@
+{
+  "id": "B-MCHC",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "g/l",
+  "conventionalUnit": "g/dL",
+  "refRanges": {
+    "male": {
+      "min": 320.0,
+      "max": 360.0
+    },
+    "female": {
+      "min": 320.0,
+      "max": 360.0
+    }
+  },
+  "name": {
+    "en": "Mean Corpuscular Hemoglobin Concentration",
+    "cs": "Střední koncentrace hemoglobinu v erytrocytech",
+    "ru": "Средняя концентрация гемоглобина в эритроците",
+    "is": "Meðalþéttni blóðrauða í korni"
+  },
+  "description": {
+    "en": "Average hemoglobin concentration within red blood cells. Helps classify types of anemia.",
+    "cs": "Průměrná koncentrace hemoglobinu v červených krvinkách. Pomáhá klasifikovat typy anémie.",
+    "ru": "Средняя концентрация гемоглобина в эритроцитах. Помогает классифицировать типы анемии.",
+    "is": "Meðalþéttni blóðrauða í rauðum blóðkornum. Hjálpar til við að flokka tegundir blóðleysis."
+  }
+}

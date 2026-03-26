@@ -1,0 +1,26 @@
+{
+  "id": "U-ERY",
+  "category": "urine_sediment",
+  "type": "quantitative",
+  "unit": "/µl",
+  "refRanges": {
+    "male": {
+      "max": 5.0
+    },
+    "female": {
+      "max": 5.0
+    }
+  },
+  "name": {
+    "en": "Urine Erythrocytes (Microscopy)",
+    "cs": "Erytrocyty v moči (mikroskopie)",
+    "ru": "Эритроциты в моче (микроскопия)",
+    "is": "Rauð blóðkorn í þvagi (smásjá)"
+  },
+  "description": {
+    "en": "Red blood cells seen under microscope. More precise than dipstick blood test. Elevated counts require investigation for kidney stones, infection, or malignancy.",
+    "cs": "Červené krvinky viděné pod mikroskopem. Přesnější než test na krev testovacím proužkem. Zvýšený počet vyžaduje vyšetření na ledvinové kameny, infekci nebo malignitu.",
+    "ru": "Эритроциты, видимые под микроскопом. Точнее, чем тест-полоска на кровь. Повышенный показатель требует обследования на камни в почках, инфекцию или злокачественные новообразования.",
+    "is": "Rauð blóðkorn séð undir smásjá. Nákvæmara en þvagstikupróf. Hækkað fjöldi krefst rannsóknar."
+  }
+}

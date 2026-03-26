@@ -1,0 +1,28 @@
+{
+  "id": "B-MCH",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "pg",
+  "refRanges": {
+    "male": {
+      "min": 27.0,
+      "max": 33.0
+    },
+    "female": {
+      "min": 27.0,
+      "max": 33.0
+    }
+  },
+  "name": {
+    "en": "Mean Corpuscular Hemoglobin",
+    "cs": "Střední hmotnost hemoglobinu v erytrocytu",
+    "ru": "Среднее содержание гемоглобина в эритроците",
+    "is": "Meðalblóðrauði í korni"
+  },
+  "description": {
+    "en": "Average amount of hemoglobin per red blood cell. Correlates with MCV - low in iron deficiency, high in B12/folate deficiency.",
+    "cs": "Průměrné množství hemoglobinu v jedné červené krvince. Koreluje s MCV — nízký při nedostatku železa, vysoký při nedostatku B12/kyseliny listové.",
+    "ru": "Среднее количество гемоглобина в одном эритроците. Коррелирует с MCV — низкий при дефиците железа, высокий при дефиците B12/фолиевой кислоты.",
+    "is": "Meðalmagn blóðrauða í hverju rauðu blóðkorni. Fylgir MCV - lágt við járnskort, hátt við B12/fólsýruskort."
+  }
+}

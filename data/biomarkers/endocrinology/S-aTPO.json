@@ -1,0 +1,26 @@
+{
+  "id": "S-aTPO",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "IU/ml",
+  "refRanges": {
+    "male": {
+      "max": 34.0
+    },
+    "female": {
+      "max": 34.0
+    }
+  },
+  "name": {
+    "en": "Anti-TPO Antibodies",
+    "cs": "Protilátky proti TPO",
+    "ru": "Антитела к ТПО",
+    "is": "Anti-TPO mótefni"
+  },
+  "description": {
+    "en": "Antibodies against thyroid peroxidase enzyme. Most sensitive marker for autoimmune thyroid disease (Hashimoto's). Positive in ~90% of Hashimoto's patients.",
+    "cs": "Protilátky proti tyreoidální peroxidáze. Nejcitlivější marker autoimunitního onemocnění štítné žlázy (Hashimoto). Pozitivní u ~90 % pacientů s Hashimotem.",
+    "ru": "Антитела к тиреоидной пероксидазе. Наиболее чувствительный маркер аутоиммунного заболевания щитовидной железы (Хашимото). Положительны у ~90% пациентов с Хашимото.",
+    "is": "Mótefni gegn skjaldkirtilsperoxídasa ensími. Viðkvæmasta merkið um sjálfsofnæmissjúkdóm í skjaldkirtli (Hashimoto)."
+  }
+}

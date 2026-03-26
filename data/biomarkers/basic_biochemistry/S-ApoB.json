@@ -1,0 +1,26 @@
+{
+  "id": "S-ApoB",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mg/dL",
+  "refRanges": {
+    "male": {
+      "max": 100.0
+    },
+    "female": {
+      "max": 100.0
+    }
+  },
+  "name": {
+    "en": "Apolipoprotein B (ApoB)",
+    "cs": "Apolipoprotein B (ApoB)",
+    "ru": "Аполипопротеин B (АпоB)",
+    "is": "Apólípóprótín B (ApoB)"
+  },
+  "description": {
+    "en": "One ApoB molecule per atherogenic lipoprotein particle (LDL, VLDL, Lp(a)). Considered the single best measure of atherogenic risk — better than LDL-C alone. Lower is better.",
+    "cs": "Jedna molekula ApoB na každou aterogenní lipoproteinovou částici (LDL, VLDL, Lp(a)). Považován za nejlepší jednotlivé měřítko aterogenního rizika — lepší než samotný LDL-C. Nižší je lepší.",
+    "ru": "Одна молекула АпоB на каждую атерогенную липопротеиновую частицу (ЛПНП, ЛПОНП, Лп(а)). Считается лучшим единичным показателем атерогенного риска — лучше, чем ЛПНП-Х отдельно. Чем ниже, тем лучше.",
+    "is": "Eitt ApoB sameind á hverja æðaskaðandi lípóprótínagn. Talinn besti einstaki mælikvarðinn á æðaskaðandi áhættu."
+  }
+}

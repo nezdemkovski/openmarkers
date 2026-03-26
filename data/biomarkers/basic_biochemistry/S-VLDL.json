@@ -1,0 +1,28 @@
+{
+  "id": "S-VLDL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 386.65,
+  "refRanges": {
+    "male": {
+      "max": 0.77
+    },
+    "female": {
+      "max": 0.77
+    }
+  },
+  "name": {
+    "en": "VLDL Cholesterol",
+    "cs": "VLDL cholesterol",
+    "ru": "ЛПОНП холестерин",
+    "is": "VLDL kólesteról"
+  },
+  "description": {
+    "en": "Very low-density lipoprotein cholesterol, mainly carrying triglycerides. Elevated with high carbohydrate/alcohol intake and metabolic syndrome. Contributes to atherosclerosis alongside LDL.",
+    "cs": "Lipoprotein o velmi nízké hustotě nesoucí převážně triglyceridy. Zvýšený při vysokém příjmu sacharidů/alkoholu a metabolickém syndromu. Přispívá k ateroskleróze vedle LDL.",
+    "ru": "Холестерин липопротеинов очень низкой плотности, преимущественно переносящий триглицериды. Повышен при высоком потреблении углеводов/алкоголя и метаболическом синдроме. Способствует атеросклерозу наряду с ЛПНП.",
+    "is": "Mjög léttar lípóprotínagnir sem bera aðallega þríglýseríð. Hækkuð við mikla kolvetna-/áfengisneyslu."
+  }
+}

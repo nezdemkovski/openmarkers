@@ -1,0 +1,26 @@
+{
+  "id": "SL-ODI",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "/hr",
+  "refRanges": {
+    "male": {
+      "max": 5.0
+    },
+    "female": {
+      "max": 5.0
+    }
+  },
+  "name": {
+    "en": "Oxygen Desaturation Index (ODI)",
+    "cs": "Index desaturací (ODI)",
+    "ru": "Индекс десатурации (ODI)",
+    "is": "Súrefnisfallsvísitala (ODI)"
+  },
+  "description": {
+    "en": "Number of >=3% oxygen desaturation events per hour. Closely correlates with AHI. Normal <5; elevated values indicate significant intermittent hypoxia.",
+    "cs": "Počet poklesů saturace kyslíkem o ≥3 % za hodinu. Úzce koreluje s AHI. Norma <5; zvýšené hodnoty značí významnou intermitentní hypoxii.",
+    "ru": "Количество падений сатурации кислорода на ≥3% в час. Тесно коррелирует с ИАГ. Норма <5; повышенные значения указывают на значительную интермиттирующую гипоксию.",
+    "is": "Fjöldi >=3% súrefnisfallsatburða á klukkustund. Tengist vel AHI."
+  }
+}

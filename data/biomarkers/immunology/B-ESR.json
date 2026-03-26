@@ -1,0 +1,28 @@
+{
+  "id": "B-ESR",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "mm/h",
+  "refRanges": {
+    "male": {
+      "min": 0.0,
+      "max": 15.0
+    },
+    "female": {
+      "min": 0.0,
+      "max": 20.0
+    }
+  },
+  "name": {
+    "en": "Erythrocyte Sedimentation Rate",
+    "cs": "Sedimentace erytrocytů",
+    "ru": "СОЭ (Скорость оседания эритроцитов)",
+    "is": "Sökkhraði rauðra blóðkorna"
+  },
+  "description": {
+    "en": "Non-specific marker of inflammation. Measures how fast red blood cells settle in a tube. Elevated in infection, autoimmune disease, and cancer. Slower to change than CRP.",
+    "cs": "Nespecifický marker zánětu. Měří, jak rychle se červené krvinky usazují ve zkumavce. Zvýšená při infekci, autoimunitním onemocnění a nádorech. Mění se pomaleji než CRP.",
+    "ru": "Неспецифический маркер воспаления. Измеряет скорость оседания эритроцитов в пробирке. Повышена при инфекции, аутоиммунных заболеваниях и раке. Меняется медленнее, чем СРБ.",
+    "is": "Ósértækt bólgumerki. Mælir hversu hratt rauð blóðkorn sökkva í glasi. Hækkað við sýkingu, sjálfsofnæmissjúkdóm og krabbamein."
+  }
+}

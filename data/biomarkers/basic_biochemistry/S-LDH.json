@@ -1,0 +1,29 @@
+{
+  "id": "S-LDH",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µkat/l",
+  "conventionalUnit": "U/L",
+  "refRanges": {
+    "male": {
+      "min": 2.0,
+      "max": 3.75
+    },
+    "female": {
+      "min": 2.0,
+      "max": 3.75
+    }
+  },
+  "name": {
+    "en": "LDH (Lactate Dehydrogenase)",
+    "cs": "LDH (Laktátdehydrogenáza)",
+    "ru": "ЛДГ (Лактатдегидрогеназа)",
+    "is": "LDH (Laktógenasi)"
+  },
+  "description": {
+    "en": "Enzyme released when cells are damaged. Elevated in many conditions including heart attack, liver disease, hemolytic anemia, and cancer. Non-specific but useful as a general tissue damage marker.",
+    "cs": "Enzym uvolňovaný při poškození buněk. Zvýšený u mnoha stavů včetně infarktu, onemocnění jater, hemolytické anémie a nádorů. Nespecifický, ale užitečný jako obecný marker poškození tkání.",
+    "ru": "Фермент, высвобождаемый при повреждении клеток. Повышен при многих состояниях, включая инфаркт, заболевания печени, гемолитическую анемию и рак. Неспецифичный, но полезный общий маркер повреждения тканей.",
+    "is": "Ensím sem losnar þegar frumur skemmast. Hækkað í mörgum sjúkdómum þar á meðal hjartaáfalli, lifrarsjúkdómi og krabbameini."
+  }
+}

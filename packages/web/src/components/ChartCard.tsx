@@ -208,54 +208,46 @@ export default memo(function ChartCard({
   const descRef = useRef<HTMLParagraphElement>(null);
   const [clamped, setClamped] = useState(false);
 
-  const {
-    out,
-    trend,
-    latestStr,
-    refStr,
-    data,
-    minVal,
-    maxVal,
-    padding,
-  } = useMemo(() => {
-    const _latest = biomarker.results[biomarker.results.length - 1];
-    const _out = biomarker.latestOutOfRange ?? false;
-    const _trend = biomarker.trend ?? null;
-    const _latestStr = _latest
-      ? `${typeof _latest.value === "number" ? _latest.value : _latest.value} ${biomarker.unit || ""}`
-      : "\u2014";
-    const _refParts: (number | null | undefined)[] = [];
-    if (biomarker.refMin != null) _refParts.push(biomarker.refMin);
-    if (biomarker.refMax != null) _refParts.push(biomarker.refMax);
-    const _refStr = _refParts.join(" \u2013 ");
-    const results = biomarker.results.filter(
-      (r): r is typeof r & { value: number } => typeof r.value === "number",
-    );
-    const _data: ChartDataPoint[] = results.map((r) => ({
-      date: r.date,
-      value: r.value,
-      refMin: r.refMin,
-      refMax: r.refMax,
-      outOfRange: r.outOfRange,
-    }));
-    const allValues = _data.map((d) => d.value);
-    if (biomarker.refMin != null) allValues.push(biomarker.refMin);
-    if (biomarker.refMax != null) allValues.push(biomarker.refMax);
-    const _minVal = Math.min(...allValues);
-    const _maxVal = Math.max(...allValues);
-    const _padding = (_maxVal - _minVal) * 0.2 || _maxVal * 0.1 || 1;
-    return {
-      latest: _latest,
-      out: _out,
-      trend: _trend,
-      latestStr: _latestStr,
-      refStr: _refStr,
-      data: _data,
-      minVal: _minVal,
-      maxVal: _maxVal,
-      padding: _padding,
-    };
-  }, [biomarker]);
+  const { out, trend, latestStr, refStr, data, minVal, maxVal, padding } =
+    useMemo(() => {
+      const _latest = biomarker.results[biomarker.results.length - 1];
+      const _out = biomarker.latestOutOfRange ?? false;
+      const _trend = biomarker.trend ?? null;
+      const _latestStr = _latest
+        ? `${typeof _latest.value === "number" ? _latest.value : _latest.value} ${biomarker.unit || ""}`
+        : "\u2014";
+      const _refParts: (number | null | undefined)[] = [];
+      if (biomarker.refMin != null) _refParts.push(biomarker.refMin);
+      if (biomarker.refMax != null) _refParts.push(biomarker.refMax);
+      const _refStr = _refParts.join(" \u2013 ");
+      const results = biomarker.results.filter(
+        (r): r is typeof r & { value: number } => typeof r.value === "number",
+      );
+      const _data: ChartDataPoint[] = results.map((r) => ({
+        date: r.date,
+        value: r.value,
+        refMin: r.refMin,
+        refMax: r.refMax,
+        outOfRange: r.outOfRange,
+      }));
+      const allValues = _data.map((d) => d.value);
+      if (biomarker.refMin != null) allValues.push(biomarker.refMin);
+      if (biomarker.refMax != null) allValues.push(biomarker.refMax);
+      const _minVal = Math.min(...allValues);
+      const _maxVal = Math.max(...allValues);
+      const _padding = (_maxVal - _minVal) * 0.2 || _maxVal * 0.1 || 1;
+      return {
+        latest: _latest,
+        out: _out,
+        trend: _trend,
+        latestStr: _latestStr,
+        refStr: _refStr,
+        data: _data,
+        minVal: _minVal,
+        maxVal: _maxVal,
+        padding: _padding,
+      };
+    }, [biomarker]);
 
   useEffect(() => {
     if (descRef.current) {

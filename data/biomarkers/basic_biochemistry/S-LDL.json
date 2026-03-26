@@ -1,0 +1,26 @@
+{
+  "id": "S-LDL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 386.65,
+  "refRanges": {
+    "male": {
+      "min": 1.2,
+      "max": 3.0
+    },
+    "female": {
+      "min": 1.2,
+      "max": 3.0
+    }
+  },
+  "name": {
+    "ru": "ЛПНП холестерин",
+    "en": "LDL Cholesterol"
+  },
+  "description": {
+    "ru": "«Плохой» холестерин, откладывающийся в стенках артерий и вызывающий атеросклероз. Основная цель для снижения сердечно-сосудистого риска.",
+    "en": "\"Bad\" cholesterol that deposits in artery walls causing atherosclerosis. Primary target for cardiovascular risk reduction. Lower is better, especially with other risk factors."
+  }
+}

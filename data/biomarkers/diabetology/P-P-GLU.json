@@ -1,0 +1,35 @@
+{
+  "id": "P-P-GLU",
+  "category": "diabetology",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 180.16,
+  "refRanges": {
+    "male": {
+      "min": 3.9,
+      "max": 5.6
+    },
+    "female": {
+      "min": 3.9,
+      "max": 5.6
+    }
+  },
+  "phenoAge": {
+    "coefficient": 0.1953,
+    "unit": "mmol/L",
+    "label": "Glucose"
+  },
+  "name": {
+    "en": "Fasting Glucose",
+    "cs": "Glukóza nalačno",
+    "ru": "Глюкоза натощак",
+    "is": "Fastandi blóðsykur"
+  },
+  "description": {
+    "en": "Blood sugar measured after fasting. Primary screening test for diabetes. Values 5.6-6.9 indicate prediabetes; >=7.0 suggests diabetes.",
+    "cs": "Krevní cukr měřený nalačno. Základní screeningový test na diabetes. Hodnoty 5,6–6,9 značí prediabetes; ≥7,0 naznačuje diabetes.",
+    "ru": "Уровень сахара в крови натощак. Основной скрининговый тест на диабет. Значения 5,6–6,9 указывают на преддиабет; ≥7,0 предполагает диабет.",
+    "is": "Blóðsykur mældur eftir föstu. Frumskimunarpróf fyrir sykursýki. Gildi 5,6-6,9 benda til forsykursýki; >=7,0 bendir til sykursýki."
+  }
+}

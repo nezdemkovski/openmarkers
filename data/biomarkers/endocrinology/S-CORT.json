@@ -1,0 +1,30 @@
+{
+  "id": "S-CORT",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "nmol/l",
+  "conventionalUnit": "µg/dL",
+  "molecularWeight": 362.46,
+  "refRanges": {
+    "male": {
+      "min": 133.0,
+      "max": 537.0
+    },
+    "female": {
+      "min": 133.0,
+      "max": 537.0
+    }
+  },
+  "name": {
+    "en": "Cortisol",
+    "cs": "Kortizol",
+    "ru": "Кортизол",
+    "is": "Kórtísól"
+  },
+  "description": {
+    "en": "Primary stress hormone produced by the adrenal glands. Follows a diurnal pattern (high in morning, low at night). Chronically elevated levels indicate stress, Cushing's syndrome; low levels suggest adrenal insufficiency.",
+    "cs": "Primární stresový hormon produkovaný nadledvinami. Má denní rytmus (vysoký ráno, nízký večer). Chronicky zvýšené hladiny ukazují na stres, Cushingův syndrom; nízké na nedostatečnost nadledvin.",
+    "ru": "Основной гормон стресса, вырабатываемый надпочечниками. Имеет суточный ритм (высокий утром, низкий вечером). Хронически повышенные уровни указывают на стресс, синдром Кушинга; низкие — на надпочечниковую недостаточность.",
+    "is": "Aðalstreituhormón nýrnahettna. Fylgir dagssveiflumynstri (hátt á morgni, lágt á kvöldi)."
+  }
+}

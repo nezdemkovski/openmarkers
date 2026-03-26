@@ -1,0 +1,30 @@
+{
+  "id": "S-KM",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 168.11,
+  "refRanges": {
+    "male": {
+      "min": 202.0,
+      "max": 417.0
+    },
+    "female": {
+      "min": 143.0,
+      "max": 339.0
+    }
+  },
+  "name": {
+    "en": "Uric Acid",
+    "cs": "Kyselina močová",
+    "ru": "Мочевая кислота",
+    "is": "Þvagsýra"
+  },
+  "description": {
+    "en": "End product of purine metabolism. Elevated levels increase the risk of gout and kidney stones. Can be affected by diet (red meat, alcohol, fructose).",
+    "cs": "Konečný produkt metabolismu purinů. Zvýšené hladiny zvyšují riziko dny a ledvinových kamenů. Ovlivňuje ji strava (červené maso, alkohol, fruktóza).",
+    "ru": "Конечный продукт метаболизма пуринов. Повышенные уровни увеличивают риск подагры и камней в почках. Зависит от диеты (красное мясо, алкоголь, фруктоза).",
+    "is": "Lokafurð púrínefnaskipta. Hækkuð gildi auka hættu á þvagsýrugigt og nýrnasteinum. Getur orðið fyrir áhrifum af mataræði (rautt kjöt, áfengi, frúktósi)."
+  }
+}

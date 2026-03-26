@@ -1,0 +1,30 @@
+{
+  "id": "S-TIBC",
+  "category": "iron_metabolism",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "conventionalUnit": "µg/dL",
+  "molecularWeight": 55.845,
+  "refRanges": {
+    "male": {
+      "min": 45.0,
+      "max": 82.0
+    },
+    "female": {
+      "min": 45.0,
+      "max": 82.0
+    }
+  },
+  "name": {
+    "en": "TIBC (Total Iron Binding Capacity)",
+    "cs": "TIBC (Celková vazebná kapacita)",
+    "ru": "ОЖСС (Общая железосвязывающая способность)",
+    "is": "TIBC (Heilderjárnbindingargeta)"
+  },
+  "description": {
+    "en": "Total capacity of transferrin to bind iron (UIBC + serum iron). Elevated in iron deficiency; low in iron overload, liver disease, or chronic inflammation.",
+    "cs": "Celková kapacita transferinu vázat železo (UIBC + sérové železo). Zvýšená při nedostatku železa; snížená při přetížení, onemocnění jater nebo chronickém zánětu.",
+    "ru": "Общая способность трансферрина связывать железо (НЖСС + сывороточное железо). Повышена при дефиците железа; снижена при перегрузке, заболеваниях печени или хроническом воспалении.",
+    "is": "Heildargeta transferríns til að binda járn (UIBC + sermijárn). Hækkuð við járnskort; lág við járnofhleðslu."
+  }
+}

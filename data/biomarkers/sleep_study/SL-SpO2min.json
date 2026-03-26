@@ -1,0 +1,26 @@
+{
+  "id": "SL-SpO2min",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 90.0
+    },
+    "female": {
+      "min": 90.0
+    }
+  },
+  "name": {
+    "en": "Minimum SpO2",
+    "cs": "Minimální SpO2",
+    "ru": "Минимальная SpO2",
+    "is": "Lágmarks SpO2"
+  },
+  "description": {
+    "en": "Lowest oxygen saturation recorded during the night. Values below 90% are clinically significant; below 80% indicates severe desaturation.",
+    "cs": "Nejnižší naměřená saturace kyslíkem během noci. Hodnoty pod 90 % jsou klinicky významné; pod 80 % znamenají těžkou desaturaci.",
+    "ru": "Наименьшая зафиксированная сатурация кислорода за ночь. Значения ниже 90% клинически значимы; ниже 80% — тяжёлая десатурация.",
+    "is": "Lægsta súrefnismettun skráð á nóttunni. Gildi undir 90% eru klínískt mikilvæg."
+  }
+}

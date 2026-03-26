@@ -1,0 +1,29 @@
+{
+  "id": "B-HB",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "g/l",
+  "conventionalUnit": "g/dL",
+  "refRanges": {
+    "male": {
+      "min": 140.0,
+      "max": 175.0
+    },
+    "female": {
+      "min": 120.0,
+      "max": 160.0
+    }
+  },
+  "name": {
+    "en": "Hemoglobin",
+    "cs": "Hemoglobin",
+    "ru": "Гемоглобин",
+    "is": "Blóðrauði"
+  },
+  "description": {
+    "en": "Oxygen-carrying protein in red blood cells. Low values indicate anemia. Key marker for blood's oxygen-carrying capacity.",
+    "cs": "Bílkovina přenášející kyslík v červených krvinkách. Nízké hodnoty ukazují na anémii. Klíčový marker pro schopnost krve přenášet kyslík.",
+    "ru": "Белок, переносящий кислород в эритроцитах. Низкие значения указывают на анемию. Ключевой маркер кислородтранспортной функции крови.",
+    "is": "Súrefnisflutningsprótín í rauðum blóðkornum. Lág gildi benda til blóðleysis. Lykilmerki um súrefnisflutningsgetu blóðsins."
+  }
+}

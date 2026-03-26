@@ -1,0 +1,28 @@
+{
+  "id": "B-mono",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 2.0,
+      "max": 10.0
+    },
+    "female": {
+      "min": 2.0,
+      "max": 10.0
+    }
+  },
+  "name": {
+    "en": "Monocytes (%)",
+    "cs": "Monocyty (%)",
+    "ru": "Моноциты (%)",
+    "is": "Einkyrningar (%)"
+  },
+  "description": {
+    "en": "Percentage of white blood cells that are monocytes - involved in chronic inflammation and immune defense. Mildly elevated in infections and autoimmune conditions.",
+    "cs": "Procento bílých krvinek tvořených monocyty — podílejí se na chronickém zánětu a imunitní obraně. Mírně zvýšené při infekcích a autoimunitních stavech.",
+    "ru": "Процент лейкоцитов, представленных моноцитами — участвуют в хроническом воспалении и иммунной защите. Умеренно повышены при инфекциях и аутоиммунных состояниях.",
+    "is": "Hlutfall hvítra blóðkorna sem eru einkyrningar - taka þátt í langvinnri bólgu og ónæmisvörnum."
+  }
+}

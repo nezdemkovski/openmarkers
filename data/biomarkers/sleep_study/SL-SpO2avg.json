@@ -1,0 +1,26 @@
+{
+  "id": "SL-SpO2avg",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 94.0
+    },
+    "female": {
+      "min": 94.0
+    }
+  },
+  "name": {
+    "en": "Average SpO2",
+    "cs": "Průměrná SpO2",
+    "ru": "Средняя SpO2",
+    "is": "Meðal SpO2"
+  },
+  "description": {
+    "en": "Mean oxygen saturation throughout the entire sleep period. Normal >=94%. Reduced values suggest chronic intermittent hypoxia from sleep-disordered breathing.",
+    "cs": "Průměrná saturace kyslíkem během celého spánku. Norma ≥94 %. Snížené hodnoty naznačují chronickou intermitentní hypoxii.",
+    "ru": "Средняя сатурация кислорода за весь период сна. Норма ≥94%. Сниженные значения указывают на хроническую интермиттирующую гипоксию.",
+    "is": "Meðalsúrefnismettun yfir allan svefntímann. Eðlilegt >=94%."
+  }
+}

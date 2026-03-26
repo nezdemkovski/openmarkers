@@ -1,0 +1,27 @@
+{
+  "id": "C-Quick",
+  "category": "coagulation",
+  "type": "quantitative",
+  "refRanges": {
+    "male": {
+      "min": 0.8,
+      "max": 1.2
+    },
+    "female": {
+      "min": 0.8,
+      "max": 1.2
+    }
+  },
+  "name": {
+    "en": "Prothrombin Time (Quick Ratio)",
+    "cs": "Protrombinový čas (Quickův poměr)",
+    "ru": "Протромбиновое время (коэффициент Квика)",
+    "is": "Prótrombíntími (Quick hlutfall)"
+  },
+  "description": {
+    "en": "Measures the extrinsic clotting pathway. Expressed as a ratio - values within 0.8-1.2 are normal. Prolonged in liver disease, vitamin K deficiency, or warfarin use.",
+    "cs": "Měří vnější koagulační cestu. Vyjádřeno jako poměr — hodnoty 0,8–1,2 jsou normální. Prodloužený při onemocnění jater, nedostatku vitaminu K nebo užívání warfarinu.",
+    "ru": "Измеряет внешний путь свёртывания. Выражается как соотношение — значения 0,8–1,2 нормальны. Удлинён при заболеваниях печени, дефиците витамина К или приёме варфарина.",
+    "is": "Mælir ytri storknunarleiðina. Gildi innan 0,8-1,2 eru eðlileg. Lengt við lifrarsjúkdóm, K-vítamínskort eða warfarínnotkun."
+  }
+}

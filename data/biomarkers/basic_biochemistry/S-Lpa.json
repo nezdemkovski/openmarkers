@@ -1,0 +1,26 @@
+{
+  "id": "S-Lpa",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "nmol/L",
+  "refRanges": {
+    "male": {
+      "max": 75.0
+    },
+    "female": {
+      "max": 75.0
+    }
+  },
+  "name": {
+    "en": "Lipoprotein(a) [Lp(a)]",
+    "cs": "Lipoprotein(a) [Lp(a)]",
+    "ru": "Липопротеин(а) [Лп(а)]",
+    "is": "Lípóprótín(a) [Lp(a)]"
+  },
+  "description": {
+    "en": "Genetically determined lipoprotein promoting atherosclerosis and thrombosis. Elevated levels are linked to increased risk of heart disease and stroke. Largely unaffected by lifestyle changes.",
+    "cs": "Geneticky determinovaný lipoprotein podporující aterosklerózu a trombózu. Zvýšené hladiny jsou spojeny se zvýšeným rizikem srdečních onemocnění a mrtvice. Životním stylem téměř neovlivnitelný.",
+    "ru": "Генетически обусловленный липопротеин, способствующий атеросклерозу и тромбозу. Повышенные уровни связаны с увеличенным риском сердечных заболеваний и инсульта. Практически не зависит от образа жизни.",
+    "is": "Erfðaákvarðað lípóprótín sem ýtir undir æðakölkun og segamyndun. Hækkuð gildi tengjast aukinni hættu á hjartasjúkdómi."
+  }
+}

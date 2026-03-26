@@ -1,0 +1,33 @@
+{
+  "id": "B-RDW",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 11.5,
+      "max": 14.5
+    },
+    "female": {
+      "min": 11.5,
+      "max": 14.5
+    }
+  },
+  "phenoAge": {
+    "coefficient": 0.3306,
+    "unit": "%",
+    "label": "RDW"
+  },
+  "name": {
+    "en": "Red Cell Distribution Width",
+    "cs": "Distribuční šíře erytrocytů",
+    "ru": "Ширина распределения эритроцитов",
+    "is": "Stærðardreifing rauðra blóðkorna"
+  },
+  "description": {
+    "en": "Measures variation in red blood cell size. Elevated values suggest mixed causes of anemia (e.g., combined iron and B12 deficiency).",
+    "cs": "Měří variabilitu velikosti červených krvinek. Zvýšené hodnoty naznačují smíšené příčiny anémie (např. kombinovaný nedostatek železa a B12).",
+    "ru": "Измеряет вариабельность размера эритроцитов. Повышенные значения указывают на смешанные причины анемии (напр., сочетание дефицита железа и B12).",
+    "is": "Mælir breytileika í stærð rauðra blóðkorna. Hækkuð gildi benda til blandaðra orsaka blóðleysis (t.d. samsettur járn- og B12-skortur)."
+  }
+}

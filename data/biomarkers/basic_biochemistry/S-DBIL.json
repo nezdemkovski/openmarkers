@@ -1,0 +1,30 @@
+{
+  "id": "S-DBIL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 584.66,
+  "refRanges": {
+    "male": {
+      "min": 0.0,
+      "max": 5.1
+    },
+    "female": {
+      "min": 0.0,
+      "max": 5.1
+    }
+  },
+  "name": {
+    "en": "Direct Bilirubin (Conjugated)",
+    "cs": "Přímý bilirubin (konjugovaný)",
+    "ru": "Прямой билирубин (конъюгированный)",
+    "is": "Beint bílirúbín (samtengt)"
+  },
+  "description": {
+    "en": "Bilirubin processed by the liver. Elevated specifically in bile duct obstruction, liver disease, or hepatitis. Helps differentiate causes of jaundice when total bilirubin is high.",
+    "cs": "Bilirubin zpracovaný játry. Zvýšený specificky při obstrukci žlučových cest, onemocnění jater nebo hepatitidě. Pomáhá rozlišit příčiny žloutenky při zvýšeném celkovém bilirubinu.",
+    "ru": "Билирубин, обработанный печенью. Повышен специфически при обструкции жёлчных протоков, заболеваниях печени или гепатите. Помогает дифференцировать причины желтухи при повышенном общем билирубине.",
+    "is": "Bílirúbín unnið af lifur. Sértækt hækkað við gallvegsstíflu eða lifrarsjúkdóm."
+  }
+}

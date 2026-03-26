@@ -1,0 +1,35 @@
+{
+  "id": "S-CREA",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 113.12,
+  "refRanges": {
+    "male": {
+      "min": 62.0,
+      "max": 106.0
+    },
+    "female": {
+      "min": 44.0,
+      "max": 80.0
+    }
+  },
+  "phenoAge": {
+    "coefficient": 0.0095,
+    "unit": "µmol/L",
+    "label": "Creatinine"
+  },
+  "name": {
+    "en": "Creatinine",
+    "cs": "Kreatinin",
+    "ru": "Креатинин",
+    "is": "Kreatínín"
+  },
+  "description": {
+    "en": "Byproduct of muscle metabolism filtered by kidneys. High values suggest reduced kidney filtration capacity. Naturally higher in muscular individuals.",
+    "cs": "Vedlejší produkt svalového metabolismu filtrovaný ledvinami. Vysoké hodnoty naznačují sníženou filtrační kapacitu ledvin. Přirozeně vyšší u svalnatých jedinců.",
+    "ru": "Побочный продукт мышечного метаболизма, фильтруемый почками. Высокие значения указывают на снижение фильтрационной способности почек. Естественно выше у мускулистых людей.",
+    "is": "Aukaafurð vöðvaefnaskipta síuð af nýrum. Há gildi benda til skertrar nýrnasíunar. Náttúrulega hærra hjá vöðvamiklum einstaklingum."
+  }
+}

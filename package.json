@@ -16,7 +16,10 @@
     "db:studio": "drizzle-kit studio",
     "format": "turbo run format",
     "lint": "turbo run lint",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "generate:schema": "bun scripts/generate-schema.ts",
+    "db:sync-biomarkers": "bun packages/db/src/sync-biomarkers.ts",
+    "biomarkers:sync": "bun scripts/generate-schema.ts && bun packages/db/src/sync-biomarkers.ts"
   },
   "devDependencies": {
     "@neondatabase/serverless": "^1.0.2",

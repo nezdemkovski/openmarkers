@@ -1,0 +1,30 @@
+{
+  "id": "S-Na",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mEq/L",
+  "molecularWeight": 22.99,
+  "refRanges": {
+    "male": {
+      "min": 136.0,
+      "max": 145.0
+    },
+    "female": {
+      "min": 136.0,
+      "max": 145.0
+    }
+  },
+  "name": {
+    "en": "Sodium",
+    "cs": "Sodík",
+    "ru": "Натрий",
+    "is": "Natríum"
+  },
+  "description": {
+    "en": "Major electrolyte regulating fluid balance and nerve/muscle function. Both low (hyponatremia) and high (hypernatremia) values can be clinically significant.",
+    "cs": "Hlavní elektrolyt regulující rovnováhu tekutin a funkci nervů/svalů. Nízké (hyponatrémie) i vysoké (hypernatrémie) hodnoty mohou být klinicky významné.",
+    "ru": "Основной электролит, регулирующий водный баланс и функцию нервов/мышц. Как низкие (гипонатриемия), так и высокие (гипернатриемия) значения могут быть клинически значимыми.",
+    "is": "Aðalsaltsteind sem stjórnar vökvajafnvægi og tauga-/vöðvastarfsemi. Bæði lág og há gildi geta verið klínískt mikilvæg."
+  }
+}

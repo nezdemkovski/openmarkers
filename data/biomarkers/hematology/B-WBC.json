@@ -1,0 +1,33 @@
+{
+  "id": "B-WBC",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "×10⁹/l",
+  "refRanges": {
+    "male": {
+      "min": 4.5,
+      "max": 11.0
+    },
+    "female": {
+      "min": 4.5,
+      "max": 11.0
+    }
+  },
+  "phenoAge": {
+    "coefficient": 0.0554,
+    "unit": "×10⁹/L",
+    "label": "WBC"
+  },
+  "name": {
+    "en": "White Blood Cells",
+    "cs": "Bílé krvinky (leukocyty)",
+    "ru": "Лейкоциты",
+    "is": "Hvít blóðkorn"
+  },
+  "description": {
+    "en": "Total count of immune cells. Elevated with infection, inflammation, or stress. Low values (leukopenia) increase infection risk.",
+    "cs": "Celkový počet imunitních buněk. Zvýšené při infekci, zánětu nebo stresu. Nízké hodnoty (leukopenie) zvyšují riziko infekce.",
+    "ru": "Общее количество иммунных клеток. Повышены при инфекции, воспалении или стрессе. Низкие значения (лейкопения) увеличивают риск инфекции.",
+    "is": "Heildarfjöldi ónæmisfrumna. Hækkað við sýkingu, bólgu eða streitu. Lág gildi (hvítfrumnafæð) auka sýkingarhættu."
+  }
+}

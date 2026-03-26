@@ -1,0 +1,26 @@
+{
+  "id": "B-HbA1c",
+  "category": "diabetology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "max": 5.7
+    },
+    "female": {
+      "max": 5.7
+    }
+  },
+  "name": {
+    "en": "HbA1c (Glycated Hemoglobin)",
+    "cs": "HbA1c (Glykovaný hemoglobin)",
+    "ru": "HbA1c (Гликированный гемоглобин)",
+    "is": "HbA1c (Sykrað blóðrauði)"
+  },
+  "description": {
+    "en": "Measures average blood sugar over the past 2-3 months. Gold standard for long-term glucose control. <5.7% normal, 5.7-6.4% prediabetes, ≥6.5% diabetes.",
+    "cs": "Měří průměrnou hladinu cukru v krvi za posledních 2–3 měsíce. Zlatý standard dlouhodobé kontroly glykémie. <5,7 % norma, 5,7–6,4 % prediabetes, ≥6,5 % diabetes.",
+    "ru": "Измеряет средний уровень сахара в крови за последние 2–3 месяца. Золотой стандарт долгосрочного контроля гликемии. <5,7% норма, 5,7–6,4% преддиабет, ≥6,5% диабет.",
+    "is": "Mælir meðalblóðsykur síðustu 2-3 mánuðina. Gullstaðall fyrir langtímasykurstjórnun. <5,7% eðlilegt, 5,7-6,4% forsykursýki, >=6,5% sykursýki."
+  }
+}

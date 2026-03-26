@@ -1,0 +1,26 @@
+{
+  "id": "SL-AHI",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "/hr",
+  "refRanges": {
+    "male": {
+      "max": 5.0
+    },
+    "female": {
+      "max": 5.0
+    }
+  },
+  "name": {
+    "en": "Apnea-Hypopnea Index (AHI)",
+    "cs": "Apnoe-hypopnoe index (AHI)",
+    "ru": "Индекс апноэ-гипопноэ (ИАГ)",
+    "is": "Öndunarhlévísitala (AHI)"
+  },
+  "description": {
+    "en": "Number of apneas and hypopneas per hour of sleep. Primary metric for sleep apnea severity. Normal <5, mild 5-15, moderate 15-30, severe >30.",
+    "cs": "Počet apnoí a hypopnoí za hodinu spánku. Hlavní ukazatel závažnosti spánkové apnoe. Norma <5, lehká 5–15, středně těžká 15–30, těžká >30.",
+    "ru": "Количество апноэ и гипопноэ в час сна. Главный показатель тяжести апноэ сна. Норма <5, лёгкая 5–15, средняя 15–30, тяжёлая >30.",
+    "is": "Fjöldi öndunarhléa og öndunardýpta á klukkustund í svefni. Aðalmælikvarði á alvarleika kæfisvefns."
+  }
+}

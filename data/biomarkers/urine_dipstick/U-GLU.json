@@ -1,0 +1,17 @@
+{
+  "id": "U-GLU",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "name": {
+    "en": "Urine Glucose",
+    "cs": "Glukóza v moči",
+    "ru": "Глюкоза в моче",
+    "is": "Þvagsykur"
+  },
+  "description": {
+    "en": "Glucose in urine. Normally absent - presence suggests blood sugar exceeding the kidney's reabsorption threshold (typically >10 mmol/l), as in uncontrolled diabetes.",
+    "cs": "Glukóza v moči. Normálně nepřítomna — přítomnost naznačuje překročení renálního prahu pro reabsorpci glukózy (obvykle >10 mmol/l), jako u nekontrolovaného diabetu.",
+    "ru": "Глюкоза в моче. В норме отсутствует — наличие указывает на превышение почечного порога реабсорбции глюкозы (обычно >10 ммоль/л), как при неконтролируемом диабете.",
+    "is": "Sykur í þvagi. Venjulega fjarverandi - nærvera bendir til þess að blóðsykur fari yfir enduruppsogunarmörk nýrna."
+  }
+}

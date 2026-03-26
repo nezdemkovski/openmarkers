@@ -1,0 +1,26 @@
+{
+  "id": "SL-T90",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "max": 1.0
+    },
+    "female": {
+      "max": 1.0
+    }
+  },
+  "name": {
+    "en": "Time Below 90% SpO2",
+    "cs": "Čas pod 90 % SpO2",
+    "ru": "Время ниже 90% SpO2",
+    "is": "Tími undir 90% SpO2"
+  },
+  "description": {
+    "en": "Percentage of total sleep time spent with oxygen saturation below 90%. Normal <1%. Elevated values indicate significant nocturnal hypoxemia.",
+    "cs": "Procento celkového spánku strávené se saturací pod 90 %. Norma <1 %. Zvýšené hodnoty znamenají významnou noční hypoxémii.",
+    "ru": "Процент времени сна с сатурацией ниже 90%. Норма <1%. Повышенные значения означают значительную ночную гипоксемию.",
+    "is": "Hlutfall heildarstefntíma með súrefnismettun undir 90%. Eðlilegt <1%."
+  }
+}

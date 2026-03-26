@@ -187,7 +187,6 @@ export interface DaysSinceResult {
 export interface TranslationData {
   ui: Record<string, string>;
   categories: Record<string, Record<string, string>>;
-  biomarkers: Record<string, Record<string, string>>;
 }
 
 export type Lang = "en" | "cs" | "ru" | "is";

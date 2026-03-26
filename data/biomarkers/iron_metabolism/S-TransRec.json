@@ -1,0 +1,28 @@
+{
+  "id": "S-TransRec",
+  "category": "iron_metabolism",
+  "type": "quantitative",
+  "unit": "mg/l",
+  "refRanges": {
+    "male": {
+      "min": 0.7,
+      "max": 2.0
+    },
+    "female": {
+      "min": 0.7,
+      "max": 2.0
+    }
+  },
+  "name": {
+    "en": "Soluble Transferrin Receptors",
+    "cs": "Solubilní transferinové receptory",
+    "ru": "Растворимые рецепторы трансферрина",
+    "is": "Leysanlegir transferrínviðtakar"
+  },
+  "description": {
+    "en": "Receptor fragments shed into blood when cells need more iron. Elevated in iron deficiency anemia. Unlike ferritin, not affected by inflammation - useful when ferritin is unreliable.",
+    "cs": "Fragmenty receptorů uvolněné do krve když buňky potřebují více železa. Zvýšené při anémii z nedostatku železa. Na rozdíl od feritinu nejsou ovlivněny zánětem.",
+    "ru": "Фрагменты рецепторов, высвобождаемые в кровь при потребности клеток в железе. Повышены при железодефицитной анемии. В отличие от ферритина не зависят от воспаления.",
+    "is": "Viðtakabrot sem losna í blóð þegar frumur þurfa meiri járn. Hækkuð við járnskortsblóðleysi. Ekki háð bólgu eins og ferritín."
+  }
+}

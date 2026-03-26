@@ -1,0 +1,30 @@
+{
+  "id": "S-Cpep",
+  "category": "diabetology",
+  "type": "quantitative",
+  "unit": "pmol/l",
+  "conventionalUnit": "ng/mL",
+  "molecularWeight": 3020.29,
+  "refRanges": {
+    "male": {
+      "min": 370.0,
+      "max": 1470.0
+    },
+    "female": {
+      "min": 370.0,
+      "max": 1470.0
+    }
+  },
+  "name": {
+    "en": "C-Peptide",
+    "cs": "C-peptid",
+    "ru": "С-пептид",
+    "is": "C-peptíð"
+  },
+  "description": {
+    "en": "Byproduct of insulin production, released in equal amounts. Measures endogenous insulin secretion independent of exogenous insulin. Useful for distinguishing type 1 from type 2 diabetes.",
+    "cs": "Vedlejší produkt tvorby inzulínu, uvolňovaný ve stejném množství. Měří endogenní sekreci inzulínu nezávisle na exogenním inzulínu. Užitečný pro odlišení diabetu 1. a 2. typu.",
+    "ru": "Побочный продукт выработки инсулина, выделяемый в равных количествах. Измеряет эндогенную секрецию инсулина независимо от экзогенного инсулина. Полезен для различения диабета 1 и 2 типа.",
+    "is": "Aukaafurð insúlínframleiðslu. Mælir innræna insúlínframleiðslu óháð ytri insúlíni."
+  }
+}

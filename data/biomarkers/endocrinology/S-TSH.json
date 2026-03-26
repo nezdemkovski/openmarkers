@@ -1,0 +1,28 @@
+{
+  "id": "S-TSH",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "µIU/ml",
+  "refRanges": {
+    "male": {
+      "min": 0.27,
+      "max": 4.2
+    },
+    "female": {
+      "min": 0.27,
+      "max": 4.2
+    }
+  },
+  "name": {
+    "en": "TSH (Thyroid-Stimulating Hormone)",
+    "cs": "TSH (Tyreotropní hormon)",
+    "ru": "ТТГ (Тиреотропный гормон)",
+    "is": "TSH (Skjaldkirtilsörvandi hormón)"
+  },
+  "description": {
+    "en": "Pituitary hormone that stimulates the thyroid. Primary screening test for thyroid disorders. High TSH = underactive thyroid (hypothyroidism); low TSH = overactive (hyperthyroidism).",
+    "cs": "Hormon hypofýzy stimulující štítnou žlázu. Základní screeningový test poruch štítné žlázy. Vysoký TSH = snížená funkce (hypotyreóza); nízký TSH = zvýšená funkce (hypertyreóza).",
+    "ru": "Гормон гипофиза, стимулирующий щитовидную железу. Основной скрининговый тест на заболевания щитовидной железы. Высокий ТТГ = гипотиреоз; низкий = гипертиреоз.",
+    "is": "Heiladingulshormón sem örvar skjaldkirtilinn. Frumskilmunarpróf fyrir skjaldkirtilsraskanir. Hátt TSH = vanvirkur skjaldkirtill; lágt TSH = ofvirkur."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "S-Cai",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 40.078,
+  "refRanges": {
+    "male": {
+      "min": 1.15,
+      "max": 1.29
+    },
+    "female": {
+      "min": 1.15,
+      "max": 1.29
+    }
+  },
+  "name": {
+    "en": "Ionized Calcium",
+    "cs": "Ionizovaný vápník",
+    "ru": "Ионизированный кальций",
+    "is": "Jónað kalsíum"
+  },
+  "description": {
+    "en": "Biologically active form of calcium in the blood, not bound to proteins. More accurate than total calcium, especially when albumin is abnormal. Low levels may indicate hypoparathyroidism or vitamin D deficiency.",
+    "cs": "Biologicky aktivní forma vápníku v krvi, nevázaná na bílkoviny. Přesnější než celkový vápník, zejména při abnormálním albuminu. Nízké hodnoty mohou ukazovat na hypoparatyreózu nebo nedostatek vitamínu D.",
+    "ru": "Биологически активная форма кальция в крови, не связанная с белками. Точнее общего кальция, особенно при аномальном альбумине. Низкие значения могут указывать на гипопаратиреоз или дефицит витамина D.",
+    "is": "Lífvirkt form kalsíums í blóði, ekki bundið próteinum. Nákvæmara en heildarkalsíum."
+  }
+}

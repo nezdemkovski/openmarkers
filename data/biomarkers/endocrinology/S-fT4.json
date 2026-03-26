@@ -1,0 +1,30 @@
+{
+  "id": "S-fT4",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "pmol/l",
+  "conventionalUnit": "ng/dL",
+  "molecularWeight": 776.87,
+  "refRanges": {
+    "male": {
+      "min": 12.0,
+      "max": 22.0
+    },
+    "female": {
+      "min": 12.0,
+      "max": 22.0
+    }
+  },
+  "name": {
+    "en": "Free T4 (Thyroxine)",
+    "cs": "Volný T4 (tyroxin)",
+    "ru": "Свободный Т4 (тироксин)",
+    "is": "Frjálst T4 (Týroxín)"
+  },
+  "description": {
+    "en": "Active thyroid hormone available to tissues. Low fT4 with high TSH confirms hypothyroidism. Normal fT4 with mildly elevated TSH is subclinical hypothyroidism.",
+    "cs": "Aktivní hormon štítné žlázy dostupný tkáním. Nízký fT4 s vysokým TSH potvrzuje hypotyreózu. Normální fT4 s mírně zvýšeným TSH je subklinická hypotyreóza.",
+    "ru": "Активный гормон щитовидной железы, доступный тканям. Низкий fT4 при высоком ТТГ подтверждает гипотиреоз. Нормальный fT4 при слегка повышенном ТТГ — субклинический гипотиреоз.",
+    "is": "Virkt skjaldkirtilshormón tiltækt vefjum. Lágt fT4 með háu TSH staðfestir vanstarfsemi skjaldkirtils."
+  }
+}

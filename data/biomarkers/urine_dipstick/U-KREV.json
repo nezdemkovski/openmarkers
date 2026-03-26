@@ -1,0 +1,17 @@
+{
+  "id": "U-KREV",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "name": {
+    "en": "Urine Blood",
+    "cs": "Krev v moči",
+    "ru": "Кровь в моче",
+    "is": "Blóð í þvagi"
+  },
+  "description": {
+    "en": "Blood in urine (hematuria). Normally absent. Presence may indicate kidney stones, urinary tract infection, or bladder/kidney disease.",
+    "cs": "Krev v moči (hematurie). Normálně nepřítomna. Přítomnost může ukazovat na ledvinové kameny, infekci močových cest nebo onemocnění ledvin/močového měchýře.",
+    "ru": "Кровь в моче (гематурия). В норме отсутствует. Наличие может указывать на камни в почках, инфекцию мочевыводящих путей или заболевания почек/мочевого пузыря.",
+    "is": "Blóð í þvagi (blóðþvag). Venjulega fjarverandi. Nærvera getur bent til nýrnasteina, þvagfærasýkingar eða nýrnasjúkdóms."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "U-NIT",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "name": {
+    "en": "Urine Nitrites",
+    "cs": "Nitrity v moči",
+    "ru": "Нитриты в моче",
+    "is": "Nítrít í þvagi"
+  },
+  "description": {
+    "en": "Bacterial metabolite in urine. Normally absent. Positive result strongly suggests urinary tract infection with gram-negative bacteria.",
+    "cs": "Bakteriální metabolit v moči. Normálně nepřítomen. Pozitivní výsledek silně naznačuje infekci močových cest gramnegativními bakteriemi.",
+    "ru": "Бактериальный метаболит в моче. В норме отсутствует. Положительный результат убедительно указывает на инфекцию мочевыводящих путей грамотрицательными бактериями.",
+    "is": "Bakteríuefnaskiptaafurð í þvagi. Venjulega fjarverandi. Jákvætt niðurstaða bendir sterklega til þvagfærasýkingar."
+  }
+}

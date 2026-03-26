@@ -1,0 +1,27 @@
+{
+  "id": "C-APTTr",
+  "category": "coagulation",
+  "type": "quantitative",
+  "refRanges": {
+    "male": {
+      "min": 0.8,
+      "max": 1.2
+    },
+    "female": {
+      "min": 0.8,
+      "max": 1.2
+    }
+  },
+  "name": {
+    "en": "APTT Ratio",
+    "cs": "APTT poměr",
+    "ru": "АЧТВ (соотношение)",
+    "is": "APTT hlutfall"
+  },
+  "description": {
+    "en": "Activated partial thromboplastin time ratio - measures the intrinsic clotting pathway. Prolonged in hemophilia, heparin use, or lupus anticoagulant.",
+    "cs": "Poměr aktivovaného parciálního tromboplastinového času — měří vnitřní koagulační cestu. Prodloužený u hemofilie, při užívání heparinu nebo lupus antikoagulans.",
+    "ru": "Соотношение активированного частичного тромбопластинового времени — измеряет внутренний путь свёртывания. Удлинено при гемофилии, применении гепарина или волчаночном антикоагулянте.",
+    "is": "Virkjað hlutaþrombóplastíntímahlutfall - mælir innri storknunarleiðina. Lengt við dreyrasýki, heparínnotkun eða rauðaúlfsmótefni."
+  }
+}

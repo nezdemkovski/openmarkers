@@ -1,0 +1,18 @@
+{
+  "id": "C-QT",
+  "category": "coagulation",
+  "type": "quantitative",
+  "unit": "sec",
+  "name": {
+    "en": "Prothrombin Time (seconds)",
+    "cs": "Protrombinový čas (sekundy)",
+    "ru": "Протромбиновое время (секунды)",
+    "is": "Prótrombíntími (sekúndur)"
+  },
+  "description": {
+    "en": "Time in seconds for blood to clot via the extrinsic pathway. Raw measurement used to calculate INR and Quick ratio.",
+    "cs": "Čas v sekundách pro srážení krve vnější cestou. Surové měření používané k výpočtu INR a Quickova poměru.",
+    "ru": "Время в секундах до свёртывания крови по внешнему пути. Исходное измерение для расчёта МНО и коэффициента Квика.",
+    "is": "Tími í sekúndum þar til blóð storknast um ytri storknunarleiðina."
+  }
+}

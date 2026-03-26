@@ -1,0 +1,28 @@
+{
+  "id": "S-PRL",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "mIU/l",
+  "refRanges": {
+    "male": {
+      "min": 86.0,
+      "max": 324.0
+    },
+    "female": {
+      "min": 102.0,
+      "max": 496.0
+    }
+  },
+  "name": {
+    "en": "Prolactin",
+    "cs": "Prolaktin",
+    "ru": "Пролактин",
+    "is": "Prólaktín"
+  },
+  "description": {
+    "en": "Pituitary hormone primarily involved in lactation. Elevated in both sexes by pituitary adenomas, medications, stress, or hypothyroidism. High levels can suppress testosterone and cause symptoms.",
+    "cs": "Hormon hypofýzy primárně zapojený do laktace. Zvýšený u obou pohlaví adenomy hypofýzy, léky, stresem nebo hypotyreózou. Vysoké hladiny mohou potlačit testosteron a způsobit příznaky.",
+    "ru": "Гормон гипофиза, в основном участвующий в лактации. Повышен у обоих полов при аденомах гипофиза, приёме лекарств, стрессе или гипотиреозе. Высокие уровни могут подавлять тестостерон и вызывать симптомы.",
+    "is": "Heiladingulshormón aðallega tengt mjólkurframleiðslu. Hækkað hjá báðum kynjum vegna heiladinglisæxla, lyfja, streitu eða vanstarfsemi skjaldkirtils."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "B-lymf",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 20.0,
+      "max": 40.0
+    },
+    "female": {
+      "min": 20.0,
+      "max": 40.0
+    }
+  },
+  "phenoAge": {
+    "coefficient": -0.012,
+    "unit": "%",
+    "label": "Lymphocyte"
+  },
+  "name": {
+    "en": "Lymphocytes (%)",
+    "cs": "Lymfocyty (%)",
+    "ru": "Лимфоциты (%)",
+    "is": "Eitilfrumur (%)"
+  },
+  "description": {
+    "en": "Percentage of white blood cells that are lymphocytes - key to adaptive immunity (T-cells, B-cells). Elevated percentage often reflects low neutrophils (relative lymphocytosis) or viral infection.",
+    "cs": "Procento bílých krvinek tvořených lymfocyty — klíčové pro adaptivní imunitu (T-lymfocyty, B-lymfocyty). Zvýšené procento často odráží nízké neutrofily nebo virovou infekci.",
+    "ru": "Процент лейкоцитов, представленных лимфоцитами — ключевые для адаптивного иммунитета (Т-клетки, В-клетки). Повышенный процент часто отражает низкие нейтрофилы или вирусную инфекцию.",
+    "is": "Hlutfall hvítra blóðkorna sem eru eitilfrumur - lykill að aðlögunarónæmi (T-frumur, B-frumur)."
+  }
+}

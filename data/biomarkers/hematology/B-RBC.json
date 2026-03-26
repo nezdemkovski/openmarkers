@@ -1,0 +1,28 @@
+{
+  "id": "B-RBC",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "×10¹²/l",
+  "refRanges": {
+    "male": {
+      "min": 4.5,
+      "max": 5.9
+    },
+    "female": {
+      "min": 3.8,
+      "max": 5.2
+    }
+  },
+  "name": {
+    "en": "Red Blood Cells",
+    "cs": "Červené krvinky (erytrocyty)",
+    "ru": "Эритроциты",
+    "is": "Rauð blóðkorn"
+  },
+  "description": {
+    "en": "Oxygen-carrying cells. Low count indicates anemia. High count may indicate dehydration or polycythemia.",
+    "cs": "Buňky přenášející kyslík. Nízký počet ukazuje na anémii. Vysoký počet může ukazovat na dehydrataci nebo polycytémii.",
+    "ru": "Клетки, переносящие кислород. Низкий показатель указывает на анемию. Высокий может указывать на обезвоживание или полицитемию.",
+    "is": "Súrefnisflutningsfrumur. Lágur fjöldi bendir til blóðleysis. Hár fjöldi getur bent til þurrðar eða fjölrauðkornasjúkdóms."
+  }
+}

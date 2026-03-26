@@ -1,0 +1,25 @@
+{
+  "id": "S-FIB4",
+  "category": "calculated_indices",
+  "type": "quantitative",
+  "refRanges": {
+    "male": {
+      "max": 1.3
+    },
+    "female": {
+      "max": 1.3
+    }
+  },
+  "name": {
+    "en": "FIB-4 Index",
+    "cs": "Index FIB-4",
+    "ru": "Индекс FIB-4",
+    "is": "FIB-4 vísitala"
+  },
+  "description": {
+    "en": "Non-invasive fibrosis score calculated from age, AST, ALT, and platelets. Estimates liver fibrosis risk. <1.3 = low risk; 1.3-2.67 = intermediate; >2.67 = high risk.",
+    "cs": "Neinvazivní skóre fibrózy vypočtené z věku, AST, ALT a trombocytů. Odhaduje riziko jaterní fibrózy. <1,3 = nízké riziko; 1,3–2,67 = střední; >2,67 = vysoké.",
+    "ru": "Неинвазивный показатель фиброза, рассчитанный из возраста, АСТ, АЛТ и тромбоцитов. Оценивает риск фиброза печени. <1,3 = низкий риск; 1,3–2,67 = средний; >2,67 = высокий.",
+    "is": "Ónæðingslegt trefjagildi reiknað úr aldri, AST, ALT og blóðflögum. Áætlar hættu á lifrartrefjun."
+  }
+}

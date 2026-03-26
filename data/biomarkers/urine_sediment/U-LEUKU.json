@@ -1,0 +1,26 @@
+{
+  "id": "U-LEUKU",
+  "category": "urine_sediment",
+  "type": "quantitative",
+  "unit": "/µl",
+  "refRanges": {
+    "male": {
+      "max": 10.0
+    },
+    "female": {
+      "max": 10.0
+    }
+  },
+  "name": {
+    "en": "Urine Leukocytes (Microscopy)",
+    "cs": "Leukocyty v moči (mikroskopie)",
+    "ru": "Лейкоциты в моче (микроскопия)",
+    "is": "Hvít blóðkorn í þvagi (smásjá)"
+  },
+  "description": {
+    "en": "White blood cells seen under microscope. Elevated counts indicate urinary tract infection or kidney inflammation.",
+    "cs": "Bílé krvinky viděné pod mikroskopem. Zvýšený počet ukazuje na infekci močových cest nebo zánět ledvin.",
+    "ru": "Лейкоциты, видимые под микроскопом. Повышенный показатель указывает на инфекцию мочевыводящих путей или воспаление почек.",
+    "is": "Hvít blóðkorn séð undir smásjá. Hækkað fjöldi bendir til þvagfærasýkingar eða nýrnabólgu."
+  }
+}

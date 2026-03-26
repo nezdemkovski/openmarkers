@@ -1,0 +1,27 @@
+{
+  "id": "U-HUST",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "refRanges": {
+    "male": {
+      "min": 1.003,
+      "max": 1.03
+    },
+    "female": {
+      "min": 1.003,
+      "max": 1.03
+    }
+  },
+  "name": {
+    "en": "Urine Specific Gravity",
+    "cs": "Specifická hmotnost moči",
+    "ru": "Удельный вес мочи",
+    "is": "Eðlisþyngd þvags"
+  },
+  "description": {
+    "en": "Measures urine concentration. Reflects hydration status and kidney concentrating ability. Low values suggest overhydration; high values suggest dehydration.",
+    "cs": "Měří koncentraci moči. Odráží stav hydratace a schopnost ledvin koncentrovat moč. Nízké hodnoty naznačují nadměrnou hydrataci; vysoké dehydrataci.",
+    "ru": "Измеряет концентрацию мочи. Отражает состояние гидратации и способность почек концентрировать мочу. Низкие значения — избыточная гидратация; высокие — обезвоживание.",
+    "is": "Mælir þéttni þvags. Endurspeglar vökvastöðu og styrkingareiginleika nýrna."
+  }
+}

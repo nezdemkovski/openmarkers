@@ -1,0 +1,30 @@
+{
+  "id": "S-P",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 30.974,
+  "refRanges": {
+    "male": {
+      "min": 0.81,
+      "max": 1.45
+    },
+    "female": {
+      "min": 0.81,
+      "max": 1.45
+    }
+  },
+  "name": {
+    "en": "Phosphorus (Phosphate)",
+    "cs": "Fosfor (fosfát)",
+    "ru": "Фосфор (фосфат)",
+    "is": "Fosfór (Fosfat)"
+  },
+  "description": {
+    "en": "Mineral essential for bone health, energy production, and acid-base balance. Works in tandem with calcium. Abnormal levels can indicate kidney disease, parathyroid disorders, or vitamin D issues.",
+    "cs": "Minerál nezbytný pro zdraví kostí, produkci energie a acidobazickou rovnováhu. Spolupracuje s vápníkem. Abnormální hladiny mohou ukazovat na onemocnění ledvin, poruchy příštítných tělísek nebo problémy s vitaminem D.",
+    "ru": "Минерал, необходимый для здоровья костей, производства энергии и кислотно-щелочного баланса. Работает в паре с кальцием. Аномальные уровни могут указывать на заболевания почек, нарушения паращитовидных желёз или проблемы с витамином D.",
+    "is": "Steinefni nauðsynlegt fyrir beinheilsu, orkuframleiðslu og sýru-basajafnvægi. Virkar í samstarfi við kalsíum."
+  }
+}

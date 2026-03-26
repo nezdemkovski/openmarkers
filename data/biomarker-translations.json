@@ -1,0 +1,1952 @@
+{
+  "S-ALB": {
+    "name": {
+      "en": "Albumin",
+      "cs": "Albumin",
+      "ru": "Альбумин",
+      "is": "Albúmín"
+    },
+    "description": {
+      "en": "Most abundant blood protein, made by the liver. Maintains fluid balance and transports hormones/drugs. Low values indicate liver disease, malnutrition, or kidney loss.",
+      "cs": "Nejhojnější krevní bílkovina tvořená v játrech. Udržuje rovnováhu tekutin a transportuje hormony/léky. Nízké hodnoty ukazují na onemocnění jater, podvýživu nebo ztrátu ledvinami.",
+      "ru": "Самый распространённый белок крови, вырабатываемый печенью. Поддерживает водный баланс и транспортирует гормоны/лекарства. Низкие значения указывают на заболевание печени, недоедание или потерю почками.",
+      "is": "Algengasta blóðprótínið, framleitt af lifrinni. Viðheldur vökvajafnvægi og flytur hormón/lyf. Lág gildi benda til lifrarsjúkdóms, vannæringar eða nýrnataps."
+    }
+  },
+  "S-ALP": {
+    "name": {
+      "en": "ALP (Alkaline Phosphatase)",
+      "cs": "ALP (Alkalická fosfatáza)",
+      "ru": "ЩФ (Щелочная фосфатаза)",
+      "is": "ALP (Alkalískt fosfatasi)"
+    },
+    "description": {
+      "en": "Enzyme found in liver, bone, and bile ducts. Elevated in bone growth, bile duct obstruction, or liver disease. Normally higher in growing adolescents.",
+      "cs": "Enzym nacházející se v játrech, kostech a žlučových cestách. Zvýšený při růstu kostí, obstrukci žlučových cest nebo onemocnění jater. Normálně vyšší u rostoucích dospívajících.",
+      "ru": "Фермент, содержащийся в печени, костях и жёлчных протоках. Повышается при росте костей, обструкции жёлчных протоков или заболеваниях печени.",
+      "is": "Ensím sem finnst í lifur, beinum og gallvegum. Hækkað við beinvöxt, gallvegsstíflu eða lifrarsjúkdóm. Venjulega hærra hjá vaxandi unglingum."
+    }
+  },
+  "S-ALT": {
+    "name": {
+      "en": "ALT (Alanine Aminotransferase)",
+      "cs": "ALT (Alaninaminotransferáza)",
+      "ru": "АЛТ (Аланинаминотрансфераза)",
+      "is": "ALT (Alanín amínótransferasi)"
+    },
+    "description": {
+      "en": "Liver enzyme. Elevated levels indicate liver cell damage. Most specific marker for liver injury. Can be raised by alcohol, medications, fatty liver, or viral hepatitis.",
+      "cs": "Jaterní enzym. Zvýšené hodnoty ukazují na poškození jaterních buněk. Nejspecifičtější marker poškození jater. Může být zvýšený alkoholem, léky, steatózou nebo virovou hepatitidou.",
+      "ru": "Фермент печени. Повышенные значения указывают на повреждение клеток печени. Наиболее специфичный маркер поражения печени. Может повышаться от алкоголя, лекарств, жировой дистрофии или вирусного гепатита.",
+      "is": "Lifrarensím. Hækkuð gildi benda til lifrarskaða. Sértækasta merki um lifrarskaða. Getur hækkað vegna áfengis, lyfja, fitulifrar eða veirulifrarbólgu."
+    }
+  },
+  "S-AST": {
+    "name": {
+      "en": "AST (Aspartate Aminotransferase)",
+      "cs": "AST (Aspartátaminotransferáza)",
+      "ru": "АСТ (Аспартатаминотрансфераза)",
+      "is": "AST (Aspartat amínótransferasi)"
+    },
+    "description": {
+      "en": "Enzyme found in liver, heart, and muscle. Elevated with liver damage, heart attack, or intense exercise. Less liver-specific than ALT.",
+      "cs": "Enzym nacházející se v játrech, srdci a svalech. Zvýšený při poškození jater, infarktu nebo intenzivním cvičení. Méně specifický pro játra než ALT.",
+      "ru": "Фермент, содержащийся в печени, сердце и мышцах. Повышается при поражении печени, инфаркте или интенсивных физических нагрузках. Менее специфичен для печени, чем АЛТ.",
+      "is": "Ensím sem finnst í lifur, hjarta og vöðvum. Hækkar við lifrarskaða, hjartaáfall eða mikla hreyfingu. Minna sértækt fyrir lifur en ALT."
+    }
+  },
+  "S-ApoA1": {
+    "name": {
+      "en": "Apolipoprotein A1 (Apo-A1)",
+      "cs": "Apolipoprotein A1 (Apo-A1)",
+      "ru": "Аполипопротеин A1 (Апо-A1)",
+      "is": "Apólípóprótín A1 (Apo-A1)"
+    },
+    "description": {
+      "en": "Primary protein component of HDL particles. A more accurate metric to measure HDL particles and thus cardiovascular protection. Higher levels indicate better reverse cholesterol transport.",
+      "cs": "Hlavní proteinová složka HDL částic. Přesnější ukazatel HDL částic a tím kardiovaskulární ochrany. Vyšší hladiny znamenají lepší zpětný transport cholesterolu.",
+      "ru": "Основной белковый компонент частиц ЛПВП. Более точный показатель частиц ЛПВП и, следовательно, сердечно-сосудистой защиты. Высокие уровни указывают на лучший обратный транспорт холестерина.",
+      "is": "Aðalprótínhluti HDL agna. Nákvæmari mælikvarði á HDL agnir og þar með hjarta- og æðavernd."
+    }
+  },
+  "S-ApoB": {
+    "name": {
+      "en": "Apolipoprotein B (ApoB)",
+      "cs": "Apolipoprotein B (ApoB)",
+      "ru": "Аполипопротеин B (АпоB)",
+      "is": "Apólípóprótín B (ApoB)"
+    },
+    "description": {
+      "en": "One ApoB molecule per atherogenic lipoprotein particle (LDL, VLDL, Lp(a)). Considered the single best measure of atherogenic risk — better than LDL-C alone. Lower is better.",
+      "cs": "Jedna molekula ApoB na každou aterogenní lipoproteinovou částici (LDL, VLDL, Lp(a)). Považován za nejlepší jednotlivé měřítko aterogenního rizika — lepší než samotný LDL-C. Nižší je lepší.",
+      "ru": "Одна молекула АпоB на каждую атерогенную липопротеиновую частицу (ЛПНП, ЛПОНП, Лп(а)). Считается лучшим единичным показателем атерогенного риска — лучше, чем ЛПНП-Х отдельно. Чем ниже, тем лучше.",
+      "is": "Eitt ApoB sameind á hverja æðaskaðandi lípóprótínagn. Talinn besti einstaki mælikvarðinn á æðaskaðandi áhættu."
+    }
+  },
+  "S-B12": {
+    "name": {
+      "en": "Vitamin B12 (Cobalamin)",
+      "cs": "Vitamin B12 (Kobalamin)",
+      "ru": "Витамин B12 (Кобаламин)",
+      "is": "B12 vítamín (Kóbalamín)"
+    },
+    "description": {
+      "en": "Essential vitamin for nerve function, red blood cell formation, and DNA synthesis. Deficiency causes megaloblastic anemia and neurological damage. Common in vegetarians and older adults.",
+      "cs": "Nezbytný vitamin pro nervovou funkci, tvorbu červených krvinek a syntézu DNA. Nedostatek způsobuje megaloblastickou anémii a neurologické poškození. Častý u vegetariánů a starších osob.",
+      "ru": "Важнейший витамин для нервной функции, образования эритроцитов и синтеза ДНК. Дефицит вызывает мегалобластную анемию и неврологические повреждения. Часто встречается у вегетарианцев и пожилых людей.",
+      "is": "Nauðsynlegt vítamín fyrir taugastarfsemi, myndun rauðra blóðkorna og DNA-efnasmíðar. Skortur veldur stórfrumulegu blóðleysi og taugaskaða."
+    }
+  },
+  "S-BIL": {
+    "name": {
+      "en": "Total Bilirubin",
+      "cs": "Celkový bilirubin",
+      "ru": "Общий билирубин",
+      "is": "Heildarbílirúbín"
+    },
+    "description": {
+      "en": "Pigment from red blood cell breakdown processed by the liver. Elevated levels cause jaundice. Mildly elevated values may indicate Gilbert syndrome (benign).",
+      "cs": "Pigment z rozpadu červených krvinek zpracovávaný játry. Zvýšené hladiny způsobují žloutenku. Mírně zvýšené hodnoty mohou ukazovat na Gilbertův syndrom (benigní).",
+      "ru": "Пигмент из распада эритроцитов, перерабатываемый печенью. Повышенные уровни вызывают желтуху. Умеренно повышенные значения могут указывать на синдром Жильбера (доброкачественный).",
+      "is": "Litarefni frá niðurbroti rauðra blóðkorna unnið af lifrinni. Hækkuð gildi valda gulu. Vægt hækkuð gildi geta bent til Gilbert heilkennis (góðkynja)."
+    }
+  },
+  "S-CB": {
+    "name": {
+      "en": "Total Protein",
+      "cs": "Celková bílkovina",
+      "ru": "Общий белок",
+      "is": "Heildarprótín"
+    },
+    "description": {
+      "en": "Total amount of albumin and globulin proteins in blood. Reflects nutritional status, liver synthetic function, and immune system activity.",
+      "cs": "Celkové množství albuminu a globulinů v krvi. Odráží nutriční stav, syntetickou funkci jater a aktivitu imunitního systému.",
+      "ru": "Общее количество альбумина и глобулинов в крови. Отражает состояние питания, синтетическую функцию печени и активность иммунной системы.",
+      "is": "Heildarmagn albúmíns og glóbúlínpróteina í blóði. Endurspeglar næringarástand, efnasmíðastarfsemi lifrar og virkni ónæmiskerfis."
+    }
+  },
+  "S-CHOL": {
+    "name": {
+      "en": "Total Cholesterol",
+      "cs": "Celkový cholesterol",
+      "ru": "Общий холестерин",
+      "is": "Heildarkólesteról"
+    },
+    "description": {
+      "en": "Total amount of cholesterol in blood including LDL, HDL, and VLDL. Elevated levels increase cardiovascular disease risk. Target depends on individual risk factors.",
+      "cs": "Celkové množství cholesterolu v krvi včetně LDL, HDL a VLDL. Zvýšené hodnoty zvyšují riziko kardiovaskulárních onemocnění.",
+      "ru": "Общее количество холестерина в крови, включая ЛПНП, ЛПВП и ЛПОНП. Повышенные значения увеличивают риск сердечно-сосудистых заболеваний.",
+      "is": "Heildarmagn kólesteróls í blóði þar á meðal LDL, HDL og VLDL. Hækkuð gildi auka hættu á hjarta- og æðasjúkdómum."
+    }
+  },
+  "S-CKDEPI": {
+    "name": {
+      "en": "eGFR (CKD-EPI)",
+      "cs": "eGFR (CKD-EPI)",
+      "ru": "рСКФ (CKD-EPI)",
+      "is": "eGFR (CKD-EPI)"
+    },
+    "description": {
+      "en": "Estimated glomerular filtration rate calculated from creatinine using the CKD-EPI formula. Measures how well the kidneys filter blood. Values >1.5 ml/s are normal; <1.0 may indicate significant kidney impairment.",
+      "cs": "Odhadovaná glomerulární filtrace vypočtená z kreatininu vzorcem CKD-EPI. Měří, jak dobře ledviny filtrují krev. Hodnoty >1,5 ml/s jsou normální; <1,0 může znamenat závažné poškození ledvin.",
+      "ru": "Расчётная скорость клубочковой фильтрации по формуле CKD-EPI из креатинина. Измеряет, насколько хорошо почки фильтруют кровь. Значения >1,5 мл/с нормальны; <1,0 может указывать на значительное поражение почек.",
+      "is": "Áætluð nýrnahreinsihlutfall reiknað úr kreatíníni með CKD-EPI formúlu. Mælir hversu vel nýrun sía blóðið. Gildi >1,5 ml/s eru eðlileg; <1,0 getur bent til verulegrar nýrnaskerðingar."
+    }
+  },
+  "S-CREA": {
+    "name": {
+      "en": "Creatinine",
+      "cs": "Kreatinin",
+      "ru": "Креатинин",
+      "is": "Kreatínín"
+    },
+    "description": {
+      "en": "Byproduct of muscle metabolism filtered by kidneys. High values suggest reduced kidney filtration capacity. Naturally higher in muscular individuals.",
+      "cs": "Vedlejší produkt svalového metabolismu filtrovaný ledvinami. Vysoké hodnoty naznačují sníženou filtrační kapacitu ledvin. Přirozeně vyšší u svalnatých jedinců.",
+      "ru": "Побочный продукт мышечного метаболизма, фильтруемый почками. Высокие значения указывают на снижение фильтрационной способности почек. Естественно выше у мускулистых людей.",
+      "is": "Aukaafurð vöðvaefnaskipta síuð af nýrum. Há gildi benda til skertrar nýrnasíunar. Náttúrulega hærra hjá vöðvamiklum einstaklingum."
+    }
+  },
+  "S-Ca": {
+    "name": {
+      "en": "Calcium",
+      "cs": "Vápník",
+      "ru": "Кальций",
+      "is": "Kalsíum"
+    },
+    "description": {
+      "en": "Essential mineral for bones, muscle contraction, nerve signaling, and blood clotting. Both high (hyperparathyroidism, cancer) and low (vitamin D deficiency) values are clinically significant.",
+      "cs": "Nezbytný minerál pro kosti, svalovou kontrakci, nervovou signalizaci a srážení krve. Vysoké (hyperparatyreóza, nádory) i nízké (nedostatek vitaminu D) hodnoty jsou klinicky významné.",
+      "ru": "Важнейший минерал для костей, мышечного сокращения, нервной сигнализации и свёртывания крови. Высокие (гиперпаратиреоз, рак) и низкие (дефицит витамина D) значения клинически значимы.",
+      "is": "Nauðsynlegt steinefni fyrir bein, vöðvasamdrátt, taugaboð og blóðstorknun."
+    }
+  },
+  "S-Cai": {
+    "name": {
+      "en": "Ionized Calcium",
+      "cs": "Ionizovaný vápník",
+      "ru": "Ионизированный кальций",
+      "is": "Jónað kalsíum"
+    },
+    "description": {
+      "en": "Biologically active form of calcium in the blood, not bound to proteins. More accurate than total calcium, especially when albumin is abnormal. Low levels may indicate hypoparathyroidism or vitamin D deficiency.",
+      "cs": "Biologicky aktivní forma vápníku v krvi, nevázaná na bílkoviny. Přesnější než celkový vápník, zejména při abnormálním albuminu. Nízké hodnoty mohou ukazovat na hypoparatyreózu nebo nedostatek vitamínu D.",
+      "ru": "Биологически активная форма кальция в крови, не связанная с белками. Точнее общего кальция, особенно при аномальном альбумине. Низкие значения могут указывать на гипопаратиреоз или дефицит витамина D.",
+      "is": "Lífvirkt form kalsíums í blóði, ekki bundið próteinum. Nákvæmara en heildarkalsíum."
+    }
+  },
+  "S-Cl": {
+    "name": {
+      "en": "Chloride",
+      "cs": "Chloridy",
+      "ru": "Хлориды",
+      "is": "Klóríð"
+    },
+    "description": {
+      "en": "Electrolyte that helps maintain fluid balance and acid-base status. Usually moves in tandem with sodium.",
+      "cs": "Elektrolyt pomáhající udržovat rovnováhu tekutin a acidobazický stav. Obvykle se pohybuje společně se sodíkem.",
+      "ru": "Электролит, помогающий поддерживать водный баланс и кислотно-щелочное равновесие. Обычно изменяется параллельно с натрием.",
+      "is": "Saltsteind sem hjálpar til við að viðhalda vökvajafnvægi og sýru-basajafnvægi. Fylgist venjulega með natríumi."
+    }
+  },
+  "S-CysC": {
+    "name": {
+      "en": "Cystatin C",
+      "cs": "Cystatin C",
+      "ru": "Цистатин C",
+      "is": "Cýstatín C"
+    },
+    "description": {
+      "en": "A more sensitive biomarker of kidney function and cardiovascular risk than creatinine. Not affected by muscle mass, diet, or age — provides a cleaner estimate of true kidney filtration.",
+      "cs": "Citlivější biomarker funkce ledvin a kardiovaskulárního rizika než kreatinin. Není ovlivněn svalovou hmotou, dietou ani věkem — poskytuje čistší odhad skutečné ledvinové filtrace.",
+      "ru": "Более чувствительный биомаркер функции почек и сердечно-сосудистого риска, чем креатинин. Не зависит от мышечной массы, диеты или возраста — даёт более точную оценку истинной почечной фильтрации.",
+      "is": "Viðkvæmara lífmerki nýrnastarfsemi og hjarta- og æðaáhættu en kreatínín. Ekki háð vöðvamassa, mataræði eða aldri."
+    }
+  },
+  "S-DBIL": {
+    "name": {
+      "en": "Direct Bilirubin (Conjugated)",
+      "cs": "Přímý bilirubin (konjugovaný)",
+      "ru": "Прямой билирубин (конъюгированный)",
+      "is": "Beint bílirúbín (samtengt)"
+    },
+    "description": {
+      "en": "Bilirubin processed by the liver. Elevated specifically in bile duct obstruction, liver disease, or hepatitis. Helps differentiate causes of jaundice when total bilirubin is high.",
+      "cs": "Bilirubin zpracovaný játry. Zvýšený specificky při obstrukci žlučových cest, onemocnění jater nebo hepatitidě. Pomáhá rozlišit příčiny žloutenky při zvýšeném celkovém bilirubinu.",
+      "ru": "Билирубин, обработанный печенью. Повышен специфически при обструкции жёлчных протоков, заболеваниях печени или гепатите. Помогает дифференцировать причины желтухи при повышенном общем билирубине.",
+      "is": "Bílirúbín unnið af lifur. Sértækt hækkað við gallvegsstíflu eða lifrarsjúkdóm."
+    }
+  },
+  "S-FOL": {
+    "name": {
+      "en": "Folate (Folic Acid)",
+      "cs": "Kyselina listová (folát)",
+      "ru": "Фолиевая кислота (фолат)",
+      "is": "Fólsýra"
+    },
+    "description": {
+      "en": "B vitamin essential for DNA synthesis, red blood cell production, and neural tube development. Deficiency causes megaloblastic anemia. Important in pregnancy and alongside B12.",
+      "cs": "Vitamin skupiny B nezbytný pro syntézu DNA, tvorbu červených krvinek a vývoj nervové trubice. Nedostatek způsobuje megaloblastickou anémii. Důležitý v těhotenství a společně s B12.",
+      "ru": "Витамин группы B, необходимый для синтеза ДНК, образования эритроцитов и развития нервной трубки. Дефицит вызывает мегалобластную анемию. Важен при беременности и совместно с B12.",
+      "is": "B-vítamín nauðsynlegt fyrir DNA-efnasmíðar og myndun rauðra blóðkorna. Mikilvægt á meðgöngu."
+    }
+  },
+  "S-GGT": {
+    "name": {
+      "en": "GGT (Gamma-Glutamyl Transferase)",
+      "cs": "GGT (Gama-glutamyltransferáza)",
+      "ru": "ГГТ (Гамма-глутамилтрансфераза)",
+      "is": "GGT (Gamma-glútamýl transferasi)"
+    },
+    "description": {
+      "en": "Liver and bile duct enzyme. Sensitive marker for bile duct obstruction and alcohol use. Often the first liver enzyme to rise with alcohol-related liver damage.",
+      "cs": "Jaterní enzym a enzym žlučových cest. Citlivý marker obstrukce žlučových cest a užívání alkoholu. Často první jaterní enzym, který stoupá při poškození jater alkoholem.",
+      "ru": "Фермент печени и жёлчных протоков. Чувствительный маркер обструкции жёлчных протоков и употребления алкоголя. Часто первый печёночный фермент, который повышается при алкогольном поражении печени.",
+      "is": "Lifrar- og gallvegsensím. Viðkvæmt merki um gallvegsstíflu og áfengisneyslu. Oft fyrsta lifrarensímið sem hækkar við áfengistengdan lifrarskaða."
+    }
+  },
+  "S-GSH": {
+    "name": {
+      "en": "Glutathione",
+      "cs": "Glutathion",
+      "ru": "Глутатион",
+      "is": "Glútatíón"
+    },
+    "description": {
+      "en": "The body's master antioxidant, essential for detoxification, reducing oxidative stress, and supporting immune function. Declines with age; maintaining high levels is linked to longevity.",
+      "cs": "Hlavní antioxidant těla, nezbytný pro detoxikaci, snižování oxidačního stresu a podporu imunitní funkce. S věkem klesá; udržení vysokých hladin je spojeno s dlouhověkostí.",
+      "ru": "Главный антиоксидант организма, необходимый для детоксикации, снижения окислительного стресса и поддержки иммунной функции. Снижается с возрастом; поддержание высоких уровней связано с долголетием.",
+      "is": "Aðalandoxunarvörn líkamans. Nauðsynlegt fyrir eitrunarvarnir, minnkun oxunarstreitu og stuðning ónæmiskerfis."
+    }
+  },
+  "S-HCY": {
+    "name": {
+      "en": "Homocysteine",
+      "cs": "Homocystein",
+      "ru": "Гомоцистеин",
+      "is": "Hómócysteín"
+    },
+    "description": {
+      "en": "Amino acid linked to cardiovascular disease, stroke, and cognitive decline when elevated. High levels indicate B12/folate deficiency or methylation issues. Easily treatable with B vitamins.",
+      "cs": "Aminokyselina spojená s kardiovaskulárním onemocněním, mrtvicí a kognitivním poklesem při zvýšení. Vysoké hladiny ukazují na nedostatek B12/kyseliny listové nebo problémy s metylací. Snadno léčitelné vitaminy skupiny B.",
+      "ru": "Аминокислота, связанная с сердечно-сосудистыми заболеваниями, инсультом и когнитивным снижением при повышении. Высокие уровни указывают на дефицит B12/фолиевой кислоты или проблемы с метилированием. Легко корректируется витаминами группы B.",
+      "is": "Amínósýra tengd hjarta- og æðasjúkdómi, heilablóðfalli og vitsmunalegu hnignun þegar hækkað. Auðvelt að meðhöndla með B-vítamínum."
+    }
+  },
+  "S-HDL": {
+    "name": {
+      "ru": "ЛПВП холестерин",
+      "en": "HDL Cholesterol"
+    },
+    "description": {
+      "ru": "«Хороший» холестерин, удаляющий избыток холестерина из артерий. Высокие значения защищают от сердечно-сосудистых заболеваний.",
+      "en": "\"Good\" cholesterol that removes excess cholesterol from arteries. Higher values are protective against cardiovascular disease. Low HDL increases heart disease risk."
+    }
+  },
+  "S-K": {
+    "name": {
+      "en": "Potassium",
+      "cs": "Draslík",
+      "ru": "Калий",
+      "is": "Kalíum"
+    },
+    "description": {
+      "en": "Essential electrolyte for heart rhythm, muscle contraction, and nerve signaling. Both low and high levels can cause dangerous cardiac arrhythmias.",
+      "cs": "Důležitý elektrolyt pro srdeční rytmus, svalovou kontrakci a nervovou signalizaci. Nízké i vysoké hodnoty mohou způsobit nebezpečné srdeční arytmie.",
+      "ru": "Важный электролит для сердечного ритма, мышечного сокращения и нервной сигнализации. Как низкие, так и высокие значения могут вызвать опасные аритмии.",
+      "is": "Nauðsynleg saltsteind fyrir hjartsláttartakt, vöðvasamdrátt og taugaboð. Bæði lág og há gildi geta valdið hættulegum hjartsláttatruflunum."
+    }
+  },
+  "S-KM": {
+    "name": {
+      "en": "Uric Acid",
+      "cs": "Kyselina močová",
+      "ru": "Мочевая кислота",
+      "is": "Þvagsýra"
+    },
+    "description": {
+      "en": "End product of purine metabolism. Elevated levels increase the risk of gout and kidney stones. Can be affected by diet (red meat, alcohol, fructose).",
+      "cs": "Konečný produkt metabolismu purinů. Zvýšené hladiny zvyšují riziko dny a ledvinových kamenů. Ovlivňuje ji strava (červené maso, alkohol, fruktóza).",
+      "ru": "Конечный продукт метаболизма пуринов. Повышенные уровни увеличивают риск подагры и камней в почках. Зависит от диеты (красное мясо, алкоголь, фруктоза).",
+      "is": "Lokafurð púrínefnaskipta. Hækkuð gildi auka hættu á þvagsýrugigt og nýrnasteinum. Getur orðið fyrir áhrifum af mataræði (rautt kjöt, áfengi, frúktósi)."
+    }
+  },
+  "S-LDH": {
+    "name": {
+      "en": "LDH (Lactate Dehydrogenase)",
+      "cs": "LDH (Laktátdehydrogenáza)",
+      "ru": "ЛДГ (Лактатдегидрогеназа)",
+      "is": "LDH (Laktógenasi)"
+    },
+    "description": {
+      "en": "Enzyme released when cells are damaged. Elevated in many conditions including heart attack, liver disease, hemolytic anemia, and cancer. Non-specific but useful as a general tissue damage marker.",
+      "cs": "Enzym uvolňovaný při poškození buněk. Zvýšený u mnoha stavů včetně infarktu, onemocnění jater, hemolytické anémie a nádorů. Nespecifický, ale užitečný jako obecný marker poškození tkání.",
+      "ru": "Фермент, высвобождаемый при повреждении клеток. Повышен при многих состояниях, включая инфаркт, заболевания печени, гемолитическую анемию и рак. Неспецифичный, но полезный общий маркер повреждения тканей.",
+      "is": "Ensím sem losnar þegar frumur skemmast. Hækkað í mörgum sjúkdómum þar á meðal hjartaáfalli, lifrarsjúkdómi og krabbameini."
+    }
+  },
+  "S-LDL": {
+    "name": {
+      "ru": "ЛПНП холестерин",
+      "en": "LDL Cholesterol"
+    },
+    "description": {
+      "ru": "«Плохой» холестерин, откладывающийся в стенках артерий и вызывающий атеросклероз. Основная цель для снижения сердечно-сосудистого риска.",
+      "en": "\"Bad\" cholesterol that deposits in artery walls causing atherosclerosis. Primary target for cardiovascular risk reduction. Lower is better, especially with other risk factors."
+    }
+  },
+  "S-LDLP": {
+    "name": {
+      "en": "LDL Particle Number (LDL-P)",
+      "cs": "Počet LDL částic (LDL-P)",
+      "ru": "Число частиц ЛПНП (LDL-P)",
+      "is": "LDL agnafjöldi (LDL-P)"
+    },
+    "description": {
+      "en": "Counts the actual number of LDL particles, not just cholesterol content. A more accurate measure of LDL-driven cardiovascular risk than standard LDL-C, especially when particle size varies.",
+      "cs": "Počítá skutečný počet LDL částic, nejen obsah cholesterolu. Přesnější měřítko kardiovaskulárního rizika způsobeného LDL než standardní LDL-C, zejména při variabilní velikosti částic.",
+      "ru": "Подсчитывает фактическое число частиц ЛПНП, а не только содержание холестерина. Более точный показатель сердечно-сосудистого риска, чем стандартный ЛПНП-Х, особенно при вариабельности размера частиц.",
+      "is": "Telur raunverulegan fjölda LDL agna. Nákvæmari mælikvarði á LDL-drifna hjarta- og æðaáhættu."
+    }
+  },
+  "S-Lpa": {
+    "name": {
+      "en": "Lipoprotein(a) [Lp(a)]",
+      "cs": "Lipoprotein(a) [Lp(a)]",
+      "ru": "Липопротеин(а) [Лп(а)]",
+      "is": "Lípóprótín(a) [Lp(a)]"
+    },
+    "description": {
+      "en": "Genetically determined lipoprotein promoting atherosclerosis and thrombosis. Elevated levels are linked to increased risk of heart disease and stroke. Largely unaffected by lifestyle changes.",
+      "cs": "Geneticky determinovaný lipoprotein podporující aterosklerózu a trombózu. Zvýšené hladiny jsou spojeny se zvýšeným rizikem srdečních onemocnění a mrtvice. Životním stylem téměř neovlivnitelný.",
+      "ru": "Генетически обусловленный липопротеин, способствующий атеросклерозу и тромбозу. Повышенные уровни связаны с увеличенным риском сердечных заболеваний и инсульта. Практически не зависит от образа жизни.",
+      "is": "Erfðaákvarðað lípóprótín sem ýtir undir æðakölkun og segamyndun. Hækkuð gildi tengjast aukinni hættu á hjartasjúkdómi."
+    }
+  },
+  "S-Mg": {
+    "name": {
+      "en": "Magnesium",
+      "cs": "Hořčík",
+      "ru": "Магний",
+      "is": "Magnesíum"
+    },
+    "description": {
+      "en": "Mineral important for muscle and nerve function, blood sugar control, and bone health. Deficiency is common and can cause fatigue, cramps, and arrhythmias.",
+      "cs": "Minerál důležitý pro funkci svalů a nervů, kontrolu krevního cukru a zdraví kostí. Nedostatek je častý a může způsobit únavu, křeče a arytmie.",
+      "ru": "Минерал, важный для функции мышц и нервов, контроля уровня сахара в крови и здоровья костей. Дефицит встречается часто и может вызывать усталость, судороги и аритмии.",
+      "is": "Steinefni mikilvægt fyrir vöðva- og taugastarfsemi, blóðsykurstjórnun og beinheilsu. Skortur er algengur og getur valdið þreytu, krömpum og hjartsláttatruflunum."
+    }
+  },
+  "S-Na": {
+    "name": {
+      "en": "Sodium",
+      "cs": "Sodík",
+      "ru": "Натрий",
+      "is": "Natríum"
+    },
+    "description": {
+      "en": "Major electrolyte regulating fluid balance and nerve/muscle function. Both low (hyponatremia) and high (hypernatremia) values can be clinically significant.",
+      "cs": "Hlavní elektrolyt regulující rovnováhu tekutin a funkci nervů/svalů. Nízké (hyponatrémie) i vysoké (hypernatrémie) hodnoty mohou být klinicky významné.",
+      "ru": "Основной электролит, регулирующий водный баланс и функцию нервов/мышц. Как низкие (гипонатриемия), так и высокие (гипернатриемия) значения могут быть клинически значимыми.",
+      "is": "Aðalsaltsteind sem stjórnar vökvajafnvægi og tauga-/vöðvastarfsemi. Bæði lág og há gildi geta verið klínískt mikilvæg."
+    }
+  },
+  "S-O3I": {
+    "name": {
+      "en": "Omega-3 Index",
+      "cs": "Omega-3 index",
+      "ru": "Омега-3 индекс",
+      "is": "Ómega-3 vísitala"
+    },
+    "description": {
+      "en": "Measures EPA and DHA as a percentage of red blood cell membranes. Higher levels (>8%) are strongly linked to reduced cardiovascular risk, lower inflammation, and better brain health.",
+      "cs": "Měří EPA a DHA jako procento membrán červených krvinek. Vyšší hodnoty (>8 %) jsou silně spojeny se sníženým kardiovaskulárním rizikem, nižším zánětem a lepším zdravím mozku.",
+      "ru": "Измеряет ЭПК и ДГК как процент мембран эритроцитов. Высокие значения (>8%) тесно связаны со сниженным сердечно-сосудистым риском, меньшим воспалением и лучшим здоровьем мозга.",
+      "is": "Mælir EPA og DHA sem hlutfall af rauðkornshimnum. Hærri gildi (>8%) tengjast minni hjarta- og æðaáhættu."
+    }
+  },
+  "S-P": {
+    "name": {
+      "en": "Phosphorus (Phosphate)",
+      "cs": "Fosfor (fosfát)",
+      "ru": "Фосфор (фосфат)",
+      "is": "Fosfór (Fosfat)"
+    },
+    "description": {
+      "en": "Mineral essential for bone health, energy production, and acid-base balance. Works in tandem with calcium. Abnormal levels can indicate kidney disease, parathyroid disorders, or vitamin D issues.",
+      "cs": "Minerál nezbytný pro zdraví kostí, produkci energie a acidobazickou rovnováhu. Spolupracuje s vápníkem. Abnormální hladiny mohou ukazovat na onemocnění ledvin, poruchy příštítných tělísek nebo problémy s vitaminem D.",
+      "ru": "Минерал, необходимый для здоровья костей, производства энергии и кислотно-щелочного баланса. Работает в паре с кальцием. Аномальные уровни могут указывать на заболевания почек, нарушения паращитовидных желёз или проблемы с витамином D.",
+      "is": "Steinefni nauðsynlegt fyrir beinheilsu, orkuframleiðslu og sýru-basajafnvægi. Virkar í samstarfi við kalsíum."
+    }
+  },
+  "S-PAMS": {
+    "name": {
+      "en": "Pancreatic Amylase",
+      "cs": "Pankreatická amyláza",
+      "ru": "Панкреатическая амилаза",
+      "is": "Briskirtilsamýlasi"
+    },
+    "description": {
+      "en": "Enzyme produced by the pancreas to digest starch. Elevated levels may indicate pancreatitis or pancreatic disease.",
+      "cs": "Enzym produkovaný slinivkou k trávení škrobu. Zvýšené hladiny mohou ukazovat na pankreatitidu nebo onemocnění slinivky.",
+      "ru": "Фермент, вырабатываемый поджелудочной железой для переваривания крахмала. Повышенные уровни могут указывать на панкреатит или заболевание поджелудочной железы.",
+      "is": "Ensím framleitt af briskirtlinum til að brjóta niður sterkju. Hækkuð gildi geta bent til briskirtilsbólgu eða briskirtilssjúkdóms."
+    }
+  },
+  "S-TGL": {
+    "name": {
+      "en": "Triglycerides",
+      "cs": "Triglyceridy",
+      "ru": "Триглицериды",
+      "is": "Þríglýseríð"
+    },
+    "description": {
+      "en": "Fat molecules in the blood, mainly from dietary sources. Elevated by high carbohydrate/alcohol intake. Very high levels (>10 mmol/l) risk pancreatitis.",
+      "cs": "Tuky v krvi, převážně z potravy. Zvýšené vysokým příjmem sacharidů/alkoholu. Velmi vysoké hodnoty (>10 mmol/l) hrozí pankreatitidou.",
+      "ru": "Жиры в крови, преимущественно из пищи. Повышаются при высоком потреблении углеводов/алкоголя. Очень высокие значения (>10 ммоль/л) грозят панкреатитом.",
+      "is": "Fitusameindi í blóði, aðallega frá fæðu. Hækkuð af mikilli kolvetna-/áfengisneyslu. Mjög há gildi (>10 mmól/l) hafa hættu á briskirtilsbólgu."
+    }
+  },
+  "S-UREA": {
+    "name": {
+      "en": "Urea",
+      "cs": "Urea (Močovina)",
+      "ru": "Мочевина",
+      "is": "Þvagefni"
+    },
+    "description": {
+      "en": "Waste product from protein metabolism, filtered by the kidneys. Elevated levels may indicate impaired kidney function or high protein intake.",
+      "cs": "Odpadní produkt metabolismu bílkovin filtrovaný ledvinami. Zvýšené hodnoty mohou ukazovat na poruchu funkce ledvin nebo vysoký příjem bílkovin.",
+      "ru": "Продукт распада белков, фильтруемый почками. Повышенные значения могут указывать на нарушение функции почек или высокое потребление белка.",
+      "is": "Úrgangsefni frá prótínefnaskiptum, síað af nýrum. Hækkuð gildi geta bent til skertrar nýrnastarfsemi eða mikillar prótíninntöku."
+    }
+  },
+  "S-VITD": {
+    "name": {
+      "en": "Vitamin D (25-OH)",
+      "cs": "Vitamin D (25-OH)",
+      "ru": "Витамин D (25-OH)",
+      "is": "D-vítamín (25-OH)"
+    },
+    "description": {
+      "en": "Measures vitamin D stores. Essential for bone health, immune function, and mood. Deficiency is very common, especially in northern latitudes and winter months.",
+      "cs": "Měří zásoby vitaminu D. Nezbytný pro zdraví kostí, imunitní funkci a náladu. Nedostatek je velmi častý, zejména v severních zeměpisných šířkách a v zimních měsících.",
+      "ru": "Измеряет запасы витамина D. Необходим для здоровья костей, иммунной функции и настроения. Дефицит очень распространён, особенно в северных широтах и зимой.",
+      "is": "Mælir D-vítamínbirgðir. Nauðsynlegt fyrir beinheilsu, ónæmisstarfsemi og skap. Skortur er mjög algengur, sérstaklega á norðlægum breiddargráðum og á vetri."
+    }
+  },
+  "S-VLDL": {
+    "name": {
+      "en": "VLDL Cholesterol",
+      "cs": "VLDL cholesterol",
+      "ru": "ЛПОНП холестерин",
+      "is": "VLDL kólesteról"
+    },
+    "description": {
+      "en": "Very low-density lipoprotein cholesterol, mainly carrying triglycerides. Elevated with high carbohydrate/alcohol intake and metabolic syndrome. Contributes to atherosclerosis alongside LDL.",
+      "cs": "Lipoprotein o velmi nízké hustotě nesoucí převážně triglyceridy. Zvýšený při vysokém příjmu sacharidů/alkoholu a metabolickém syndromu. Přispívá k ateroskleróze vedle LDL.",
+      "ru": "Холестерин липопротеинов очень низкой плотности, преимущественно переносящий триглицериды. Повышен при высоком потреблении углеводов/алкоголя и метаболическом синдроме. Способствует атеросклерозу наряду с ЛПНП.",
+      "is": "Mjög léttar lípóprotínagnir sem bera aðallega þríglýseríð. Hækkuð við mikla kolvetna-/áfengisneyslu."
+    }
+  },
+  "S-nHDL": {
+    "name": {
+      "en": "Non-HDL Cholesterol",
+      "cs": "Non-HDL cholesterol",
+      "ru": "Не-ЛПВП холестерин",
+      "is": "Ekki-HDL kólesteról"
+    },
+    "description": {
+      "en": "Total cholesterol minus HDL. Captures all atherogenic lipoproteins (LDL + VLDL). Better predictor of cardiovascular risk than LDL alone, especially with high triglycerides.",
+      "cs": "Celkový cholesterol minus HDL. Zahrnuje všechny aterogenní lipoproteiny (LDL + VLDL). Lepší prediktor kardiovaskulárního rizika než samotný LDL.",
+      "ru": "Общий холестерин минус ЛПВП. Включает все атерогенные липопротеины (ЛПНП + ЛПОНП). Лучший предиктор сердечно-сосудистого риска, чем ЛПНП в отдельности.",
+      "is": "Heildarkólesteról mínus HDL. Nær yfir allar æðaskaðandi fitupróteinsagnir (LDL + VLDL). Betri spáþáttur hjarta- og æðaáhættu en LDL eitt og sér."
+    }
+  },
+  "S-oxLDL": {
+    "name": {
+      "en": "Oxidized LDL (oxLDL)",
+      "cs": "Oxidovaný LDL (oxLDL)",
+      "ru": "Окисленный ЛПНП (oxLDL)",
+      "is": "Oxaðað LDL (oxLDL)"
+    },
+    "description": {
+      "en": "LDL cholesterol that has been damaged by oxidation. Directly measures oxidative stress, inflammation, endothelial dysfunction, and the development of arterial plaque.",
+      "cs": "LDL cholesterol poškozený oxidací. Přímo měří oxidační stres, zánět, endoteliální dysfunkci a rozvoj aterosklerotického plátu.",
+      "ru": "ЛПНП-холестерин, повреждённый окислением. Напрямую измеряет окислительный стресс, воспаление, эндотелиальную дисфункцию и развитие атеросклеротических бляшек.",
+      "is": "LDL kólesteról sem hefur skemmst vegna oxunar. Mælir beint oxunarstreitu og bólgu."
+    }
+  },
+  "MDRD-UreaAlb": {
+    "name": {
+      "en": "eGFR (MDRD with Urea & Albumin)",
+      "cs": "eGFR (MDRD s ureou a albuminem)",
+      "ru": "рСКФ (MDRD с мочевиной и альбумином)",
+      "is": "eGFR (MDRD með þvagefni og albúmíni)"
+    },
+    "description": {
+      "en": "Alternative kidney function estimate using MDRD formula with urea and albumin. Similar to CKD-EPI but uses additional inputs. Values >1.5 ml/s are normal.",
+      "cs": "Alternativní odhad funkce ledvin vzorcem MDRD s ureou a albuminem. Podobný CKD-EPI, ale používá další vstupy. Hodnoty >1,5 ml/s jsou normální.",
+      "ru": "Альтернативная оценка функции почек по формуле MDRD с мочевиной и альбумином. Аналогична CKD-EPI, но использует дополнительные параметры. Значения >1,5 мл/с нормальны.",
+      "is": "Önnur aðferð til mats á nýrnastarfsemi með MDRD formúlu ásamt þvagefni og albúmíni."
+    }
+  },
+  "S-AMS": {
+    "name": {
+      "en": "Serum Amylase",
+      "cs": "Sérová amyláza",
+      "ru": "Амилаза сыворотки",
+      "is": "Amýlasi í sermi"
+    },
+    "description": {
+      "en": "Enzyme that breaks down starch, produced by the pancreas and salivary glands. Elevated in pancreatitis, salivary gland inflammation, or bowel obstruction.",
+      "cs": "Enzym rozkládající škrob, produkovaný slinivkou a slinivými žlázami. Zvýšený při pankreatitidě, zánětu slinných žláz nebo obstrukci střeva.",
+      "ru": "Фермент, расщепляющий крахмал, вырабатываемый поджелудочной и слюнными железами. Повышен при панкреатите, воспалении слюнных желёз или непроходимости кишечника.",
+      "is": "Ensím sem brýtur niður sterkju, framleitt af briskirtli og munnvatnskirtlum. Hækkað við briskirtilsbólgu."
+    }
+  },
+  "S-FIB4": {
+    "name": {
+      "en": "FIB-4 Index",
+      "cs": "Index FIB-4",
+      "ru": "Индекс FIB-4",
+      "is": "FIB-4 vísitala"
+    },
+    "description": {
+      "en": "Non-invasive fibrosis score calculated from age, AST, ALT, and platelets. Estimates liver fibrosis risk. <1.3 = low risk; 1.3-2.67 = intermediate; >2.67 = high risk.",
+      "cs": "Neinvazivní skóre fibrózy vypočtené z věku, AST, ALT a trombocytů. Odhaduje riziko jaterní fibrózy. <1,3 = nízké riziko; 1,3–2,67 = střední; >2,67 = vysoké.",
+      "ru": "Неинвазивный показатель фиброза, рассчитанный из возраста, АСТ, АЛТ и тромбоцитов. Оценивает риск фиброза печени. <1,3 = низкий риск; 1,3–2,67 = средний; >2,67 = высокий.",
+      "is": "Ónæðingslegt trefjagildi reiknað úr aldri, AST, ALT og blóðflögum. Áætlar hættu á lifrartrefjun."
+    }
+  },
+  "S-HOMA": {
+    "name": {
+      "en": "HOMA-IR (Insulin Resistance Index)",
+      "cs": "HOMA-IR (Index inzulínové rezistence)",
+      "ru": "HOMA-IR (Индекс инсулинорезистентности)",
+      "is": "HOMA-IR (Insúlínviðnámsvísitala)"
+    },
+    "description": {
+      "en": "Calculated from fasting glucose and insulin: (glucose × insulin) / 22.5. Estimates insulin resistance. Values <1.0 are optimal; >2.5 suggests significant insulin resistance and metabolic risk.",
+      "cs": "Vypočtený z glukózy a inzulínu nalačno: (glukóza × inzulín) / 22,5. Odhaduje inzulínovou rezistenci. Hodnoty <1,0 jsou optimální; >2,5 naznačuje významnou inzulínovou rezistenci a metabolické riziko.",
+      "ru": "Рассчитывается из глюкозы и инсулина натощак: (глюкоза × инсулин) / 22,5. Оценивает инсулинорезистентность. Значения <1,0 оптимальны; >2,5 указывает на значительную инсулинорезистентность и метаболический риск.",
+      "is": "Reiknuð úr fastandi glúkósa og insúlíni. Áætlar insúlínviðnám. Gildi <1,0 eru ákjósanleg; >2,5 bendir til verulegs insúlínviðnáms."
+    }
+  },
+  "S-TelL": {
+    "name": {
+      "en": "Telomere Length",
+      "cs": "Délka telomer",
+      "ru": "Длина теломер",
+      "is": "Litningaendahettulengd"
+    },
+    "description": {
+      "en": "Measures the protective caps on chromosomes that shorten with age. Reflects cellular aging and impacts the risk of age-related diseases. Longer telomeres are associated with biological youth.",
+      "cs": "Měří ochranné čepičky na chromozomech, které se s věkem zkracují. Odráží buněčné stárnutí a ovlivňuje riziko věkově podmíněných onemocnění. Delší telomery jsou spojeny s biologickým mládím.",
+      "ru": "Измеряет защитные колпачки на хромосомах, которые укорачиваются с возрастом. Отражает клеточное старение и влияет на риск возрастных заболеваний. Более длинные теломеры связаны с биологической молодостью.",
+      "is": "Mælir verndarhetturnar á litningum sem styttast með aldri. Endurspeglar frumuöldrun."
+    }
+  },
+  "S-BNP": {
+    "name": {
+      "en": "BNP (B-type Natriuretic Peptide)",
+      "cs": "BNP (Mozkový natriuretický peptid)",
+      "ru": "BNP (Мозговой натрийуретический пептид)",
+      "is": "BNP (B-gerðar natríumþvagdrifspeptíð)"
+    },
+    "description": {
+      "en": "Hormone released by the heart in response to stretching of heart muscle. Measures heart stress or failure. Low values indicate a healthy heart; elevated levels suggest cardiac strain or heart failure.",
+      "cs": "Hormon uvolněný srdcem v reakci na napínání srdečního svalu. Měří srdeční zátěž nebo selhání. Nízké hodnoty ukazují na zdravé srdce; zvýšené naznačují srdeční zátěž nebo selhání.",
+      "ru": "Гормон, выделяемый сердцем в ответ на растяжение сердечной мышцы. Измеряет сердечную нагрузку или недостаточность. Низкие значения — здоровое сердце; повышенные указывают на сердечную перегрузку или недостаточность.",
+      "is": "Hormón losað af hjartanu sem svar við togun hjartavöðva. Mælir hjartaálag. Hækkuð gildi benda til hjartabilunar."
+    }
+  },
+  "S-CAC": {
+    "name": {
+      "en": "CAC Score (Coronary Artery Calcium)",
+      "cs": "CAC skóre (Kalcium koronárních tepen)",
+      "ru": "Индекс CAC (Кальций коронарных артерий)",
+      "is": "CAC stig (Kransæðakalk)"
+    },
+    "description": {
+      "en": "CT scan measurement of calcium buildup in coronary arteries. Score of 0 is perfect — indicates no detectable plaque. Higher scores quantify atherosclerotic burden and cardiovascular risk.",
+      "cs": "CT měření hromadění vápníku v koronárních tepnách. Skóre 0 je ideální — žádný detekovatelný plát. Vyšší skóre kvantifikuje aterosklerotickou zátěž a kardiovaskulární riziko.",
+      "ru": "КТ-измерение накопления кальция в коронарных артериях. Оценка 0 — идеальна, отсутствие обнаруживаемых бляшек. Более высокие значения количественно оценивают атеросклеротическую нагрузку и сердечно-сосудистый риск.",
+      "is": "Sneiðmyndamæling á kalksöfnun í kransæðum. Stig 0 er fullkomið. Hærri stig mæla æðakölkunarbyrði."
+    }
+  },
+  "C-APTT": {
+    "name": {
+      "en": "APTT (seconds)",
+      "cs": "APTT (sekundy)",
+      "ru": "АЧТВ (секунды)",
+      "is": "APTT (sekúndur)"
+    },
+    "description": {
+      "en": "Activated partial thromboplastin time - raw clotting time for the intrinsic pathway. Normal range is typically 25-35 seconds.",
+      "cs": "Aktivovaný parciální tromboplastinový čas — surový čas srážení vnitřní cestou. Normální rozmezí je obvykle 25–35 sekund.",
+      "ru": "Активированное частичное тромбопластиновое время — время свёртывания по внутреннему пути. Нормальный диапазон обычно 25–35 секунд.",
+      "is": "Virkjað hlutaþrombóplastíntími - hráur storknunartími innri storknunarleiðar. Eðlilegt svið er venjulega 25-35 sekúndur."
+    }
+  },
+  "C-APTTr": {
+    "name": {
+      "en": "APTT Ratio",
+      "cs": "APTT poměr",
+      "ru": "АЧТВ (соотношение)",
+      "is": "APTT hlutfall"
+    },
+    "description": {
+      "en": "Activated partial thromboplastin time ratio - measures the intrinsic clotting pathway. Prolonged in hemophilia, heparin use, or lupus anticoagulant.",
+      "cs": "Poměr aktivovaného parciálního tromboplastinového času — měří vnitřní koagulační cestu. Prodloužený u hemofilie, při užívání heparinu nebo lupus antikoagulans.",
+      "ru": "Соотношение активированного частичного тромбопластинового времени — измеряет внутренний путь свёртывания. Удлинено при гемофилии, применении гепарина или волчаночном антикоагулянте.",
+      "is": "Virkjað hlutaþrombóplastíntímahlutfall - mælir innri storknunarleiðina. Lengt við dreyrasýki, heparínnotkun eða rauðaúlfsmótefni."
+    }
+  },
+  "C-INR": {
+    "name": {
+      "en": "INR",
+      "cs": "INR",
+      "ru": "МНО",
+      "is": "INR"
+    },
+    "description": {
+      "en": "International Normalized Ratio - standardized prothrombin time used to monitor warfarin therapy. Normal is ~1.0; therapeutic range on warfarin is typically 2.0-3.0.",
+      "cs": "Mezinárodní normalizovaný poměr — standardizovaný protrombinový čas pro monitorování terapie warfarinem. Normální je ~1,0; terapeutické rozmezí na warfarinu je obvykle 2,0–3,0.",
+      "ru": "Международное нормализованное отношение — стандартизированное протромбиновое время для контроля терапии варфарином. Нормально ~1,0; терапевтический диапазон на варфарине обычно 2,0–3,0.",
+      "is": "Alþjóðlegt staðlað hlutfall - staðlað prótrombíntímapróf notað til eftirlits með warfarínmeðferð. Eðlilegt er ~1,0; meðferðarsvið á warfaríni er venjulega 2,0-3,0."
+    }
+  },
+  "C-QT": {
+    "name": {
+      "en": "Prothrombin Time (seconds)",
+      "cs": "Protrombinový čas (sekundy)",
+      "ru": "Протромбиновое время (секунды)",
+      "is": "Prótrombíntími (sekúndur)"
+    },
+    "description": {
+      "en": "Time in seconds for blood to clot via the extrinsic pathway. Raw measurement used to calculate INR and Quick ratio.",
+      "cs": "Čas v sekundách pro srážení krve vnější cestou. Surové měření používané k výpočtu INR a Quickova poměru.",
+      "ru": "Время в секундах до свёртывания крови по внешнему пути. Исходное измерение для расчёта МНО и коэффициента Квика.",
+      "is": "Tími í sekúndum þar til blóð storknast um ytri storknunarleiðina."
+    }
+  },
+  "C-Quick": {
+    "name": {
+      "en": "Prothrombin Time (Quick Ratio)",
+      "cs": "Protrombinový čas (Quickův poměr)",
+      "ru": "Протромбиновое время (коэффициент Квика)",
+      "is": "Prótrombíntími (Quick hlutfall)"
+    },
+    "description": {
+      "en": "Measures the extrinsic clotting pathway. Expressed as a ratio - values within 0.8-1.2 are normal. Prolonged in liver disease, vitamin K deficiency, or warfarin use.",
+      "cs": "Měří vnější koagulační cestu. Vyjádřeno jako poměr — hodnoty 0,8–1,2 jsou normální. Prodloužený při onemocnění jater, nedostatku vitaminu K nebo užívání warfarinu.",
+      "ru": "Измеряет внешний путь свёртывания. Выражается как соотношение — значения 0,8–1,2 нормальны. Удлинён при заболеваниях печени, дефиците витамина К или приёме варфарина.",
+      "is": "Mælir ytri storknunarleiðina. Gildi innan 0,8-1,2 eru eðlileg. Lengt við lifrarsjúkdóm, K-vítamínskort eða warfarínnotkun."
+    }
+  },
+  "B-HbA1c": {
+    "name": {
+      "en": "HbA1c (Glycated Hemoglobin)",
+      "cs": "HbA1c (Glykovaný hemoglobin)",
+      "ru": "HbA1c (Гликированный гемоглобин)",
+      "is": "HbA1c (Sykrað blóðrauði)"
+    },
+    "description": {
+      "en": "Measures average blood sugar over the past 2-3 months. Gold standard for long-term glucose control. <5.7% normal, 5.7-6.4% prediabetes, ≥6.5% diabetes.",
+      "cs": "Měří průměrnou hladinu cukru v krvi za posledních 2–3 měsíce. Zlatý standard dlouhodobé kontroly glykémie. <5,7 % norma, 5,7–6,4 % prediabetes, ≥6,5 % diabetes.",
+      "ru": "Измеряет средний уровень сахара в крови за последние 2–3 месяца. Золотой стандарт долгосрочного контроля гликемии. <5,7% норма, 5,7–6,4% преддиабет, ≥6,5% диабет.",
+      "is": "Mælir meðalblóðsykur síðustu 2-3 mánuðina. Gullstaðall fyrir langtímasykurstjórnun. <5,7% eðlilegt, 5,7-6,4% forsykursýki, >=6,5% sykursýki."
+    }
+  },
+  "P-P-GLU": {
+    "name": {
+      "en": "Fasting Glucose",
+      "cs": "Glukóza nalačno",
+      "ru": "Глюкоза натощак",
+      "is": "Fastandi blóðsykur"
+    },
+    "description": {
+      "en": "Blood sugar measured after fasting. Primary screening test for diabetes. Values 5.6-6.9 indicate prediabetes; >=7.0 suggests diabetes.",
+      "cs": "Krevní cukr měřený nalačno. Základní screeningový test na diabetes. Hodnoty 5,6–6,9 značí prediabetes; ≥7,0 naznačuje diabetes.",
+      "ru": "Уровень сахара в крови натощак. Основной скрининговый тест на диабет. Значения 5,6–6,9 указывают на преддиабет; ≥7,0 предполагает диабет.",
+      "is": "Blóðsykur mældur eftir föstu. Frumskimunarpróf fyrir sykursýki. Gildi 5,6-6,9 benda til forsykursýki; >=7,0 bendir til sykursýki."
+    }
+  },
+  "S-Cpep": {
+    "name": {
+      "en": "C-Peptide",
+      "cs": "C-peptid",
+      "ru": "С-пептид",
+      "is": "C-peptíð"
+    },
+    "description": {
+      "en": "Byproduct of insulin production, released in equal amounts. Measures endogenous insulin secretion independent of exogenous insulin. Useful for distinguishing type 1 from type 2 diabetes.",
+      "cs": "Vedlejší produkt tvorby inzulínu, uvolňovaný ve stejném množství. Měří endogenní sekreci inzulínu nezávisle na exogenním inzulínu. Užitečný pro odlišení diabetu 1. a 2. typu.",
+      "ru": "Побочный продукт выработки инсулина, выделяемый в равных количествах. Измеряет эндогенную секрецию инсулина независимо от экзогенного инсулина. Полезен для различения диабета 1 и 2 типа.",
+      "is": "Aukaafurð insúlínframleiðslu. Mælir innræna insúlínframleiðslu óháð ytri insúlíni."
+    }
+  },
+  "S-INS": {
+    "name": {
+      "en": "Fasting Insulin",
+      "cs": "Inzulín nalačno",
+      "ru": "Инсулин натощак",
+      "is": "Fastandi insúlín"
+    },
+    "description": {
+      "en": "Insulin released by the pancreas to regulate blood sugar. Fasting levels reveal insulin resistance — elevated insulin with normal glucose is an early warning sign of metabolic dysfunction.",
+      "cs": "Inzulín uvolněný slinivkou k regulaci krevního cukru. Hladiny nalačno odhalují inzulínovou rezistenci — zvýšený inzulín s normální glukózou je časný varovný signál metabolické dysfunkce.",
+      "ru": "Инсулин, выделяемый поджелудочной железой для регуляции сахара в крови. Уровни натощак выявляют инсулинорезистентность — повышенный инсулин при нормальной глюкозе является ранним признаком метаболических нарушений.",
+      "is": "Insúlín losað af briskirtlinum til að stjórna blóðsykri. Fastandi gildi sýna insúlínviðnám."
+    }
+  },
+  "S-CORT": {
+    "name": {
+      "en": "Cortisol",
+      "cs": "Kortizol",
+      "ru": "Кортизол",
+      "is": "Kórtísól"
+    },
+    "description": {
+      "en": "Primary stress hormone produced by the adrenal glands. Follows a diurnal pattern (high in morning, low at night). Chronically elevated levels indicate stress, Cushing's syndrome; low levels suggest adrenal insufficiency.",
+      "cs": "Primární stresový hormon produkovaný nadledvinami. Má denní rytmus (vysoký ráno, nízký večer). Chronicky zvýšené hladiny ukazují na stres, Cushingův syndrom; nízké na nedostatečnost nadledvin.",
+      "ru": "Основной гормон стресса, вырабатываемый надпочечниками. Имеет суточный ритм (высокий утром, низкий вечером). Хронически повышенные уровни указывают на стресс, синдром Кушинга; низкие — на надпочечниковую недостаточность.",
+      "is": "Aðalstreituhormón nýrnahettna. Fylgir dagssveiflumynstri (hátt á morgni, lágt á kvöldi)."
+    }
+  },
+  "S-DHEA": {
+    "name": {
+      "en": "DHEA-S (Dehydroepiandrosterone Sulfate)",
+      "ru": "ДГЭА-С (Дегидроэпиандростерон-сульфат)",
+      "is": "DHEA-S"
+    },
+    "description": {
+      "en": "Adrenal 'recovery hormone' supporting stress resilience, repair processes, immune function, and vitality. Declines with age; higher levels are associated with longevity.",
+      "ru": "Надпочечниковый «гормон восстановления», поддерживающий стрессоустойчивость, процессы репарации, иммунную функцию и жизненную силу. Снижается с возрастом; высокие уровни связаны с долголетием.",
+      "is": "Nýrnahettuhormón sem styður streituþol, viðgerðarferla, ónæmisstarfsemi og lífsorku. Minnkar með aldri."
+    }
+  },
+  "S-E2": {
+    "name": {
+      "en": "Estradiol (E2)",
+      "cs": "Estradiol (E2)",
+      "ru": "Эстрадиол (E2)",
+      "is": "Estradíól (E2)"
+    },
+    "description": {
+      "en": "Primary estrogen hormone. Important in both sexes — regulates bone density, cardiovascular health, mood, and libido. In men, very high or very low levels are both problematic.",
+      "cs": "Primární estrogenový hormon. Důležitý pro obě pohlaví — reguluje kostní denzitu, kardiovaskulární zdraví, náladu a libido. U mužů jsou velmi vysoké i velmi nízké hodnoty problematické.",
+      "ru": "Основной эстрогенный гормон. Важен для обоих полов — регулирует плотность костей, сердечно-сосудистое здоровье, настроение и либидо. У мужчин проблематичны как очень высокие, так и очень низкие значения.",
+      "is": "Aðalestrógen hormón. Mikilvægt hjá báðum kynjum - stýrir beindíðni, hjarta- og æðaheilsu, skapi og kynhvöt."
+    }
+  },
+  "S-FAI": {
+    "name": {
+      "en": "Free Androgen Index",
+      "cs": "Index volných androgenů",
+      "ru": "Индекс свободных андрогенов",
+      "is": "Frjáls andrógensvísitala"
+    },
+    "description": {
+      "en": "Calculated ratio of total testosterone to SHBG, estimating bioavailable testosterone. Useful when SHBG is abnormal. High values may indicate PCOS in women or androgen excess.",
+      "cs": "Vypočtený poměr celkového testosteronu k SHBG, odhadující biologicky dostupný testosteron. Užitečný při abnormálním SHBG. Vysoké hodnoty mohou ukazovat na PCOS u žen nebo nadbytek androgenů.",
+      "ru": "Расчётное соотношение общего тестостерона к ГСПГ, оценивающее биодоступный тестостерон. Полезен при аномальном ГСПГ. Высокие значения могут указывать на СПКЯ у женщин или избыток андрогенов.",
+      "is": "Reiknað hlutfall heildartestósteróns og SHBG sem áætlar lífvirkt testósterón."
+    }
+  },
+  "S-FSH": {
+    "name": {
+      "en": "FSH (Follicle-Stimulating Hormone)",
+      "cs": "FSH (Folikulostimulační hormon)",
+      "ru": "ФСГ (Фолликулостимулирующий гормон)",
+      "is": "FSH (Eggbúsörvandi hormón)"
+    },
+    "description": {
+      "en": "Pituitary hormone regulating reproductive function. In men, stimulates sperm production. Elevated FSH with low testosterone indicates primary hypogonadism (testicular failure).",
+      "cs": "Hormon hypofýzy regulující reprodukční funkci. U mužů stimuluje tvorbu spermií. Zvýšený FSH s nízkým testosteronem ukazuje na primární hypogonadismus (selhání varlat).",
+      "ru": "Гормон гипофиза, регулирующий репродуктивную функцию. У мужчин стимулирует выработку сперматозоидов. Повышенный ФСГ при низком тестостероне указывает на первичный гипогонадизм (недостаточность яичек).",
+      "is": "Heiladingulshormón sem stýrir æxlunarvirkni. Hjá körlum örvar sæðismyndun."
+    }
+  },
+  "S-IGF1": {
+    "name": {
+      "en": "IGF-1 (Insulin-like Growth Factor 1)",
+      "cs": "IGF-1 (Inzulinu podobný růstový faktor 1)",
+      "ru": "ИФР-1 (Инсулиноподобный фактор роста 1)",
+      "is": "IGF-1 (Insúlínlíkur vaxtarþáttur 1)"
+    },
+    "description": {
+      "en": "Growth factor mediating the effects of growth hormone. Involved in muscle growth, bone density, and tissue repair. High levels may increase cancer risk; low levels indicate GH deficiency.",
+      "cs": "Růstový faktor zprostředkující účinky růstového hormonu. Podílí se na růstu svalů, kostní denzitě a opravě tkání. Vysoké hladiny mohou zvýšit riziko nádorů; nízké ukazují na deficit růstového hormonu.",
+      "ru": "Фактор роста, опосредующий действие гормона роста. Участвует в росте мышц, плотности костей и репарации тканей. Высокие уровни могут увеличить риск рака; низкие указывают на дефицит гормона роста.",
+      "is": "Vaxtarþáttur sem miðlar áhrifum vaxtarhormóns. Tekur þátt í vöðvavexti, beindíðni og vefjaviðgerðum."
+    }
+  },
+  "S-LH": {
+    "name": {
+      "en": "LH (Luteinizing Hormone)",
+      "cs": "LH (Luteinizační hormon)",
+      "ru": "ЛГ (Лютеинизирующий гормон)",
+      "is": "LH (Gulbúshormón)"
+    },
+    "description": {
+      "en": "Pituitary hormone stimulating testosterone production in men and ovulation in women. Used with FSH to evaluate fertility, hypogonadism, and pituitary function.",
+      "cs": "Hormon hypofýzy stimulující produkci testosteronu u mužů a ovulaci u žen. Používá se s FSH k hodnocení plodnosti, hypogonadismu a funkce hypofýzy.",
+      "ru": "Гормон гипофиза, стимулирующий выработку тестостерона у мужчин и овуляцию у женщин. Используется с ФСГ для оценки фертильности, гипогонадизма и функции гипофиза.",
+      "is": "Heiladingulshormón sem örvar testósterónframleiðslu hjá körlum og egglos hjá konum."
+    }
+  },
+  "S-LIST": {
+    "name": {
+      "en": "Free Testosterone Index (LIST)",
+      "cs": "Index volného testosteronu (LIST)",
+      "ru": "Индекс свободного тестостерона (LIST)",
+      "is": "Frjáls testósterónvísitala (LIST)"
+    },
+    "description": {
+      "en": "Lab-calculated index of free testosterone. Different from FAI — uses a distinct formula. A higher value indicates more bioavailable testosterone relative to binding proteins.",
+      "cs": "Laboratorně vypočtený index volného testosteronu. Odlišný od FAI — používá jiný vzorec. Vyšší hodnota ukazuje na více biologicky dostupného testosteronu.",
+      "ru": "Лабораторно рассчитанный индекс свободного тестостерона. Отличается от FAI — использует другую формулу. Более высокое значение указывает на больше биодоступного тестостерона.",
+      "is": "Reiknuð vísitala frjáls testósteróns. Hærra gildi bendir til meira lífvirks testósteróns."
+    }
+  },
+  "S-PRL": {
+    "name": {
+      "en": "Prolactin",
+      "cs": "Prolaktin",
+      "ru": "Пролактин",
+      "is": "Prólaktín"
+    },
+    "description": {
+      "en": "Pituitary hormone primarily involved in lactation. Elevated in both sexes by pituitary adenomas, medications, stress, or hypothyroidism. High levels can suppress testosterone and cause symptoms.",
+      "cs": "Hormon hypofýzy primárně zapojený do laktace. Zvýšený u obou pohlaví adenomy hypofýzy, léky, stresem nebo hypotyreózou. Vysoké hladiny mohou potlačit testosteron a způsobit příznaky.",
+      "ru": "Гормон гипофиза, в основном участвующий в лактации. Повышен у обоих полов при аденомах гипофиза, приёме лекарств, стрессе или гипотиреозе. Высокие уровни могут подавлять тестостерон и вызывать симптомы.",
+      "is": "Heiladingulshormón aðallega tengt mjólkurframleiðslu. Hækkað hjá báðum kynjum vegna heiladinglisæxla, lyfja, streitu eða vanstarfsemi skjaldkirtils."
+    }
+  },
+  "S-PROG": {
+    "name": {
+      "en": "Progesterone",
+      "cs": "Progesteron",
+      "ru": "Прогестерон",
+      "is": "Prógesterón"
+    },
+    "description": {
+      "en": "Steroid hormone primarily involved in the menstrual cycle and pregnancy. In men, produced in small amounts by the adrenal glands and testes. Elevated levels are uncommon and may indicate adrenal or testicular pathology.",
+      "cs": "Steroidní hormon zapojený především do menstruačního cyklu a těhotenství. U mužů produkován v malém množství nadledvinami a varlaty. Zvýšené hladiny jsou vzácné a mohou ukazovat na patologii nadledvin nebo varlat.",
+      "ru": "Стероидный гормон, участвующий в менструальном цикле и беременности. У мужчин вырабатывается в малых количествах надпочечниками и яичками. Повышенные уровни редки и могут указывать на патологию надпочечников или яичек.",
+      "is": "Sterahormón sem tekur aðallega þátt í tíðahring og þungun."
+    }
+  },
+  "S-PTH": {
+    "name": {
+      "en": "PTH (Parathyroid Hormone)",
+      "cs": "PTH (Parathormon)",
+      "ru": "ПТГ (Паратиреоидный гормон)",
+      "is": "PTH (Kalkkirtilshormón)"
+    },
+    "description": {
+      "en": "Hormone regulating calcium and phosphorus balance. Elevated in vitamin D deficiency (secondary hyperparathyroidism), primary hyperparathyroidism, or kidney disease. Low levels seen after thyroid surgery.",
+      "cs": "Hormon regulující rovnováhu vápníku a fosforu. Zvýšený při nedostatku vitamínu D (sekundární hyperparatyreóza), primární hyperparatyreóze nebo onemocnění ledvin. Nízké hodnoty po operaci štítné žlázy.",
+      "ru": "Гормон, регулирующий баланс кальция и фосфора. Повышен при дефиците витамина D (вторичный гиперпаратиреоз), первичном гиперпаратиреозе или заболеваниях почек. Низкие значения после операции на щитовидной железе.",
+      "is": "Hormón sem stýrir kalsíum- og fosfórjafnvægi. Hækkað við D-vítamínskort eða kalkkirtilsofvirkni."
+    }
+  },
+  "S-SHBG": {
+    "name": {
+      "en": "SHBG (Sex Hormone Binding Globulin)",
+      "cs": "SHBG (Globulin vázající pohlavní hormony)",
+      "ru": "ГСПГ (Глобулин, связывающий половые гормоны)",
+      "is": "SHBG (Kynhormónbindandi glóbúlín)"
+    },
+    "description": {
+      "en": "Protein that binds and transports sex hormones (testosterone, estradiol). High SHBG reduces free/bioavailable hormones. Affected by thyroid function, liver health, obesity, and aging.",
+      "cs": "Protein vázající a transportující pohlavní hormony (testosteron, estradiol). Vysoký SHBG snižuje volné/biodostupné hormony. Ovlivněn funkcí štítné žlázy, zdravím jater, obezitou a stárnutím.",
+      "ru": "Белок, связывающий и транспортирующий половые гормоны (тестостерон, эстрадиол). Высокий ГСПГ снижает свободные/биодоступные гормоны. Зависит от функции щитовидной железы, здоровья печени, ожирения и возраста.",
+      "is": "Prótín sem bindur og flytur kynhormón (testósterón, estradíól). Hátt SHBG dregur úr frjálsum/lífvirkum hormónum."
+    }
+  },
+  "S-TESTO": {
+    "name": {
+      "en": "Testosterone (Total)",
+      "cs": "Testosteron (celkový)",
+      "ru": "Тестостерон (общий)",
+      "is": "Testósterón (heild)"
+    },
+    "description": {
+      "en": "Primary male sex hormone, crucial for both men and women. Supports muscle strength, bone density, mood, libido, and cardiovascular health. Declines with age.",
+      "cs": "Primární mužský pohlavní hormon, důležitý pro muže i ženy. Podporuje svalovou sílu, kostní denzitu, náladu, libido a kardiovaskulární zdraví. S věkem klesá.",
+      "ru": "Основной мужской половой гормон, важный как для мужчин, так и для женщин. Поддерживает мышечную силу, плотность костей, настроение, либидо и сердечно-сосудистое здоровье. Снижается с возрастом.",
+      "is": "Aðalkynhormón karla, mikilvægt fyrir bæði kyn. Styður vöðvastyrk, beindíðni, skap, kynhvöt og hjarta- og æðaheilsu."
+    }
+  },
+  "S-TSH": {
+    "name": {
+      "en": "TSH (Thyroid-Stimulating Hormone)",
+      "cs": "TSH (Tyreotropní hormon)",
+      "ru": "ТТГ (Тиреотропный гормон)",
+      "is": "TSH (Skjaldkirtilsörvandi hormón)"
+    },
+    "description": {
+      "en": "Pituitary hormone that stimulates the thyroid. Primary screening test for thyroid disorders. High TSH = underactive thyroid (hypothyroidism); low TSH = overactive (hyperthyroidism).",
+      "cs": "Hormon hypofýzy stimulující štítnou žlázu. Základní screeningový test poruch štítné žlázy. Vysoký TSH = snížená funkce (hypotyreóza); nízký TSH = zvýšená funkce (hypertyreóza).",
+      "ru": "Гормон гипофиза, стимулирующий щитовидную железу. Основной скрининговый тест на заболевания щитовидной железы. Высокий ТТГ = гипотиреоз; низкий = гипертиреоз.",
+      "is": "Heiladingulshormón sem örvar skjaldkirtilinn. Frumskilmunarpróf fyrir skjaldkirtilsraskanir. Hátt TSH = vanvirkur skjaldkirtill; lágt TSH = ofvirkur."
+    }
+  },
+  "S-aTG": {
+    "name": {
+      "en": "Anti-Thyroglobulin Antibodies",
+      "cs": "Protilátky proti tyreoglobulinu",
+      "ru": "Антитела к тиреоглобулину",
+      "is": "Anti-týróglóbúlínmótefni"
+    },
+    "description": {
+      "en": "Antibodies against thyroglobulin protein. Elevated in Hashimoto's thyroiditis and other autoimmune thyroid diseases. Present in ~10% of healthy individuals.",
+      "cs": "Protilátky proti proteinu tyreoglobulinu. Zvýšené u Hashimotovy tyreoiditidy a dalších autoimunitních onemocnění štítné žlázy. Přítomny u ~10 % zdravých jedinců.",
+      "ru": "Антитела к белку тиреоглобулину. Повышены при тиреоидите Хашимото и других аутоиммунных заболеваниях щитовидной железы. Присутствуют у ~10% здоровых людей.",
+      "is": "Mótefni gegn týróglóbúlínpróteini. Hækkuð í Hashimoto-skjaldkirtilsbólgu og öðrum sjálfsofnæmissjúkdómum skjaldkirtils."
+    }
+  },
+  "S-aTPO": {
+    "name": {
+      "en": "Anti-TPO Antibodies",
+      "cs": "Protilátky proti TPO",
+      "ru": "Антитела к ТПО",
+      "is": "Anti-TPO mótefni"
+    },
+    "description": {
+      "en": "Antibodies against thyroid peroxidase enzyme. Most sensitive marker for autoimmune thyroid disease (Hashimoto's). Positive in ~90% of Hashimoto's patients.",
+      "cs": "Protilátky proti tyreoidální peroxidáze. Nejcitlivější marker autoimunitního onemocnění štítné žlázy (Hashimoto). Pozitivní u ~90 % pacientů s Hashimotem.",
+      "ru": "Антитела к тиреоидной пероксидазе. Наиболее чувствительный маркер аутоиммунного заболевания щитовидной железы (Хашимото). Положительны у ~90% пациентов с Хашимото.",
+      "is": "Mótefni gegn skjaldkirtilsperoxídasa ensími. Viðkvæmasta merkið um sjálfsofnæmissjúkdóm í skjaldkirtli (Hashimoto)."
+    }
+  },
+  "S-aTSH": {
+    "name": {
+      "en": "Anti-TSH Receptor Antibodies (TRAb)",
+      "cs": "Protilátky proti TSH receptorům (TRAb)",
+      "ru": "Антитела к рецепторам ТТГ (TRAb)",
+      "is": "Anti-TSH viðtakamótefni (TRAb)"
+    },
+    "description": {
+      "en": "Antibodies against the TSH receptor. Elevated in Graves' disease (autoimmune hyperthyroidism). Important for differential diagnosis of thyroid disorders.",
+      "cs": "Protilátky proti TSH receptoru. Zvýšené u Gravesovy-Basedowovy choroby (autoimunitní hypertyreóza). Důležité pro diferenciální diagnostiku poruch štítné žlázy.",
+      "ru": "Антитела к рецептору ТТГ. Повышены при болезни Грейвса (аутоиммунный гипертиреоз). Важны для дифференциальной диагностики заболеваний щитовидной железы.",
+      "is": "Mótefni gegn TSH viðtaka. Hækkuð í Basedow-sjúkdómi (sjálfsofnæmisofvirkni skjaldkirtils)."
+    }
+  },
+  "S-fT3": {
+    "name": {
+      "en": "Free T3 (Triiodothyronine)",
+      "cs": "Volný T3 (trijodtyronin)",
+      "ru": "Свободный Т3 (трийодтиронин)",
+      "is": "Frjálst T3 (Þríjoðþýrónín)"
+    },
+    "description": {
+      "en": "The most active thyroid hormone — T4 is converted to T3 in tissues. Low fT3 with normal TSH/fT4 may indicate 'sick euthyroid syndrome' or poor T4-to-T3 conversion.",
+      "cs": "Nejaktivnější hormon štítné žlázy — T4 se v tkáních přeměňuje na T3. Nízký fT3 s normálním TSH/fT4 může ukazovat na syndrom nemocného eutyreoidního stavu nebo špatnou konverzi T4 na T3.",
+      "ru": "Наиболее активный гормон щитовидной железы — Т4 превращается в Т3 в тканях. Низкий fT3 при нормальных ТТГ/fT4 может указывать на синдром эутиреоидной патологии или нарушение конверсии Т4 в Т3.",
+      "is": "Virkasta skjaldkirtilshormónið - T4 er breytt í T3 í vefjum."
+    }
+  },
+  "S-fT4": {
+    "name": {
+      "en": "Free T4 (Thyroxine)",
+      "cs": "Volný T4 (tyroxin)",
+      "ru": "Свободный Т4 (тироксин)",
+      "is": "Frjálst T4 (Týroxín)"
+    },
+    "description": {
+      "en": "Active thyroid hormone available to tissues. Low fT4 with high TSH confirms hypothyroidism. Normal fT4 with mildly elevated TSH is subclinical hypothyroidism.",
+      "cs": "Aktivní hormon štítné žlázy dostupný tkáním. Nízký fT4 s vysokým TSH potvrzuje hypotyreózu. Normální fT4 s mírně zvýšeným TSH je subklinická hypotyreóza.",
+      "ru": "Активный гормон щитовидной железы, доступный тканям. Низкий fT4 при высоком ТТГ подтверждает гипотиреоз. Нормальный fT4 при слегка повышенном ТТГ — субклинический гипотиреоз.",
+      "is": "Virkt skjaldkirtilshormón tiltækt vefjum. Lágt fT4 með háu TSH staðfestir vanstarfsemi skjaldkirtils."
+    }
+  },
+  "S-fTESTO": {
+    "name": {
+      "en": "Free Testosterone",
+      "cs": "Volný testosteron",
+      "ru": "Свободный тестостерон",
+      "is": "Frjálst testósterón"
+    },
+    "description": {
+      "en": "Bioavailable form of testosterone not bound to proteins. More clinically relevant than total testosterone as it reflects the hormone actually available to tissues.",
+      "cs": "Biologicky dostupná forma testosteronu nevázaná na bílkoviny. Klinicky relevantnější než celkový testosteron, protože odráží hormon skutečně dostupný tkáním.",
+      "ru": "Биодоступная форма тестостерона, не связанная с белками. Клинически более значим, чем общий тестостерон, так как отражает гормон, реально доступный тканям.",
+      "is": "Lífvirkt form testósteróns sem er ekki bundið próteinum. Klínískt mikilvægara en heildartestósterón."
+    }
+  },
+  "B-BAabs": {
+    "name": {
+      "en": "Basophils (Absolute)",
+      "cs": "Bazofily (absolutní počet)",
+      "ru": "Базофилы (абсолютное число)",
+      "is": "Baskyrningar (heildarfjöldi)"
+    },
+    "description": {
+      "en": "Absolute count of basophils. Rarely abnormal in isolation. Very high values may suggest a myeloproliferative disorder.",
+      "cs": "Absolutní počet bazofilů. Zřídka abnormální izolovaně. Velmi vysoké hodnoty mohou naznačovat myeloproliferativní onemocnění.",
+      "ru": "Абсолютное число базофилов. Редко аномальны изолированно. Очень высокие значения могут указывать на миелопролиферативное заболевание.",
+      "is": "Heildarfjöldi baskyrninga. Sjaldnast óeðlilegt eitt og sér. Mjög há gildi geta bent til mergfjölgunarsjúkdóms."
+    }
+  },
+  "B-EOabs": {
+    "name": {
+      "en": "Eosinophils (Absolute)",
+      "cs": "Eozinofily (absolutní počet)",
+      "ru": "Эозинофилы (абсолютное число)",
+      "is": "Súrkyrningar (heildarfjöldi)"
+    },
+    "description": {
+      "en": "Absolute count of eosinophils. Elevated in allergic conditions, parasitic infections, and eosinophilic disorders.",
+      "cs": "Absolutní počet eozinofilů. Zvýšené u alergických stavů, parazitárních infekcí a eozinofilních poruch.",
+      "ru": "Абсолютное число эозинофилов. Повышены при аллергических состояниях, паразитарных инфекциях и эозинофильных нарушениях.",
+      "is": "Heildarfjöldi súrkyrninga. Hækkað við ofnæmissjúkdóma, sníkjudýrasýkingar og súrkyrníngaraskanir."
+    }
+  },
+  "B-HB": {
+    "name": {
+      "en": "Hemoglobin",
+      "cs": "Hemoglobin",
+      "ru": "Гемоглобин",
+      "is": "Blóðrauði"
+    },
+    "description": {
+      "en": "Oxygen-carrying protein in red blood cells. Low values indicate anemia. Key marker for blood's oxygen-carrying capacity.",
+      "cs": "Bílkovina přenášející kyslík v červených krvinkách. Nízké hodnoty ukazují na anémii. Klíčový marker pro schopnost krve přenášet kyslík.",
+      "ru": "Белок, переносящий кислород в эритроцитах. Низкие значения указывают на анемию. Ключевой маркер кислородтранспортной функции крови.",
+      "is": "Súrefnisflutningsprótín í rauðum blóðkornum. Lág gildi benda til blóðleysis. Lykilmerki um súrefnisflutningsgetu blóðsins."
+    }
+  },
+  "B-HCT": {
+    "name": {
+      "en": "Hematocrit",
+      "cs": "Hematokrit",
+      "ru": "Гематокрит",
+      "is": "Blóðkornaskil"
+    },
+    "description": {
+      "en": "Percentage of blood volume occupied by red blood cells. Elevated with dehydration; low with anemia or fluid overload.",
+      "cs": "Procento objemu krve tvořené červenými krvinkami. Zvýšený při dehydrataci; nízký při anémii nebo přetížení tekutinami.",
+      "ru": "Доля объёма крови, занимаемая эритроцитами. Повышен при обезвоживании; снижен при анемии или перегрузке жидкостью.",
+      "is": "Hlutfall blóðrúmmáls sem rauð blóðkorn skipa. Hækkað við þurrð; lágt við blóðleysi eða vökvaoflestun."
+    }
+  },
+  "B-LYabs": {
+    "name": {
+      "en": "Lymphocytes (Absolute)",
+      "cs": "Lymfocyty (absolutní počet)",
+      "ru": "Лимфоциты (абсолютное число)",
+      "is": "Eitilfrumur (heildarfjöldi)"
+    },
+    "description": {
+      "en": "Absolute count of lymphocytes. Low values indicate immunodeficiency risk. Elevated in viral infections and some blood cancers.",
+      "cs": "Absolutní počet lymfocytů. Nízké hodnoty ukazují na riziko imunodeficience. Zvýšené při virových infekcích a některých nádorech krve.",
+      "ru": "Абсолютное число лимфоцитов. Низкие значения указывают на риск иммунодефицита. Повышены при вирусных инфекциях и некоторых заболеваниях крови.",
+      "is": "Heildarfjöldi eitilfrumna. Lág gildi benda til ónæmisskorts. Hækkuð við veirusýkingar og sum blóðkrabbamein."
+    }
+  },
+  "B-MCH": {
+    "name": {
+      "en": "Mean Corpuscular Hemoglobin",
+      "cs": "Střední hmotnost hemoglobinu v erytrocytu",
+      "ru": "Среднее содержание гемоглобина в эритроците",
+      "is": "Meðalblóðrauði í korni"
+    },
+    "description": {
+      "en": "Average amount of hemoglobin per red blood cell. Correlates with MCV - low in iron deficiency, high in B12/folate deficiency.",
+      "cs": "Průměrné množství hemoglobinu v jedné červené krvince. Koreluje s MCV — nízký při nedostatku železa, vysoký při nedostatku B12/kyseliny listové.",
+      "ru": "Среднее количество гемоглобина в одном эритроците. Коррелирует с MCV — низкий при дефиците железа, высокий при дефиците B12/фолиевой кислоты.",
+      "is": "Meðalmagn blóðrauða í hverju rauðu blóðkorni. Fylgir MCV - lágt við járnskort, hátt við B12/fólsýruskort."
+    }
+  },
+  "B-MCHC": {
+    "name": {
+      "en": "Mean Corpuscular Hemoglobin Concentration",
+      "cs": "Střední koncentrace hemoglobinu v erytrocytech",
+      "ru": "Средняя концентрация гемоглобина в эритроците",
+      "is": "Meðalþéttni blóðrauða í korni"
+    },
+    "description": {
+      "en": "Average hemoglobin concentration within red blood cells. Helps classify types of anemia.",
+      "cs": "Průměrná koncentrace hemoglobinu v červených krvinkách. Pomáhá klasifikovat typy anémie.",
+      "ru": "Средняя концентрация гемоглобина в эритроцитах. Помогает классифицировать типы анемии.",
+      "is": "Meðalþéttni blóðrauða í rauðum blóðkornum. Hjálpar til við að flokka tegundir blóðleysis."
+    }
+  },
+  "B-MCV": {
+    "name": {
+      "en": "Mean Corpuscular Volume",
+      "cs": "Střední objem erytrocytů",
+      "ru": "Средний объём эритроцита",
+      "is": "Meðalrúmmál rauðra blóðkorna"
+    },
+    "description": {
+      "en": "Average size of red blood cells. Low MCV suggests iron deficiency; high MCV suggests B12/folate deficiency or alcohol use.",
+      "cs": "Průměrná velikost červených krvinek. Nízký MCV naznačuje nedostatek železa; vysoký MCV naznačuje nedostatek B12/kyseliny listové nebo užívání alkoholu.",
+      "ru": "Средний размер эритроцитов. Низкий MCV указывает на дефицит железа; высокий — на дефицит B12/фолиевой кислоты или употребление алкоголя.",
+      "is": "Meðalstærð rauðra blóðkorna. Lágt MCV bendir til járnskorts; hátt MCV bendir til B12/fólsýruskorts eða áfengisnotkunar."
+    }
+  },
+  "B-MOabs": {
+    "name": {
+      "en": "Monocytes (Absolute)",
+      "cs": "Monocyty (absolutní počet)",
+      "ru": "Моноциты (абсолютное число)",
+      "is": "Einkyrningar (heildarfjöldi)"
+    },
+    "description": {
+      "en": "Absolute count of monocytes. Elevated in chronic infections, autoimmune diseases, and some blood disorders.",
+      "cs": "Absolutní počet monocytů. Zvýšené při chronických infekcích, autoimunitních onemocněních a některých poruchách krve.",
+      "ru": "Абсолютное число моноцитов. Повышены при хронических инфекциях, аутоиммунных заболеваниях и некоторых нарушениях крови.",
+      "is": "Heildarfjöldi einkyrni. Hækkað við langvinnar sýkingar, sjálfsofnæmissjúkdóma og sumar blóðraskanir."
+    }
+  },
+  "B-MPV": {
+    "name": {
+      "en": "Mean Platelet Volume",
+      "cs": "Střední objem trombocytů",
+      "ru": "Средний объём тромбоцитов",
+      "is": "Meðalrúmmál blóðflagna"
+    },
+    "description": {
+      "en": "Average size of platelets. Larger platelets are younger and more active. Elevated MPV with low platelet count suggests increased platelet destruction or consumption.",
+      "cs": "Průměrná velikost krevních destiček. Větší destičky jsou mladší a aktivnější. Zvýšený MPV s nízkým počtem destiček naznačuje zvýšenou destrukci destiček.",
+      "ru": "Средний размер тромбоцитов. Более крупные тромбоциты моложе и активнее. Повышенный MPV при низком числе тромбоцитов указывает на усиленное разрушение тромбоцитов.",
+      "is": "Meðalstærð blóðflagna. Stærri blóðflögur eru yngri og virkari."
+    }
+  },
+  "B-NEabs": {
+    "name": {
+      "en": "Neutrophils (Absolute)",
+      "cs": "Neutrofily (absolutní počet)",
+      "ru": "Нейтрофилы (абсолютное число)",
+      "is": "Daufkyrningar (heildarfjöldi)"
+    },
+    "description": {
+      "en": "Absolute count of neutrophils. Values below 2.0 are mildly low (mild neutropenia); below 1.0 significantly increases infection risk. More clinically useful than the percentage.",
+      "cs": "Absolutní počet neutrofilů. Hodnoty pod 2,0 jsou mírně nízké (mírná neutropenie); pod 1,0 výrazně zvyšují riziko infekce. Klinicky užitečnější než procento.",
+      "ru": "Абсолютное число нейтрофилов. Значения ниже 2,0 — умеренно низкие (лёгкая нейтропения); ниже 1,0 — значительно повышают риск инфекции. Клинически полезнее, чем процент.",
+      "is": "Heildarfjöldi daufkyrninga. Gildi undir 2,0 eru vægt lág; undir 1,0 eykur sýkingarhættu verulega."
+    }
+  },
+  "B-PLT": {
+    "name": {
+      "en": "Platelets",
+      "cs": "Trombocyty (krevní destičky)",
+      "ru": "Тромбоциты",
+      "is": "Blóðflögur"
+    },
+    "description": {
+      "en": "Cell fragments essential for blood clotting. Low counts (thrombocytopenia) risk bleeding; high counts (thrombocytosis) may indicate inflammation or blood disorder.",
+      "cs": "Buněčné fragmenty nezbytné pro srážení krve. Nízký počet (trombocytopenie) hrozí krvácením; vysoký počet (trombocytóza) může ukazovat na zánět nebo poruchu krve.",
+      "ru": "Клеточные фрагменты, необходимые для свёртывания крови. Низкий уровень (тромбоцитопения) грозит кровотечением; высокий (тромбоцитоз) может указывать на воспаление.",
+      "is": "Frumubrot nauðsynleg fyrir blóðstorknun. Lágur fjöldi (blóðflögufæð) hefur blæðingarhættu; hár fjöldi (blóðflöguaukninng) getur bent til bólgu eða blóðsjúkdóms."
+    }
+  },
+  "B-RBC": {
+    "name": {
+      "en": "Red Blood Cells",
+      "cs": "Červené krvinky (erytrocyty)",
+      "ru": "Эритроциты",
+      "is": "Rauð blóðkorn"
+    },
+    "description": {
+      "en": "Oxygen-carrying cells. Low count indicates anemia. High count may indicate dehydration or polycythemia.",
+      "cs": "Buňky přenášející kyslík. Nízký počet ukazuje na anémii. Vysoký počet může ukazovat na dehydrataci nebo polycytémii.",
+      "ru": "Клетки, переносящие кислород. Низкий показатель указывает на анемию. Высокий может указывать на обезвоживание или полицитемию.",
+      "is": "Súrefnisflutningsfrumur. Lágur fjöldi bendir til blóðleysis. Hár fjöldi getur bent til þurrðar eða fjölrauðkornasjúkdóms."
+    }
+  },
+  "B-RDW": {
+    "name": {
+      "en": "Red Cell Distribution Width",
+      "cs": "Distribuční šíře erytrocytů",
+      "ru": "Ширина распределения эритроцитов",
+      "is": "Stærðardreifing rauðra blóðkorna"
+    },
+    "description": {
+      "en": "Measures variation in red blood cell size. Elevated values suggest mixed causes of anemia (e.g., combined iron and B12 deficiency).",
+      "cs": "Měří variabilitu velikosti červených krvinek. Zvýšené hodnoty naznačují smíšené příčiny anémie (např. kombinovaný nedostatek železa a B12).",
+      "ru": "Измеряет вариабельность размера эритроцитов. Повышенные значения указывают на смешанные причины анемии (напр., сочетание дефицита железа и B12).",
+      "is": "Mælir breytileika í stærð rauðra blóðkorna. Hækkuð gildi benda til blandaðra orsaka blóðleysis (t.d. samsettur járn- og B12-skortur)."
+    }
+  },
+  "B-RET": {
+    "name": {
+      "en": "Reticulocytes",
+      "cs": "Retikulocyty",
+      "ru": "Ретикулоциты",
+      "is": "Frumstæð rauð blóðkorn"
+    },
+    "description": {
+      "en": "Immature red blood cells freshly released from bone marrow. Elevated count indicates active red blood cell production (response to anemia or blood loss). Low count suggests bone marrow suppression.",
+      "cs": "Nezralé červené krvinky čerstvě uvolněné z kostní dřeně. Zvýšený počet ukazuje na aktivní tvorbu červených krvinek (odpověď na anémii nebo ztrátu krve). Nízký počet naznačuje útlum kostní dřeně.",
+      "ru": "Незрелые эритроциты, только что выпущенные из костного мозга. Повышенный показатель указывает на активное образование эритроцитов (ответ на анемию или кровопотерю). Низкий — на угнетение костного мозга.",
+      "is": "Ung rauð blóðkorn nýkomin úr beinmerg. Hækkuð gildi benda til virkrar rauðkornamyndunar."
+    }
+  },
+  "B-WBC": {
+    "name": {
+      "en": "White Blood Cells",
+      "cs": "Bílé krvinky (leukocyty)",
+      "ru": "Лейкоциты",
+      "is": "Hvít blóðkorn"
+    },
+    "description": {
+      "en": "Total count of immune cells. Elevated with infection, inflammation, or stress. Low values (leukopenia) increase infection risk.",
+      "cs": "Celkový počet imunitních buněk. Zvýšené při infekci, zánětu nebo stresu. Nízké hodnoty (leukopenie) zvyšují riziko infekce.",
+      "ru": "Общее количество иммунных клеток. Повышены при инфекции, воспалении или стрессе. Низкие значения (лейкопения) увеличивают риск инфекции.",
+      "is": "Heildarfjöldi ónæmisfrumna. Hækkað við sýkingu, bólgu eða streitu. Lág gildi (hvítfrumnafæð) auka sýkingarhættu."
+    }
+  },
+  "B-baso": {
+    "name": {
+      "en": "Basophils (%)",
+      "cs": "Bazofily (%)",
+      "ru": "Базофилы (%)",
+      "is": "Baskyrningar (%)"
+    },
+    "description": {
+      "en": "Rarest white blood cell type. Involved in allergic and inflammatory reactions. Rarely clinically significant in isolation.",
+      "cs": "Nejvzácnější typ bílých krvinek. Podílejí se na alergických a zánětlivých reakcích. Zřídka klinicky významné izolovaně.",
+      "ru": "Наиболее редкий тип лейкоцитов. Участвуют в аллергических и воспалительных реакциях. Редко клинически значимы изолированно.",
+      "is": "Sjaldgæfasta tegund hvítra blóðkorna. Taka þátt í ofnæmis- og bólguviðbrögðum."
+    }
+  },
+  "B-eo": {
+    "name": {
+      "en": "Eosinophils (%)",
+      "cs": "Eozinofily (%)",
+      "ru": "Эозинофилы (%)",
+      "is": "Súrkyrningar (%)"
+    },
+    "description": {
+      "en": "Percentage of white blood cells that are eosinophils - involved in allergic reactions and parasitic infections. Elevated in allergies, asthma, and parasitic disease.",
+      "cs": "Procento bílých krvinek tvořených eozinofily — podílejí se na alergických reakcích a parazitárních infekcích. Zvýšené u alergií, astmatu a parazitárních onemocnění.",
+      "ru": "Процент лейкоцитов, представленных эозинофилами — участвуют в аллергических реакциях и паразитарных инфекциях. Повышены при аллергии, астме и паразитарных заболеваниях.",
+      "is": "Hlutfall hvítra blóðkorna sem eru súrkyrningar - taka þátt í ofnæmisviðbrögðum og sníkjudýrasýkingum."
+    }
+  },
+  "B-lymf": {
+    "name": {
+      "en": "Lymphocytes (%)",
+      "cs": "Lymfocyty (%)",
+      "ru": "Лимфоциты (%)",
+      "is": "Eitilfrumur (%)"
+    },
+    "description": {
+      "en": "Percentage of white blood cells that are lymphocytes - key to adaptive immunity (T-cells, B-cells). Elevated percentage often reflects low neutrophils (relative lymphocytosis) or viral infection.",
+      "cs": "Procento bílých krvinek tvořených lymfocyty — klíčové pro adaptivní imunitu (T-lymfocyty, B-lymfocyty). Zvýšené procento často odráží nízké neutrofily nebo virovou infekci.",
+      "ru": "Процент лейкоцитов, представленных лимфоцитами — ключевые для адаптивного иммунитета (Т-клетки, В-клетки). Повышенный процент часто отражает низкие нейтрофилы или вирусную инфекцию.",
+      "is": "Hlutfall hvítra blóðkorna sem eru eitilfrumur - lykill að aðlögunarónæmi (T-frumur, B-frumur)."
+    }
+  },
+  "B-mono": {
+    "name": {
+      "en": "Monocytes (%)",
+      "cs": "Monocyty (%)",
+      "ru": "Моноциты (%)",
+      "is": "Einkyrningar (%)"
+    },
+    "description": {
+      "en": "Percentage of white blood cells that are monocytes - involved in chronic inflammation and immune defense. Mildly elevated in infections and autoimmune conditions.",
+      "cs": "Procento bílých krvinek tvořených monocyty — podílejí se na chronickém zánětu a imunitní obraně. Mírně zvýšené při infekcích a autoimunitních stavech.",
+      "ru": "Процент лейкоцитов, представленных моноцитами — участвуют в хроническом воспалении и иммунной защите. Умеренно повышены при инфекциях и аутоиммунных состояниях.",
+      "is": "Hlutfall hvítra blóðkorna sem eru einkyrningar - taka þátt í langvinnri bólgu og ónæmisvörnum."
+    }
+  },
+  "B-neu": {
+    "name": {
+      "en": "Neutrophils (%)",
+      "cs": "Neutrofily (%)",
+      "ru": "Нейтрофилы (%)",
+      "is": "Daufkyrningar (%)"
+    },
+    "description": {
+      "en": "Percentage of white blood cells that are neutrophils - the first responders to bacterial infection. Low percentage may indicate viral infection or benign ethnic neutropenia.",
+      "cs": "Procento bílých krvinek tvořených neutrofily — první obránci proti bakteriální infekci. Nízké procento může ukazovat na virovou infekci nebo benigní etnickou neutropenii.",
+      "ru": "Процент лейкоцитов, представленных нейтрофилами — первая линия защиты от бактериальных инфекций. Низкий процент может указывать на вирусную инфекцию или доброкачественную этническую нейтропению.",
+      "is": "Hlutfall hvítra blóðkorna sem eru daufkyrningar - fyrstu viðbragðsaðilar við bakteríusýkingum."
+    }
+  },
+  "S-MorbilliG": {
+    "name": {
+      "en": "Measles IgG Antibodies",
+      "cs": "Protilátky IgG proti spalničkám",
+      "ru": "Антитела IgG к кори",
+      "is": "Mislingamótefni IgG"
+    },
+    "description": {
+      "en": "IgG antibodies against measles virus. Indicates immunity from vaccination or past infection. Sufficient level for post-vaccination is >=275 IU/l. High values confirm strong protection.",
+      "cs": "IgG protilátky proti viru spalniček. Ukazují na imunitu z očkování nebo prodělaného onemocnění. Dostatečná hladina po očkování je ≥275 IU/l.",
+      "ru": "IgG-антитела к вирусу кори. Указывают на иммунитет от вакцинации или перенесённой инфекции. Достаточный уровень после вакцинации ≥275 МЕ/л.",
+      "is": "IgG mótefni gegn mislingaveiru. Sýnir ónæmi vegna bólusetningu eða fyrri sýkingar."
+    }
+  },
+  "S-Tetanus": {
+    "name": {
+      "en": "Tetanus Antibodies",
+      "cs": "Protilátky proti tetanu",
+      "ru": "Антитела к столбняку",
+      "is": "Stífkrampamótefni"
+    },
+    "description": {
+      "en": "IgG antibodies against tetanus toxoid. Measures vaccine-induced immunity. 1.0-5.0 IU/ml indicates long-term protection; recheck in 5 years.",
+      "cs": "IgG protilátky proti tetanovému toxoidu. Měří imunitu vyvolanou očkováním. 1,0–5,0 IU/ml = dlouhodobá ochrana; kontrola za 5 let.",
+      "ru": "IgG-антитела к столбнячному анатоксину. Измеряют поствакцинальный иммунитет. 1,0–5,0 МЕ/мл = долгосрочная защита; контроль через 5 лет.",
+      "is": "IgG mótefni gegn stífkrampatoxíni. Mælir ónæmi vegna bólusetningar."
+    }
+  },
+  "B-ESR": {
+    "name": {
+      "en": "Erythrocyte Sedimentation Rate",
+      "cs": "Sedimentace erytrocytů",
+      "ru": "СОЭ (Скорость оседания эритроцитов)",
+      "is": "Sökkhraði rauðra blóðkorna"
+    },
+    "description": {
+      "en": "Non-specific marker of inflammation. Measures how fast red blood cells settle in a tube. Elevated in infection, autoimmune disease, and cancer. Slower to change than CRP.",
+      "cs": "Nespecifický marker zánětu. Měří, jak rychle se červené krvinky usazují ve zkumavce. Zvýšená při infekci, autoimunitním onemocnění a nádorech. Mění se pomaleji než CRP.",
+      "ru": "Неспецифический маркер воспаления. Измеряет скорость оседания эритроцитов в пробирке. Повышена при инфекции, аутоиммунных заболеваниях и раке. Меняется медленнее, чем СРБ.",
+      "is": "Ósértækt bólgumerki. Mælir hversu hratt rauð blóðkorn sökkva í glasi. Hækkað við sýkingu, sjálfsofnæmissjúkdóm og krabbamein."
+    }
+  },
+  "S-Anti-tTg-IgA": {
+    "name": {
+      "en": "Anti-tTG IgA (Tissue Transglutaminase)",
+      "cs": "Anti-tTG IgA (Tkáňová transglutamináza)",
+      "ru": "Анти-тТГ IgA (Тканевая трансглутаминаза)",
+      "is": "Anti-tTG IgA (Vefjatransglútamínasi)"
+    },
+    "description": {
+      "en": "Primary screening antibody for celiac disease. Elevated levels suggest immune reaction to gluten. Requires normal IgA levels for reliable results.",
+      "cs": "Primární screeningová protilátka pro celiakii. Zvýšené hodnoty naznačují imunitní reakci na lepek. Vyžaduje normální hladinu IgA pro spolehlivé výsledky.",
+      "ru": "Основное скрининговое антитело для целиакии. Повышенные значения указывают на иммунную реакцию на глютен. Требуется нормальный уровень IgA для надёжных результатов.",
+      "is": "Aðalskimunarmótefni fyrir cölíakíu. Hækkuð gildi benda til ónæmisviðbragða gegn glúten."
+    }
+  },
+  "S-CRP": {
+    "name": {
+      "en": "C-Reactive Protein",
+      "cs": "C-reaktivní protein",
+      "ru": "С-реактивный белок",
+      "is": "C-viðbragðsprótín"
+    },
+    "description": {
+      "en": "Acute-phase protein produced by the liver in response to inflammation. Rises rapidly with infection, injury, or inflammatory disease. Non-specific but very sensitive marker.",
+      "cs": "Protein akutní fáze produkovaný játry v reakci na zánět. Rychle stoupá při infekci, poranění nebo zánětlivém onemocnění. Nespecifický, ale velmi citlivý marker.",
+      "ru": "Белок острой фазы, вырабатываемый печенью в ответ на воспаление. Быстро растёт при инфекции, травме или воспалительном заболевании. Неспецифичный, но очень чувствительный маркер.",
+      "is": "Bráðaviðbragðsprótín framleitt af lifrinni sem svar við bólgu. Hækkar hratt við sýkingu, áverka eða bólgusjúkdóm. Ósértækt en mjög viðkvæmt merki."
+    }
+  },
+  "S-IgA": {
+    "name": {
+      "en": "IgA (Immunoglobulin A)",
+      "cs": "IgA (Imunoglobulin A)",
+      "ru": "IgA (Иммуноглобулин A)",
+      "is": "IgA (Ónæmisglóbúlín A)"
+    },
+    "description": {
+      "en": "Antibody protecting mucosal surfaces (gut, respiratory tract). Measured to rule out IgA deficiency before celiac disease testing, as low IgA causes false-negative celiac results.",
+      "cs": "Protilátka chránící slizniční povrchy (střevo, dýchací cesty). Měří se k vyloučení deficitu IgA před testováním celiakie.",
+      "ru": "Антитело, защищающее слизистые оболочки (кишечник, дыхательные пути). Измеряется для исключения дефицита IgA перед тестированием на целиакию.",
+      "is": "Mótefni sem verndar slímhúðaryfirborð. Mælt til að útiloka IgA skort áður en cölíakíupróf eru gerð."
+    }
+  },
+  "S-IgE": {
+    "name": {
+      "en": "IgE (Immunoglobulin E)",
+      "cs": "IgE (Imunoglobulin E)",
+      "ru": "IgE (Иммуноглобулин E)",
+      "is": "IgE (Ónæmisglóbúlín E)"
+    },
+    "description": {
+      "en": "Antibody involved in allergic reactions and parasitic defense. Elevated in allergies, asthma, eczema, and parasitic infections. Used to assess allergic status and monitor treatment.",
+      "cs": "Protilátka zapojená do alergických reakcí a obrany proti parazitům. Zvýšená u alergií, astmatu, ekzému a parazitárních infekcí. Používá se k hodnocení alergického stavu a monitorování léčby.",
+      "ru": "Антитело, участвующее в аллергических реакциях и защите от паразитов. Повышено при аллергии, астме, экземе и паразитарных инфекциях. Используется для оценки аллергического статуса и мониторинга лечения.",
+      "is": "Mótefni tengt ofnæmisviðbrögðum og sníkjudýravörnum. Hækkað við ofnæmi, astma og exemi."
+    }
+  },
+  "S-IgG": {
+    "name": {
+      "en": "IgG (Immunoglobulin G)",
+      "cs": "IgG (Imunoglobulin G)",
+      "ru": "IgG (Иммуноглобулин G)",
+      "is": "IgG (Ónæmisglóbúlín G)"
+    },
+    "description": {
+      "en": "Most abundant antibody in blood, providing long-term immunity. Elevated in chronic infections, autoimmune diseases, and liver disease. Low levels indicate immunodeficiency.",
+      "cs": "Nejhojnější protilátka v krvi zajišťující dlouhodobou imunitu. Zvýšený u chronických infekcí, autoimunitních onemocnění a onemocnění jater. Nízké hladiny ukazují na imunodeficienci.",
+      "ru": "Наиболее распространённое антитело в крови, обеспечивающее долгосрочный иммунитет. Повышен при хронических инфекциях, аутоиммунных заболеваниях и болезнях печени. Низкие уровни указывают на иммунодефицит.",
+      "is": "Algengasta mótefnið í blóði sem veitir langtímaónæmi. Hækkað við langvinnar sýkingar og sjálfsofnæmissjúkdóma."
+    }
+  },
+  "S-IgM": {
+    "name": {
+      "en": "IgM (Immunoglobulin M)",
+      "cs": "IgM (Imunoglobulin M)",
+      "ru": "IgM (Иммуноглобулин M)",
+      "is": "IgM (Ónæmisglóbúlín M)"
+    },
+    "description": {
+      "en": "First antibody produced in response to new infections. Elevated IgM indicates acute or recent infection. Also elevated in Waldenstrom's macroglobulinemia and some autoimmune conditions.",
+      "cs": "První protilátka produkovaná v reakci na novou infekci. Zvýšený IgM ukazuje na akutní nebo nedávnou infekci. Také zvýšený u Waldenströmovy makroglobulinémie a některých autoimunitních stavů.",
+      "ru": "Первое антитело, вырабатываемое в ответ на новую инфекцию. Повышенный IgM указывает на острую или недавнюю инфекцию. Также повышен при макроглобулинемии Вальденстрёма и некоторых аутоиммунных состояниях.",
+      "is": "Fyrsta mótefnið sem myndast við nýjum sýkingum. Hækkað IgM bendir til bráðrar eða nýlegrar sýkingar."
+    }
+  },
+  "S-S100B": {
+    "name": {
+      "en": "S-100B Protein",
+      "cs": "Protein S-100B",
+      "ru": "Белок S-100B",
+      "is": "S-100B prótín"
+    },
+    "description": {
+      "en": "Neuroinflammation marker. Elevated levels indicate blood-brain barrier disruption, brain injury, or neuroinflammation. Both high and low levels are linked to cognitive decline.",
+      "cs": "Marker neurozánětu. Zvýšené hladiny ukazují na narušení hematoencefalické bariéry, poškození mozku nebo neurozánět. Vysoké i nízké hodnoty jsou spojeny s kognitivním poklesem.",
+      "ru": "Маркер нейровоспаления. Повышенные уровни указывают на нарушение гематоэнцефалического барьера, повреждение мозга или нейровоспаление. Как высокие, так и низкие значения связаны с когнитивным снижением.",
+      "is": "Taugabólgumerki. Hækkuð gildi benda til truflunar á blóð-heilaþröskuldi, heilaskaða eða taugabólgu."
+    }
+  },
+  "S-TNF": {
+    "name": {
+      "en": "TNF-alpha (Tumor Necrosis Factor)",
+      "cs": "TNF-alfa (Tumor nekrotizující faktor)",
+      "ru": "ФНО-альфа (Фактор некроза опухоли)",
+      "is": "TNF-alfa (Æxlisdrepandi þáttur)"
+    },
+    "description": {
+      "en": "Key inflammatory cytokine involved in systemic inflammation and immune regulation. Elevated levels are associated with chronic inflammatory conditions, autoimmune diseases, and metabolic dysfunction.",
+      "cs": "Klíčový zánětlivý cytokin podílející se na systémovém zánětu a regulaci imunity. Zvýšené hladiny jsou spojeny s chronickými zánětlivými stavy, autoimunitními onemocněními a metabolickou dysfunkcí.",
+      "ru": "Ключевой воспалительный цитокин, участвующий в системном воспалении и регуляции иммунитета. Повышенные уровни связаны с хроническими воспалительными состояниями, аутоиммунными заболеваниями и метаболическими нарушениями.",
+      "is": "Lykil bólgubotni sem tekur þátt í kerfisbólgu og ónæmisstjórnun."
+    }
+  },
+  "S-hsCRP": {
+    "name": {
+      "en": "hs-CRP (High-Sensitivity C-Reactive Protein)",
+      "cs": "hs-CRP (Vysoce citlivý C-reaktivní protein)",
+      "ru": "вч-СРБ (Высокочувствительный С-реактивный белок)",
+      "is": "hs-CRP (Háviðkvæmt C-viðbragðsprótín)"
+    },
+    "description": {
+      "en": "Ultra-sensitive measure of systemic inflammation. Gold standard inflammatory marker — elevated levels are strongly linked to cardiovascular risk, cognitive decline, and chronic disease.",
+      "cs": "Ultracitlivé měření systémového zánětu. Zlatý standard zánětlivého markeru — zvýšené hodnoty jsou silně spojeny s kardiovaskulárním rizikem, kognitivním poklesem a chronickými onemocněními.",
+      "ru": "Сверхчувствительное измерение системного воспаления. Золотой стандарт маркера воспаления — повышенные значения тесно связаны с сердечно-сосудистым риском, когнитивным снижением и хроническими заболеваниями.",
+      "is": "Ofurviðkvæm mæling á kerfisbólgu. Gullstaðall bólgumerki - hækkuð gildi tengjast hjarta- og æðaáhættu, vitsmunalegu hnignun og langvinnum sjúkdómum."
+    }
+  },
+  "S-Fe": {
+    "name": {
+      "en": "Serum Iron",
+      "cs": "Železo v séru",
+      "ru": "Железо сыворотки",
+      "is": "Járn í sermi"
+    },
+    "description": {
+      "en": "Iron circulating in the blood bound to transferrin. Low levels indicate iron deficiency; very high levels may suggest iron overload or recent iron supplementation.",
+      "cs": "Železo cirkulující v krvi vázané na transferin. Nízké hodnoty ukazují na nedostatek železa; vysoké mohou znamenat přetížení železem nebo nedávnou suplementaci.",
+      "ru": "Железо, циркулирующее в крови, связанное с трансферрином. Низкие значения указывают на дефицит железа; очень высокие — на перегрузку или недавний приём препаратов железа.",
+      "is": "Járn í blóðrásinni bundið transferríni. Lág gildi benda til járnskorts; mjög há gildi geta bent til járnofhleðslu."
+    }
+  },
+  "S-Feritin": {
+    "name": {
+      "en": "Ferritin",
+      "cs": "Feritin",
+      "ru": "Ферритин",
+      "is": "Ferritín"
+    },
+    "description": {
+      "en": "Primary iron storage protein. The most sensitive marker for iron deficiency - low ferritin is the earliest sign. Also an acute-phase reactant (rises with inflammation).",
+      "cs": "Hlavní zásobní protein železa. Nejcitlivější marker nedostatku železa — nízký feritin je nejranějším příznakem. Také protein akutní fáze (stoupá při zánětu).",
+      "ru": "Основной белок запаса железа. Самый чувствительный маркер дефицита железа — снижение ферритина является самым ранним признаком. Также белок острой фазы (повышается при воспалении).",
+      "is": "Aðaljárngeymsluprótín. Viðkvæmasta merkið um járnskort. Einnig bráðaviðbragðsefni (hækkar við bólgu)."
+    }
+  },
+  "S-TIBC": {
+    "name": {
+      "en": "TIBC (Total Iron Binding Capacity)",
+      "cs": "TIBC (Celková vazebná kapacita)",
+      "ru": "ОЖСС (Общая железосвязывающая способность)",
+      "is": "TIBC (Heilderjárnbindingargeta)"
+    },
+    "description": {
+      "en": "Total capacity of transferrin to bind iron (UIBC + serum iron). Elevated in iron deficiency; low in iron overload, liver disease, or chronic inflammation.",
+      "cs": "Celková kapacita transferinu vázat železo (UIBC + sérové železo). Zvýšená při nedostatku železa; snížená při přetížení, onemocnění jater nebo chronickém zánětu.",
+      "ru": "Общая способность трансферрина связывать железо (НЖСС + сывороточное железо). Повышена при дефиците железа; снижена при перегрузке, заболеваниях печени или хроническом воспалении.",
+      "is": "Heildargeta transferríns til að binda járn (UIBC + sermijárn). Hækkuð við járnskort; lág við járnofhleðslu."
+    }
+  },
+  "S-TransRec": {
+    "name": {
+      "en": "Soluble Transferrin Receptors",
+      "cs": "Solubilní transferinové receptory",
+      "ru": "Растворимые рецепторы трансферрина",
+      "is": "Leysanlegir transferrínviðtakar"
+    },
+    "description": {
+      "en": "Receptor fragments shed into blood when cells need more iron. Elevated in iron deficiency anemia. Unlike ferritin, not affected by inflammation - useful when ferritin is unreliable.",
+      "cs": "Fragmenty receptorů uvolněné do krve když buňky potřebují více železa. Zvýšené při anémii z nedostatku železa. Na rozdíl od feritinu nejsou ovlivněny zánětem.",
+      "ru": "Фрагменты рецепторов, высвобождаемые в кровь при потребности клеток в железе. Повышены при железодефицитной анемии. В отличие от ферритина не зависят от воспаления.",
+      "is": "Viðtakabrot sem losna í blóð þegar frumur þurfa meiri járn. Hækkuð við járnskortsblóðleysi. Ekki háð bólgu eins og ferritín."
+    }
+  },
+  "S-TransSat": {
+    "name": {
+      "en": "Transferrin Saturation",
+      "cs": "Saturace transferinu",
+      "ru": "Насыщение трансферрина",
+      "is": "Transferrínmettun"
+    },
+    "description": {
+      "en": "Percentage of transferrin binding sites occupied by iron. Low saturation (<20%) strongly suggests iron deficiency. High saturation (>45%) may indicate iron overload.",
+      "cs": "Procento vazebných míst transferinu obsazených železem. Nízká saturace (<20 %) silně naznačuje nedostatek železa. Vysoká saturace (>45 %) může znamenat přetížení.",
+      "ru": "Процент связывающих мест трансферрина, занятых железом. Низкое насыщение (<20%) указывает на дефицит железа. Высокое (>45%) — на перегрузку железом.",
+      "is": "Hlutfall transferrínbindistöðva sem járn hefur uppfyllt. Lág mettun (<20%) bendir sterklega til járnskorts."
+    }
+  },
+  "S-Transferin": {
+    "name": {
+      "en": "Transferrin",
+      "cs": "Transferin",
+      "ru": "Трансферрин",
+      "is": "Transferrín"
+    },
+    "description": {
+      "en": "Iron transport protein in blood. Elevated when the body needs more iron (iron deficiency). Low in liver disease, malnutrition, or inflammation.",
+      "cs": "Transportní protein železa v krvi. Zvýšený když tělo potřebuje více železa. Snížený při onemocnění jater, malnutrici nebo zánětu.",
+      "ru": "Транспортный белок железа в крови. Повышается, когда организму нужно больше железа. Снижен при заболеваниях печени, недостаточном питании или воспалении.",
+      "is": "Járnflutningsprótín í blóði. Hækkað þegar líkaminn þarfnast meiri járns (járnskortur)."
+    }
+  },
+  "S-UIBC": {
+    "name": {
+      "en": "UIBC (Unsaturated Iron Binding Capacity)",
+      "cs": "UIBC (Nenasycená vazebná kapacita)",
+      "ru": "НЖСС (Ненасыщенная железосвязывающая способность)",
+      "is": "UIBC (Ómettaður járnbindingargeta)"
+    },
+    "description": {
+      "en": "Available iron-binding capacity of transferrin. Elevated in iron deficiency as the body produces more transferrin to capture scarce iron.",
+      "cs": "Dostupná vazebná kapacita transferinu pro železo. Zvýšená při nedostatku železa, protože tělo produkuje více transferinu k zachycení vzácného železa.",
+      "ru": "Доступная железосвязывающая способность трансферрина. Повышена при дефиците железа, так как организм производит больше трансферрина.",
+      "is": "Tiltæk járnbindingargeta transferríns. Hækkuð við járnskort."
+    }
+  },
+  "SL-AHI": {
+    "name": {
+      "en": "Apnea-Hypopnea Index (AHI)",
+      "cs": "Apnoe-hypopnoe index (AHI)",
+      "ru": "Индекс апноэ-гипопноэ (ИАГ)",
+      "is": "Öndunarhlévísitala (AHI)"
+    },
+    "description": {
+      "en": "Number of apneas and hypopneas per hour of sleep. Primary metric for sleep apnea severity. Normal <5, mild 5-15, moderate 15-30, severe >30.",
+      "cs": "Počet apnoí a hypopnoí za hodinu spánku. Hlavní ukazatel závažnosti spánkové apnoe. Norma <5, lehká 5–15, středně těžká 15–30, těžká >30.",
+      "ru": "Количество апноэ и гипопноэ в час сна. Главный показатель тяжести апноэ сна. Норма <5, лёгкая 5–15, средняя 15–30, тяжёлая >30.",
+      "is": "Fjöldi öndunarhléa og öndunardýpta á klukkustund í svefni. Aðalmælikvarði á alvarleika kæfisvefns."
+    }
+  },
+  "SL-CA": {
+    "name": {
+      "en": "Central Apneas",
+      "cs": "Centrální apnoe",
+      "ru": "Центральные апноэ",
+      "is": "Miðtaugar öndunarhléáföll"
+    },
+    "description": {
+      "en": "Events per hour where the brain temporarily stops sending signals to breathe. No airway obstruction, no breathing effort. Common in heart failure patients.",
+      "cs": "Příhody za hodinu, kdy mozek dočasně přestane vysílat signály k dýchání. Žádná obstrukce, žádné dýchací úsilí. Časté u pacientů se srdečním selháním.",
+      "ru": "События в час, когда мозг временно прекращает посылать сигналы к дыханию. Нет обструкции, нет дыхательных усилий. Часто при сердечной недостаточности.",
+      "is": "Atburðir á klukkustund þar sem heilinn hættir tímabundið að senda öndunarmerkingar."
+    }
+  },
+  "SL-HY": {
+    "name": {
+      "en": "Hypopneas",
+      "cs": "Hypopnoe",
+      "ru": "Гипопноэ",
+      "is": "Öndunardýpt"
+    },
+    "description": {
+      "en": "Partial airway obstruction events per hour - reduced airflow (>=30%) with oxygen desaturation or arousal. Usually the largest component of AHI.",
+      "cs": "Částečné zúžení dýchacích cest za hodinu — snížení proudu vzduchu (≥30 %) s desaturací nebo probuzením. Obvykle největší složka AHI.",
+      "ru": "Частичное сужение дыхательных путей в час — снижение воздушного потока (≥30%) с десатурацией или пробуждением. Обычно наибольшая составляющая ИАГ.",
+      "is": "Hluta-teppuatburðir á klukkustund - minnkað loftflæði (>=30%) með súrefnisfalli eða vaknun."
+    }
+  },
+  "SL-MA": {
+    "name": {
+      "en": "Mixed Apneas",
+      "cs": "Smíšené apnoe",
+      "ru": "Смешанные апноэ",
+      "is": "Blönduð öndunarhléáföll"
+    },
+    "description": {
+      "en": "Events per hour that begin as central apnea (no breathing effort) and transition to obstructive apnea. Rare in most patients.",
+      "cs": "Příhody za hodinu začínající jako centrální apnoe (bez dýchacího úsilí) a přecházející v obstrukční apnoe. U většiny pacientů vzácné.",
+      "ru": "События в час, начинающиеся как центральное апноэ (без дыхательных усилий) и переходящие в обструктивное. У большинства пациентов встречаются редко.",
+      "is": "Atburðir á klukkustund sem byrja sem miðtaugar öndunarhléáfall og breytast í teppu-öndunarhléáfall."
+    }
+  },
+  "SL-OA": {
+    "name": {
+      "en": "Obstructive Apneas",
+      "cs": "Obstrukční apnoe",
+      "ru": "Обструктивные апноэ",
+      "is": "Teppu-öndunarhléáföll"
+    },
+    "description": {
+      "en": "Obstructive apnea events per hour - complete airway blockage for >=10 seconds during sleep despite breathing effort.",
+      "cs": "Počet obstrukčních apnoí za hodinu — úplné zablokování dýchacích cest na ≥10 sekund při zachovalém dýchacím úsilí.",
+      "ru": "Количество обструктивных апноэ в час — полная блокировка дыхательных путей на ≥10 секунд при сохранённых дыхательных усилиях.",
+      "is": "Teppu-öndunarhléáföll á klukkustund - algjör lokun loftvega í >=10 sekúndur í svefni."
+    }
+  },
+  "SL-ODI": {
+    "name": {
+      "en": "Oxygen Desaturation Index (ODI)",
+      "cs": "Index desaturací (ODI)",
+      "ru": "Индекс десатурации (ODI)",
+      "is": "Súrefnisfallsvísitala (ODI)"
+    },
+    "description": {
+      "en": "Number of >=3% oxygen desaturation events per hour. Closely correlates with AHI. Normal <5; elevated values indicate significant intermittent hypoxia.",
+      "cs": "Počet poklesů saturace kyslíkem o ≥3 % za hodinu. Úzce koreluje s AHI. Norma <5; zvýšené hodnoty značí významnou intermitentní hypoxii.",
+      "ru": "Количество падений сатурации кислорода на ≥3% в час. Тесно коррелирует с ИАГ. Норма <5; повышенные значения указывают на значительную интермиттирующую гипоксию.",
+      "is": "Fjöldi >=3% súrefnisfallsatburða á klukkustund. Tengist vel AHI."
+    }
+  },
+  "SL-SFI": {
+    "name": {
+      "en": "Snoring Frequency Index (SFI)",
+      "cs": "Index chrápání (SFI)",
+      "ru": "Индекс храпа (SFI)",
+      "is": "Hroturstíðnivísitala (SFI)"
+    },
+    "description": {
+      "en": "Proportion of sleep time spent snoring. Higher values indicate more persistent snoring, a hallmark of upper airway resistance.",
+      "cs": "Podíl doby spánku strávené chrápáním. Vyšší hodnoty znamenají častější chrápání, znak zvýšeného odporu horních cest dýchacích.",
+      "ru": "Доля времени сна, проведённая с храпом. Высокие значения указывают на постоянный храп — признак повышенного сопротивления верхних дыхательных путей.",
+      "is": "Hlutfall svefntíma sem varið er í hrotum."
+    }
+  },
+  "SL-SpO2avg": {
+    "name": {
+      "en": "Average SpO2",
+      "cs": "Průměrná SpO2",
+      "ru": "Средняя SpO2",
+      "is": "Meðal SpO2"
+    },
+    "description": {
+      "en": "Mean oxygen saturation throughout the entire sleep period. Normal >=94%. Reduced values suggest chronic intermittent hypoxia from sleep-disordered breathing.",
+      "cs": "Průměrná saturace kyslíkem během celého spánku. Norma ≥94 %. Snížené hodnoty naznačují chronickou intermitentní hypoxii.",
+      "ru": "Средняя сатурация кислорода за весь период сна. Норма ≥94%. Сниженные значения указывают на хроническую интермиттирующую гипоксию.",
+      "is": "Meðalsúrefnismettun yfir allan svefntímann. Eðlilegt >=94%."
+    }
+  },
+  "SL-SpO2min": {
+    "name": {
+      "en": "Minimum SpO2",
+      "cs": "Minimální SpO2",
+      "ru": "Минимальная SpO2",
+      "is": "Lágmarks SpO2"
+    },
+    "description": {
+      "en": "Lowest oxygen saturation recorded during the night. Values below 90% are clinically significant; below 80% indicates severe desaturation.",
+      "cs": "Nejnižší naměřená saturace kyslíkem během noci. Hodnoty pod 90 % jsou klinicky významné; pod 80 % znamenají těžkou desaturaci.",
+      "ru": "Наименьшая зафиксированная сатурация кислорода за ночь. Значения ниже 90% клинически значимы; ниже 80% — тяжёлая десатурация.",
+      "is": "Lægsta súrefnismettun skráð á nóttunni. Gildi undir 90% eru klínískt mikilvæg."
+    }
+  },
+  "SL-T90": {
+    "name": {
+      "en": "Time Below 90% SpO2",
+      "cs": "Čas pod 90 % SpO2",
+      "ru": "Время ниже 90% SpO2",
+      "is": "Tími undir 90% SpO2"
+    },
+    "description": {
+      "en": "Percentage of total sleep time spent with oxygen saturation below 90%. Normal <1%. Elevated values indicate significant nocturnal hypoxemia.",
+      "cs": "Procento celkového spánku strávené se saturací pod 90 %. Norma <1 %. Zvýšené hodnoty znamenají významnou noční hypoxémii.",
+      "ru": "Процент времени сна с сатурацией ниже 90%. Норма <1%. Повышенные значения означают значительную ночную гипоксемию.",
+      "is": "Hlutfall heildarstefntíma með súrefnismettun undir 90%. Eðlilegt <1%."
+    }
+  },
+  "S-PSA": {
+    "name": {
+      "en": "PSA (Prostate-Specific Antigen)",
+      "cs": "PSA (Prostatický specifický antigen)",
+      "ru": "ПСА (Простатический специфический антиген)",
+      "is": "PSA (Blöðruhálskirtilssértækt mótefnavaki)"
+    },
+    "description": {
+      "en": "Protein produced by the prostate gland. Primary screening marker for prostate cancer in men. Also elevated in benign prostatic hyperplasia and prostatitis. Rising trend is more significant than absolute value.",
+      "cs": "Protein produkovaný prostatou. Primární screeningový marker karcinomu prostaty u mužů. Také zvýšený u benigní hyperplazie prostaty a prostatitidy. Rostoucí trend je významnější než absolutní hodnota.",
+      "ru": "Белок, вырабатываемый предстательной железой. Основной скрининговый маркер рака простаты у мужчин. Также повышен при доброкачественной гиперплазии простаты и простатите. Растущий тренд важнее абсолютного значения.",
+      "is": "Prótín framleitt af blöðruhálskirtli. Aðalskimunarmersik fyrir blöðruhálskirtilskrabbamein hjá körlum."
+    }
+  },
+  "U-BILI": {
+    "name": {
+      "en": "Urine Bilirubin",
+      "cs": "Bilirubin v moči",
+      "ru": "Билирубин в моче",
+      "is": "Þvagbílirúbín"
+    },
+    "description": {
+      "en": "Bilirubin in urine. Normally absent - presence suggests liver or bile duct disease causing conjugated bilirubin to spill into urine.",
+      "cs": "Bilirubin v moči. Normálně nepřítomen — přítomnost naznačuje onemocnění jater nebo žlučových cest.",
+      "ru": "Билирубин в моче. В норме отсутствует — наличие указывает на заболевание печени или жёлчных протоков.",
+      "is": "Bílirúbín í þvagi. Venjulega fjarverandi - nærvera bendir til lifrar- eða gallvegssjúkdóms."
+    }
+  },
+  "U-GLU": {
+    "name": {
+      "en": "Urine Glucose",
+      "cs": "Glukóza v moči",
+      "ru": "Глюкоза в моче",
+      "is": "Þvagsykur"
+    },
+    "description": {
+      "en": "Glucose in urine. Normally absent - presence suggests blood sugar exceeding the kidney's reabsorption threshold (typically >10 mmol/l), as in uncontrolled diabetes.",
+      "cs": "Glukóza v moči. Normálně nepřítomna — přítomnost naznačuje překročení renálního prahu pro reabsorpci glukózy (obvykle >10 mmol/l), jako u nekontrolovaného diabetu.",
+      "ru": "Глюкоза в моче. В норме отсутствует — наличие указывает на превышение почечного порога реабсорбции глюкозы (обычно >10 ммоль/л), как при неконтролируемом диабете.",
+      "is": "Sykur í þvagi. Venjulega fjarverandi - nærvera bendir til þess að blóðsykur fari yfir enduruppsogunarmörk nýrna."
+    }
+  },
+  "U-HUST": {
+    "name": {
+      "en": "Urine Specific Gravity",
+      "cs": "Specifická hmotnost moči",
+      "ru": "Удельный вес мочи",
+      "is": "Eðlisþyngd þvags"
+    },
+    "description": {
+      "en": "Measures urine concentration. Reflects hydration status and kidney concentrating ability. Low values suggest overhydration; high values suggest dehydration.",
+      "cs": "Měří koncentraci moči. Odráží stav hydratace a schopnost ledvin koncentrovat moč. Nízké hodnoty naznačují nadměrnou hydrataci; vysoké dehydrataci.",
+      "ru": "Измеряет концентрацию мочи. Отражает состояние гидратации и способность почек концентрировать мочу. Низкие значения — избыточная гидратация; высокие — обезвоживание.",
+      "is": "Mælir þéttni þvags. Endurspeglar vökvastöðu og styrkingareiginleika nýrna."
+    }
+  },
+  "U-KETO": {
+    "name": {
+      "en": "Urine Ketones",
+      "cs": "Ketolátky v moči",
+      "ru": "Кетоны в моче",
+      "is": "Ketónefni í þvagi"
+    },
+    "description": {
+      "en": "Ketone bodies in urine. Normally absent. Present during fasting, low-carb diets, uncontrolled diabetes (diabetic ketoacidosis), or prolonged vomiting.",
+      "cs": "Ketolátky v moči. Normálně nepřítomny. Přítomny při hladovění, nízkosacharidové dietě, nekontrolovaném diabetu (diabetická ketoacidóza) nebo déletrvajícím zvracení.",
+      "ru": "Кетоновые тела в моче. В норме отсутствуют. Появляются при голодании, низкоуглеводной диете, неконтролируемом диабете (диабетический кетоацидоз) или длительной рвоте.",
+      "is": "Ketónefni í þvagi. Venjulega fjarverandi. Finnast við föstu, lágkolvetnamataræði eða óstýrðri sykursýki."
+    }
+  },
+  "U-KREV": {
+    "name": {
+      "en": "Urine Blood",
+      "cs": "Krev v moči",
+      "ru": "Кровь в моче",
+      "is": "Blóð í þvagi"
+    },
+    "description": {
+      "en": "Blood in urine (hematuria). Normally absent. Presence may indicate kidney stones, urinary tract infection, or bladder/kidney disease.",
+      "cs": "Krev v moči (hematurie). Normálně nepřítomna. Přítomnost může ukazovat na ledvinové kameny, infekci močových cest nebo onemocnění ledvin/močového měchýře.",
+      "ru": "Кровь в моче (гематурия). В норме отсутствует. Наличие может указывать на камни в почках, инфекцию мочевыводящих путей или заболевания почек/мочевого пузыря.",
+      "is": "Blóð í þvagi (blóðþvag). Venjulega fjarverandi. Nærvera getur bent til nýrnasteina, þvagfærasýkingar eða nýrnasjúkdóms."
+    }
+  },
+  "U-LEUC": {
+    "name": {
+      "en": "Urine Leukocytes",
+      "cs": "Leukocyty v moči",
+      "ru": "Лейкоциты в моче",
+      "is": "Hvít blóðkorn í þvagi"
+    },
+    "description": {
+      "en": "White blood cells in urine. Normally absent. Presence suggests urinary tract infection or kidney inflammation.",
+      "cs": "Bílé krvinky v moči. Normálně nepřítomny. Přítomnost naznačuje infekci močových cest nebo zánět ledvin.",
+      "ru": "Лейкоциты в моче. В норме отсутствуют. Наличие указывает на инфекцию мочевыводящих путей или воспаление почек.",
+      "is": "Hvít blóðkorn í þvagi. Venjulega fjarverandi. Nærvera bendir til þvagfærasýkingar eða nýrnabólgu."
+    }
+  },
+  "U-NIT": {
+    "name": {
+      "en": "Urine Nitrites",
+      "cs": "Nitrity v moči",
+      "ru": "Нитриты в моче",
+      "is": "Nítrít í þvagi"
+    },
+    "description": {
+      "en": "Bacterial metabolite in urine. Normally absent. Positive result strongly suggests urinary tract infection with gram-negative bacteria.",
+      "cs": "Bakteriální metabolit v moči. Normálně nepřítomen. Pozitivní výsledek silně naznačuje infekci močových cest gramnegativními bakteriemi.",
+      "ru": "Бактериальный метаболит в моче. В норме отсутствует. Положительный результат убедительно указывает на инфекцию мочевыводящих путей грамотрицательными бактериями.",
+      "is": "Bakteríuefnaskiptaafurð í þvagi. Venjulega fjarverandi. Jákvætt niðurstaða bendir sterklega til þvagfærasýkingar."
+    }
+  },
+  "U-PH": {
+    "name": {
+      "en": "Urine pH",
+      "cs": "pH moči",
+      "ru": "pH мочи",
+      "is": "Þvag-pH"
+    },
+    "description": {
+      "en": "Acidity/alkalinity of urine. Normal range 4.5-8.0. Affected by diet, medications, and metabolic conditions. Acidic urine is common with high protein diets.",
+      "cs": "Kyselost/zásaditost moči. Normální rozmezí 4,5–8,0. Ovlivněno stravou, léky a metabolickými stavy. Kyselá moč je běžná při dietě bohaté na bílkoviny.",
+      "ru": "Кислотность/щёлочность мочи. Нормальный диапазон 4,5–8,0. Зависит от диеты, лекарств и метаболических состояний. Кислая моча часто встречается при высокобелковой диете.",
+      "is": "Sýrustig þvags. Eðlilegt svið 4,5-8,0. Hefur áhrif af mataræði, lyfjum og efnaskiptasjúkdómum."
+    }
+  },
+  "U-PROT": {
+    "name": {
+      "en": "Urine Protein",
+      "cs": "Bílkovina v moči",
+      "ru": "Белок в моче",
+      "is": "Þvagprótín"
+    },
+    "description": {
+      "en": "Protein in urine. Normally absent or trace. Persistent proteinuria indicates kidney damage, especially in diabetes or hypertension.",
+      "cs": "Bílkovina v moči. Normálně nepřítomna nebo stopová. Přetrvávající proteinurie ukazuje na poškození ledvin, zejména u diabetu nebo hypertenze.",
+      "ru": "Белок в моче. В норме отсутствует или следы. Постоянная протеинурия указывает на повреждение почек, особенно при диабете или гипертонии.",
+      "is": "Prótín í þvagi. Venjulega fjarverandi eða í snefilmagni. Viðvarandi prótínþvag bendir til nýrnaskemmda."
+    }
+  },
+  "U-UBG": {
+    "name": {
+      "en": "Urobilinogen",
+      "cs": "Urobilinogen",
+      "ru": "Уробилиноген",
+      "is": "Úróbílínógen"
+    },
+    "description": {
+      "en": "Breakdown product of bilirubin. Small amounts are normal. Elevated in hemolytic anemia or liver disease; absent in complete bile duct obstruction.",
+      "cs": "Rozkladný produkt bilirubinu. Malá množství jsou normální. Zvýšený u hemolytické anémie nebo onemocnění jater; nepřítomen při úplné obstrukci žlučovodu.",
+      "ru": "Продукт распада билирубина. Небольшие количества нормальны. Повышен при гемолитической анемии или заболеваниях печени; отсутствует при полной обструкции жёлчного протока.",
+      "is": "Niðurbrotsefni bílirúbíns. Lítið magn er eðlilegt. Hækkað í blóðleysigulu eða lifrarsjúkdómi."
+    }
+  },
+  "U-EPPL": {
+    "name": {
+      "en": "Epithelial Cells",
+      "cs": "Epiteliální buňky",
+      "ru": "Эпителиальные клетки",
+      "is": "Þekjufrumur"
+    },
+    "description": {
+      "en": "Cells lining the urinary tract. Small numbers are normal from natural shedding. High counts may indicate contamination or urinary tract inflammation.",
+      "cs": "Buňky vystýlající močové cesty. Malé množství je normální z přirozeného odlupování. Vysoký počet může ukazovat na kontaminaci nebo zánět močových cest.",
+      "ru": "Клетки, выстилающие мочевыводящие пути. Небольшое количество нормально. Высокий показатель может указывать на загрязнение или воспаление мочевыводящих путей.",
+      "is": "Frumur sem þekja þvagvegi. Lítill fjöldi er eðlilegur. Mikill fjöldi getur bent til mengunar eða þvagvegsbólgu."
+    }
+  },
+  "U-ERY": {
+    "name": {
+      "en": "Urine Erythrocytes (Microscopy)",
+      "cs": "Erytrocyty v moči (mikroskopie)",
+      "ru": "Эритроциты в моче (микроскопия)",
+      "is": "Rauð blóðkorn í þvagi (smásjá)"
+    },
+    "description": {
+      "en": "Red blood cells seen under microscope. More precise than dipstick blood test. Elevated counts require investigation for kidney stones, infection, or malignancy.",
+      "cs": "Červené krvinky viděné pod mikroskopem. Přesnější než test na krev testovacím proužkem. Zvýšený počet vyžaduje vyšetření na ledvinové kameny, infekci nebo malignitu.",
+      "ru": "Эритроциты, видимые под микроскопом. Точнее, чем тест-полоска на кровь. Повышенный показатель требует обследования на камни в почках, инфекцию или злокачественные новообразования.",
+      "is": "Rauð blóðkorn séð undir smásjá. Nákvæmara en þvagstikupróf. Hækkað fjöldi krefst rannsóknar."
+    }
+  },
+  "U-LEUKU": {
+    "name": {
+      "en": "Urine Leukocytes (Microscopy)",
+      "cs": "Leukocyty v moči (mikroskopie)",
+      "ru": "Лейкоциты в моче (микроскопия)",
+      "is": "Hvít blóðkorn í þvagi (smásjá)"
+    },
+    "description": {
+      "en": "White blood cells seen under microscope. Elevated counts indicate urinary tract infection or kidney inflammation.",
+      "cs": "Bílé krvinky viděné pod mikroskopem. Zvýšený počet ukazuje na infekci močových cest nebo zánět ledvin.",
+      "ru": "Лейкоциты, видимые под микроскопом. Повышенный показатель указывает на инфекцию мочевыводящих путей или воспаление почек.",
+      "is": "Hvít blóðkorn séð undir smásjá. Hækkað fjöldi bendir til þvagfærasýkingar eða nýrnabólgu."
+    }
+  },
+  "U-UBAKT": {
+    "name": {
+      "en": "Urine Bacteria",
+      "cs": "Bakterie v moči",
+      "ru": "Бактерии в моче",
+      "is": "Bakteríur í þvagi"
+    },
+    "description": {
+      "en": "Bacteria seen under microscope. Small numbers may be contamination. Significant bacteriuria with symptoms suggests urinary tract infection.",
+      "cs": "Bakterie viděné pod mikroskopem. Malé množství může být kontaminace. Významná bakteriurie se symptomy naznačuje infekci močových cest.",
+      "ru": "Бактерии, видимые под микроскопом. Небольшое количество может быть загрязнением. Значительная бактериурия с симптомами указывает на инфекцию мочевыводящих путей.",
+      "is": "Bakteríur séðar undir smásjá. Lítill fjöldi getur verið mengun. Veruleg bakteríuþvag með einkennum bendir til þvagfærasýkingar."
+    }
+  }
+}

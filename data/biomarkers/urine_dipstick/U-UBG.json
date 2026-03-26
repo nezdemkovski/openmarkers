@@ -1,0 +1,17 @@
+{
+  "id": "U-UBG",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "name": {
+    "en": "Urobilinogen",
+    "cs": "Urobilinogen",
+    "ru": "Уробилиноген",
+    "is": "Úróbílínógen"
+  },
+  "description": {
+    "en": "Breakdown product of bilirubin. Small amounts are normal. Elevated in hemolytic anemia or liver disease; absent in complete bile duct obstruction.",
+    "cs": "Rozkladný produkt bilirubinu. Malá množství jsou normální. Zvýšený u hemolytické anémie nebo onemocnění jater; nepřítomen při úplné obstrukci žlučovodu.",
+    "ru": "Продукт распада билирубина. Небольшие количества нормальны. Повышен при гемолитической анемии или заболеваниях печени; отсутствует при полной обструкции жёлчного протока.",
+    "is": "Niðurbrotsefni bílirúbíns. Lítið magn er eðlilegt. Hækkað í blóðleysigulu eða lifrarsjúkdómi."
+  }
+}

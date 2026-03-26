@@ -1,0 +1,29 @@
+{
+  "id": "S-IgA",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "g/l",
+  "conventionalUnit": "mg/dL",
+  "refRanges": {
+    "male": {
+      "min": 0.7,
+      "max": 4.0
+    },
+    "female": {
+      "min": 0.7,
+      "max": 4.0
+    }
+  },
+  "name": {
+    "en": "IgA (Immunoglobulin A)",
+    "cs": "IgA (Imunoglobulin A)",
+    "ru": "IgA (Иммуноглобулин A)",
+    "is": "IgA (Ónæmisglóbúlín A)"
+  },
+  "description": {
+    "en": "Antibody protecting mucosal surfaces (gut, respiratory tract). Measured to rule out IgA deficiency before celiac disease testing, as low IgA causes false-negative celiac results.",
+    "cs": "Protilátka chránící slizniční povrchy (střevo, dýchací cesty). Měří se k vyloučení deficitu IgA před testováním celiakie.",
+    "ru": "Антитело, защищающее слизистые оболочки (кишечник, дыхательные пути). Измеряется для исключения дефицита IgA перед тестированием на целиакию.",
+    "is": "Mótefni sem verndar slímhúðaryfirborð. Mælt til að útiloka IgA skort áður en cölíakíupróf eru gerð."
+  }
+}

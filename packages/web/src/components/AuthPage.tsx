@@ -20,12 +20,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import { track, Event } from "../lib/analytics";
@@ -46,7 +41,6 @@ interface AuthPageProps {
   onToggleTheme: () => void;
   isAuthenticated?: boolean;
 }
-
 
 function ClaudeIcon({ className }: { className?: string }) {
   return (
@@ -134,7 +128,6 @@ function CopyableCommand({
   );
 }
 
-
 function CodeBlock({ children, title }: { children: string; title?: string }) {
   return (
     <div className="rounded-xl border border-border/40 dark:border-border/20 bg-zinc-950 dark:bg-zinc-900 overflow-hidden text-sm">
@@ -172,9 +165,9 @@ function ChatMockup() {
         </div>
         <div className="rounded-lg bg-violet-50 dark:bg-violet-950/30 border border-violet-200/50 dark:border-violet-800/30 px-3 py-2 text-xs text-foreground leading-relaxed">
           Your <strong>ferritin</strong> has been declining over the last 3
-          tests (45 &rarr; 32 &rarr; 28 &mu;g/L). Still in range but
-          trending down at -5.7/month. Consider checking with your doctor
-          if this continues.
+          tests (45 &rarr; 32 &rarr; 28 &mu;g/L). Still in range but trending
+          down at -5.7/month. Consider checking with your doctor if this
+          continues.
         </div>
       </div>
     </div>
@@ -231,7 +224,6 @@ function TerminalMockup() {
   );
 }
 
-
 const HERO_BIOMARKER_IDS = ["S-CHOL", "P-P-GLU", "S-VITD"];
 
 function pickHeroBiomarkers(data: UserData): Biomarker[] {
@@ -246,7 +238,6 @@ function pickHeroBiomarkers(data: UserData): Biomarker[] {
       HERO_BIOMARKER_IDS.indexOf(a.id) - HERO_BIOMARKER_IDS.indexOf(b.id),
   );
 }
-
 
 export default function AuthPage({
   onAuthenticated,
@@ -547,7 +538,7 @@ export default function AuthPage({
               </p>
               <div className="mt-1.5">
                 <CodeBlock title="mcp.json">
-{`{
+                  {`{
   "mcpServers": {
     "openmarkers": {
       "url": "https://openmarkers.com/mcp"

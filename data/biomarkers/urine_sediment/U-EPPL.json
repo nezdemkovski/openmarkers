@@ -1,0 +1,26 @@
+{
+  "id": "U-EPPL",
+  "category": "urine_sediment",
+  "type": "quantitative",
+  "unit": "/µl",
+  "refRanges": {
+    "male": {
+      "max": 5.0
+    },
+    "female": {
+      "max": 5.0
+    }
+  },
+  "name": {
+    "en": "Epithelial Cells",
+    "cs": "Epiteliální buňky",
+    "ru": "Эпителиальные клетки",
+    "is": "Þekjufrumur"
+  },
+  "description": {
+    "en": "Cells lining the urinary tract. Small numbers are normal from natural shedding. High counts may indicate contamination or urinary tract inflammation.",
+    "cs": "Buňky vystýlající močové cesty. Malé množství je normální z přirozeného odlupování. Vysoký počet může ukazovat na kontaminaci nebo zánět močových cest.",
+    "ru": "Клетки, выстилающие мочевыводящие пути. Небольшое количество нормально. Высокий показатель может указывать на загрязнение или воспаление мочевыводящих путей.",
+    "is": "Frumur sem þekja þvagvegi. Lítill fjöldi er eðlilegur. Mikill fjöldi getur bent til mengunar eða þvagvegsbólgu."
+  }
+}

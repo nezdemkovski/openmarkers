@@ -1,0 +1,28 @@
+{
+  "id": "S-INS",
+  "category": "diabetology",
+  "type": "quantitative",
+  "unit": "µIU/mL",
+  "refRanges": {
+    "male": {
+      "min": 2.6,
+      "max": 24.9
+    },
+    "female": {
+      "min": 2.6,
+      "max": 24.9
+    }
+  },
+  "name": {
+    "en": "Fasting Insulin",
+    "cs": "Inzulín nalačno",
+    "ru": "Инсулин натощак",
+    "is": "Fastandi insúlín"
+  },
+  "description": {
+    "en": "Insulin released by the pancreas to regulate blood sugar. Fasting levels reveal insulin resistance — elevated insulin with normal glucose is an early warning sign of metabolic dysfunction.",
+    "cs": "Inzulín uvolněný slinivkou k regulaci krevního cukru. Hladiny nalačno odhalují inzulínovou rezistenci — zvýšený inzulín s normální glukózou je časný varovný signál metabolické dysfunkce.",
+    "ru": "Инсулин, выделяемый поджелудочной железой для регуляции сахара в крови. Уровни натощак выявляют инсулинорезистентность — повышенный инсулин при нормальной глюкозе является ранним признаком метаболических нарушений.",
+    "is": "Insúlín losað af briskirtlinum til að stjórna blóðsykri. Fastandi gildi sýna insúlínviðnám."
+  }
+}

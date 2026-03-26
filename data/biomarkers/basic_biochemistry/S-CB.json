@@ -1,0 +1,29 @@
+{
+  "id": "S-CB",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "g/l",
+  "conventionalUnit": "g/dL",
+  "refRanges": {
+    "male": {
+      "min": 64.0,
+      "max": 83.0
+    },
+    "female": {
+      "min": 64.0,
+      "max": 83.0
+    }
+  },
+  "name": {
+    "en": "Total Protein",
+    "cs": "Celková bílkovina",
+    "ru": "Общий белок",
+    "is": "Heildarprótín"
+  },
+  "description": {
+    "en": "Total amount of albumin and globulin proteins in blood. Reflects nutritional status, liver synthetic function, and immune system activity.",
+    "cs": "Celkové množství albuminu a globulinů v krvi. Odráží nutriční stav, syntetickou funkci jater a aktivitu imunitního systému.",
+    "ru": "Общее количество альбумина и глобулинов в крови. Отражает состояние питания, синтетическую функцию печени и активность иммунной системы.",
+    "is": "Heildarmagn albúmíns og glóbúlínpróteina í blóði. Endurspeglar næringarástand, efnasmíðastarfsemi lifrar og virkni ónæmiskerfis."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "S-CRP",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "mg/l",
+  "conventionalUnit": "mg/dL",
+  "refRanges": {
+    "male": {
+      "max": 5.0
+    },
+    "female": {
+      "max": 5.0
+    }
+  },
+  "phenoAge": {
+    "coefficient": 0.0954,
+    "unit": "mg/L→ln",
+    "label": "ln(CRP)",
+    "transform": "ln"
+  },
+  "name": {
+    "en": "C-Reactive Protein",
+    "cs": "C-reaktivní protein",
+    "ru": "С-реактивный белок",
+    "is": "C-viðbragðsprótín"
+  },
+  "description": {
+    "en": "Acute-phase protein produced by the liver in response to inflammation. Rises rapidly with infection, injury, or inflammatory disease. Non-specific but very sensitive marker.",
+    "cs": "Protein akutní fáze produkovaný játry v reakci na zánět. Rychle stoupá při infekci, poranění nebo zánětlivém onemocnění. Nespecifický, ale velmi citlivý marker.",
+    "ru": "Белок острой фазы, вырабатываемый печенью в ответ на воспаление. Быстро растёт при инфекции, травме или воспалительном заболевании. Неспецифичный, но очень чувствительный маркер.",
+    "is": "Bráðaviðbragðsprótín framleitt af lifrinni sem svar við bólgu. Hækkar hratt við sýkingu, áverka eða bólgusjúkdóm. Ósértækt en mjög viðkvæmt merki."
+  }
+}

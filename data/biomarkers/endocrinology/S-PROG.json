@@ -1,0 +1,28 @@
+{
+  "id": "S-PROG",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "nmol/l",
+  "conventionalUnit": "ng/mL",
+  "molecularWeight": 314.46,
+  "refRanges": {
+    "male": {
+      "max": 0.47
+    },
+    "female": {
+      "max": 0.19
+    }
+  },
+  "name": {
+    "en": "Progesterone",
+    "cs": "Progesteron",
+    "ru": "Прогестерон",
+    "is": "Prógesterón"
+  },
+  "description": {
+    "en": "Steroid hormone primarily involved in the menstrual cycle and pregnancy. In men, produced in small amounts by the adrenal glands and testes. Elevated levels are uncommon and may indicate adrenal or testicular pathology.",
+    "cs": "Steroidní hormon zapojený především do menstruačního cyklu a těhotenství. U mužů produkován v malém množství nadledvinami a varlaty. Zvýšené hladiny jsou vzácné a mohou ukazovat na patologii nadledvin nebo varlat.",
+    "ru": "Стероидный гормон, участвующий в менструальном цикле и беременности. У мужчин вырабатывается в малых количествах надпочечниками и яичками. Повышенные уровни редки и могут указывать на патологию надпочечников или яичек.",
+    "is": "Sterahormón sem tekur aðallega þátt í tíðahring og þungun."
+  }
+}

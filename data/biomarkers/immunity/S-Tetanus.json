@@ -1,0 +1,26 @@
+{
+  "id": "S-Tetanus",
+  "category": "immunity",
+  "type": "quantitative",
+  "unit": "IU/ml",
+  "refRanges": {
+    "male": {
+      "min": 0.1
+    },
+    "female": {
+      "min": 0.1
+    }
+  },
+  "name": {
+    "en": "Tetanus Antibodies",
+    "cs": "Protilátky proti tetanu",
+    "ru": "Антитела к столбняку",
+    "is": "Stífkrampamótefni"
+  },
+  "description": {
+    "en": "IgG antibodies against tetanus toxoid. Measures vaccine-induced immunity. 1.0-5.0 IU/ml indicates long-term protection; recheck in 5 years.",
+    "cs": "IgG protilátky proti tetanovému toxoidu. Měří imunitu vyvolanou očkováním. 1,0–5,0 IU/ml = dlouhodobá ochrana; kontrola za 5 let.",
+    "ru": "IgG-антитела к столбнячному анатоксину. Измеряют поствакцинальный иммунитет. 1,0–5,0 МЕ/мл = долгосрочная защита; контроль через 5 лет.",
+    "is": "IgG mótefni gegn stífkrampatoxíni. Mælir ónæmi vegna bólusetningar."
+  }
+}

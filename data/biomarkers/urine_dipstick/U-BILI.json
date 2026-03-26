@@ -1,0 +1,17 @@
+{
+  "id": "U-BILI",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "name": {
+    "en": "Urine Bilirubin",
+    "cs": "Bilirubin v moči",
+    "ru": "Билирубин в моче",
+    "is": "Þvagbílirúbín"
+  },
+  "description": {
+    "en": "Bilirubin in urine. Normally absent - presence suggests liver or bile duct disease causing conjugated bilirubin to spill into urine.",
+    "cs": "Bilirubin v moči. Normálně nepřítomen — přítomnost naznačuje onemocnění jater nebo žlučových cest.",
+    "ru": "Билирубин в моче. В норме отсутствует — наличие указывает на заболевание печени или жёлчных протоков.",
+    "is": "Bílirúbín í þvagi. Venjulega fjarverandi - nærvera bendir til lifrar- eða gallvegssjúkdóms."
+  }
+}

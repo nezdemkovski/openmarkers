@@ -1,0 +1,30 @@
+{
+  "id": "S-VITD",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "nmol/l",
+  "conventionalUnit": "ng/mL",
+  "molecularWeight": 400.64,
+  "refRanges": {
+    "male": {
+      "min": 75.0,
+      "max": 125.0
+    },
+    "female": {
+      "min": 75.0,
+      "max": 125.0
+    }
+  },
+  "name": {
+    "en": "Vitamin D (25-OH)",
+    "cs": "Vitamin D (25-OH)",
+    "ru": "Витамин D (25-OH)",
+    "is": "D-vítamín (25-OH)"
+  },
+  "description": {
+    "en": "Measures vitamin D stores. Essential for bone health, immune function, and mood. Deficiency is very common, especially in northern latitudes and winter months.",
+    "cs": "Měří zásoby vitaminu D. Nezbytný pro zdraví kostí, imunitní funkci a náladu. Nedostatek je velmi častý, zejména v severních zeměpisných šířkách a v zimních měsících.",
+    "ru": "Измеряет запасы витамина D. Необходим для здоровья костей, иммунной функции и настроения. Дефицит очень распространён, особенно в северных широтах и зимой.",
+    "is": "Mælir D-vítamínbirgðir. Nauðsynlegt fyrir beinheilsu, ónæmisstarfsemi og skap. Skortur er mjög algengur, sérstaklega á norðlægum breiddargráðum og á vetri."
+  }
+}

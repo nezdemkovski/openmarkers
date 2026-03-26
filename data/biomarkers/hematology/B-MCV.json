@@ -1,0 +1,33 @@
+{
+  "id": "B-MCV",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "fl",
+  "refRanges": {
+    "male": {
+      "min": 80.0,
+      "max": 100.0
+    },
+    "female": {
+      "min": 80.0,
+      "max": 100.0
+    }
+  },
+  "phenoAge": {
+    "coefficient": 0.0268,
+    "unit": "fL",
+    "label": "MCV"
+  },
+  "name": {
+    "en": "Mean Corpuscular Volume",
+    "cs": "Střední objem erytrocytů",
+    "ru": "Средний объём эритроцита",
+    "is": "Meðalrúmmál rauðra blóðkorna"
+  },
+  "description": {
+    "en": "Average size of red blood cells. Low MCV suggests iron deficiency; high MCV suggests B12/folate deficiency or alcohol use.",
+    "cs": "Průměrná velikost červených krvinek. Nízký MCV naznačuje nedostatek železa; vysoký MCV naznačuje nedostatek B12/kyseliny listové nebo užívání alkoholu.",
+    "ru": "Средний размер эритроцитов. Низкий MCV указывает на дефицит железа; высокий — на дефицит B12/фолиевой кислоты или употребление алкоголя.",
+    "is": "Meðalstærð rauðra blóðkorna. Lágt MCV bendir til járnskorts; hátt MCV bendir til B12/fólsýruskorts eða áfengisnotkunar."
+  }
+}

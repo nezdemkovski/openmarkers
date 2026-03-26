@@ -1,0 +1,30 @@
+{
+  "id": "S-Fe",
+  "category": "iron_metabolism",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "conventionalUnit": "µg/dL",
+  "molecularWeight": 55.845,
+  "refRanges": {
+    "male": {
+      "min": 10.6,
+      "max": 28.3
+    },
+    "female": {
+      "min": 6.6,
+      "max": 26.0
+    }
+  },
+  "name": {
+    "en": "Serum Iron",
+    "cs": "Železo v séru",
+    "ru": "Железо сыворотки",
+    "is": "Járn í sermi"
+  },
+  "description": {
+    "en": "Iron circulating in the blood bound to transferrin. Low levels indicate iron deficiency; very high levels may suggest iron overload or recent iron supplementation.",
+    "cs": "Železo cirkulující v krvi vázané na transferin. Nízké hodnoty ukazují na nedostatek železa; vysoké mohou znamenat přetížení železem nebo nedávnou suplementaci.",
+    "ru": "Железо, циркулирующее в крови, связанное с трансферрином. Низкие значения указывают на дефицит железа; очень высокие — на перегрузку или недавний приём препаратов железа.",
+    "is": "Járn í blóðrásinni bundið transferríni. Lág gildi benda til járnskorts; mjög há gildi geta bent til járnofhleðslu."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "S-O3I",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 8.0
+    },
+    "female": {
+      "min": 8.0
+    }
+  },
+  "name": {
+    "en": "Omega-3 Index",
+    "cs": "Omega-3 index",
+    "ru": "Омега-3 индекс",
+    "is": "Ómega-3 vísitala"
+  },
+  "description": {
+    "en": "Measures EPA and DHA as a percentage of red blood cell membranes. Higher levels (>8%) are strongly linked to reduced cardiovascular risk, lower inflammation, and better brain health.",
+    "cs": "Měří EPA a DHA jako procento membrán červených krvinek. Vyšší hodnoty (>8 %) jsou silně spojeny se sníženým kardiovaskulárním rizikem, nižším zánětem a lepším zdravím mozku.",
+    "ru": "Измеряет ЭПК и ДГК как процент мембран эритроцитов. Высокие значения (>8%) тесно связаны со сниженным сердечно-сосудистым риском, меньшим воспалением и лучшим здоровьем мозга.",
+    "is": "Mælir EPA og DHA sem hlutfall af rauðkornshimnum. Hærri gildi (>8%) tengjast minni hjarta- og æðaáhættu."
+  }
+}

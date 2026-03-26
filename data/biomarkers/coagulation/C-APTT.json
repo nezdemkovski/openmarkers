@@ -1,0 +1,18 @@
+{
+  "id": "C-APTT",
+  "category": "coagulation",
+  "type": "quantitative",
+  "unit": "sec",
+  "name": {
+    "en": "APTT (seconds)",
+    "cs": "APTT (sekundy)",
+    "ru": "АЧТВ (секунды)",
+    "is": "APTT (sekúndur)"
+  },
+  "description": {
+    "en": "Activated partial thromboplastin time - raw clotting time for the intrinsic pathway. Normal range is typically 25-35 seconds.",
+    "cs": "Aktivovaný parciální tromboplastinový čas — surový čas srážení vnitřní cestou. Normální rozmezí je obvykle 25–35 sekund.",
+    "ru": "Активированное частичное тромбопластиновое время — время свёртывания по внутреннему пути. Нормальный диапазон обычно 25–35 секунд.",
+    "is": "Virkjað hlutaþrombóplastíntími - hráur storknunartími innri storknunarleiðar. Eðlilegt svið er venjulega 25-35 sekúndur."
+  }
+}

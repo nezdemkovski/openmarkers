@@ -1,0 +1,26 @@
+{
+  "id": "S-LDLP",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "nmol/L",
+  "refRanges": {
+    "male": {
+      "max": 1000.0
+    },
+    "female": {
+      "max": 1000.0
+    }
+  },
+  "name": {
+    "en": "LDL Particle Number (LDL-P)",
+    "cs": "Počet LDL částic (LDL-P)",
+    "ru": "Число частиц ЛПНП (LDL-P)",
+    "is": "LDL agnafjöldi (LDL-P)"
+  },
+  "description": {
+    "en": "Counts the actual number of LDL particles, not just cholesterol content. A more accurate measure of LDL-driven cardiovascular risk than standard LDL-C, especially when particle size varies.",
+    "cs": "Počítá skutečný počet LDL částic, nejen obsah cholesterolu. Přesnější měřítko kardiovaskulárního rizika způsobeného LDL než standardní LDL-C, zejména při variabilní velikosti částic.",
+    "ru": "Подсчитывает фактическое число частиц ЛПНП, а не только содержание холестерина. Более точный показатель сердечно-сосудистого риска, чем стандартный ЛПНП-Х, особенно при вариабельности размера частиц.",
+    "is": "Telur raunverulegan fjölda LDL agna. Nákvæmari mælikvarði á LDL-drifna hjarta- og æðaáhættu."
+  }
+}

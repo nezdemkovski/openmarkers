@@ -1,0 +1,29 @@
+{
+  "id": "S-AMS",
+  "category": "calculated_indices",
+  "type": "quantitative",
+  "unit": "µkat/l",
+  "conventionalUnit": "U/L",
+  "refRanges": {
+    "male": {
+      "min": 0.47,
+      "max": 1.67
+    },
+    "female": {
+      "min": 0.47,
+      "max": 1.67
+    }
+  },
+  "name": {
+    "en": "Serum Amylase",
+    "cs": "Sérová amyláza",
+    "ru": "Амилаза сыворотки",
+    "is": "Amýlasi í sermi"
+  },
+  "description": {
+    "en": "Enzyme that breaks down starch, produced by the pancreas and salivary glands. Elevated in pancreatitis, salivary gland inflammation, or bowel obstruction.",
+    "cs": "Enzym rozkládající škrob, produkovaný slinivkou a slinivými žlázami. Zvýšený při pankreatitidě, zánětu slinných žláz nebo obstrukci střeva.",
+    "ru": "Фермент, расщепляющий крахмал, вырабатываемый поджелудочной и слюнными железами. Повышен при панкреатите, воспалении слюнных желёз или непроходимости кишечника.",
+    "is": "Ensím sem brýtur niður sterkju, framleitt af briskirtli og munnvatnskirtlum. Hækkað við briskirtilsbólgu."
+  }
+}

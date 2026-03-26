@@ -1,0 +1,28 @@
+{
+  "id": "S-CysC",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mg/L",
+  "refRanges": {
+    "male": {
+      "min": 0.56,
+      "max": 0.98
+    },
+    "female": {
+      "min": 0.56,
+      "max": 0.98
+    }
+  },
+  "name": {
+    "en": "Cystatin C",
+    "cs": "Cystatin C",
+    "ru": "Цистатин C",
+    "is": "Cýstatín C"
+  },
+  "description": {
+    "en": "A more sensitive biomarker of kidney function and cardiovascular risk than creatinine. Not affected by muscle mass, diet, or age — provides a cleaner estimate of true kidney filtration.",
+    "cs": "Citlivější biomarker funkce ledvin a kardiovaskulárního rizika než kreatinin. Není ovlivněn svalovou hmotou, dietou ani věkem — poskytuje čistší odhad skutečné ledvinové filtrace.",
+    "ru": "Более чувствительный биомаркер функции почек и сердечно-сосудистого риска, чем креатинин. Не зависит от мышечной массы, диеты или возраста — даёт более точную оценку истинной почечной фильтрации.",
+    "is": "Viðkvæmara lífmerki nýrnastarfsemi og hjarta- og æðaáhættu en kreatínín. Ekki háð vöðvamassa, mataræði eða aldri."
+  }
+}

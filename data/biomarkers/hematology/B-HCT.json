@@ -1,0 +1,29 @@
+{
+  "id": "B-HCT",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "l/l",
+  "conventionalUnit": "%",
+  "refRanges": {
+    "male": {
+      "min": 0.4,
+      "max": 0.54
+    },
+    "female": {
+      "min": 0.36,
+      "max": 0.46
+    }
+  },
+  "name": {
+    "en": "Hematocrit",
+    "cs": "Hematokrit",
+    "ru": "Гематокрит",
+    "is": "Blóðkornaskil"
+  },
+  "description": {
+    "en": "Percentage of blood volume occupied by red blood cells. Elevated with dehydration; low with anemia or fluid overload.",
+    "cs": "Procento objemu krve tvořené červenými krvinkami. Zvýšený při dehydrataci; nízký při anémii nebo přetížení tekutinami.",
+    "ru": "Доля объёма крови, занимаемая эритроцитами. Повышен при обезвоживании; снижен при анемии или перегрузке жидкостью.",
+    "is": "Hlutfall blóðrúmmáls sem rauð blóðkorn skipa. Hækkað við þurrð; lágt við blóðleysi eða vökvaoflestun."
+  }
+}

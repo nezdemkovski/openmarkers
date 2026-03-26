@@ -1,0 +1,29 @@
+{
+  "id": "S-AST",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µkat/l",
+  "conventionalUnit": "U/L",
+  "refRanges": {
+    "male": {
+      "min": 0.17,
+      "max": 0.67
+    },
+    "female": {
+      "min": 0.17,
+      "max": 0.52
+    }
+  },
+  "name": {
+    "en": "AST (Aspartate Aminotransferase)",
+    "cs": "AST (Aspartátaminotransferáza)",
+    "ru": "АСТ (Аспартатаминотрансфераза)",
+    "is": "AST (Aspartat amínótransferasi)"
+  },
+  "description": {
+    "en": "Enzyme found in liver, heart, and muscle. Elevated with liver damage, heart attack, or intense exercise. Less liver-specific than ALT.",
+    "cs": "Enzym nacházející se v játrech, srdci a svalech. Zvýšený při poškození jater, infarktu nebo intenzivním cvičení. Méně specifický pro játra než ALT.",
+    "ru": "Фермент, содержащийся в печени, сердце и мышцах. Повышается при поражении печени, инфаркте или интенсивных физических нагрузках. Менее специфичен для печени, чем АЛТ.",
+    "is": "Ensím sem finnst í lifur, hjarta og vöðvum. Hækkar við lifrarskaða, hjartaáfall eða mikla hreyfingu. Minna sértækt fyrir lifur en ALT."
+  }
+}

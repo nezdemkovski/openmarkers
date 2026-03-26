@@ -1,0 +1,34 @@
+{
+  "id": "S-ALB",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "g/l",
+  "conventionalUnit": "g/dL",
+  "refRanges": {
+    "male": {
+      "min": 35.0,
+      "max": 52.0
+    },
+    "female": {
+      "min": 35.0,
+      "max": 52.0
+    }
+  },
+  "phenoAge": {
+    "coefficient": -0.0336,
+    "unit": "g/L",
+    "label": "Albumin"
+  },
+  "name": {
+    "en": "Albumin",
+    "cs": "Albumin",
+    "ru": "Альбумин",
+    "is": "Albúmín"
+  },
+  "description": {
+    "en": "Most abundant blood protein, made by the liver. Maintains fluid balance and transports hormones/drugs. Low values indicate liver disease, malnutrition, or kidney loss.",
+    "cs": "Nejhojnější krevní bílkovina tvořená v játrech. Udržuje rovnováhu tekutin a transportuje hormony/léky. Nízké hodnoty ukazují na onemocnění jater, podvýživu nebo ztrátu ledvinami.",
+    "ru": "Самый распространённый белок крови, вырабатываемый печенью. Поддерживает водный баланс и транспортирует гормоны/лекарства. Низкие значения указывают на заболевание печени, недоедание или потерю почками.",
+    "is": "Algengasta blóðprótínið, framleitt af lifrinni. Viðheldur vökvajafnvægi og flytur hormón/lyf. Lág gildi benda til lifrarsjúkdóms, vannæringar eða nýrnataps."
+  }
+}

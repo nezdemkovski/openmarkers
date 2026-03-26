@@ -1,0 +1,18 @@
+{
+  "id": "SL-MA",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "/hr",
+  "name": {
+    "en": "Mixed Apneas",
+    "cs": "Smíšené apnoe",
+    "ru": "Смешанные апноэ",
+    "is": "Blönduð öndunarhléáföll"
+  },
+  "description": {
+    "en": "Events per hour that begin as central apnea (no breathing effort) and transition to obstructive apnea. Rare in most patients.",
+    "cs": "Příhody za hodinu začínající jako centrální apnoe (bez dýchacího úsilí) a přecházející v obstrukční apnoe. U většiny pacientů vzácné.",
+    "ru": "События в час, начинающиеся как центральное апноэ (без дыхательных усилий) и переходящие в обструктивное. У большинства пациентов встречаются редко.",
+    "is": "Atburðir á klukkustund sem byrja sem miðtaugar öndunarhléáfall og breytast í teppu-öndunarhléáfall."
+  }
+}

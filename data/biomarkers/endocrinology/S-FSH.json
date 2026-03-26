@@ -1,0 +1,28 @@
+{
+  "id": "S-FSH",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "IU/l",
+  "refRanges": {
+    "male": {
+      "min": 1.5,
+      "max": 12.4
+    },
+    "female": {
+      "min": 2.8,
+      "max": 11.3
+    }
+  },
+  "name": {
+    "en": "FSH (Follicle-Stimulating Hormone)",
+    "cs": "FSH (Folikulostimulační hormon)",
+    "ru": "ФСГ (Фолликулостимулирующий гормон)",
+    "is": "FSH (Eggbúsörvandi hormón)"
+  },
+  "description": {
+    "en": "Pituitary hormone regulating reproductive function. In men, stimulates sperm production. Elevated FSH with low testosterone indicates primary hypogonadism (testicular failure).",
+    "cs": "Hormon hypofýzy regulující reprodukční funkci. U mužů stimuluje tvorbu spermií. Zvýšený FSH s nízkým testosteronem ukazuje na primární hypogonadismus (selhání varlat).",
+    "ru": "Гормон гипофиза, регулирующий репродуктивную функцию. У мужчин стимулирует выработку сперматозоидов. Повышенный ФСГ при низком тестостероне указывает на первичный гипогонадизм (недостаточность яичек).",
+    "is": "Heiladingulshormón sem stýrir æxlunarvirkni. Hjá körlum örvar sæðismyndun."
+  }
+}

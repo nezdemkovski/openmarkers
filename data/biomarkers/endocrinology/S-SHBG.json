@@ -1,0 +1,28 @@
+{
+  "id": "S-SHBG",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "nmol/l",
+  "refRanges": {
+    "male": {
+      "min": 16.5,
+      "max": 55.9
+    },
+    "female": {
+      "min": 24.6,
+      "max": 122.0
+    }
+  },
+  "name": {
+    "en": "SHBG (Sex Hormone Binding Globulin)",
+    "cs": "SHBG (Globulin vázající pohlavní hormony)",
+    "ru": "ГСПГ (Глобулин, связывающий половые гормоны)",
+    "is": "SHBG (Kynhormónbindandi glóbúlín)"
+  },
+  "description": {
+    "en": "Protein that binds and transports sex hormones (testosterone, estradiol). High SHBG reduces free/bioavailable hormones. Affected by thyroid function, liver health, obesity, and aging.",
+    "cs": "Protein vázající a transportující pohlavní hormony (testosteron, estradiol). Vysoký SHBG snižuje volné/biodostupné hormony. Ovlivněn funkcí štítné žlázy, zdravím jater, obezitou a stárnutím.",
+    "ru": "Белок, связывающий и транспортирующий половые гормоны (тестостерон, эстрадиол). Высокий ГСПГ снижает свободные/биодоступные гормоны. Зависит от функции щитовидной железы, здоровья печени, ожирения и возраста.",
+    "is": "Prótín sem bindur og flytur kynhormón (testósterón, estradíól). Hátt SHBG dregur úr frjálsum/lífvirkum hormónum."
+  }
+}

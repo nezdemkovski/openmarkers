@@ -1,0 +1,26 @@
+{
+  "id": "S-aTSH",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "IU/l",
+  "refRanges": {
+    "male": {
+      "max": 1.75
+    },
+    "female": {
+      "max": 1.75
+    }
+  },
+  "name": {
+    "en": "Anti-TSH Receptor Antibodies (TRAb)",
+    "cs": "Protilátky proti TSH receptorům (TRAb)",
+    "ru": "Антитела к рецепторам ТТГ (TRAb)",
+    "is": "Anti-TSH viðtakamótefni (TRAb)"
+  },
+  "description": {
+    "en": "Antibodies against the TSH receptor. Elevated in Graves' disease (autoimmune hyperthyroidism). Important for differential diagnosis of thyroid disorders.",
+    "cs": "Protilátky proti TSH receptoru. Zvýšené u Gravesovy-Basedowovy choroby (autoimunitní hypertyreóza). Důležité pro diferenciální diagnostiku poruch štítné žlázy.",
+    "ru": "Антитела к рецептору ТТГ. Повышены при болезни Грейвса (аутоиммунный гипертиреоз). Важны для дифференциальной диагностики заболеваний щитовидной железы.",
+    "is": "Mótefni gegn TSH viðtaka. Hækkuð í Basedow-sjúkdómi (sjálfsofnæmisofvirkni skjaldkirtils)."
+  }
+}

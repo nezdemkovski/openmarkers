@@ -1,0 +1,26 @@
+{
+  "id": "U-UBAKT",
+  "category": "urine_sediment",
+  "type": "quantitative",
+  "unit": "/µl",
+  "refRanges": {
+    "male": {
+      "max": 40.0
+    },
+    "female": {
+      "max": 40.0
+    }
+  },
+  "name": {
+    "en": "Urine Bacteria",
+    "cs": "Bakterie v moči",
+    "ru": "Бактерии в моче",
+    "is": "Bakteríur í þvagi"
+  },
+  "description": {
+    "en": "Bacteria seen under microscope. Small numbers may be contamination. Significant bacteriuria with symptoms suggests urinary tract infection.",
+    "cs": "Bakterie viděné pod mikroskopem. Malé množství může být kontaminace. Významná bakteriurie se symptomy naznačuje infekci močových cest.",
+    "ru": "Бактерии, видимые под микроскопом. Небольшое количество может быть загрязнением. Значительная бактериурия с симптомами указывает на инфекцию мочевыводящих путей.",
+    "is": "Bakteríur séðar undir smásjá. Lítill fjöldi getur verið mengun. Veruleg bakteríuþvag með einkennum bendir til þvagfærasýkingar."
+  }
+}

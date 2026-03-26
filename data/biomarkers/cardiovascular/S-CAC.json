@@ -1,0 +1,25 @@
+{
+  "id": "S-CAC",
+  "category": "cardiovascular",
+  "type": "quantitative",
+  "refRanges": {
+    "male": {
+      "max": 0.0
+    },
+    "female": {
+      "max": 0.0
+    }
+  },
+  "name": {
+    "en": "CAC Score (Coronary Artery Calcium)",
+    "cs": "CAC skóre (Kalcium koronárních tepen)",
+    "ru": "Индекс CAC (Кальций коронарных артерий)",
+    "is": "CAC stig (Kransæðakalk)"
+  },
+  "description": {
+    "en": "CT scan measurement of calcium buildup in coronary arteries. Score of 0 is perfect — indicates no detectable plaque. Higher scores quantify atherosclerotic burden and cardiovascular risk.",
+    "cs": "CT měření hromadění vápníku v koronárních tepnách. Skóre 0 je ideální — žádný detekovatelný plát. Vyšší skóre kvantifikuje aterosklerotickou zátěž a kardiovaskulární riziko.",
+    "ru": "КТ-измерение накопления кальция в коронарных артериях. Оценка 0 — идеальна, отсутствие обнаруживаемых бляшек. Более высокие значения количественно оценивают атеросклеротическую нагрузку и сердечно-сосудистый риск.",
+    "is": "Sneiðmyndamæling á kalksöfnun í kransæðum. Stig 0 er fullkomið. Hærri stig mæla æðakölkunarbyrði."
+  }
+}

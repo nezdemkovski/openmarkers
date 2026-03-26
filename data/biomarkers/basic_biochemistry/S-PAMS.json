@@ -1,0 +1,29 @@
+{
+  "id": "S-PAMS",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µkat/l",
+  "conventionalUnit": "U/L",
+  "refRanges": {
+    "male": {
+      "min": 0.22,
+      "max": 0.88
+    },
+    "female": {
+      "min": 0.22,
+      "max": 0.88
+    }
+  },
+  "name": {
+    "en": "Pancreatic Amylase",
+    "cs": "Pankreatická amyláza",
+    "ru": "Панкреатическая амилаза",
+    "is": "Briskirtilsamýlasi"
+  },
+  "description": {
+    "en": "Enzyme produced by the pancreas to digest starch. Elevated levels may indicate pancreatitis or pancreatic disease.",
+    "cs": "Enzym produkovaný slinivkou k trávení škrobu. Zvýšené hladiny mohou ukazovat na pankreatitidu nebo onemocnění slinivky.",
+    "ru": "Фермент, вырабатываемый поджелудочной железой для переваривания крахмала. Повышенные уровни могут указывать на панкреатит или заболевание поджелудочной железы.",
+    "is": "Ensím framleitt af briskirtlinum til að brjóta niður sterkju. Hækkuð gildi geta bent til briskirtilsbólgu eða briskirtilssjúkdóms."
+  }
+}

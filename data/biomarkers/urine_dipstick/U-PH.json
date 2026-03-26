@@ -1,0 +1,27 @@
+{
+  "id": "U-PH",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "refRanges": {
+    "male": {
+      "min": 5.0,
+      "max": 8.0
+    },
+    "female": {
+      "min": 5.0,
+      "max": 8.0
+    }
+  },
+  "name": {
+    "en": "Urine pH",
+    "cs": "pH moči",
+    "ru": "pH мочи",
+    "is": "Þvag-pH"
+  },
+  "description": {
+    "en": "Acidity/alkalinity of urine. Normal range 4.5-8.0. Affected by diet, medications, and metabolic conditions. Acidic urine is common with high protein diets.",
+    "cs": "Kyselost/zásaditost moči. Normální rozmezí 4,5–8,0. Ovlivněno stravou, léky a metabolickými stavy. Kyselá moč je běžná při dietě bohaté na bílkoviny.",
+    "ru": "Кислотность/щёлочность мочи. Нормальный диапазон 4,5–8,0. Зависит от диеты, лекарств и метаболических состояний. Кислая моча часто встречается при высокобелковой диете.",
+    "is": "Sýrustig þvags. Eðlilegt svið 4,5-8,0. Hefur áhrif af mataræði, lyfjum og efnaskiptasjúkdómum."
+  }
+}

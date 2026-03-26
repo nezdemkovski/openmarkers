@@ -1,0 +1,28 @@
+{
+  "id": "B-MPV",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "fl",
+  "refRanges": {
+    "male": {
+      "min": 7.5,
+      "max": 12.0
+    },
+    "female": {
+      "min": 7.5,
+      "max": 12.0
+    }
+  },
+  "name": {
+    "en": "Mean Platelet Volume",
+    "cs": "Střední objem trombocytů",
+    "ru": "Средний объём тромбоцитов",
+    "is": "Meðalrúmmál blóðflagna"
+  },
+  "description": {
+    "en": "Average size of platelets. Larger platelets are younger and more active. Elevated MPV with low platelet count suggests increased platelet destruction or consumption.",
+    "cs": "Průměrná velikost krevních destiček. Větší destičky jsou mladší a aktivnější. Zvýšený MPV s nízkým počtem destiček naznačuje zvýšenou destrukci destiček.",
+    "ru": "Средний размер тромбоцитов. Более крупные тромбоциты моложе и активнее. Повышенный MPV при низком числе тромбоцитов указывает на усиленное разрушение тромбоцитов.",
+    "is": "Meðalstærð blóðflagna. Stærri blóðflögur eru yngri og virkari."
+  }
+}

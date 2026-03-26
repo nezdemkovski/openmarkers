@@ -1,0 +1,30 @@
+{
+  "id": "S-fT3",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "pmol/l",
+  "conventionalUnit": "pg/mL",
+  "molecularWeight": 650.97,
+  "refRanges": {
+    "male": {
+      "min": 3.1,
+      "max": 6.8
+    },
+    "female": {
+      "min": 3.1,
+      "max": 6.8
+    }
+  },
+  "name": {
+    "en": "Free T3 (Triiodothyronine)",
+    "cs": "Volný T3 (trijodtyronin)",
+    "ru": "Свободный Т3 (трийодтиронин)",
+    "is": "Frjálst T3 (Þríjoðþýrónín)"
+  },
+  "description": {
+    "en": "The most active thyroid hormone — T4 is converted to T3 in tissues. Low fT3 with normal TSH/fT4 may indicate 'sick euthyroid syndrome' or poor T4-to-T3 conversion.",
+    "cs": "Nejaktivnější hormon štítné žlázy — T4 se v tkáních přeměňuje na T3. Nízký fT3 s normálním TSH/fT4 může ukazovat na syndrom nemocného eutyreoidního stavu nebo špatnou konverzi T4 na T3.",
+    "ru": "Наиболее активный гормон щитовидной железы — Т4 превращается в Т3 в тканях. Низкий fT3 при нормальных ТТГ/fT4 может указывать на синдром эутиреоидной патологии или нарушение конверсии Т4 в Т3.",
+    "is": "Virkasta skjaldkirtilshormónið - T4 er breytt í T3 í vefjum."
+  }
+}

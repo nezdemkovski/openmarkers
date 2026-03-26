@@ -1,0 +1,26 @@
+{
+  "id": "S-MorbilliG",
+  "category": "immunity",
+  "type": "quantitative",
+  "unit": "IU/l",
+  "refRanges": {
+    "male": {
+      "min": 275.0
+    },
+    "female": {
+      "min": 275.0
+    }
+  },
+  "name": {
+    "en": "Measles IgG Antibodies",
+    "cs": "Protilátky IgG proti spalničkám",
+    "ru": "Антитела IgG к кори",
+    "is": "Mislingamótefni IgG"
+  },
+  "description": {
+    "en": "IgG antibodies against measles virus. Indicates immunity from vaccination or past infection. Sufficient level for post-vaccination is >=275 IU/l. High values confirm strong protection.",
+    "cs": "IgG protilátky proti viru spalniček. Ukazují na imunitu z očkování nebo prodělaného onemocnění. Dostatečná hladina po očkování je ≥275 IU/l.",
+    "ru": "IgG-антитела к вирусу кори. Указывают на иммунитет от вакцинации или перенесённой инфекции. Достаточный уровень после вакцинации ≥275 МЕ/л.",
+    "is": "IgG mótefni gegn mislingaveiru. Sýnir ónæmi vegna bólusetningu eða fyrri sýkingar."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "S-aTG",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "IU/ml",
+  "refRanges": {
+    "male": {
+      "max": 115.0
+    },
+    "female": {
+      "max": 115.0
+    }
+  },
+  "name": {
+    "en": "Anti-Thyroglobulin Antibodies",
+    "cs": "Protilátky proti tyreoglobulinu",
+    "ru": "Антитела к тиреоглобулину",
+    "is": "Anti-týróglóbúlínmótefni"
+  },
+  "description": {
+    "en": "Antibodies against thyroglobulin protein. Elevated in Hashimoto's thyroiditis and other autoimmune thyroid diseases. Present in ~10% of healthy individuals.",
+    "cs": "Protilátky proti proteinu tyreoglobulinu. Zvýšené u Hashimotovy tyreoiditidy a dalších autoimunitních onemocnění štítné žlázy. Přítomny u ~10 % zdravých jedinců.",
+    "ru": "Антитела к белку тиреоглобулину. Повышены при тиреоидите Хашимото и других аутоиммунных заболеваниях щитовидной железы. Присутствуют у ~10% здоровых людей.",
+    "is": "Mótefni gegn týróglóbúlínpróteini. Hækkuð í Hashimoto-skjaldkirtilsbólgu og öðrum sjálfsofnæmissjúkdómum skjaldkirtils."
+  }
+}

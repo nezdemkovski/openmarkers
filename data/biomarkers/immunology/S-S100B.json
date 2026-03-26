@@ -1,0 +1,26 @@
+{
+  "id": "S-S100B",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "ng/L",
+  "refRanges": {
+    "male": {
+      "max": 100.0
+    },
+    "female": {
+      "max": 100.0
+    }
+  },
+  "name": {
+    "en": "S-100B Protein",
+    "cs": "Protein S-100B",
+    "ru": "Белок S-100B",
+    "is": "S-100B prótín"
+  },
+  "description": {
+    "en": "Neuroinflammation marker. Elevated levels indicate blood-brain barrier disruption, brain injury, or neuroinflammation. Both high and low levels are linked to cognitive decline.",
+    "cs": "Marker neurozánětu. Zvýšené hladiny ukazují na narušení hematoencefalické bariéry, poškození mozku nebo neurozánět. Vysoké i nízké hodnoty jsou spojeny s kognitivním poklesem.",
+    "ru": "Маркер нейровоспаления. Повышенные уровни указывают на нарушение гематоэнцефалического барьера, повреждение мозга или нейровоспаление. Как высокие, так и низкие значения связаны с когнитивным снижением.",
+    "is": "Taugabólgumerki. Hækkuð gildi benda til truflunar á blóð-heilaþröskuldi, heilaskaða eða taugabólgu."
+  }
+}

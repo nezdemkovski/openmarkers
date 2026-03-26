@@ -1,0 +1,30 @@
+{
+  "id": "S-K",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mEq/L",
+  "molecularWeight": 39.098,
+  "refRanges": {
+    "male": {
+      "min": 3.5,
+      "max": 5.1
+    },
+    "female": {
+      "min": 3.5,
+      "max": 5.1
+    }
+  },
+  "name": {
+    "en": "Potassium",
+    "cs": "Draslík",
+    "ru": "Калий",
+    "is": "Kalíum"
+  },
+  "description": {
+    "en": "Essential electrolyte for heart rhythm, muscle contraction, and nerve signaling. Both low and high levels can cause dangerous cardiac arrhythmias.",
+    "cs": "Důležitý elektrolyt pro srdeční rytmus, svalovou kontrakci a nervovou signalizaci. Nízké i vysoké hodnoty mohou způsobit nebezpečné srdeční arytmie.",
+    "ru": "Важный электролит для сердечного ритма, мышечного сокращения и нервной сигнализации. Как низкие, так и высокие значения могут вызвать опасные аритмии.",
+    "is": "Nauðsynleg saltsteind fyrir hjartsláttartakt, vöðvasamdrátt og taugaboð. Bæði lág og há gildi geta valdið hættulegum hjartsláttatruflunum."
+  }
+}

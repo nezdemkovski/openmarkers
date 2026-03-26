@@ -1,0 +1,34 @@
+{
+  "id": "S-ALP",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µkat/l",
+  "conventionalUnit": "U/L",
+  "refRanges": {
+    "male": {
+      "min": 0.75,
+      "max": 2.17
+    },
+    "female": {
+      "min": 0.75,
+      "max": 1.92
+    }
+  },
+  "phenoAge": {
+    "coefficient": 0.00188,
+    "unit": "µkat/L",
+    "label": "ALP"
+  },
+  "name": {
+    "en": "ALP (Alkaline Phosphatase)",
+    "cs": "ALP (Alkalická fosfatáza)",
+    "ru": "ЩФ (Щелочная фосфатаза)",
+    "is": "ALP (Alkalískt fosfatasi)"
+  },
+  "description": {
+    "en": "Enzyme found in liver, bone, and bile ducts. Elevated in bone growth, bile duct obstruction, or liver disease. Normally higher in growing adolescents.",
+    "cs": "Enzym nacházející se v játrech, kostech a žlučových cestách. Zvýšený při růstu kostí, obstrukci žlučových cest nebo onemocnění jater. Normálně vyšší u rostoucích dospívajících.",
+    "ru": "Фермент, содержащийся в печени, костях и жёлчных протоках. Повышается при росте костей, обструкции жёлчных протоков или заболеваниях печени.",
+    "is": "Ensím sem finnst í lifur, beinum og gallvegum. Hækkað við beinvöxt, gallvegsstíflu eða lifrarsjúkdóm. Venjulega hærra hjá vaxandi unglingum."
+  }
+}

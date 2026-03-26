@@ -1,0 +1,28 @@
+{
+  "id": "B-EOabs",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "×10⁹/l",
+  "refRanges": {
+    "male": {
+      "min": 0.0,
+      "max": 0.5
+    },
+    "female": {
+      "min": 0.0,
+      "max": 0.5
+    }
+  },
+  "name": {
+    "en": "Eosinophils (Absolute)",
+    "cs": "Eozinofily (absolutní počet)",
+    "ru": "Эозинофилы (абсолютное число)",
+    "is": "Súrkyrningar (heildarfjöldi)"
+  },
+  "description": {
+    "en": "Absolute count of eosinophils. Elevated in allergic conditions, parasitic infections, and eosinophilic disorders.",
+    "cs": "Absolutní počet eozinofilů. Zvýšené u alergických stavů, parazitárních infekcí a eozinofilních poruch.",
+    "ru": "Абсолютное число эозинофилов. Повышены при аллергических состояниях, паразитарных инфекциях и эозинофильных нарушениях.",
+    "is": "Heildarfjöldi súrkyrninga. Hækkað við ofnæmissjúkdóma, sníkjudýrasýkingar og súrkyrníngaraskanir."
+  }
+}

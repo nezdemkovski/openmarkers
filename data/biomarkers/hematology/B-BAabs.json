@@ -1,0 +1,28 @@
+{
+  "id": "B-BAabs",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "×10⁹/l",
+  "refRanges": {
+    "male": {
+      "min": 0.0,
+      "max": 0.1
+    },
+    "female": {
+      "min": 0.0,
+      "max": 0.1
+    }
+  },
+  "name": {
+    "en": "Basophils (Absolute)",
+    "cs": "Bazofily (absolutní počet)",
+    "ru": "Базофилы (абсолютное число)",
+    "is": "Baskyrningar (heildarfjöldi)"
+  },
+  "description": {
+    "en": "Absolute count of basophils. Rarely abnormal in isolation. Very high values may suggest a myeloproliferative disorder.",
+    "cs": "Absolutní počet bazofilů. Zřídka abnormální izolovaně. Velmi vysoké hodnoty mohou naznačovat myeloproliferativní onemocnění.",
+    "ru": "Абсолютное число базофилов. Редко аномальны изолированно. Очень высокие значения могут указывать на миелопролиферативное заболевание.",
+    "is": "Heildarfjöldi baskyrninga. Sjaldnast óeðlilegt eitt og sér. Mjög há gildi geta bent til mergfjölgunarsjúkdóms."
+  }
+}

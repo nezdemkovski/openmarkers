@@ -1,0 +1,26 @@
+{
+  "id": "S-CKDEPI",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "ml/s/1.73m²",
+  "refRanges": {
+    "male": {
+      "min": 1.5
+    },
+    "female": {
+      "min": 1.5
+    }
+  },
+  "name": {
+    "en": "eGFR (CKD-EPI)",
+    "cs": "eGFR (CKD-EPI)",
+    "ru": "рСКФ (CKD-EPI)",
+    "is": "eGFR (CKD-EPI)"
+  },
+  "description": {
+    "en": "Estimated glomerular filtration rate calculated from creatinine using the CKD-EPI formula. Measures how well the kidneys filter blood. Values >1.5 ml/s are normal; <1.0 may indicate significant kidney impairment.",
+    "cs": "Odhadovaná glomerulární filtrace vypočtená z kreatininu vzorcem CKD-EPI. Měří, jak dobře ledviny filtrují krev. Hodnoty >1,5 ml/s jsou normální; <1,0 může znamenat závažné poškození ledvin.",
+    "ru": "Расчётная скорость клубочковой фильтрации по формуле CKD-EPI из креатинина. Измеряет, насколько хорошо почки фильтруют кровь. Значения >1,5 мл/с нормальны; <1,0 может указывать на значительное поражение почек.",
+    "is": "Áætluð nýrnahreinsihlutfall reiknað úr kreatíníni með CKD-EPI formúlu. Mælir hversu vel nýrun sía blóðið. Gildi >1,5 ml/s eru eðlileg; <1,0 getur bent til verulegrar nýrnaskerðingar."
+  }
+}

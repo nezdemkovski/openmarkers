@@ -1,0 +1,29 @@
+{
+  "id": "S-IgG",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "g/l",
+  "conventionalUnit": "mg/dL",
+  "refRanges": {
+    "male": {
+      "min": 7.0,
+      "max": 16.0
+    },
+    "female": {
+      "min": 7.0,
+      "max": 16.0
+    }
+  },
+  "name": {
+    "en": "IgG (Immunoglobulin G)",
+    "cs": "IgG (Imunoglobulin G)",
+    "ru": "IgG (Иммуноглобулин G)",
+    "is": "IgG (Ónæmisglóbúlín G)"
+  },
+  "description": {
+    "en": "Most abundant antibody in blood, providing long-term immunity. Elevated in chronic infections, autoimmune diseases, and liver disease. Low levels indicate immunodeficiency.",
+    "cs": "Nejhojnější protilátka v krvi zajišťující dlouhodobou imunitu. Zvýšený u chronických infekcí, autoimunitních onemocnění a onemocnění jater. Nízké hladiny ukazují na imunodeficienci.",
+    "ru": "Наиболее распространённое антитело в крови, обеспечивающее долгосрочный иммунитет. Повышен при хронических инфекциях, аутоиммунных заболеваниях и болезнях печени. Низкие уровни указывают на иммунодефицит.",
+    "is": "Algengasta mótefnið í blóði sem veitir langtímaónæmi. Hækkað við langvinnar sýkingar og sjálfsofnæmissjúkdóma."
+  }
+}

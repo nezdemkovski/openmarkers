@@ -1,0 +1,30 @@
+{
+  "id": "S-Ca",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 40.078,
+  "refRanges": {
+    "male": {
+      "min": 2.15,
+      "max": 2.55
+    },
+    "female": {
+      "min": 2.15,
+      "max": 2.55
+    }
+  },
+  "name": {
+    "en": "Calcium",
+    "cs": "Vápník",
+    "ru": "Кальций",
+    "is": "Kalsíum"
+  },
+  "description": {
+    "en": "Essential mineral for bones, muscle contraction, nerve signaling, and blood clotting. Both high (hyperparathyroidism, cancer) and low (vitamin D deficiency) values are clinically significant.",
+    "cs": "Nezbytný minerál pro kosti, svalovou kontrakci, nervovou signalizaci a srážení krve. Vysoké (hyperparatyreóza, nádory) i nízké (nedostatek vitaminu D) hodnoty jsou klinicky významné.",
+    "ru": "Важнейший минерал для костей, мышечного сокращения, нервной сигнализации и свёртывания крови. Высокие (гиперпаратиреоз, рак) и низкие (дефицит витамина D) значения клинически значимы.",
+    "is": "Nauðsynlegt steinefni fyrir bein, vöðvasamdrátt, taugaboð og blóðstorknun."
+  }
+}

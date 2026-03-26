@@ -1,0 +1,28 @@
+{
+  "id": "B-eo",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 1.0,
+      "max": 6.0
+    },
+    "female": {
+      "min": 1.0,
+      "max": 6.0
+    }
+  },
+  "name": {
+    "en": "Eosinophils (%)",
+    "cs": "Eozinofily (%)",
+    "ru": "Эозинофилы (%)",
+    "is": "Súrkyrningar (%)"
+  },
+  "description": {
+    "en": "Percentage of white blood cells that are eosinophils - involved in allergic reactions and parasitic infections. Elevated in allergies, asthma, and parasitic disease.",
+    "cs": "Procento bílých krvinek tvořených eozinofily — podílejí se na alergických reakcích a parazitárních infekcích. Zvýšené u alergií, astmatu a parazitárních onemocnění.",
+    "ru": "Процент лейкоцитов, представленных эозинофилами — участвуют в аллергических реакциях и паразитарных инфекциях. Повышены при аллергии, астме и паразитарных заболеваниях.",
+    "is": "Hlutfall hvítra blóðkorna sem eru súrkyrningar - taka þátt í ofnæmisviðbrögðum og sníkjudýrasýkingum."
+  }
+}

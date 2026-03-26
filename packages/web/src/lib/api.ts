@@ -84,10 +84,13 @@ export const api = {
   importProfile: (data: unknown) =>
     post<{ ok: boolean; profile_id: number }>("/api/import", data),
   extractLabReport: (data: { file: string; fileName: string }) =>
-    post<{ data: Record<string, unknown>; resultCount: number; units: Record<string, string>; unknown: Array<{ id: string; value: number | string }> }>(
-      "/api/extract",
-      data,
-    ),
+    post<{
+      data: Record<string, unknown>;
+      resultCount: number;
+      units: Record<string, string>;
+      suspicious: Record<string, boolean>;
+      unknown: Array<{ id: string; value: number | string }>;
+    }>("/api/extract", data),
   getExtractUsage: () =>
     request<{ used: number; limit: number; remaining: number }>(
       "/api/extract/usage",

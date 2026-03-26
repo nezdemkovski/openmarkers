@@ -1,0 +1,18 @@
+{
+  "id": "SL-CA",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "/hr",
+  "name": {
+    "en": "Central Apneas",
+    "cs": "Centrální apnoe",
+    "ru": "Центральные апноэ",
+    "is": "Miðtaugar öndunarhléáföll"
+  },
+  "description": {
+    "en": "Events per hour where the brain temporarily stops sending signals to breathe. No airway obstruction, no breathing effort. Common in heart failure patients.",
+    "cs": "Příhody za hodinu, kdy mozek dočasně přestane vysílat signály k dýchání. Žádná obstrukce, žádné dýchací úsilí. Časté u pacientů se srdečním selháním.",
+    "ru": "События в час, когда мозг временно прекращает посылать сигналы к дыханию. Нет обструкции, нет дыхательных усилий. Часто при сердечной недостаточности.",
+    "is": "Atburðir á klukkustund þar sem heilinn hættir tímabundið að senda öndunarmerkingar."
+  }
+}

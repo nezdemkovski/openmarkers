@@ -1,0 +1,28 @@
+{
+  "id": "B-baso",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 0.0,
+      "max": 2.0
+    },
+    "female": {
+      "min": 0.0,
+      "max": 2.0
+    }
+  },
+  "name": {
+    "en": "Basophils (%)",
+    "cs": "Bazofily (%)",
+    "ru": "Базофилы (%)",
+    "is": "Baskyrningar (%)"
+  },
+  "description": {
+    "en": "Rarest white blood cell type. Involved in allergic and inflammatory reactions. Rarely clinically significant in isolation.",
+    "cs": "Nejvzácnější typ bílých krvinek. Podílejí se na alergických a zánětlivých reakcích. Zřídka klinicky významné izolovaně.",
+    "ru": "Наиболее редкий тип лейкоцитов. Участвуют в аллергических и воспалительных реакциях. Редко клинически значимы изолированно.",
+    "is": "Sjaldgæfasta tegund hvítra blóðkorna. Taka þátt í ofnæmis- og bólguviðbrögðum."
+  }
+}

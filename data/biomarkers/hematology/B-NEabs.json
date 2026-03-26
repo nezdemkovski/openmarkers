@@ -1,0 +1,28 @@
+{
+  "id": "B-NEabs",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "×10⁹/l",
+  "refRanges": {
+    "male": {
+      "min": 2.0,
+      "max": 7.5
+    },
+    "female": {
+      "min": 2.0,
+      "max": 7.5
+    }
+  },
+  "name": {
+    "en": "Neutrophils (Absolute)",
+    "cs": "Neutrofily (absolutní počet)",
+    "ru": "Нейтрофилы (абсолютное число)",
+    "is": "Daufkyrningar (heildarfjöldi)"
+  },
+  "description": {
+    "en": "Absolute count of neutrophils. Values below 2.0 are mildly low (mild neutropenia); below 1.0 significantly increases infection risk. More clinically useful than the percentage.",
+    "cs": "Absolutní počet neutrofilů. Hodnoty pod 2,0 jsou mírně nízké (mírná neutropenie); pod 1,0 výrazně zvyšují riziko infekce. Klinicky užitečnější než procento.",
+    "ru": "Абсолютное число нейтрофилов. Значения ниже 2,0 — умеренно низкие (лёгкая нейтропения); ниже 1,0 — значительно повышают риск инфекции. Клинически полезнее, чем процент.",
+    "is": "Heildarfjöldi daufkyrninga. Gildi undir 2,0 eru vægt lág; undir 1,0 eykur sýkingarhættu verulega."
+  }
+}

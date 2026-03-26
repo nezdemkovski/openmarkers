@@ -1,0 +1,25 @@
+{
+  "id": "S-HOMA",
+  "category": "calculated_indices",
+  "type": "quantitative",
+  "refRanges": {
+    "male": {
+      "max": 2.5
+    },
+    "female": {
+      "max": 2.5
+    }
+  },
+  "name": {
+    "en": "HOMA-IR (Insulin Resistance Index)",
+    "cs": "HOMA-IR (Index inzulínové rezistence)",
+    "ru": "HOMA-IR (Индекс инсулинорезистентности)",
+    "is": "HOMA-IR (Insúlínviðnámsvísitala)"
+  },
+  "description": {
+    "en": "Calculated from fasting glucose and insulin: (glucose × insulin) / 22.5. Estimates insulin resistance. Values <1.0 are optimal; >2.5 suggests significant insulin resistance and metabolic risk.",
+    "cs": "Vypočtený z glukózy a inzulínu nalačno: (glukóza × inzulín) / 22,5. Odhaduje inzulínovou rezistenci. Hodnoty <1,0 jsou optimální; >2,5 naznačuje významnou inzulínovou rezistenci a metabolické riziko.",
+    "ru": "Рассчитывается из глюкозы и инсулина натощак: (глюкоза × инсулин) / 22,5. Оценивает инсулинорезистентность. Значения <1,0 оптимальны; >2,5 указывает на значительную инсулинорезистентность и метаболический риск.",
+    "is": "Reiknuð úr fastandi glúkósa og insúlíni. Áætlar insúlínviðnám. Gildi <1,0 eru ákjósanleg; >2,5 bendir til verulegs insúlínviðnáms."
+  }
+}

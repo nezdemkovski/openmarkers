@@ -1,0 +1,28 @@
+{
+  "id": "B-neu",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 40.0,
+      "max": 70.0
+    },
+    "female": {
+      "min": 40.0,
+      "max": 70.0
+    }
+  },
+  "name": {
+    "en": "Neutrophils (%)",
+    "cs": "Neutrofily (%)",
+    "ru": "Нейтрофилы (%)",
+    "is": "Daufkyrningar (%)"
+  },
+  "description": {
+    "en": "Percentage of white blood cells that are neutrophils - the first responders to bacterial infection. Low percentage may indicate viral infection or benign ethnic neutropenia.",
+    "cs": "Procento bílých krvinek tvořených neutrofily — první obránci proti bakteriální infekci. Nízké procento může ukazovat na virovou infekci nebo benigní etnickou neutropenii.",
+    "ru": "Процент лейкоцитов, представленных нейтрофилами — первая линия защиты от бактериальных инфекций. Низкий процент может указывать на вирусную инфекцию или доброкачественную этническую нейтропению.",
+    "is": "Hlutfall hvítra blóðkorna sem eru daufkyrningar - fyrstu viðbragðsaðilar við bakteríusýkingum."
+  }
+}

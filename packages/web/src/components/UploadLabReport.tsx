@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   Upload,
   Loader2,
@@ -6,7 +7,6 @@ import {
   AlertCircle,
   X,
 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { useState, useRef, useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,13 @@ import { api } from "../lib/api";
 import { errorMessage } from "../lib/utils";
 import type { I18n } from "../types";
 
-type Phase = "idle" | "extracting" | "reviewing" | "importing" | "done" | "error";
+type Phase =
+  | "idle"
+  | "extracting"
+  | "reviewing"
+  | "importing"
+  | "done"
+  | "error";
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
 
@@ -27,6 +33,7 @@ interface ExtractedResult {
   date: string;
   value: number | string;
   unit?: string;
+  suspicious?: boolean;
 }
 
 interface ExtractedData {
@@ -97,6 +104,7 @@ export default function UploadLabReport({
 
         const data = response.data as ExtractedData;
         const units = response.units || {};
+        const suspiciousMap = response.suspicious || {};
         setUnknownMarkers(response.unknown || []);
 
         const flat: ExtractedResult[] = [];
@@ -109,6 +117,7 @@ export default function UploadLabReport({
                 categoryId: cat.id,
                 date: r.date,
                 value: r.value,
+                suspicious: suspiciousMap[`${bio.id}:${r.date}`] === true,
                 unit: units[bio.id],
               });
             }
@@ -164,7 +173,15 @@ export default function UploadLabReport({
     setResults((prev) =>
       prev.map((r, i) =>
         i === index
-          ? { ...r, value: value === "" ? "" : isNaN(Number(value)) ? value : Number(value) }
+          ? {
+              ...r,
+              value:
+                value === ""
+                  ? ""
+                  : isNaN(Number(value))
+                    ? value
+                    : Number(value),
+            }
           : r,
       ),
     );
@@ -346,7 +363,7 @@ export default function UploadLabReport({
               {results.map((r, i) => (
                 <tr
                   key={`${r.biomarkerId}-${i}`}
-                  className="border-t border-border/50"
+                  className={`border-t border-border/50 ${r.suspicious ? "bg-amber-50/50 dark:bg-amber-950/20" : ""}`}
                 >
                   <td className="px-3 py-1.5">
                     <div>
@@ -356,6 +373,11 @@ export default function UploadLabReport({
                       <span className="text-[10px] text-muted-foreground/50 ml-1.5">
                         {r.biomarkerId}
                       </span>
+                      {r.suspicious && (
+                        <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400">
+                          {t("uploadSuspicious")}
+                        </span>
+                      )}
                     </div>
                   </td>
                   <td className="px-3 py-1.5">

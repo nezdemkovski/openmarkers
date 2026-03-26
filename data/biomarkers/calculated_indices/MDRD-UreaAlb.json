@@ -1,0 +1,26 @@
+{
+  "id": "MDRD-UreaAlb",
+  "category": "calculated_indices",
+  "type": "quantitative",
+  "unit": "ml/s/1.73m²",
+  "refRanges": {
+    "male": {
+      "min": 1.5
+    },
+    "female": {
+      "min": 1.5
+    }
+  },
+  "name": {
+    "en": "eGFR (MDRD with Urea & Albumin)",
+    "cs": "eGFR (MDRD s ureou a albuminem)",
+    "ru": "рСКФ (MDRD с мочевиной и альбумином)",
+    "is": "eGFR (MDRD með þvagefni og albúmíni)"
+  },
+  "description": {
+    "en": "Alternative kidney function estimate using MDRD formula with urea and albumin. Similar to CKD-EPI but uses additional inputs. Values >1.5 ml/s are normal.",
+    "cs": "Alternativní odhad funkce ledvin vzorcem MDRD s ureou a albuminem. Podobný CKD-EPI, ale používá další vstupy. Hodnoty >1,5 ml/s jsou normální.",
+    "ru": "Альтернативная оценка функции почек по формуле MDRD с мочевиной и альбумином. Аналогична CKD-EPI, но использует дополнительные параметры. Значения >1,5 мл/с нормальны.",
+    "is": "Önnur aðferð til mats á nýrnastarfsemi með MDRD formúlu ásamt þvagefni og albúmíni."
+  }
+}

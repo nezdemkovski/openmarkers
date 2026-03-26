@@ -1,0 +1,17 @@
+{
+  "id": "U-PROT",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "name": {
+    "en": "Urine Protein",
+    "cs": "Bílkovina v moči",
+    "ru": "Белок в моче",
+    "is": "Þvagprótín"
+  },
+  "description": {
+    "en": "Protein in urine. Normally absent or trace. Persistent proteinuria indicates kidney damage, especially in diabetes or hypertension.",
+    "cs": "Bílkovina v moči. Normálně nepřítomna nebo stopová. Přetrvávající proteinurie ukazuje na poškození ledvin, zejména u diabetu nebo hypertenze.",
+    "ru": "Белок в моче. В норме отсутствует или следы. Постоянная протеинурия указывает на повреждение почек, особенно при диабете или гипертонии.",
+    "is": "Prótín í þvagi. Venjulega fjarverandi eða í snefilmagni. Viðvarandi prótínþvag bendir til nýrnaskemmda."
+  }
+}

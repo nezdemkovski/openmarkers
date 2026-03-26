@@ -1,0 +1,28 @@
+{
+  "id": "S-ApoA1",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mg/dL",
+  "refRanges": {
+    "male": {
+      "min": 120.0,
+      "max": 175.0
+    },
+    "female": {
+      "min": 140.0,
+      "max": 210.0
+    }
+  },
+  "name": {
+    "en": "Apolipoprotein A1 (Apo-A1)",
+    "cs": "Apolipoprotein A1 (Apo-A1)",
+    "ru": "Аполипопротеин A1 (Апо-A1)",
+    "is": "Apólípóprótín A1 (Apo-A1)"
+  },
+  "description": {
+    "en": "Primary protein component of HDL particles. A more accurate metric to measure HDL particles and thus cardiovascular protection. Higher levels indicate better reverse cholesterol transport.",
+    "cs": "Hlavní proteinová složka HDL částic. Přesnější ukazatel HDL částic a tím kardiovaskulární ochrany. Vyšší hladiny znamenají lepší zpětný transport cholesterolu.",
+    "ru": "Основной белковый компонент частиц ЛПВП. Более точный показатель частиц ЛПВП и, следовательно, сердечно-сосудистой защиты. Высокие уровни указывают на лучший обратный транспорт холестерина.",
+    "is": "Aðalprótínhluti HDL agna. Nákvæmari mælikvarði á HDL agnir og þar með hjarta- og æðavernd."
+  }
+}

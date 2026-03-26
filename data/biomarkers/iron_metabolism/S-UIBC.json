@@ -1,0 +1,30 @@
+{
+  "id": "S-UIBC",
+  "category": "iron_metabolism",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "conventionalUnit": "µg/dL",
+  "molecularWeight": 55.845,
+  "refRanges": {
+    "male": {
+      "min": 20.0,
+      "max": 62.0
+    },
+    "female": {
+      "min": 20.0,
+      "max": 62.0
+    }
+  },
+  "name": {
+    "en": "UIBC (Unsaturated Iron Binding Capacity)",
+    "cs": "UIBC (Nenasycená vazebná kapacita)",
+    "ru": "НЖСС (Ненасыщенная железосвязывающая способность)",
+    "is": "UIBC (Ómettaður járnbindingargeta)"
+  },
+  "description": {
+    "en": "Available iron-binding capacity of transferrin. Elevated in iron deficiency as the body produces more transferrin to capture scarce iron.",
+    "cs": "Dostupná vazebná kapacita transferinu pro železo. Zvýšená při nedostatku železa, protože tělo produkuje více transferinu k zachycení vzácného železa.",
+    "ru": "Доступная железосвязывающая способность трансферрина. Повышена при дефиците железа, так как организм производит больше трансферрина.",
+    "is": "Tiltæk járnbindingargeta transferríns. Hækkuð við járnskort."
+  }
+}

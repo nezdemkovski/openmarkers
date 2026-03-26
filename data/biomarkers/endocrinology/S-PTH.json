@@ -1,0 +1,28 @@
+{
+  "id": "S-PTH",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "pg/ml",
+  "refRanges": {
+    "male": {
+      "min": 15.0,
+      "max": 65.0
+    },
+    "female": {
+      "min": 15.0,
+      "max": 65.0
+    }
+  },
+  "name": {
+    "en": "PTH (Parathyroid Hormone)",
+    "cs": "PTH (Parathormon)",
+    "ru": "ПТГ (Паратиреоидный гормон)",
+    "is": "PTH (Kalkkirtilshormón)"
+  },
+  "description": {
+    "en": "Hormone regulating calcium and phosphorus balance. Elevated in vitamin D deficiency (secondary hyperparathyroidism), primary hyperparathyroidism, or kidney disease. Low levels seen after thyroid surgery.",
+    "cs": "Hormon regulující rovnováhu vápníku a fosforu. Zvýšený při nedostatku vitamínu D (sekundární hyperparatyreóza), primární hyperparatyreóze nebo onemocnění ledvin. Nízké hodnoty po operaci štítné žlázy.",
+    "ru": "Гормон, регулирующий баланс кальция и фосфора. Повышен при дефиците витамина D (вторичный гиперпаратиреоз), первичном гиперпаратиреозе или заболеваниях почек. Низкие значения после операции на щитовидной железе.",
+    "is": "Hormón sem stýrir kalsíum- og fosfórjafnvægi. Hækkað við D-vítamínskort eða kalkkirtilsofvirkni."
+  }
+}

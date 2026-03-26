@@ -1,0 +1,30 @@
+{
+  "id": "S-UREA",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 60.06,
+  "refRanges": {
+    "male": {
+      "min": 2.8,
+      "max": 8.1
+    },
+    "female": {
+      "min": 2.8,
+      "max": 8.1
+    }
+  },
+  "name": {
+    "en": "Urea",
+    "cs": "Urea (Močovina)",
+    "ru": "Мочевина",
+    "is": "Þvagefni"
+  },
+  "description": {
+    "en": "Waste product from protein metabolism, filtered by the kidneys. Elevated levels may indicate impaired kidney function or high protein intake.",
+    "cs": "Odpadní produkt metabolismu bílkovin filtrovaný ledvinami. Zvýšené hodnoty mohou ukazovat na poruchu funkce ledvin nebo vysoký příjem bílkovin.",
+    "ru": "Продукт распада белков, фильтруемый почками. Повышенные значения могут указывать на нарушение функции почек или высокое потребление белка.",
+    "is": "Úrgangsefni frá prótínefnaskiptum, síað af nýrum. Hækkuð gildi geta bent til skertrar nýrnastarfsemi eða mikillar prótíninntöku."
+  }
+}

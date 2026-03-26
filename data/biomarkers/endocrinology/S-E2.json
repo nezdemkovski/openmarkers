@@ -1,0 +1,30 @@
+{
+  "id": "S-E2",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "pmol/l",
+  "conventionalUnit": "pg/mL",
+  "molecularWeight": 272.38,
+  "refRanges": {
+    "male": {
+      "min": 28.0,
+      "max": 156.0
+    },
+    "female": {
+      "min": 46.0,
+      "max": 607.0
+    }
+  },
+  "name": {
+    "en": "Estradiol (E2)",
+    "cs": "Estradiol (E2)",
+    "ru": "Эстрадиол (E2)",
+    "is": "Estradíól (E2)"
+  },
+  "description": {
+    "en": "Primary estrogen hormone. Important in both sexes — regulates bone density, cardiovascular health, mood, and libido. In men, very high or very low levels are both problematic.",
+    "cs": "Primární estrogenový hormon. Důležitý pro obě pohlaví — reguluje kostní denzitu, kardiovaskulární zdraví, náladu a libido. U mužů jsou velmi vysoké i velmi nízké hodnoty problematické.",
+    "ru": "Основной эстрогенный гормон. Важен для обоих полов — регулирует плотность костей, сердечно-сосудистое здоровье, настроение и либидо. У мужчин проблематичны как очень высокие, так и очень низкие значения.",
+    "is": "Aðalestrógen hormón. Mikilvægt hjá báðum kynjum - stýrir beindíðni, hjarta- og æðaheilsu, skapi og kynhvöt."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "S-BNP",
+  "category": "cardiovascular",
+  "type": "quantitative",
+  "unit": "pg/mL",
+  "refRanges": {
+    "male": {
+      "max": 100.0
+    },
+    "female": {
+      "max": 100.0
+    }
+  },
+  "name": {
+    "en": "BNP (B-type Natriuretic Peptide)",
+    "cs": "BNP (Mozkový natriuretický peptid)",
+    "ru": "BNP (Мозговой натрийуретический пептид)",
+    "is": "BNP (B-gerðar natríumþvagdrifspeptíð)"
+  },
+  "description": {
+    "en": "Hormone released by the heart in response to stretching of heart muscle. Measures heart stress or failure. Low values indicate a healthy heart; elevated levels suggest cardiac strain or heart failure.",
+    "cs": "Hormon uvolněný srdcem v reakci na napínání srdečního svalu. Měří srdeční zátěž nebo selhání. Nízké hodnoty ukazují na zdravé srdce; zvýšené naznačují srdeční zátěž nebo selhání.",
+    "ru": "Гормон, выделяемый сердцем в ответ на растяжение сердечной мышцы. Измеряет сердечную нагрузку или недостаточность. Низкие значения — здоровое сердце; повышенные указывают на сердечную перегрузку или недостаточность.",
+    "is": "Hormón losað af hjartanu sem svar við togun hjartavöðva. Mælir hjartaálag. Hækkuð gildi benda til hjartabilunar."
+  }
+}

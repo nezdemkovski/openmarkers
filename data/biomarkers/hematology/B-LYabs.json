@@ -1,0 +1,28 @@
+{
+  "id": "B-LYabs",
+  "category": "hematology",
+  "type": "quantitative",
+  "unit": "×10⁹/l",
+  "refRanges": {
+    "male": {
+      "min": 1.0,
+      "max": 4.0
+    },
+    "female": {
+      "min": 1.0,
+      "max": 4.0
+    }
+  },
+  "name": {
+    "en": "Lymphocytes (Absolute)",
+    "cs": "Lymfocyty (absolutní počet)",
+    "ru": "Лимфоциты (абсолютное число)",
+    "is": "Eitilfrumur (heildarfjöldi)"
+  },
+  "description": {
+    "en": "Absolute count of lymphocytes. Low values indicate immunodeficiency risk. Elevated in viral infections and some blood cancers.",
+    "cs": "Absolutní počet lymfocytů. Nízké hodnoty ukazují na riziko imunodeficience. Zvýšené při virových infekcích a některých nádorech krve.",
+    "ru": "Абсолютное число лимфоцитов. Низкие значения указывают на риск иммунодефицита. Повышены при вирусных инфекциях и некоторых заболеваниях крови.",
+    "is": "Heildarfjöldi eitilfrumna. Lág gildi benda til ónæmisskorts. Hækkuð við veirusýkingar og sum blóðkrabbamein."
+  }
+}

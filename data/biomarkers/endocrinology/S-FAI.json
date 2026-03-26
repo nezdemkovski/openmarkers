@@ -1,0 +1,28 @@
+{
+  "id": "S-FAI",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 30.0,
+      "max": 150.0
+    },
+    "female": {
+      "min": 0.5,
+      "max": 6.0
+    }
+  },
+  "name": {
+    "en": "Free Androgen Index",
+    "cs": "Index volných androgenů",
+    "ru": "Индекс свободных андрогенов",
+    "is": "Frjáls andrógensvísitala"
+  },
+  "description": {
+    "en": "Calculated ratio of total testosterone to SHBG, estimating bioavailable testosterone. Useful when SHBG is abnormal. High values may indicate PCOS in women or androgen excess.",
+    "cs": "Vypočtený poměr celkového testosteronu k SHBG, odhadující biologicky dostupný testosteron. Užitečný při abnormálním SHBG. Vysoké hodnoty mohou ukazovat na PCOS u žen nebo nadbytek androgenů.",
+    "ru": "Расчётное соотношение общего тестостерона к ГСПГ, оценивающее биодоступный тестостерон. Полезен при аномальном ГСПГ. Высокие значения могут указывать на СПКЯ у женщин или избыток андрогенов.",
+    "is": "Reiknað hlutfall heildartestósteróns og SHBG sem áætlar lífvirkt testósterón."
+  }
+}

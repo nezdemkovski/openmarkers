@@ -1,0 +1,30 @@
+{
+  "id": "S-CHOL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 386.65,
+  "refRanges": {
+    "male": {
+      "min": 2.9,
+      "max": 5.0
+    },
+    "female": {
+      "min": 2.9,
+      "max": 5.0
+    }
+  },
+  "name": {
+    "en": "Total Cholesterol",
+    "cs": "Celkový cholesterol",
+    "ru": "Общий холестерин",
+    "is": "Heildarkólesteról"
+  },
+  "description": {
+    "en": "Total amount of cholesterol in blood including LDL, HDL, and VLDL. Elevated levels increase cardiovascular disease risk. Target depends on individual risk factors.",
+    "cs": "Celkové množství cholesterolu v krvi včetně LDL, HDL a VLDL. Zvýšené hodnoty zvyšují riziko kardiovaskulárních onemocnění.",
+    "ru": "Общее количество холестерина в крови, включая ЛПНП, ЛПВП и ЛПОНП. Повышенные значения увеличивают риск сердечно-сосудистых заболеваний.",
+    "is": "Heildarmagn kólesteróls í blóði þar á meðal LDL, HDL og VLDL. Hækkuð gildi auka hættu á hjarta- og æðasjúkdómum."
+  }
+}

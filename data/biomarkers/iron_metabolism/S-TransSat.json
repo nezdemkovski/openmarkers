@@ -1,0 +1,28 @@
+{
+  "id": "S-TransSat",
+  "category": "iron_metabolism",
+  "type": "quantitative",
+  "unit": "%",
+  "refRanges": {
+    "male": {
+      "min": 20.0,
+      "max": 50.0
+    },
+    "female": {
+      "min": 15.0,
+      "max": 50.0
+    }
+  },
+  "name": {
+    "en": "Transferrin Saturation",
+    "cs": "Saturace transferinu",
+    "ru": "Насыщение трансферрина",
+    "is": "Transferrínmettun"
+  },
+  "description": {
+    "en": "Percentage of transferrin binding sites occupied by iron. Low saturation (<20%) strongly suggests iron deficiency. High saturation (>45%) may indicate iron overload.",
+    "cs": "Procento vazebných míst transferinu obsazených železem. Nízká saturace (<20 %) silně naznačuje nedostatek železa. Vysoká saturace (>45 %) může znamenat přetížení.",
+    "ru": "Процент связывающих мест трансферрина, занятых железом. Низкое насыщение (<20%) указывает на дефицит железа. Высокое (>45%) — на перегрузку железом.",
+    "is": "Hlutfall transferrínbindistöðva sem járn hefur uppfyllt. Lág mettun (<20%) bendir sterklega til járnskorts."
+  }
+}

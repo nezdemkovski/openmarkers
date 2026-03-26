@@ -1,0 +1,28 @@
+{
+  "id": "S-GSH",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µg/mL",
+  "refRanges": {
+    "male": {
+      "min": 340.0,
+      "max": 1070.0
+    },
+    "female": {
+      "min": 340.0,
+      "max": 1070.0
+    }
+  },
+  "name": {
+    "en": "Glutathione",
+    "cs": "Glutathion",
+    "ru": "Глутатион",
+    "is": "Glútatíón"
+  },
+  "description": {
+    "en": "The body's master antioxidant, essential for detoxification, reducing oxidative stress, and supporting immune function. Declines with age; maintaining high levels is linked to longevity.",
+    "cs": "Hlavní antioxidant těla, nezbytný pro detoxikaci, snižování oxidačního stresu a podporu imunitní funkce. S věkem klesá; udržení vysokých hladin je spojeno s dlouhověkostí.",
+    "ru": "Главный антиоксидант организма, необходимый для детоксикации, снижения окислительного стресса и поддержки иммунной функции. Снижается с возрастом; поддержание высоких уровней связано с долголетием.",
+    "is": "Aðalandoxunarvörn líkamans. Nauðsynlegt fyrir eitrunarvarnir, minnkun oxunarstreitu og stuðning ónæmiskerfis."
+  }
+}

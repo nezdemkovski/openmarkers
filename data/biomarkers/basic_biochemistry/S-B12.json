@@ -1,0 +1,30 @@
+{
+  "id": "S-B12",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "pmol/l",
+  "conventionalUnit": "pg/mL",
+  "molecularWeight": 1355.37,
+  "refRanges": {
+    "male": {
+      "min": 145.0,
+      "max": 569.0
+    },
+    "female": {
+      "min": 145.0,
+      "max": 569.0
+    }
+  },
+  "name": {
+    "en": "Vitamin B12 (Cobalamin)",
+    "cs": "Vitamin B12 (Kobalamin)",
+    "ru": "Витамин B12 (Кобаламин)",
+    "is": "B12 vítamín (Kóbalamín)"
+  },
+  "description": {
+    "en": "Essential vitamin for nerve function, red blood cell formation, and DNA synthesis. Deficiency causes megaloblastic anemia and neurological damage. Common in vegetarians and older adults.",
+    "cs": "Nezbytný vitamin pro nervovou funkci, tvorbu červených krvinek a syntézu DNA. Nedostatek způsobuje megaloblastickou anémii a neurologické poškození. Častý u vegetariánů a starších osob.",
+    "ru": "Важнейший витамин для нервной функции, образования эритроцитов и синтеза ДНК. Дефицит вызывает мегалобластную анемию и неврологические повреждения. Часто встречается у вегетарианцев и пожилых людей.",
+    "is": "Nauðsynlegt vítamín fyrir taugastarfsemi, myndun rauðra blóðkorna og DNA-efnasmíðar. Skortur veldur stórfrumulegu blóðleysi og taugaskaða."
+  }
+}

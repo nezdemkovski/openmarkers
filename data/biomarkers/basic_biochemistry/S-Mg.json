@@ -1,0 +1,30 @@
+{
+  "id": "S-Mg",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 24.305,
+  "refRanges": {
+    "male": {
+      "min": 0.66,
+      "max": 1.07
+    },
+    "female": {
+      "min": 0.66,
+      "max": 1.07
+    }
+  },
+  "name": {
+    "en": "Magnesium",
+    "cs": "Hořčík",
+    "ru": "Магний",
+    "is": "Magnesíum"
+  },
+  "description": {
+    "en": "Mineral important for muscle and nerve function, blood sugar control, and bone health. Deficiency is common and can cause fatigue, cramps, and arrhythmias.",
+    "cs": "Minerál důležitý pro funkci svalů a nervů, kontrolu krevního cukru a zdraví kostí. Nedostatek je častý a může způsobit únavu, křeče a arytmie.",
+    "ru": "Минерал, важный для функции мышц и нервов, контроля уровня сахара в крови и здоровья костей. Дефицит встречается часто и может вызывать усталость, судороги и аритмии.",
+    "is": "Steinefni mikilvægt fyrir vöðva- og taugastarfsemi, blóðsykurstjórnun og beinheilsu. Skortur er algengur og getur valdið þreytu, krömpum og hjartsláttatruflunum."
+  }
+}

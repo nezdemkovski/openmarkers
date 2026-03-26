@@ -1,0 +1,30 @@
+{
+  "id": "S-TGL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "mmol/l",
+  "conventionalUnit": "mg/dL",
+  "molecularWeight": 885.4,
+  "refRanges": {
+    "male": {
+      "min": 0.45,
+      "max": 1.7
+    },
+    "female": {
+      "min": 0.45,
+      "max": 1.7
+    }
+  },
+  "name": {
+    "en": "Triglycerides",
+    "cs": "Triglyceridy",
+    "ru": "Триглицериды",
+    "is": "Þríglýseríð"
+  },
+  "description": {
+    "en": "Fat molecules in the blood, mainly from dietary sources. Elevated by high carbohydrate/alcohol intake. Very high levels (>10 mmol/l) risk pancreatitis.",
+    "cs": "Tuky v krvi, převážně z potravy. Zvýšené vysokým příjmem sacharidů/alkoholu. Velmi vysoké hodnoty (>10 mmol/l) hrozí pankreatitidou.",
+    "ru": "Жиры в крови, преимущественно из пищи. Повышаются при высоком потреблении углеводов/алкоголя. Очень высокие значения (>10 ммоль/л) грозят панкреатитом.",
+    "is": "Fitusameindi í blóði, aðallega frá fæðu. Hækkuð af mikilli kolvetna-/áfengisneyslu. Mjög há gildi (>10 mmól/l) hafa hættu á briskirtilsbólgu."
+  }
+}

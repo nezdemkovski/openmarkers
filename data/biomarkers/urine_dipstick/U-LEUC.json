@@ -1,0 +1,17 @@
+{
+  "id": "U-LEUC",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "name": {
+    "en": "Urine Leukocytes",
+    "cs": "Leukocyty v moči",
+    "ru": "Лейкоциты в моче",
+    "is": "Hvít blóðkorn í þvagi"
+  },
+  "description": {
+    "en": "White blood cells in urine. Normally absent. Presence suggests urinary tract infection or kidney inflammation.",
+    "cs": "Bílé krvinky v moči. Normálně nepřítomny. Přítomnost naznačuje infekci močových cest nebo zánět ledvin.",
+    "ru": "Лейкоциты в моче. В норме отсутствуют. Наличие указывает на инфекцию мочевыводящих путей или воспаление почек.",
+    "is": "Hvít blóðkorn í þvagi. Venjulega fjarverandi. Nærvera bendir til þvagfærasýkingar eða nýrnabólgu."
+  }
+}

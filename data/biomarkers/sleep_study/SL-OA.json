@@ -1,0 +1,18 @@
+{
+  "id": "SL-OA",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "/hr",
+  "name": {
+    "en": "Obstructive Apneas",
+    "cs": "Obstrukční apnoe",
+    "ru": "Обструктивные апноэ",
+    "is": "Teppu-öndunarhléáföll"
+  },
+  "description": {
+    "en": "Obstructive apnea events per hour - complete airway blockage for >=10 seconds during sleep despite breathing effort.",
+    "cs": "Počet obstrukčních apnoí za hodinu — úplné zablokování dýchacích cest na ≥10 sekund při zachovalém dýchacím úsilí.",
+    "ru": "Количество обструктивных апноэ в час — полная блокировка дыхательных путей на ≥10 секунд при сохранённых дыхательных усилиях.",
+    "is": "Teppu-öndunarhléáföll á klukkustund - algjör lokun loftvega í >=10 sekúndur í svefni."
+  }
+}

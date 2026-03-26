@@ -1,0 +1,17 @@
+{
+  "id": "U-KETO",
+  "category": "urine_dipstick",
+  "type": "qualitative",
+  "name": {
+    "en": "Urine Ketones",
+    "cs": "Ketolátky v moči",
+    "ru": "Кетоны в моче",
+    "is": "Ketónefni í þvagi"
+  },
+  "description": {
+    "en": "Ketone bodies in urine. Normally absent. Present during fasting, low-carb diets, uncontrolled diabetes (diabetic ketoacidosis), or prolonged vomiting.",
+    "cs": "Ketolátky v moči. Normálně nepřítomny. Přítomny při hladovění, nízkosacharidové dietě, nekontrolovaném diabetu (diabetická ketoacidóza) nebo déletrvajícím zvracení.",
+    "ru": "Кетоновые тела в моче. В норме отсутствуют. Появляются при голодании, низкоуглеводной диете, неконтролируемом диабете (диабетический кетоацидоз) или длительной рвоте.",
+    "is": "Ketónefni í þvagi. Venjulega fjarverandi. Finnast við föstu, lágkolvetnamataræði eða óstýrðri sykursýki."
+  }
+}

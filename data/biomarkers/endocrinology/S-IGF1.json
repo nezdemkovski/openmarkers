@@ -1,0 +1,28 @@
+{
+  "id": "S-IGF1",
+  "category": "endocrinology",
+  "type": "quantitative",
+  "unit": "ng/mL",
+  "refRanges": {
+    "male": {
+      "min": 83.0,
+      "max": 244.0
+    },
+    "female": {
+      "min": 83.0,
+      "max": 244.0
+    }
+  },
+  "name": {
+    "en": "IGF-1 (Insulin-like Growth Factor 1)",
+    "cs": "IGF-1 (Inzulinu podobný růstový faktor 1)",
+    "ru": "ИФР-1 (Инсулиноподобный фактор роста 1)",
+    "is": "IGF-1 (Insúlínlíkur vaxtarþáttur 1)"
+  },
+  "description": {
+    "en": "Growth factor mediating the effects of growth hormone. Involved in muscle growth, bone density, and tissue repair. High levels may increase cancer risk; low levels indicate GH deficiency.",
+    "cs": "Růstový faktor zprostředkující účinky růstového hormonu. Podílí se na růstu svalů, kostní denzitě a opravě tkání. Vysoké hladiny mohou zvýšit riziko nádorů; nízké ukazují na deficit růstového hormonu.",
+    "ru": "Фактор роста, опосредующий действие гормона роста. Участвует в росте мышц, плотности костей и репарации тканей. Высокие уровни могут увеличить риск рака; низкие указывают на дефицит гормона роста.",
+    "is": "Vaxtarþáttur sem miðlar áhrifum vaxtarhormóns. Tekur þátt í vöðvavexti, beindíðni og vefjaviðgerðum."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "S-TNF",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "pg/mL",
+  "refRanges": {
+    "male": {
+      "max": 8.1
+    },
+    "female": {
+      "max": 8.1
+    }
+  },
+  "name": {
+    "en": "TNF-alpha (Tumor Necrosis Factor)",
+    "cs": "TNF-alfa (Tumor nekrotizující faktor)",
+    "ru": "ФНО-альфа (Фактор некроза опухоли)",
+    "is": "TNF-alfa (Æxlisdrepandi þáttur)"
+  },
+  "description": {
+    "en": "Key inflammatory cytokine involved in systemic inflammation and immune regulation. Elevated levels are associated with chronic inflammatory conditions, autoimmune diseases, and metabolic dysfunction.",
+    "cs": "Klíčový zánětlivý cytokin podílející se na systémovém zánětu a regulaci imunity. Zvýšené hladiny jsou spojeny s chronickými zánětlivými stavy, autoimunitními onemocněními a metabolickou dysfunkcí.",
+    "ru": "Ключевой воспалительный цитокин, участвующий в системном воспалении и регуляции иммунитета. Повышенные уровни связаны с хроническими воспалительными состояниями, аутоиммунными заболеваниями и метаболическими нарушениями.",
+    "is": "Lykil bólgubotni sem tekur þátt í kerfisbólgu og ónæmisstjórnun."
+  }
+}

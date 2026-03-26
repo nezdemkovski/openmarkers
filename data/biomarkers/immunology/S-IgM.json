@@ -1,0 +1,29 @@
+{
+  "id": "S-IgM",
+  "category": "immunology",
+  "type": "quantitative",
+  "unit": "g/l",
+  "conventionalUnit": "mg/dL",
+  "refRanges": {
+    "male": {
+      "min": 0.4,
+      "max": 2.3
+    },
+    "female": {
+      "min": 0.4,
+      "max": 2.3
+    }
+  },
+  "name": {
+    "en": "IgM (Immunoglobulin M)",
+    "cs": "IgM (Imunoglobulin M)",
+    "ru": "IgM (Иммуноглобулин M)",
+    "is": "IgM (Ónæmisglóbúlín M)"
+  },
+  "description": {
+    "en": "First antibody produced in response to new infections. Elevated IgM indicates acute or recent infection. Also elevated in Waldenstrom's macroglobulinemia and some autoimmune conditions.",
+    "cs": "První protilátka produkovaná v reakci na novou infekci. Zvýšený IgM ukazuje na akutní nebo nedávnou infekci. Také zvýšený u Waldenströmovy makroglobulinémie a některých autoimunitních stavů.",
+    "ru": "Первое антитело, вырабатываемое в ответ на новую инфекцию. Повышенный IgM указывает на острую или недавнюю инфекцию. Также повышен при макроглобулинемии Вальденстрёма и некоторых аутоиммунных состояниях.",
+    "is": "Fyrsta mótefnið sem myndast við nýjum sýkingum. Hækkað IgM bendir til bráðrar eða nýlegrar sýkingar."
+  }
+}

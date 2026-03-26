@@ -1,0 +1,26 @@
+{
+  "id": "S-HCY",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "µmol/l",
+  "refRanges": {
+    "male": {
+      "max": 15.0
+    },
+    "female": {
+      "max": 15.0
+    }
+  },
+  "name": {
+    "en": "Homocysteine",
+    "cs": "Homocystein",
+    "ru": "Гомоцистеин",
+    "is": "Hómócysteín"
+  },
+  "description": {
+    "en": "Amino acid linked to cardiovascular disease, stroke, and cognitive decline when elevated. High levels indicate B12/folate deficiency or methylation issues. Easily treatable with B vitamins.",
+    "cs": "Aminokyselina spojená s kardiovaskulárním onemocněním, mrtvicí a kognitivním poklesem při zvýšení. Vysoké hladiny ukazují na nedostatek B12/kyseliny listové nebo problémy s metylací. Snadno léčitelné vitaminy skupiny B.",
+    "ru": "Аминокислота, связанная с сердечно-сосудистыми заболеваниями, инсультом и когнитивным снижением при повышении. Высокие уровни указывают на дефицит B12/фолиевой кислоты или проблемы с метилированием. Легко корректируется витаминами группы B.",
+    "is": "Amínósýra tengd hjarta- og æðasjúkdómi, heilablóðfalli og vitsmunalegu hnignun þegar hækkað. Auðvelt að meðhöndla með B-vítamínum."
+  }
+}

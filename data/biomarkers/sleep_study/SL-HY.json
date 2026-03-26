@@ -1,0 +1,18 @@
+{
+  "id": "SL-HY",
+  "category": "sleep_study",
+  "type": "quantitative",
+  "unit": "/hr",
+  "name": {
+    "en": "Hypopneas",
+    "cs": "Hypopnoe",
+    "ru": "Гипопноэ",
+    "is": "Öndunardýpt"
+  },
+  "description": {
+    "en": "Partial airway obstruction events per hour - reduced airflow (>=30%) with oxygen desaturation or arousal. Usually the largest component of AHI.",
+    "cs": "Částečné zúžení dýchacích cest za hodinu — snížení proudu vzduchu (≥30 %) s desaturací nebo probuzením. Obvykle největší složka AHI.",
+    "ru": "Частичное сужение дыхательных путей в час — снижение воздушного потока (≥30%) с десатурацией или пробуждением. Обычно наибольшая составляющая ИАГ.",
+    "is": "Hluta-teppuatburðir á klukkustund - minnkað loftflæði (>=30%) með súrefnisfalli eða vaknun."
+  }
+}

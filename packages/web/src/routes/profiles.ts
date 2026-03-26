@@ -104,9 +104,7 @@ export async function handleReorderProfiles(
   return json({ ok: true });
 }
 
-export async function handleCheckHandle(
-  url: URL,
-): Promise<Response> {
+export async function handleCheckHandle(url: URL): Promise<Response> {
   const handle = url.searchParams.get("handle");
   if (!handle) return error("handle is required");
   const profileIdParam = url.searchParams.get("profile_id");

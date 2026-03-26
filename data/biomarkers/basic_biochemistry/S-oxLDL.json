@@ -1,0 +1,26 @@
+{
+  "id": "S-oxLDL",
+  "category": "basic_biochemistry",
+  "type": "quantitative",
+  "unit": "U/L",
+  "refRanges": {
+    "male": {
+      "max": 60.0
+    },
+    "female": {
+      "max": 60.0
+    }
+  },
+  "name": {
+    "en": "Oxidized LDL (oxLDL)",
+    "cs": "Oxidovaný LDL (oxLDL)",
+    "ru": "Окисленный ЛПНП (oxLDL)",
+    "is": "Oxaðað LDL (oxLDL)"
+  },
+  "description": {
+    "en": "LDL cholesterol that has been damaged by oxidation. Directly measures oxidative stress, inflammation, endothelial dysfunction, and the development of arterial plaque.",
+    "cs": "LDL cholesterol poškozený oxidací. Přímo měří oxidační stres, zánět, endoteliální dysfunkci a rozvoj aterosklerotického plátu.",
+    "ru": "ЛПНП-холестерин, повреждённый окислением. Напрямую измеряет окислительный стресс, воспаление, эндотелиальную дисфункцию и развитие атеросклеротических бляшек.",
+    "is": "LDL kólesteról sem hefur skemmst vegna oxunar. Mælir beint oxunarstreitu og bólgu."
+  }
+}
