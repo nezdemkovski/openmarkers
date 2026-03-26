@@ -66,6 +66,7 @@ export default function UploadLabReport({
   const [errorMsg, setErrorMsg] = useState("");
   const [dragOver, setDragOver] = useState(false);
   const [results, setResults] = useState<ExtractedResult[]>([]);
+  const [categoryMap, setCategoryMap] = useState<Record<string, string>>({});
   const [unknownMarkers, setUnknownMarkers] = useState<
     Array<{
       id: string;
@@ -110,6 +111,7 @@ export default function UploadLabReport({
         const data = response.data as ExtractedData;
         const units = response.units || {};
         const suspiciousMap = response.suspicious || {};
+        setCategoryMap(response.categoryMap || {});
         setUnknownMarkers(response.unknown || []);
 
         const flat: ExtractedResult[] = [];
@@ -195,12 +197,13 @@ export default function UploadLabReport({
   const remapUnknown = (unknownIdx: number, targetBioId: string) => {
     const marker = unknownMarkers[unknownIdx];
     if (!marker || !targetBioId) return;
+    const catId = categoryMap[targetBioId] || "";
     setResults((prev) => [
       ...prev,
       {
         biomarkerId: targetBioId,
         biomarkerName: tBio(targetBioId, "name") || targetBioId,
-        categoryId: "",
+        categoryId: catId,
         date: marker.date || new Date().toISOString().split("T")[0],
         value: marker.value,
       },
@@ -249,6 +252,7 @@ export default function UploadLabReport({
   const reset = () => {
     setPhase("idle");
     setResults([]);
+    setCategoryMap({});
     setUnknownMarkers([]);
     setErrorMsg("");
     onActiveChange?.(false);

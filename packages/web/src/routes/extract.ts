@@ -289,12 +289,18 @@ export async function handleExtract(
 
     await incrementExtractCount(auth.userId);
 
+    const bioCategoryMap: Record<string, string> = {};
+    for (const [id, ref] of Object.entries(BIOMARKER_REF)) {
+      bioCategoryMap[id] = ref.category;
+    }
+
     return json({
       data: { user: { name: "Extracted" }, categories },
       resultCount: accepted.length,
       units,
       suspicious,
       unknown: unknownDeduped,
+      categoryMap: bioCategoryMap,
     });
   } catch (err: unknown) {
     console.error("Extraction error:", err);
