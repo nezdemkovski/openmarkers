@@ -85,6 +85,7 @@ export function startWebServer(opts: {
   const hasFrontend = existsSync(join(resolvedPublicDir, "index.html"));
 
   return Bun.serve({
+    hostname: "0.0.0.0",
     port,
     maxRequestBodySize: MAX_BODY_SIZE,
     async fetch(req) {
