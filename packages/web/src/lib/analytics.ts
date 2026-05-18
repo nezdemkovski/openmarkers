@@ -5,6 +5,7 @@ const isProd = import.meta.env.PROD;
 if (isProd) {
   init({
     domain: "openmarkers.app",
+    endpoint: "https://analytics.nezdemkovski.cloud/api/event",
     autoCapturePageviews: true,
   });
 }
