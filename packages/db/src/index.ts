@@ -1,4 +1,4 @@
-import { eq, and, sql, gte, lte, inArray } from "drizzle-orm";
+import { eq, and, sql, gte, lte, inArray, getTableColumns } from "drizzle-orm";
 
 import { isOutOfRange, analyzeTrend } from "./analytics";
 import { calculatePhenoAge, getMissingPhenoAgeMarkers } from "./bioage";
@@ -114,7 +114,7 @@ export async function getProfile(
   authUserId: string,
 ): Promise<DbProfile | undefined> {
   const [row] = await db
-    .select()
+    .select(getTableColumns(profiles))
     .from(profiles)
     .where(and(eq(profiles.id, profileId), eq(profiles.authUserId, authUserId)))
     .limit(1);
@@ -205,7 +205,7 @@ export async function findProfileByName(
   name: string,
 ): Promise<DbProfile | undefined> {
   const [row] = await db
-    .select()
+    .select(getTableColumns(profiles))
     .from(profiles)
     .where(and(eq(profiles.authUserId, authUserId), eq(profiles.name, name)))
     .limit(1);
@@ -243,8 +243,14 @@ export async function listBiomarkers(
   categoryId?: string,
 ): Promise<DbBiomarker[]> {
   const query = categoryId
-    ? db.select().from(biomarkers).where(eq(biomarkers.categoryId, categoryId))
-    : db.select().from(biomarkers).orderBy(biomarkers.categoryId);
+    ? db
+        .select(getTableColumns(biomarkers))
+        .from(biomarkers)
+        .where(eq(biomarkers.categoryId, categoryId))
+    : db
+        .select(getTableColumns(biomarkers))
+        .from(biomarkers)
+        .orderBy(biomarkers.categoryId);
   const rows = await query;
   return rows.map(toBiomarker);
 }
@@ -253,7 +259,7 @@ export async function getBiomarker(
   id: string,
 ): Promise<DbBiomarker | undefined> {
   const [row] = await db
-    .select()
+    .select(getTableColumns(biomarkers))
     .from(biomarkers)
     .where(eq(biomarkers.id, id))
     .limit(1);
@@ -479,7 +485,7 @@ export async function getProfileData(
   authUserId: string,
 ): Promise<UserData | undefined> {
   const [profileRow] = await db
-    .select()
+    .select(getTableColumns(profiles))
     .from(profiles)
     .where(and(eq(profiles.id, profileId), eq(profiles.authUserId, authUserId)))
     .limit(1);
@@ -510,7 +516,7 @@ export async function getRawProfileData(
   authUserId: string,
 ): Promise<UserData | undefined> {
   const [profileRow] = await db
-    .select()
+    .select(getTableColumns(profiles))
     .from(profiles)
     .where(and(eq(profiles.id, profileId), eq(profiles.authUserId, authUserId)))
     .limit(1);
@@ -773,7 +779,7 @@ export async function getPublicProfileByHandle(
   handle: string,
 ): Promise<UserData | undefined> {
   const [profile] = await db
-    .select()
+    .select(getTableColumns(profiles))
     .from(profiles)
     .where(and(eq(profiles.publicHandle, handle), eq(profiles.isPublic, true)))
     .limit(1);
@@ -789,11 +795,11 @@ async function assembleProfileData(
 ): Promise<UserData> {
   const allCategories = await listCategories();
   const allBiomarkerRows = await db
-    .select()
+    .select(getTableColumns(biomarkers))
     .from(biomarkers)
     .orderBy(biomarkers.categoryId, biomarkers.displayOrder, biomarkers.id);
   const allResults = await db
-    .select()
+    .select(getTableColumns(results))
     .from(results)
     .where(eq(results.profileId, profileId))
     .orderBy(results.biomarkerId, results.date);
@@ -960,7 +966,7 @@ export async function getUserPreferences(
   authUserId: string,
 ): Promise<{ unitSystem: UnitSystem }> {
   const [row] = await db
-    .select()
+    .select(getTableColumns(userPreferences))
     .from(userPreferences)
     .where(eq(userPreferences.authUserId, authUserId))
     .limit(1);
@@ -1093,7 +1099,7 @@ export async function syncBiomarkers(): Promise<{
 
   for (const def of defs) {
     const [existing] = await db
-      .select()
+      .select(getTableColumns(biomarkers))
       .from(biomarkers)
       .where(eq(biomarkers.id, def.id))
       .limit(1);

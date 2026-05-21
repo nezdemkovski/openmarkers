@@ -1,4 +1,4 @@
-import { eq, lt } from "drizzle-orm";
+import { eq, lt, getTableColumns } from "drizzle-orm";
 
 import { db } from "./db";
 import { oauthClients, oauthAuthCodes, oauthRefreshTokens } from "./schema/app";
@@ -29,7 +29,7 @@ export interface OAuthRefreshToken {
 
 export async function getClient(clientId: string): Promise<OAuthClient | null> {
   const rows = await db
-    .select()
+    .select(getTableColumns(oauthClients))
     .from(oauthClients)
     .where(eq(oauthClients.clientId, clientId))
     .limit(1);
@@ -66,7 +66,7 @@ export async function storeAuthCode(code: OAuthAuthCode): Promise<void> {
 
 export async function getAuthCode(code: string): Promise<OAuthAuthCode | null> {
   const rows = await db
-    .select()
+    .select(getTableColumns(oauthAuthCodes))
     .from(oauthAuthCodes)
     .where(eq(oauthAuthCodes.code, code))
     .limit(1);
@@ -87,7 +87,7 @@ export async function getRefreshToken(
   token: string,
 ): Promise<OAuthRefreshToken | null> {
   const rows = await db
-    .select()
+    .select(getTableColumns(oauthRefreshTokens))
     .from(oauthRefreshTokens)
     .where(eq(oauthRefreshTokens.token, token))
     .limit(1);
