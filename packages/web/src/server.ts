@@ -5,6 +5,13 @@ import { verifyToken } from "@openmarkers/db";
 import { createMcpHandler } from "@openmarkers/mcp-server";
 
 import {
+  handleAuthCallback,
+  handleAuthLogin,
+  handleAuthLogout,
+  handleAuthSession,
+  handleAuthToken,
+} from "./auth-session.ts";
+import {
   handleASMetadata,
   handleRSMetadata,
   handleRegister,
@@ -137,6 +144,24 @@ export function startWebServer(opts: {
       if (method === "OPTIONS") return handleOAuthPreflight();
       if (method === "POST") return handleToken(req);
     }
+
+    if (method === "GET" && path === "/api/auth/login")
+      return handleAuthLogin(req, "login");
+
+    if (method === "GET" && path === "/api/auth/signup")
+      return handleAuthLogin(req, "signup");
+
+    if (method === "GET" && path === "/auth/callback")
+      return handleAuthCallback(req);
+
+    if (method === "GET" && path === "/api/auth/session")
+      return handleAuthSession(req);
+
+    if (method === "GET" && path === "/api/auth/token")
+      return handleAuthToken(req);
+
+    if (method === "POST" && path === "/api/auth/logout")
+      return handleAuthLogout(req);
 
     if (method === "GET" && path === "/schema.json") {
       const schemaPath = join(
