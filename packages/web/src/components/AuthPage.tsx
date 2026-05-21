@@ -220,8 +220,6 @@ export default function AuthPage({
   const { t } = i18n;
   const [authOpen, setAuthOpen] = useState(false);
   const [tab, setTab] = useState<"login" | "signup">("signup");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -265,6 +263,11 @@ export default function AuthPage({
   };
 
   const openAuth = (mode: "login" | "signup") => {
+    if (mode === "login") {
+      authClient.signIn.email();
+      return;
+    }
+
     setTab(mode);
     setError("");
     setAuthOpen(true);
@@ -276,17 +279,13 @@ export default function AuthPage({
     setLoading(true);
     try {
       if (tab === "signup") {
-        const result = await authClient.signUp.email({
-          email,
-          password,
-          name: email.split("@")[0],
-        });
+        const result = await authClient.signUp.email();
         if (result.error) {
           setError(result.error.message || "Sign up failed");
           return;
         }
       } else {
-        const result = await authClient.signIn.email({ email, password });
+        const result = await authClient.signIn.email();
         if (result.error) {
           setError(result.error.message || "Sign in failed");
           return;
@@ -737,25 +736,6 @@ export default function AuthPage({
 
             <TabsContent value="signup">
               <form onSubmit={handleSubmit} className="space-y-2.5">
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("authEmail")}
-                  required
-                  autoComplete="email"
-                  className="h-9"
-                />
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t("authPassword")}
-                  required
-                  minLength={8}
-                  autoComplete="new-password"
-                  className="h-9"
-                />
                 <Label className="flex items-start gap-2 text-[11px] text-muted-foreground/70 font-normal leading-tight">
                   <Checkbox
                     checked={consent}
@@ -777,25 +757,9 @@ export default function AuthPage({
 
             <TabsContent value="login">
               <form onSubmit={handleSubmit} className="space-y-2.5">
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("authEmail")}
-                  required
-                  autoComplete="email"
-                  className="h-9"
-                />
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t("authPassword")}
-                  required
-                  minLength={8}
-                  autoComplete="current-password"
-                  className="h-9"
-                />
+                <p className="text-xs text-muted-foreground">
+                  Continue to the hosted auth service to log in.
+                </p>
                 {error && <p className="text-xs text-destructive">{error}</p>}
                 <Button
                   type="submit"
