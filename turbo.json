@@ -12,14 +12,21 @@
         "package.json"
       ],
       "outputs": ["dist/**"],
-      "env": ["VITE_NEON_AUTH_URL"]
+      "env": ["VITE_AUTH_BASE_URL"]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
     "dev:api": {
-      "env": ["DATABASE_URL", "NEON_AUTH_BASE_URL"],
+      "env": [
+        "DATABASE_URL",
+        "AUTH_BASE_URL",
+        "AUTH_JWKS_URL",
+        "AUTH_JWT_ISSUER",
+        "AUTH_JWT_AUDIENCE",
+        "OAUTH_SECRET"
+      ],
       "cache": false,
       "persistent": true
     },

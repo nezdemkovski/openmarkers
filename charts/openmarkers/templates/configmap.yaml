@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "openmarkers.fullname" . }}
+  labels:
+    {{- include "openmarkers.labels" . | nindent 4 }}
+data:
+  PORT: {{ .Values.service.targetPort | quote }}
+  AUTH_BASE_URL: {{ .Values.config.authBaseUrl | quote }}
+  AUTH_JWKS_URL: {{ .Values.config.authJwksUrl | quote }}
+  AUTH_JWT_ISSUER: {{ .Values.config.authJwtIssuer | quote }}
+  AUTH_JWT_AUDIENCE: {{ .Values.config.authJwtAudience | quote }}
+  VITE_AUTH_BASE_URL: {{ .Values.config.authBaseUrl | quote }}

@@ -1,0 +1,41 @@
+name: Publish Helm Chart
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - charts/openmarkers/**
+      - .github/workflows/publish-helm-chart.yml
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: publish-helm-chart-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CHART_PATH: charts/openmarkers
+  CHART_REPOSITORY: ghcr.io/${{ github.repository_owner }}/charts
+  REGISTRY: ghcr.io
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/setup-helm@v4
+
+      - name: Lint chart
+        run: helm lint "$CHART_PATH"
+
+      - name: Package chart
+        run: helm package "$CHART_PATH" --destination .helm-packages
+
+      - name: Login to GHCR
+        run: echo "${{ github.token }}" | helm registry login "$REGISTRY" --username "${{ github.actor }}" --password-stdin
+
+      - name: Publish chart
+        run: helm push .helm-packages/openmarkers-*.tgz "oci://$CHART_REPOSITORY"

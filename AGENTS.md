@@ -6,7 +6,7 @@ repository.
 ## Project Overview
 
 OpenMarkers is an open-source biomarker tracker with a Bun backend,
-Neon Postgres database (via Drizzle ORM + `bun:sql`), Neon Auth for
+Postgres database (via Drizzle ORM + `bun:sql`), Better Auth for
 authentication, and an MCP server for programmatic access. The React
 SPA visualizes blood test / lab results over time using Recharts,
 fetching data from an authenticated API.
@@ -16,10 +16,13 @@ fetching data from an authenticated API.
 - `bun run dev` — Start Vite dev server + API server via Turborepo (parallel)
 - `bun run build` — Production build via Turborepo (cached, outputs to `packages/web/dist/`)
 - `bun run format` — Format all packages via Turborepo
-- `bun run db:push` — Push Drizzle schema to Neon Postgres
+- `bun run db:push` — Push Drizzle schema to Postgres
 - `bun run db:generate` — Generate Drizzle migrations
 - `bun run db:migrate` — Run Drizzle migrations
 - `bun run db:studio` — Open Drizzle Studio
+- `helm lint charts/openmarkers` — Validate the OpenMarkers Helm chart
+- `helm template openmarkers charts/openmarkers --namespace openmarkers` — Render the chart locally
+- `.github/workflows/publish-helm-chart.yml` — Publishes the chart to GHCR on `master`
 
 Package manager is **bun**. Build system is **Turborepo** (`turbo.json`). Tests run with `bun test packages/db/src/`.
 
@@ -28,12 +31,15 @@ Package manager is **bun**. Build system is **Turborepo** (`turbo.json`). Tests 
 Per-package `.env` files (not at root — Turborepo best practice):
 
 **`packages/web/.env`** — used by API server and Vite dev server:
-- `DATABASE_URL` — Neon Postgres connection string
-- `NEON_AUTH_BASE_URL` — Neon Auth service URL (server-side JWT validation)
-- `VITE_NEON_AUTH_URL` — Neon Auth service URL (client-side auth SDK)
+- `DATABASE_URL` — Postgres connection string
+- `AUTH_BASE_URL` — Better Auth project endpoint
+- `AUTH_JWKS_URL` — Better Auth JWKS endpoint
+- `AUTH_JWT_ISSUER` — expected JWT issuer
+- `AUTH_JWT_AUDIENCE` — expected JWT audience
+- `VITE_AUTH_BASE_URL` — Better Auth project endpoint for the browser
 
 **`.env`** (root) — used only by drizzle-kit commands:
-- `DATABASE_URL` — Neon Postgres connection string
+- `DATABASE_URL` — Postgres connection string
 
 ## Architecture
 
@@ -41,19 +47,20 @@ Monorepo with bun workspaces + Turborepo. Three packages:
 
 ```
 Dockerfile                          — Multi-stage Alpine build for production
-fly.toml                            — Fly.io deployment config (fra region)
 turbo.json                          — Turborepo task config (build, dev, dev:api, format)
 drizzle.config.ts                   — Drizzle Kit config (schema + DB URL)
 .env.example                        — Root env template (DATABASE_URL for drizzle-kit)
+charts/openmarkers/                 — Helm chart scaffolded with helm create
+.github/workflows/publish-helm-chart.yml — Publishes the Helm chart to GHCR
 data/
 ├── schema.json                     — JSON schema for lab data import format
 └── demo.json                       — Demo data for "Try Demo" feature
 packages/
 ├── db/                             — Postgres database + business logic (@openmarkers/db)
 │   └── src/
-│       ├── schema/app.ts           — Drizzle schema (profiles, categories, biomarkers, results, profile_biomarkers, user_preferences)
+│       ├── schema/app.ts           — Drizzle schema (profiles, categories, biomarkers, results, user_preferences)
 │       ├── db.ts                   — Drizzle + bun:sql connection singleton
-│       ├── auth.ts                 — JWT validation via jose + Neon Auth JWKS
+│       ├── auth.ts                 — JWT validation via jose + configured Better Auth JWKS
 │       ├── index.ts                — Async CRUD functions with authUserId scoping, re-exports, enrichUserData
 │       ├── types.ts                — All shared type interfaces (DB + computed data) + UnitSystem enum
 │       ├── seed.ts                 — Import from JSON files (requires authUserId)
@@ -76,7 +83,7 @@ packages/
     └── src/
         ├── server.ts               — Bun.serve: auth middleware + API routes + MCP + static files
         ├── lib/api.ts              — Frontend fetch wrapper with JWT auth headers
-        ├── lib/auth-client.ts      — Neon Auth client (createAuthClient from @neondatabase/neon-js)
+        ├── lib/auth-client.ts      — Better Auth client (createAuthClient from better-auth/react)
         ├── App.tsx                 — Root: auth gate → AuthPage or main app
         ├── components/AuthPage.tsx  — Login/signup form with "Try Demo" button
         ├── types.ts                — Re-exports from @openmarkers/db + presentation types
@@ -85,34 +92,32 @@ packages/
         └── components/             — React components (pure display, fetch via API)
 ```
 
-DB: Neon Postgres (configured via `DATABASE_URL`)
+DB: Postgres (configured via `DATABASE_URL`)
 Server port: `3000`
 
 ### Database Tables (Postgres via Drizzle)
 
-Auth tables (managed by Neon Auth in `neon_auth` schema):
-- **neon_auth.user** — id, email, name (referenced as FK)
-
 Application tables:
-- **profiles** — id (serial PK), auth_user_id (FK → neon_auth.user.id), name, date_of_birth, sex, display_order, UNIQUE(auth_user_id, name)
+- **profiles** — id (serial PK), auth_user_id (Better Auth user id), name, date_of_birth, sex, display_order, UNIQUE(auth_user_id, name)
 - **categories** — id (text PK), display_order
 - **biomarkers** — id (text PK), category_id, unit, ref_min, ref_max, type, molecular_weight, conventional_unit, display_order
-- **profile_biomarkers** — per-profile ref range overrides (profile_id, biomarker_id, unit, ref_min, ref_max)
 - **results** — id (serial PK), profile_id (FK), biomarker_id, date, value, ref_min, ref_max, unit, UNIQUE(profile_id, biomarker_id, date)
-- **user_preferences** — auth_user_id (PK, FK → neon_auth.user.id), unit_system (si/conventional)
+- **user_preferences** — auth_user_id (PK, Better Auth user id), unit_system (si/conventional)
 
 ### Auth Flow
 
-Neon Auth is a hosted auth service (built on Better Auth). No auth server code runs on our side — Neon manages users, passwords, and sessions. Security is based on asymmetric JWT verification (RS256).
+Better Auth is provided by the shared homelab auth service. It manages users,
+passwords, and sessions per project. Security is based on asymmetric JWT
+verification (RS256).
 
 **Full flow:**
-1. **Sign-up/Sign-in**: Frontend calls `authClient.signUp()`/`signIn()` → hits Neon Auth servers directly (`VITE_NEON_AUTH_URL`). Neon Auth validates credentials, stores users in `neon_auth.user` table in our DB, sets a session cookie
-2. **Getting a JWT**: Before every API call, `authClient.getSession()` sends the session cookie to Neon Auth → returns a short-lived JWT signed with Neon Auth's private key (`session.data.session.token`)
+1. **Sign-up/Sign-in**: Frontend calls `authClient.signUp()`/`signIn()` → hits the configured Better Auth project endpoint (`VITE_AUTH_BASE_URL`). Better Auth validates credentials and sets a session cookie
+2. **Getting a JWT**: Before every API call, `getAuthToken()` requests a short-lived JWT from Better Auth using the session cookie
 3. **API calls**: Frontend sends `Authorization: Bearer <jwt>` header with every `/api/*` request (set up in `lib/api.ts`)
-4. **Backend verification**: `server.ts` extracts the Bearer token → `verifyToken()` (`packages/db/src/auth.ts`) verifies JWT signature against Neon Auth's public keys (JWKS from `NEON_AUTH_BASE_URL/.well-known/jwks.json`) using `jose` library → extracts `sub` (userId) → passes it to all DB functions for ownership scoping
+4. **Backend verification**: `server.ts` extracts the Bearer token → `verifyToken()` (`packages/db/src/auth.ts`) verifies JWT signature against Better Auth's public keys (JWKS from `AUTH_JWKS_URL`) using `jose` library → extracts `sub` (userId) → passes it to all DB functions for ownership scoping
 
 **Key files:**
-- `packages/web/src/lib/auth-client.ts` — Neon Auth client (`createAuthClient`)
+- `packages/web/src/lib/auth-client.ts` — Better Auth client (`createAuthClient`) + JWT helper
 - `packages/web/src/lib/api.ts` — Attaches JWT to every fetch
 - `packages/db/src/auth.ts` — `verifyToken()` via JWKS
 - `packages/web/src/server.ts` — Auth middleware extracting Bearer token
@@ -159,18 +164,18 @@ All routes require `Authorization: Bearer <jwt>` (except static files).
 
 ### Data Model
 
-- **auth user** — managed by Neon Auth (email + password)
+- **auth user** — managed by Better Auth (email + password)
 - **profile** — `name`, `dateOfBirth`, `sex` (M/F) — one auth user can have multiple profiles
 - **categories[]** — Groups of biomarkers (e.g., "basic_biochemistry", "hematology")
   - **biomarkers[]** — Individual tests with `id`, `unit`, `refMin`/`refMax`, `type` (quantitative or qualitative)
     - **results[]** — `{ date, value, refMin?, refMax?, unit? }` entries (numeric for quantitative, string for qualitative). Per-result ref ranges and unit from the lab report.
-- Reference range hierarchy: per-result → per-profile (`profile_biomarkers`) → global (`biomarkers`)
+- Reference range hierarchy: per-result → global (`biomarkers`)
 - Unit conversion: stored values are in original lab units. Display unit determined by user's `unit_system` preference (SI or Conventional). Conversion uses `molecular_weight` (for mass↔molar) and `conventional_unit` (per biomarker) fields.
 - All display names and descriptions live in `packages/db/src/i18n/*.ts`, keyed by biomarker/category ID
 
 ### Key Patterns
 
-- **Auth**: Neon Auth (managed service) — no auth server code on our side. Client SDK handles sign-in/up, JWT passed as Bearer token
+- **Auth**: Better Auth (managed service) — no auth server code on our side. Client SDK handles sign-in/up, JWT passed as Bearer token
 - **DB**: All CRUD functions are async and take `authUserId: string` for ownership scoping
 - **Routing**: Hash-based (`#/` and `#/category/:id`), managed in App.tsx via `hashchange` listener
 - **i18n**: `makeI18n(lang)` returns `{ t, tCat, tBio }` helpers. Four languages: en, cs, ru, is. Lives in `packages/db/`, re-exported by web

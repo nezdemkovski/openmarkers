@@ -15,15 +15,15 @@ export interface OAuthAuthCode {
   clientId: string;
   redirectUri: string;
   codeChallenge: string;
-  neonSessionToken: string;
-  neonSessionCookie: string;
+  authSessionToken: string;
+  authSessionCookie: string;
   expiresAt: number;
 }
 
 export interface OAuthRefreshToken {
   token: string;
   clientId: string;
-  neonSessionCookie: string;
+  authSessionCookie: string;
   expiresAt: number;
 }
 
