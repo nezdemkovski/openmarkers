@@ -51,6 +51,14 @@ secret:
     # DATABASE_URL: postgresql://...
     # OAUTH_SECRET: replace-with-random-secret
 
+migrations:
+  enabled: true
+  command:
+    - /bin/sh
+    - -ec
+  args:
+    - bun run db:migrate && bun run db:sync-biomarkers
+
 resources:
   requests:
     cpu: 25m

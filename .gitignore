@@ -5,5 +5,4 @@ dist/
 *.bun-build
 .env
 .env.local
-drizzle/
 .turbo

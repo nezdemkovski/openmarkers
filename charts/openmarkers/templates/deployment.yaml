@@ -28,6 +28,25 @@ spec:
       serviceAccountName: {{ include "openmarkers.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.migrations.enabled }}
+      initContainers:
+        - name: migrate
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            {{- toYaml .Values.migrations.command | nindent 12 }}
+          args:
+            {{- toYaml .Values.migrations.args | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "openmarkers.fullname" . }}
+            - secretRef:
+                name: {{ .Values.secret.name | quote }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- end }}
       containers:
         - name: openmarkers
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"

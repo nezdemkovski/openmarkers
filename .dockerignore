@@ -19,8 +19,6 @@ dist
 coverage
 **/coverage
 
-drizzle
-
 *.log
 *.tmp
 *.swp
