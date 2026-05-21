@@ -1,6 +1,6 @@
 # OpenMarkers
 
-Open-source biomarker tracker with a Bun backend, Neon Postgres database, and MCP server for AI agent access. The React SPA visualizes blood test / lab results over time using Recharts, fetching data from an authenticated API.
+Open-source biomarker tracker with a Bun backend, Postgres database, and MCP server for AI agent access. The React SPA visualizes blood test / lab results over time using Recharts, fetching data from an authenticated API.
 
 ## Quick Start
 
@@ -13,7 +13,7 @@ Open http://localhost:5173
 
 ### Environment Setup
 
-Copy the example env files and fill in your Neon credentials:
+Copy the example env files and fill in your database and auth credentials:
 
 ```bash
 cp .env.example .env                          # for drizzle-kit commands
@@ -21,9 +21,12 @@ cp packages/web/.env.example packages/web/.env # for API server + frontend
 ```
 
 Required variables in `packages/web/.env`:
-- `DATABASE_URL` — Neon Postgres connection string
-- `NEON_AUTH_BASE_URL` — Neon Auth service URL (server-side)
-- `VITE_NEON_AUTH_URL` — Neon Auth service URL (client-side)
+- `DATABASE_URL` — Postgres connection string
+- `AUTH_BASE_URL` — Better Auth project endpoint, for example `https://auth.nezdemkovski.cloud/openmarkers/api/auth`
+- `AUTH_JWKS_URL` — Better Auth JWKS endpoint
+- `AUTH_JWT_ISSUER` — expected JWT issuer
+- `AUTH_JWT_AUDIENCE` — expected JWT audience
+- `VITE_AUTH_BASE_URL` — client-side Better Auth endpoint
 
 Push the schema to your database:
 
@@ -39,7 +42,7 @@ Monorepo with three packages:
 - **`packages/mcp-server`** — 25 MCP tools wrapping db functions
 - **`packages/web`** — React SPA + Bun HTTP server (API routes + static files)
 
-Auth is handled by [Neon Auth](https://neon.tech/docs/guides/neon-auth) — no auth server code on our side. JWTs are verified against Neon's JWKS endpoint.
+Auth is handled by a Better Auth project endpoint. JWTs are verified against the configured JWKS endpoint.
 
 ## MCP Tools
 
@@ -67,13 +70,20 @@ Upload a PDF or paste lab results text into Claude Code. Claude will:
 
 ## Deployment
 
-Production deployment uses Docker on Fly.io:
+Production deployment uses Docker images and the Helm chart in
+`charts/openmarkers`:
 
 ```bash
-fly deploy
+docker build \
+  --build-arg VITE_AUTH_BASE_URL=https://auth.nezdemkovski.cloud/openmarkers/api/auth \
+  -t ghcr.io/nezdemkovski/openmarkers:1.0.0 .
+
+helm lint charts/openmarkers
+helm template openmarkers charts/openmarkers --namespace openmarkers
 ```
 
-The `Dockerfile` runs a multi-stage Alpine build. The `fly.toml` configures a single shared-cpu instance in the `fra` region.
+The `Dockerfile` runs a multi-stage Alpine build. Kubernetes runtime settings
+are owned by the Helm chart.
 
 ## Commands
 
@@ -82,7 +92,38 @@ The `Dockerfile` runs a multi-stage Alpine build. The `fly.toml` configures a si
 | `bun run dev` | Start Vite dev server + API server (Turborepo) |
 | `bun run build` | Production build (outputs to `packages/web/dist/`) |
 | `bun run format` | Format all packages with Prettier |
-| `bun run db:push` | Push Drizzle schema to Neon Postgres |
+| `bun run db:push` | Push Drizzle schema to Postgres |
 | `bun run db:generate` | Generate Drizzle migrations |
 | `bun run db:migrate` | Run Drizzle migrations |
 | `bun run db:studio` | Open Drizzle Studio |
+
+## Helm Chart
+
+The Kubernetes chart lives in `charts/openmarkers` and was scaffolded with
+`helm create`.
+
+```bash
+helm lint charts/openmarkers
+helm template openmarkers charts/openmarkers --namespace openmarkers
+```
+
+The chart expects a secret named `openmarkers-env` by default with:
+
+- `DATABASE_URL`
+- `OAUTH_SECRET`
+
+The browser auth endpoint is compiled into the frontend at image build time, so
+build images with:
+
+```bash
+docker build \
+  --build-arg VITE_AUTH_BASE_URL=https://auth.nezdemkovski.cloud/openmarkers/api/auth \
+  -t ghcr.io/nezdemkovski/openmarkers:1.0.0 .
+```
+
+On push to `master`, `.github/workflows/publish-helm-chart.yml` publishes the
+chart to:
+
+```text
+oci://ghcr.io/nezdemkovski/charts/openmarkers
+```

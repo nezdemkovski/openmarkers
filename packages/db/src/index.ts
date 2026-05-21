@@ -9,7 +9,6 @@ import {
   categories,
   biomarkers,
   results,
-  neonAuthUser,
   userPreferences,
 } from "./schema/app";
 import type {
@@ -938,11 +937,16 @@ async function assembleProfileData(
 }
 
 export async function deleteUser(authUserId: string): Promise<boolean> {
-  const result = await db
-    .delete(neonAuthUser)
-    .where(eq(neonAuthUser.id, authUserId))
-    .returning({ id: neonAuthUser.id });
-  return result.length > 0;
+  const deletedProfiles = await db
+    .delete(profiles)
+    .where(eq(profiles.authUserId, authUserId))
+    .returning({ id: profiles.id });
+
+  await db
+    .delete(userPreferences)
+    .where(eq(userPreferences.authUserId, authUserId));
+
+  return deletedProfiles.length > 0;
 }
 
 export async function isDbEmpty(): Promise<boolean> {

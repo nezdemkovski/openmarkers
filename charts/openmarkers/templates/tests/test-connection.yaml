@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "openmarkers.fullname" . }}-test-connection"
+  labels:
+    {{- include "openmarkers.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "openmarkers.fullname" . }}:{{ .Values.service.port }}/schema.json']
+  restartPolicy: Never

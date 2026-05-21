@@ -13,7 +13,7 @@ import TermsOfService from "./components/TermsOfService.tsx";
 import { makeI18n } from "./i18n.ts";
 import { track, Event } from "./lib/analytics.ts";
 import { setTokenProvider, setOnUnauthorized } from "./lib/api.ts";
-import { authClient } from "./lib/auth-client.ts";
+import { authClient, getAuthToken } from "./lib/auth-client.ts";
 import { isLang } from "./lib/utils.ts";
 import type { Route } from "./types.ts";
 
@@ -44,8 +44,7 @@ function getRouteFromPath(): Route {
 
 setTokenProvider(async () => {
   try {
-    const session = await authClient.getSession();
-    return session?.data?.session?.token ?? null;
+    return await getAuthToken();
   } catch {
     return null;
   }

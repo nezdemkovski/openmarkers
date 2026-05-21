@@ -12,8 +12,8 @@ RUN bun install --frozen-lockfile
 # Build frontend
 FROM deps AS build
 COPY . .
-ARG VITE_NEON_AUTH_URL
-ENV VITE_NEON_AUTH_URL=$VITE_NEON_AUTH_URL
+ARG VITE_AUTH_BASE_URL
+ENV VITE_AUTH_BASE_URL=$VITE_AUTH_BASE_URL
 RUN bun run build
 
 # Production

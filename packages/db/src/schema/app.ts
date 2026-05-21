@@ -1,32 +1,20 @@
 import {
   pgTable,
-  pgSchema,
   serial,
   text,
   doublePrecision,
   integer,
-  uuid,
   timestamp,
   bigint,
   boolean,
   unique,
 } from "drizzle-orm/pg-core";
 
-const neonAuthSchema = pgSchema("neon_auth");
-
-export const neonAuthUser = neonAuthSchema.table("user", {
-  id: uuid("id").primaryKey(),
-  email: text("email"),
-  name: text("name"),
-});
-
 export const profiles = pgTable(
   "profiles",
   {
     id: serial("id").primaryKey(),
-    authUserId: uuid("auth_user_id")
-      .notNull()
-      .references(() => neonAuthUser.id, { onDelete: "cascade" }),
+    authUserId: text("auth_user_id").notNull(),
     name: text("name").notNull(),
     dateOfBirth: text("date_of_birth").notNull(),
     sex: text("sex", { enum: ["M", "F"] }).notNull(),
@@ -83,9 +71,7 @@ export const results = pgTable(
 );
 
 export const userPreferences = pgTable("user_preferences", {
-  authUserId: uuid("auth_user_id")
-    .primaryKey()
-    .references(() => neonAuthUser.id, { onDelete: "cascade" }),
+  authUserId: text("auth_user_id").primaryKey(),
   unitSystem: text("unit_system", { enum: ["si", "conventional"] })
     .notNull()
     .default("si"),
@@ -109,14 +95,14 @@ export const oauthAuthCodes = pgTable("oauth_auth_codes", {
   clientId: text("client_id").notNull(),
   redirectUri: text("redirect_uri").notNull(),
   codeChallenge: text("code_challenge").notNull(),
-  neonSessionToken: text("neon_session_token").notNull(),
-  neonSessionCookie: text("neon_session_cookie").notNull(),
+  authSessionToken: text("auth_session_token").notNull(),
+  authSessionCookie: text("auth_session_cookie").notNull(),
   expiresAt: bigint("expires_at", { mode: "number" }).notNull(),
 });
 
 export const oauthRefreshTokens = pgTable("oauth_refresh_tokens", {
   token: text("token").primaryKey(),
   clientId: text("client_id").notNull(),
-  neonSessionCookie: text("neon_session_cookie").notNull(),
+  authSessionCookie: text("auth_session_cookie").notNull(),
   expiresAt: bigint("expires_at", { mode: "number" }).notNull(),
 });

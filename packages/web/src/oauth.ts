@@ -2,8 +2,11 @@ import { oauthStore } from "@openmarkers/db";
 
 import { renderLoginPage } from "./oauth-login.ts";
 
-const NEON_AUTH_BASE_URL = process.env.NEON_AUTH_BASE_URL!;
+const AUTH_BASE_URL = process.env.AUTH_BASE_URL!;
 const OAUTH_SECRET = process.env.OAUTH_SECRET;
+if (!AUTH_BASE_URL) {
+  throw new Error("AUTH_BASE_URL environment variable is required");
+}
 if (!OAUTH_SECRET) {
   throw new Error(
     "OAUTH_SECRET environment variable is required. Generate one with: openssl rand -base64 32",
@@ -55,12 +58,12 @@ setInterval(() => {
   oauthStore.cleanupExpired().catch(() => {});
 }, 60_000);
 
-async function signInViaNeonAuth(
+async function signInViaAuth(
   email: string,
   password: string,
 ): Promise<{ jwt: string; sessionCookie: string } | null> {
   try {
-    const base = NEON_AUTH_BASE_URL.replace(/\/+$/, "");
+    const base = AUTH_BASE_URL.replace(/\/+$/, "");
 
     const signInRes = await fetch(`${base}/sign-in/email`, {
       method: "POST",
@@ -106,16 +109,16 @@ async function signInViaNeonAuth(
     console.info("[oauth] Sign-in successful");
     return { jwt, sessionCookie };
   } catch (e) {
-    console.error("[oauth] Neon Auth sign-in failed:", e);
+    console.error("[oauth] Auth sign-in failed:", e);
     return null;
   }
 }
 
-async function refreshViaNeonAuth(
+async function refreshViaAuth(
   sessionCookie: string,
 ): Promise<string | null> {
   try {
-    const base = NEON_AUTH_BASE_URL.replace(/\/+$/, "");
+    const base = AUTH_BASE_URL.replace(/\/+$/, "");
     const res = await fetch(`${base}/get-session`, {
       headers: { Cookie: sessionCookie },
     });
@@ -301,7 +304,7 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
       });
     }
 
-    const authResult = await signInViaNeonAuth(email, password);
+    const authResult = await signInViaAuth(email, password);
     if (!authResult) {
       const html = renderLoginPage({
         clientId,
@@ -323,8 +326,8 @@ export function handleAuthorize(req: Request): Response | Promise<Response> {
       codeChallenge,
       clientId,
       redirectUri,
-      neonSessionToken: authResult.jwt,
-      neonSessionCookie: await encrypt(authResult.sessionCookie),
+      authSessionToken: authResult.jwt,
+      authSessionCookie: await encrypt(authResult.sessionCookie),
       expiresAt: Date.now() + 5 * 60 * 1000,
     });
 
@@ -401,7 +404,7 @@ export function handleToken(req: Request): Response | Promise<Response> {
       const refreshToken = generateCode();
       await oauthStore.storeRefreshToken({
         token: refreshToken,
-        neonSessionCookie: stored.neonSessionCookie,
+        authSessionCookie: stored.authSessionCookie,
         clientId,
         expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
       });
@@ -410,7 +413,7 @@ export function handleToken(req: Request): Response | Promise<Response> {
       try {
         const payload = JSON.parse(
           Buffer.from(
-            stored.neonSessionToken.split(".")[1],
+            stored.authSessionToken.split(".")[1],
             "base64url",
           ).toString(),
         );
@@ -427,7 +430,7 @@ export function handleToken(req: Request): Response | Promise<Response> {
       );
       return Response.json(
         {
-          access_token: stored.neonSessionToken,
+          access_token: stored.authSessionToken,
           token_type: "bearer",
           expires_in: expiresIn,
           refresh_token: refreshToken,
@@ -449,8 +452,8 @@ export function handleToken(req: Request): Response | Promise<Response> {
         );
       }
 
-      const decryptedCookie = await decrypt(stored.neonSessionCookie);
-      const newJwt = await refreshViaNeonAuth(decryptedCookie);
+      const decryptedCookie = await decrypt(stored.authSessionCookie);
+      const newJwt = await refreshViaAuth(decryptedCookie);
       if (!newJwt) {
         await oauthStore.deleteRefreshToken(refreshToken);
         console.warn(
@@ -471,7 +474,7 @@ export function handleToken(req: Request): Response | Promise<Response> {
       const newRefreshToken = generateCode();
       await oauthStore.storeRefreshToken({
         token: newRefreshToken,
-        neonSessionCookie: stored.neonSessionCookie,
+        authSessionCookie: stored.authSessionCookie,
         clientId,
         expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000,
       });

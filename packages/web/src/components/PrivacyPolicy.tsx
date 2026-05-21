@@ -29,7 +29,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
             <ul className="list-disc pl-5 space-y-1">
               <li>
                 <strong>Account data</strong> — email address, display name,
-                hashed password (managed by Neon Auth)
+                hashed password (managed by Better Auth)
               </li>
               <li>
                 <strong>Health data</strong> — blood test results, lab values,
@@ -99,7 +99,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
             </h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>
-                Data is stored in Neon Postgres (encrypted at rest and in
+                Data is stored in Postgres (encrypted at rest and in
                 transit)
               </li>
               <li>
@@ -110,7 +110,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
                 accessible without your credentials
               </li>
               <li>
-                Passwords are hashed and managed by Neon Auth (we never see or
+                Passwords are hashed and managed by Better Auth (we never see or
                 store plaintext passwords)
               </li>
             </ul>
@@ -144,7 +144,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
           <section>
             <h2 className="text-lg font-semibold text-foreground">Cookies</h2>
             <p>
-              We use a single session cookie set by Neon Auth for authentication
+              We use a single session cookie set by Better Auth for authentication
               purposes only. We do not use tracking cookies, analytics cookies,
               or advertising cookies.
             </p>
