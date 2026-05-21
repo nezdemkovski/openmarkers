@@ -2,5 +2,5 @@ apiVersion: v2
 name: openmarkers
 description: OpenMarkers biomarker tracker
 type: application
-version: 0.1.1
-appVersion: "1.0.1"
+version: 0.1.2
+appVersion: "1.0.2"
