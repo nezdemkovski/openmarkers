@@ -88,7 +88,10 @@ export default function DashboardPage({
 
   const [activeProfileId, setActiveProfileId] = useState<number | null>(() => {
     const saved = localStorage.getItem("activeProfileId");
-    return saved ? Number(saved) : null;
+    if (!saved) return null;
+
+    const parsed = Number(saved);
+    return Number.isFinite(parsed) ? parsed : null;
   });
 
   const { data: profileList = [], isSuccess: profileListLoaded } = useQuery({
@@ -97,15 +100,38 @@ export default function DashboardPage({
   });
 
   useEffect(() => {
-    if (profileList.length > 0 && activeProfileId === null) {
-      setActiveProfileId(profileList[0].id);
+    if (!profileListLoaded) return;
+
+    if (profileList.length === 0) {
+      if (activeProfileId !== null) {
+        setActiveProfileId(null);
+      }
+      localStorage.removeItem("activeProfileId");
+      return;
     }
-  }, [profileList, activeProfileId]);
+
+    const activeProfileExists =
+      activeProfileId !== null &&
+      profileList.some((profile) => profile.id === activeProfileId);
+
+    if (!activeProfileExists) {
+      const nextProfileId = profileList[0].id;
+      setActiveProfileId(nextProfileId);
+      localStorage.setItem("activeProfileId", String(nextProfileId));
+    }
+  }, [profileListLoaded, profileList, activeProfileId]);
+
+  const activeProfileExists = useMemo(
+    () =>
+      activeProfileId !== null &&
+      profileList.some((profile) => profile.id === activeProfileId),
+    [profileList, activeProfileId],
+  );
 
   const { data: profileData } = useQuery({
     queryKey: ["profile", activeProfileId],
     queryFn: () => api.getProfile(activeProfileId!),
-    enabled: activeProfileId !== null,
+    enabled: activeProfileExists,
   });
 
   const sidebarUsers: UserData[] = useMemo(() => {
