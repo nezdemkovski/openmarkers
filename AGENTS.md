@@ -35,7 +35,7 @@ Per-package `.env` files (not at root — Turborepo best practice):
 - `AUTH_BASE_URL` — Better Auth project endpoint
 - `AUTH_JWKS_URL` — Better Auth JWKS endpoint
 - `AUTH_JWT_ISSUER` — expected JWT issuer
-- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when both browser session JWTs and OAuth access JWTs are accepted
+- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when both browser session JWTs and OAuth access JWTs are accepted. Production includes `openmarkers`, `https://auth.nezdemkovski.cloud/openmarkers`, and `https://openmarkers.app/mcp`.
 - `VITE_AUTH_BASE_URL` — Better Auth project endpoint for the browser
 
 **`.env`** (root) — used only by drizzle-kit commands:
@@ -123,7 +123,7 @@ verification (RS256).
 - `packages/web/src/server.ts` — Auth middleware extracting Bearer token
 
 **Other auth contexts:**
-- **MCP**: OpenMarkers is the protected resource server. It advertises `/.well-known/oauth-protected-resource` and delegates authorization to the shared auth realm from `AUTH_JWT_ISSUER`; Bearer tokens are still extracted and validated through `verifyToken()`, then `authUserId` is passed to all tool registrations.
+- **MCP**: OpenMarkers is the OAuth protected resource server. It advertises `/.well-known/oauth-protected-resource` and delegates authorization to the shared auth realm from `AUTH_JWT_ISSUER`. Remote clients should connect to `https://openmarkers.app/mcp`; local clients can use `http://localhost:3000/mcp`. Bearer tokens are extracted and validated through `verifyToken()`, then `authUserId` is passed to all tool registrations. The auth realm must allow the MCP resource URL as a valid OAuth audience/resource.
 - **Demo mode**: Client-side only, loads `demo.json` without auth
 
 ### API Routes
@@ -181,7 +181,7 @@ All routes require `Authorization: Bearer <jwt>` (except static files).
 - **i18n**: `makeI18n(lang)` returns `{ t, tCat, tBio }` helpers. Four languages: en, cs, ru, is. Lives in `packages/db/`, re-exported by web
 - **Dark mode**: Class-based (`.dark` on `<html>`), persisted to localStorage
 - **Charts**: Recharts `<LineChart>` with `<ReferenceArea>` for min/max range bands
-- **MCP**: Stateless HTTP transport via `@modelcontextprotocol/sdk`, 25 tools with Bearer JWT auth
+- **MCP**: Stateless HTTP transport via `@modelcontextprotocol/sdk`, 25 tools with Bearer JWT auth. OAuth discovery is delegated to the shared auth realm; for Codex use `mcp-remote https://openmarkers.app/mcp`.
 - **Service layer**: All business logic (analytics, bio age, prompt building, unit conversion) lives in `packages/db/src/`. Service functions in `services.ts` wrap `getProfileData()` + pure logic. API endpoints and MCP tools are thin wrappers
 - **Dumb frontend**: All calculations happen server-side. Frontend only displays data from API responses. Demo mode uses `enrichUserData()` from `enrich.ts` (pure function, no DB). Never import from `analytics.ts`, `bioage.ts`, or `promptBuilder.ts` in frontend components.
 - **Unit system**: Per-user preference (SI/Conventional) stored in `user_preferences` table. Conversion happens in `assembleProfileData()` on read. PhenoAge and AI prompt always use raw SI data via `getRawProfileData()`.
@@ -191,7 +191,11 @@ All routes require `Authorization: Bearer <jwt>` (except static files).
 
 ### MCP Tools
 
-The MCP server at `http://localhost:3000/mcp` exposes 25 tools (requires `Authorization: Bearer <jwt>`):
+The MCP server exposes 25 tools (requires `Authorization: Bearer <jwt>`).
+Production clients connect to `https://openmarkers.app/mcp`; local development
+uses `http://localhost:3000/mcp`. OAuth-capable clients should use the
+protected-resource metadata and shared auth realm instead of manually creating
+Bearer tokens.
 
 | Tool | What it does |
 |------|-------------|

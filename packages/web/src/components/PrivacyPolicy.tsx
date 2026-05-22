@@ -80,7 +80,7 @@ export default function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
             <ul className="list-disc pl-5 space-y-1">
               <li>
                 The AI assistant requests your data through the MCP endpoint
-                using your authentication token
+                using an OAuth access token that you approve
               </li>
               <li>
                 <strong>You</strong> initiate every data request — we never push

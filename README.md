@@ -25,7 +25,7 @@ Required variables in `packages/web/.env`:
 - `AUTH_BASE_URL` — Better Auth project endpoint, for example `https://auth.nezdemkovski.cloud/openmarkers/api/auth`
 - `AUTH_JWKS_URL` — Better Auth JWKS endpoint
 - `AUTH_JWT_ISSUER` — expected JWT issuer
-- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when multiple JWT issuers/flows are accepted
+- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when both browser session JWTs and OAuth access JWTs are accepted, for example `openmarkers,https://auth.nezdemkovski.cloud/openmarkers,https://openmarkers.app/mcp`
 - `VITE_AUTH_BASE_URL` — client-side Better Auth endpoint
 
 Push the schema to your database:
@@ -42,30 +42,58 @@ Monorepo with three packages:
 - **`packages/mcp-server`** — 25 MCP tools wrapping db functions
 - **`packages/web`** — React SPA + Bun HTTP server (API routes + static files)
 
-Auth is handled by a Better Auth project endpoint. JWTs are verified against the configured JWKS endpoint.
+Auth is handled by the shared Better Auth project endpoint. Browser sessions
+use the Better Auth client. MCP clients use OAuth through the same auth realm,
+with OpenMarkers acting as an OAuth protected resource server. JWTs are
+verified against the configured JWKS endpoint.
 
 ## MCP Tools
 
-The MCP server at `http://localhost:3000/mcp` exposes 25 tools for managing profiles, biomarkers, results, and analytics. All endpoints require JWT authentication.
+The MCP server exposes 25 tools for managing profiles, biomarkers, results,
+and analytics. The production endpoint is:
 
-OAuth discovery for MCP is delegated to the shared homelab auth realm. OpenMarkers acts as the protected resource server and advertises:
+```text
+https://openmarkers.app/mcp
+```
+
+Local development uses:
+
+```text
+http://localhost:3000/mcp
+```
+
+OpenMarkers is the OAuth protected resource server. It advertises:
 
 - protected resource metadata at `/.well-known/oauth-protected-resource`
 - authorization server issuer from `AUTH_JWT_ISSUER`
 - Bearer token validation through `AUTH_JWKS_URL`
 
-### Claude Code Integration
+The authorization server must allow `https://openmarkers.app/mcp` as a valid
+OAuth token audience/resource. In the homelab auth admin UI this means enabling
+OAuth Provider and Dynamic Client Registration for the OpenMarkers realm.
 
-Add to `~/.claude.json` under `mcpServers`:
+### MCP Client Integration
+
+For clients that support remote MCP through OAuth, use the production endpoint:
+
+```text
+https://openmarkers.app/mcp
+```
+
+For Codex, configure it through `mcp-remote`:
 
 ```json
 {
   "openmarkers": {
-    "type": "http",
-    "url": "http://localhost:3000/mcp"
+    "command": "npx",
+    "args": ["-y", "mcp-remote", "https://openmarkers.app/mcp"]
   }
 }
 ```
+
+The first run opens the shared auth consent screen. After approval,
+`mcp-remote` stores OAuth tokens locally and reconnects without another
+browser prompt until the token needs refresh.
 
 ### Importing Lab Reports
 
