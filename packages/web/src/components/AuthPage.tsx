@@ -9,7 +9,6 @@ import {
   GithubCopilot,
   OpenClaw,
 } from "@lobehub/icons";
-import { useQuery } from "@tanstack/react-query";
 import {
   Loader2,
   Play,
@@ -24,6 +23,7 @@ import {
 import { useState, useEffect, useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
+import demoJson from "../../data/demo.json";
 import HeroTerminal from "./HeroTerminal";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -234,17 +234,13 @@ export default function AuthPage({
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const { data: demoData } = useQuery<UserData>({
-    queryKey: ["demo-hero"],
-    queryFn: () =>
-      import("../../data/demo.json").then((m) =>
-        enrichUserData(m.default as UserData),
-      ),
-    staleTime: Infinity,
-  });
+  const demoData = useMemo(
+    () => enrichUserData(structuredClone(demoJson) as UserData),
+    [],
+  );
 
   const heroBiomarkers = useMemo(
-    () => (demoData ? pickHeroBiomarkers(demoData) : []),
+    () => pickHeroBiomarkers(demoData),
     [demoData],
   );
 

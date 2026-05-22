@@ -1,10 +1,10 @@
 import type { Lang } from "@openmarkers/db";
 import { enrichUserData } from "@openmarkers/db/src/enrich";
-import { useQuery } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useCallback, useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
+import demoJson from "../../data/demo.json";
 import {
   SidebarProvider,
   SidebarInset,
@@ -39,15 +39,10 @@ export default function DemoPage({
   navigateTo,
 }: DemoPageProps) {
   const i18n = useMemo(() => makeI18n(lang), [lang]);
-
-  const { data: demoData } = useQuery<UserData>({
-    queryKey: ["demo"],
-    queryFn: () =>
-      import("../../data/demo.json").then((m) =>
-        enrichUserData(m.default as UserData),
-      ),
-    staleTime: Infinity,
-  });
+  const demoData = useMemo(
+    () => enrichUserData(structuredClone(demoJson) as UserData),
+    [],
+  );
 
   const navigate = useCallback(
     (target: string | null) => {
@@ -61,8 +56,6 @@ export default function DemoPage({
     },
     [navigateTo],
   );
-
-  if (!demoData) return <Loading visible={true} text={i18n.t("loading")} />;
 
   const category =
     route.view === "category"
