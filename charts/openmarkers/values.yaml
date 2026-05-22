@@ -42,7 +42,7 @@ config:
   authBaseUrl: https://auth.nezdemkovski.cloud/openmarkers/api/auth
   authJwksUrl: https://auth.nezdemkovski.cloud/openmarkers/api/auth/.well-known/jwks.json
   authJwtIssuer: https://auth.nezdemkovski.cloud/openmarkers
-  authJwtAudience: openmarkers,https://auth.nezdemkovski.cloud/openmarkers
+  authJwtAudience: openmarkers,https://auth.nezdemkovski.cloud/openmarkers,https://openmarkers.app/mcp
 
 secret:
   create: false

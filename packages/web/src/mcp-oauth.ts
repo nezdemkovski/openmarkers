@@ -14,7 +14,7 @@ export function handleOAuthProtectedResource(req: Request): Response {
 
   return Response.json(
     {
-      resource: AUTH_ISSUER,
+      resource: `${baseUrl}/mcp`,
       authorization_servers: [AUTH_ISSUER],
       scopes_supported: ["openid", "profile", "email", "offline_access"],
       bearer_methods_supported: ["header"],
