@@ -2,6 +2,7 @@ import { verifyToken } from "@openmarkers/db";
 
 const SESSION_COOKIE = "openmarkers_session";
 const STATE_COOKIE = "openmarkers_auth_state";
+const PKCE_VERIFIER_COOKIE = "openmarkers_auth_pkce";
 const SESSION_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
 
 function authBaseUrl(): string {
@@ -57,14 +58,19 @@ function randomState(): string {
   );
 }
 
-function redirect(location: string, headers?: HeadersInit): Response {
-  return new Response(null, {
-    status: 302,
-    headers: {
-      Location: location,
-      ...headers
-    }
-  });
+function randomCodeVerifier(): string {
+  return Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString(
+    "base64url"
+  );
+}
+
+async function codeChallenge(verifier: string): Promise<string> {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(verifier)
+  );
+
+  return Buffer.from(digest).toString("base64url");
 }
 
 async function getTokenFromSessionCookie(
@@ -83,16 +89,29 @@ async function getTokenFromSessionCookie(
   return res.headers.get("set-auth-jwt");
 }
 
-export function handleAuthLogin(req: Request, mode: "login" | "signup") {
+export async function handleAuthLogin(req: Request, mode: "login" | "signup") {
   const state = randomState();
+  const verifier = randomCodeVerifier();
   const baseUrl = getBaseUrl(req);
   const loginUrl = new URL(`${authBaseUrl()}/login`);
   loginUrl.searchParams.set("redirect_uri", `${baseUrl}/auth/callback`);
   loginUrl.searchParams.set("state", state);
   loginUrl.searchParams.set("mode", mode);
+  loginUrl.searchParams.set("code_challenge", await codeChallenge(verifier));
+  loginUrl.searchParams.set("code_challenge_method", "S256");
 
-  return redirect(loginUrl.toString(), {
-    "Set-Cookie": cookieHeader(STATE_COOKIE, state, req, 10 * 60)
+  const headers = new Headers({
+    Location: loginUrl.toString()
+  });
+  headers.append("Set-Cookie", cookieHeader(STATE_COOKIE, state, req, 10 * 60));
+  headers.append(
+    "Set-Cookie",
+    cookieHeader(PKCE_VERIFIER_COOKIE, verifier, req, 10 * 60)
+  );
+
+  return new Response(null, {
+    status: 302,
+    headers
   });
 }
 
@@ -100,11 +119,20 @@ export async function handleAuthCallback(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const code = url.searchParams.get("code") ?? "";
   const state = url.searchParams.get("state") ?? "";
-  const expectedState = parseCookies(req).get(STATE_COOKIE);
+  const cookies = parseCookies(req);
+  const expectedState = cookies.get(STATE_COOKIE);
+  const codeVerifier = cookies.get(PKCE_VERIFIER_COOKIE);
 
-  if (!code || !state || !expectedState || state !== expectedState) {
-    return redirect("/", {
-      "Set-Cookie": clearCookieHeader(STATE_COOKIE, req)
+  if (!code || !state || !expectedState || state !== expectedState || !codeVerifier) {
+    const headers = new Headers({
+      Location: "/"
+    });
+    headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE, req));
+    headers.append("Set-Cookie", clearCookieHeader(PKCE_VERIFIER_COOKIE, req));
+
+    return new Response(null, {
+      status: 302,
+      headers
     });
   }
 
@@ -115,13 +143,21 @@ export async function handleAuthCallback(req: Request): Promise<Response> {
     },
     body: JSON.stringify({
       code,
-      redirect_uri: `${getBaseUrl(req)}/auth/callback`
+      redirect_uri: `${getBaseUrl(req)}/auth/callback`,
+      code_verifier: codeVerifier
     })
   });
 
   if (!res.ok) {
-    return redirect("/", {
-      "Set-Cookie": clearCookieHeader(STATE_COOKIE, req)
+    const headers = new Headers({
+      Location: "/"
+    });
+    headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE, req));
+    headers.append("Set-Cookie", clearCookieHeader(PKCE_VERIFIER_COOKIE, req));
+
+    return new Response(null, {
+      status: 302,
+      headers
     });
   }
 
@@ -129,8 +165,15 @@ export async function handleAuthCallback(req: Request): Promise<Response> {
   const sessionCookie =
     typeof data?.sessionCookie === "string" ? data.sessionCookie : "";
   if (!sessionCookie) {
-    return redirect("/", {
-      "Set-Cookie": clearCookieHeader(STATE_COOKIE, req)
+    const headers = new Headers({
+      Location: "/"
+    });
+    headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE, req));
+    headers.append("Set-Cookie", clearCookieHeader(PKCE_VERIFIER_COOKIE, req));
+
+    return new Response(null, {
+      status: 302,
+      headers
     });
   }
 
@@ -142,6 +185,7 @@ export async function handleAuthCallback(req: Request): Promise<Response> {
     cookieHeader(SESSION_COOKIE, sessionCookie, req, SESSION_MAX_AGE_SECONDS)
   );
   headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE, req));
+  headers.append("Set-Cookie", clearCookieHeader(PKCE_VERIFIER_COOKIE, req));
 
   return new Response(null, {
     status: 302,
