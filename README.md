@@ -25,7 +25,7 @@ Required variables in `packages/web/.env`:
 - `AUTH_BASE_URL` — Better Auth project endpoint, for example `https://auth.nezdemkovski.cloud/openmarkers/api/auth`
 - `AUTH_JWKS_URL` — Better Auth JWKS endpoint
 - `AUTH_JWT_ISSUER` — expected JWT issuer
-- `AUTH_JWT_AUDIENCE` — expected JWT audience
+- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when multiple JWT issuers/flows are accepted
 - `VITE_AUTH_BASE_URL` — client-side Better Auth endpoint
 
 Push the schema to your database:
@@ -47,6 +47,12 @@ Auth is handled by a Better Auth project endpoint. JWTs are verified against the
 ## MCP Tools
 
 The MCP server at `http://localhost:3000/mcp` exposes 25 tools for managing profiles, biomarkers, results, and analytics. All endpoints require JWT authentication.
+
+OAuth discovery for MCP is delegated to the shared homelab auth realm. OpenMarkers acts as the protected resource server and advertises:
+
+- protected resource metadata at `/.well-known/oauth-protected-resource`
+- authorization server issuer from `AUTH_JWT_ISSUER`
+- Bearer token validation through `AUTH_JWKS_URL`
 
 ### Claude Code Integration
 
@@ -110,7 +116,6 @@ helm template openmarkers charts/openmarkers --namespace openmarkers
 The chart expects a secret named `openmarkers-env` by default with:
 
 - `DATABASE_URL`
-- `OAUTH_SECRET`
 
 The browser auth endpoint is compiled into the frontend at image build time, so
 build images with:

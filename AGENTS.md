@@ -35,7 +35,7 @@ Per-package `.env` files (not at root — Turborepo best practice):
 - `AUTH_BASE_URL` — Better Auth project endpoint
 - `AUTH_JWKS_URL` — Better Auth JWKS endpoint
 - `AUTH_JWT_ISSUER` — expected JWT issuer
-- `AUTH_JWT_AUDIENCE` — expected JWT audience
+- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when both browser session JWTs and OAuth access JWTs are accepted
 - `VITE_AUTH_BASE_URL` — Better Auth project endpoint for the browser
 
 **`.env`** (root) — used only by drizzle-kit commands:
@@ -123,7 +123,7 @@ verification (RS256).
 - `packages/web/src/server.ts` — Auth middleware extracting Bearer token
 
 **Other auth contexts:**
-- **MCP**: Same JWT auth — Bearer token extracted and validated, `authUserId` passed to all tool registrations
+- **MCP**: OpenMarkers is the protected resource server. It advertises `/.well-known/oauth-protected-resource` and delegates authorization to the shared auth realm from `AUTH_JWT_ISSUER`; Bearer tokens are still extracted and validated through `verifyToken()`, then `authUserId` is passed to all tool registrations.
 - **Demo mode**: Client-side only, loads `demo.json` without auth
 
 ### API Routes

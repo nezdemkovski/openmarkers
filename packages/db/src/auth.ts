@@ -17,7 +17,7 @@ export async function verifyToken(
   try {
     const { payload } = await jwtVerify(token, getJWKS(), {
       issuer: process.env.AUTH_JWT_ISSUER,
-      audience: process.env.AUTH_JWT_AUDIENCE,
+      audience: getAcceptedAudiences(),
     });
     if (!payload.sub) return null;
     return {
@@ -29,4 +29,18 @@ export async function verifyToken(
     console.error("[auth] JWT verification failed:", message);
     return null;
   }
+}
+
+export function getAcceptedAudiences(): string | string[] | undefined {
+  const value = process.env.AUTH_JWT_AUDIENCE;
+  if (!value) return undefined;
+
+  const audiences = value
+    .split(",")
+    .map((audience) => audience.trim())
+    .filter(Boolean);
+
+  if (audiences.length === 0) return undefined;
+  if (audiences.length === 1) return audiences[0];
+  return audiences;
 }

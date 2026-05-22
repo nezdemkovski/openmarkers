@@ -24,15 +24,6 @@ export default defineConfig({
       "/.well-known": {
         target: "http://localhost:3000",
       },
-      "/authorize": {
-        target: "http://localhost:3000",
-      },
-      "/token": {
-        target: "http://localhost:3000",
-      },
-      "/register": {
-        target: "http://localhost:3000",
-      },
     },
   },
   build: {

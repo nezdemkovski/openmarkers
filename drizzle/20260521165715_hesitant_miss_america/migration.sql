@@ -17,31 +17,6 @@ CREATE TABLE "categories" (
 	"display_order" integer DEFAULT 0 NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "oauth_auth_codes" (
-	"code" text PRIMARY KEY NOT NULL,
-	"client_id" text NOT NULL,
-	"redirect_uri" text NOT NULL,
-	"code_challenge" text NOT NULL,
-	"auth_session_token" text NOT NULL,
-	"auth_session_cookie" text NOT NULL,
-	"expires_at" bigint NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "oauth_clients" (
-	"client_id" text PRIMARY KEY NOT NULL,
-	"client_secret" text DEFAULT '' NOT NULL,
-	"redirect_uris" text DEFAULT '[]' NOT NULL,
-	"client_name" text,
-	"created_at" timestamp DEFAULT now()
-);
---> statement-breakpoint
-CREATE TABLE "oauth_refresh_tokens" (
-	"token" text PRIMARY KEY NOT NULL,
-	"client_id" text NOT NULL,
-	"auth_session_cookie" text NOT NULL,
-	"expires_at" bigint NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE "profiles" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"auth_user_id" text NOT NULL,

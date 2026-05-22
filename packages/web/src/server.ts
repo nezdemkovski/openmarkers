@@ -12,13 +12,9 @@ import {
   handleAuthToken,
 } from "./auth-session.ts";
 import {
-  handleASMetadata,
-  handleRSMetadata,
-  handleRegister,
-  handleAuthorize,
-  handleToken,
-  handleOAuthPreflight,
-} from "./oauth.ts";
+  handleMcpOAuthPreflight,
+  handleOAuthProtectedResource,
+} from "./mcp-oauth.ts";
 import {
   json,
   error,
@@ -123,27 +119,19 @@ export function startWebServer(opts: {
     path: string,
     method: string,
   ): Promise<Response> {
-    if (method === "GET" && path === "/.well-known/oauth-authorization-server")
-      return handleASMetadata(req);
     if (
       method === "GET" &&
       (path === "/.well-known/oauth-protected-resource/mcp" ||
         path === "/.well-known/oauth-protected-resource")
     )
-      return handleRSMetadata(req);
+      return handleOAuthProtectedResource(req);
 
-    if (path === "/register") {
-      if (method === "OPTIONS") return handleOAuthPreflight();
-      if (method === "POST") return handleRegister(req);
-    }
-
-    if (path === "/authorize" && (method === "GET" || method === "POST"))
-      return handleAuthorize(req);
-
-    if (path === "/token") {
-      if (method === "OPTIONS") return handleOAuthPreflight();
-      if (method === "POST") return handleToken(req);
-    }
+    if (
+      method === "OPTIONS" &&
+      (path === "/.well-known/oauth-protected-resource/mcp" ||
+        path === "/.well-known/oauth-protected-resource")
+    )
+      return handleMcpOAuthPreflight();
 
     if (method === "GET" && path === "/api/auth/login")
       return handleAuthLogin(req, "login");
@@ -162,6 +150,14 @@ export function startWebServer(opts: {
 
     if (method === "POST" && path === "/api/auth/logout")
       return handleAuthLogout(req);
+
+    if (
+      path === "/.well-known/oauth-authorization-server" ||
+      path === "/authorize" ||
+      path === "/token" ||
+      path === "/register"
+    )
+      return error("Not found", 404);
 
     if (method === "GET" && path === "/schema.json") {
       const schemaPath = join(
