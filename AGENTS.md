@@ -35,7 +35,7 @@ Per-package `.env` files (not at root — Turborepo best practice):
 - `AUTH_BASE_URL` — Better Auth project endpoint
 - `AUTH_JWKS_URL` — Better Auth JWKS endpoint
 - `AUTH_JWT_ISSUER` — expected JWT issuer
-- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when both browser session JWTs and OAuth access JWTs are accepted. Production includes `openmarkers`, `https://auth.nezdemkovski.cloud/openmarkers`, and `https://openmarkers.app/mcp`.
+- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when both browser session JWTs and OAuth access JWTs are accepted. Production includes `openmarkers`, `https://auth.nezdemkovski.cloud/api/openmarkers`, and `https://openmarkers.app/mcp`.
 - `VITE_AUTH_BASE_URL` — Better Auth project endpoint for the browser
 
 **`.env`** (root) — used only by drizzle-kit commands:

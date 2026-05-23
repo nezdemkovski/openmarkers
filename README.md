@@ -22,10 +22,10 @@ cp packages/web/.env.example packages/web/.env # for API server + frontend
 
 Required variables in `packages/web/.env`:
 - `DATABASE_URL` — Postgres connection string
-- `AUTH_BASE_URL` — Better Auth project endpoint, for example `https://auth.nezdemkovski.cloud/openmarkers/api/auth`
+- `AUTH_BASE_URL` — Better Auth project endpoint, for example `https://auth.nezdemkovski.cloud/api/openmarkers/auth`
 - `AUTH_JWKS_URL` — Better Auth JWKS endpoint
 - `AUTH_JWT_ISSUER` — expected JWT issuer
-- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when both browser session JWTs and OAuth access JWTs are accepted, for example `openmarkers,https://auth.nezdemkovski.cloud/openmarkers,https://openmarkers.app/mcp`
+- `AUTH_JWT_AUDIENCE` — expected JWT audience, comma-separated when both browser session JWTs and OAuth access JWTs are accepted, for example `openmarkers,https://auth.nezdemkovski.cloud/api/openmarkers,https://openmarkers.app/mcp`
 - `VITE_AUTH_BASE_URL` — client-side Better Auth endpoint
 
 Push the schema to your database:
@@ -109,7 +109,7 @@ Production deployment uses Docker images and the Helm chart in
 
 ```bash
 docker build \
-  --build-arg VITE_AUTH_BASE_URL=https://auth.nezdemkovski.cloud/openmarkers/api/auth \
+  --build-arg VITE_AUTH_BASE_URL=https://auth.nezdemkovski.cloud/api/openmarkers/auth \
   -t ghcr.io/nezdemkovski/openmarkers:1.0.0 .
 
 helm lint charts/openmarkers
@@ -150,7 +150,7 @@ build images with:
 
 ```bash
 docker build \
-  --build-arg VITE_AUTH_BASE_URL=https://auth.nezdemkovski.cloud/openmarkers/api/auth \
+  --build-arg VITE_AUTH_BASE_URL=https://auth.nezdemkovski.cloud/api/openmarkers/auth \
   -t ghcr.io/nezdemkovski/openmarkers:1.0.0 .
 ```
 

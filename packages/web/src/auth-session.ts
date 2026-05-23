@@ -10,12 +10,35 @@ function authBaseUrl(): string {
   if (!base) {
     throw new Error("AUTH_BASE_URL environment variable is required");
   }
-  return base.replace(/\/api\/auth\/?$/, "").replace(/\/+$/, "");
+  return base.replace(/\/+$/, "");
 }
 
 export function authApiUrl(path: string): string {
   const normalized = path.startsWith("/") ? path : `/${path}`;
-  return `${authBaseUrl()}/api/auth${normalized}`;
+  return `${authBaseUrl()}${normalized}`;
+}
+
+function authRealm(): { origin: string; project: string } {
+  const base = new URL(authBaseUrl());
+  const match = base.pathname.match(/^\/api\/([^/]+)\/auth\/?$/);
+  if (!match) {
+    throw new Error("AUTH_BASE_URL must look like https://host/api/<project>/auth");
+  }
+
+  return {
+    origin: base.origin,
+    project: match[1]
+  };
+}
+
+function authLoginUrl(): string {
+  const realm = authRealm();
+  return `${realm.origin}/login/${realm.project}`;
+}
+
+function authLoginTokenUrl(): string {
+  const realm = authRealm();
+  return `${realm.origin}/api/${realm.project}/login/token`;
 }
 
 function getBaseUrl(req: Request): string {
@@ -102,7 +125,7 @@ export async function handleAuthLogin(req: Request, mode: "login" | "signup") {
   const state = randomState();
   const verifier = randomCodeVerifier();
   const baseUrl = getBaseUrl(req);
-  const loginUrl = new URL(`${authBaseUrl()}/login`);
+  const loginUrl = new URL(authLoginUrl());
   loginUrl.searchParams.set("redirect_uri", `${baseUrl}/auth/callback`);
   loginUrl.searchParams.set("state", state);
   loginUrl.searchParams.set("mode", mode);
@@ -145,7 +168,7 @@ export async function handleAuthCallback(req: Request): Promise<Response> {
     });
   }
 
-  const res = await fetch(`${authBaseUrl()}/hosted/token`, {
+  const res = await fetch(authLoginTokenUrl(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

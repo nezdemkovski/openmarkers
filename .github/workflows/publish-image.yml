@@ -48,6 +48,6 @@ jobs:
           context: .
           push: true
           build-args: |
-            VITE_AUTH_BASE_URL=https://auth.nezdemkovski.cloud/openmarkers/api/auth
+            VITE_AUTH_BASE_URL=https://auth.nezdemkovski.cloud/api/openmarkers/auth
           tags: |
             ${{ env.IMAGE_NAME }}:${{ steps.chart.outputs.app_version }}

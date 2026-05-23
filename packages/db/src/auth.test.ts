@@ -11,10 +11,10 @@ describe("auth audience config", () => {
       expect(getAcceptedAudiences()).toBe("openmarkers");
 
       process.env.AUTH_JWT_AUDIENCE =
-        "openmarkers, https://auth.nezdemkovski.cloud/openmarkers ";
+        "openmarkers, https://auth.nezdemkovski.cloud/api/openmarkers ";
       expect(getAcceptedAudiences()).toEqual([
         "openmarkers",
-        "https://auth.nezdemkovski.cloud/openmarkers",
+        "https://auth.nezdemkovski.cloud/api/openmarkers",
       ]);
 
       process.env.AUTH_JWT_AUDIENCE = " , ";
