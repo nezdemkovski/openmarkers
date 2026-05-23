@@ -97,9 +97,17 @@ export const api = {
       }>;
     }>("/api/extract", data),
   getExtractUsage: () =>
-    request<{ used: number; limit: number; remaining: number }>(
-      "/api/extract/usage",
-    ),
+    request<{
+      used: number;
+      limit: number;
+      remaining: number;
+      paidUsed: number;
+      paidLimit: number;
+      paidRemaining: number;
+      totalRemaining: number;
+    }>("/api/extract/usage"),
+  createBillingCheckout: (slug: string) =>
+    post<{ url: string }>("/api/billing/checkout", { slug }),
   updateProfile: (
     id: number,
     data: Partial<{

@@ -13,6 +13,7 @@ import {
   Upload,
   Globe,
   Link,
+  CreditCard,
 } from "lucide-react";
 import { useState, useCallback, useRef } from "react";
 
@@ -519,6 +520,8 @@ function ShareProfileSection({
 }
 
 function AiUsageSection({ t }: { t: (key: string) => string }) {
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const { data: usage } = useQuery({
     queryKey: ["extract-usage"],
     queryFn: api.getExtractUsage,
@@ -528,6 +531,19 @@ function AiUsageSection({ t }: { t: (key: string) => string }) {
   if (!usage) return null;
 
   const pct = Math.round((usage.used / usage.limit) * 100);
+  const totalRemaining = usage.totalRemaining ?? usage.remaining;
+
+  async function startCheckout() {
+    setCheckoutLoading(true);
+    setCheckoutError(null);
+    try {
+      const checkout = await api.createBillingCheckout("ai-requests-50");
+      window.location.href = checkout.url;
+    } catch (err) {
+      setCheckoutError(errorMessage(err));
+      setCheckoutLoading(false);
+    }
+  }
 
   return (
     <Card>
@@ -544,7 +560,7 @@ function AiUsageSection({ t }: { t: (key: string) => string }) {
               {usage.used} / {usage.limit}
             </span>
             <span className="text-muted-foreground text-xs">
-              {usage.remaining} {t("uploadRemaining")}
+              {totalRemaining} {t("uploadRemaining")}
             </span>
           </div>
           <div className="h-2 rounded-full bg-muted overflow-hidden">
@@ -559,6 +575,29 @@ function AiUsageSection({ t }: { t: (key: string) => string }) {
               style={{ width: `${Math.min(pct, 100)}%` }}
             />
           </div>
+        </div>
+        <div className="rounded-lg border border-border bg-muted/30 p-3">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-sm font-medium text-foreground">
+                50 AI requests
+              </p>
+              <p className="text-xs text-muted-foreground">
+                One-time credit pack. Paid balance: {usage.paidRemaining ?? 0}.
+              </p>
+            </div>
+            <Button
+              size="sm"
+              onClick={() => void startCheckout()}
+              disabled={checkoutLoading}
+            >
+              <CreditCard className="w-4 h-4" />
+              {checkoutLoading ? "..." : "€10"}
+            </Button>
+          </div>
+          {checkoutError && (
+            <p className="mt-2 text-xs text-destructive">{checkoutError}</p>
+          )}
         </div>
       </CardContent>
     </Card>

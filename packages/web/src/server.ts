@@ -26,6 +26,7 @@ import {
   handleListCategories,
   handleListBiomarkers,
 } from "./routes/biomarkers.ts";
+import { getPaidAiUsage, handleBillingCheckout } from "./routes/billing.ts";
 import { handleExtract } from "./routes/extract.ts";
 import { handleImportCheck, handleImport } from "./routes/import.ts";
 import {
@@ -406,13 +407,25 @@ export function startWebServer(opts: {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
       const { getExtractUsage } = await import("@openmarkers/db");
-      return json(await getExtractUsage(auth.userId));
+      const free = await getExtractUsage(auth.userId);
+      const paid = await getPaidAiUsage(req);
+      return json({
+        ...free,
+        ...paid,
+        totalRemaining: free.remaining + paid.paidRemaining,
+      });
     }
 
     if (method === "POST" && path === "/api/extract") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
       return handleExtract(req, auth);
+    }
+
+    if (method === "POST" && path === "/api/billing/checkout") {
+      const auth = await requireAuth(req);
+      if (!authResult(auth)) return auth;
+      return handleBillingCheckout(req);
     }
 
     if (method === "POST" && path === "/api/import/check") {

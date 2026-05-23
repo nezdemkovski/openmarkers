@@ -1,5 +1,5 @@
 import { anthropic } from "@ai-sdk/anthropic";
-import { checkExtractLimit, incrementExtractCount } from "@openmarkers/db";
+import { getExtractUsage, incrementExtractCount } from "@openmarkers/db";
 import {
   buildCompactReference,
   buildMolecularWeightMap,
@@ -12,6 +12,7 @@ import { parse, format, isValid } from "date-fns";
 import { z } from "zod";
 
 import { json, error, parseBody, isResponse } from "./_shared.ts";
+import { consumePaidAiRequest, getPaidAiUsage } from "./billing.ts";
 
 const BIOMARKER_REF = buildCompactReference();
 const BIOMARKER_REF_TEXT = JSON.stringify(BIOMARKER_REF);
@@ -111,8 +112,14 @@ export async function handleExtract(
   req: Request,
   auth: { userId: string },
 ): Promise<Response> {
-  const allowed = await checkExtractLimit(auth.userId);
-  if (!allowed) {
+  const freeUsage = await getExtractUsage(auth.userId);
+  const shouldUseFreeCredit = freeUsage.remaining > 0;
+  const paidUsage = shouldUseFreeCredit
+    ? { paidRemaining: 0 }
+    : await getPaidAiUsage(req);
+  const shouldUsePaidCredit = !shouldUseFreeCredit && paidUsage.paidRemaining > 0;
+
+  if (!shouldUseFreeCredit && !shouldUsePaidCredit) {
     return error("Monthly extraction limit reached", 429);
   }
 
@@ -287,7 +294,14 @@ export async function handleExtract(
 
     const unknownDeduped = [...new Map(unknown.map((u) => [u.id, u])).values()];
 
-    await incrementExtractCount(auth.userId);
+    if (shouldUseFreeCredit) {
+      await incrementExtractCount(auth.userId);
+    } else {
+      const consumed = await consumePaidAiRequest(req);
+      if (!consumed) {
+        return error("Could not consume AI request credit", 502);
+      }
+    }
 
     const bioCategoryMap: Record<string, string> = {};
     for (const [id, ref] of Object.entries(BIOMARKER_REF)) {

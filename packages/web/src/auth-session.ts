@@ -13,6 +13,11 @@ function authBaseUrl(): string {
   return base.replace(/\/api\/auth\/?$/, "").replace(/\/+$/, "");
 }
 
+export function authApiUrl(path: string): string {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${authBaseUrl()}/api/auth${normalized}`;
+}
+
 function getBaseUrl(req: Request): string {
   const url = new URL(req.url);
   const proto =
@@ -30,6 +35,10 @@ function parseCookies(req: Request): Map<string, string> {
     cookies.set(rawName, decodeURIComponent(rawValue.join("=")));
   }
   return cookies;
+}
+
+export function getAuthSessionCookie(req: Request): string | null {
+  return parseCookies(req).get(SESSION_COOKIE) ?? null;
 }
 
 function secureCookie(req: Request): boolean {
@@ -76,7 +85,7 @@ async function codeChallenge(verifier: string): Promise<string> {
 async function getTokenFromSessionCookie(
   sessionCookie: string
 ): Promise<string | null> {
-  const res = await fetch(`${authBaseUrl()}/api/auth/get-session`, {
+  const res = await fetch(authApiUrl("/get-session"), {
     headers: {
       Cookie: sessionCookie
     }

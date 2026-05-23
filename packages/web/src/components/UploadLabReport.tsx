@@ -82,7 +82,7 @@ export default function UploadLabReport({
     queryFn: api.getExtractUsage,
     staleTime: 60_000,
   });
-  const limitReached = usage?.remaining === 0;
+  const limitReached = usage?.totalRemaining === 0;
 
   const processFile = useCallback(
     async (file: File) => {
@@ -302,7 +302,8 @@ export default function UploadLabReport({
           </p>
           {usage && (
             <p className="text-[10px] text-muted-foreground/30 mt-1">
-              {usage.remaining}/{usage.limit} {t("uploadRemaining")}
+              {usage.totalRemaining}/{usage.limit + usage.paidLimit}{" "}
+              {t("uploadRemaining")}
             </p>
           )}
         </button>
