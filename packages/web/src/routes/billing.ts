@@ -18,22 +18,29 @@ type PaidAiUsage = {
   paidRemaining: number;
 };
 
-function authCookieHeaders(req: Request): HeadersInit | null {
-  const sessionCookie = getAuthSessionCookie(req);
-  if (!sessionCookie) return null;
-  return {
-    "Content-Type": "application/json",
-    Cookie: sessionCookie,
-  };
-}
-
-function absoluteUrl(req: Request, path: string): string {
+function requestOrigin(req: Request): string {
   const url = new URL(req.url);
   const proto =
     req.headers.get("x-forwarded-proto") || url.protocol.replace(":", "");
   const host =
     req.headers.get("x-forwarded-host") || req.headers.get("host") || url.host;
-  return `${proto}://${host}${path}`;
+  return `${proto}://${host}`;
+}
+
+function authCookieHeaders(req: Request): HeadersInit | null {
+  const sessionCookie = getAuthSessionCookie(req);
+  if (!sessionCookie) return null;
+  const origin = requestOrigin(req);
+  return {
+    "Content-Type": "application/json",
+    Cookie: sessionCookie,
+    Origin: origin,
+    Referer: `${origin}/dashboard`,
+  };
+}
+
+function absoluteUrl(req: Request, path: string): string {
+  return `${requestOrigin(req)}${path}`;
 }
 
 function findAiMeter(payload: unknown): Record<string, unknown> | null {
@@ -130,7 +137,13 @@ export async function handleBillingCheckout(req: Request): Promise<Response> {
 
   const payload = await res.json().catch(() => null);
   if (!res.ok) {
-    return error("Could not create checkout", res.status);
+    const message =
+      typeof payload?.message === "string"
+        ? payload.message
+        : typeof payload?.error === "string"
+          ? payload.error
+          : "Could not create checkout";
+    return error(message, res.status);
   }
 
   const checkoutUrl =
