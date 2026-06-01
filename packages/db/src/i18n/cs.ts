@@ -254,12 +254,12 @@ const cs: TranslationData = {
       "Spravujte profily, importujte výsledky a spouštějte analytiku z terminálu. Navrženo pro bezproblémovou spolupráci s AI agenty.",
     settingsCliInstall: "Instalace přes Homebrew",
     settingsCliUsage: "Poté spusťte:",
-    checkoutSuccessTitle: "Zůstatek byl navýšen",
+    checkoutSuccessTitle: "Kredity přidány",
     checkoutSuccessDesc:
-      "Kredity pro AI požadavky jsou teď dostupné. Můžete pokračovat přesně tam, kde jste skončili.",
-    checkoutIncompleteTitle: "Platba nebyla dokončena",
+      "Další laboratorní zpráva je připravená na AI extrakci. Pokračujte tam, kde jste skončili, a OpenMarkers data zpracuje.",
+    checkoutIncompleteTitle: "Checkout zrušen",
     checkoutIncompleteDesc:
-      "Žádné kredity nebyly přidány a nic vám nebylo účtováno. Checkout můžete zkusit znovu, až budete připraveni.",
+      "Kredity nebyly přidány a nic vám nebylo účtováno. Upload flow zůstává připravený, až to budete chtít zkusit znovu.",
     authConsent:
       "Souhlasím s uložením výsledků krevních testů a laboratorních dat",
     authDisclaimer:

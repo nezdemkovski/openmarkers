@@ -253,10 +253,10 @@ const is: TranslationData = {
     settingsCliUsage: "Keyrðu síðan:",
     checkoutSuccessTitle: "Inneign bætt við",
     checkoutSuccessDesc:
-      "AI beiðnainnieignin þín er nú tiltæk. Þú getur haldið áfram nákvæmlega þar sem frá var horfið.",
-    checkoutIncompleteTitle: "Greiðslu var ekki lokið",
+      "Næsta rannsóknarskýrsla er tilbúin fyrir AI útdrátt. Haltu áfram þar sem frá var horfið og OpenMarkers sér um að lesa gögnin.",
+    checkoutIncompleteTitle: "Greiðslu hætt við",
     checkoutIncompleteDesc:
-      "Engri inneign var bætt við og ekkert var rukkað. Þú getur prófað greiðslu aftur þegar þú ert tilbúinn.",
+      "Engri inneign var bætt við og ekkert var rukkað. Upphleðsluferlið bíður þín þegar þú vilt prófa aftur.",
     authConsent:
       "Ég samþykki að geyma blóðrannsóknarniðurstöður og rannsóknargögn",
     authDisclaimer:

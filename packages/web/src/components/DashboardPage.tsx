@@ -595,7 +595,21 @@ function CheckoutResultDialog({
   result: CheckoutResult | null;
   onClose: () => void;
 }) {
-  const success = result === "success";
+  const [displayResult, setDisplayResult] = useState<CheckoutResult | null>(
+    result,
+  );
+
+  useEffect(() => {
+    if (result) {
+      setDisplayResult(result);
+    }
+  }, [result]);
+
+  if (!displayResult) {
+    return null;
+  }
+
+  const success = displayResult === "success";
 
   return (
     <Dialog open={result !== null} onOpenChange={(open) => !open && onClose()}>

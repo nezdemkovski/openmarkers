@@ -252,12 +252,12 @@ const en: TranslationData = {
       "Manage profiles, import results, and run analytics from your terminal. Designed to work seamlessly with AI agents.",
     settingsCliInstall: "Install via Homebrew",
     settingsCliUsage: "Then run:",
-    checkoutSuccessTitle: "Balance topped up",
+    checkoutSuccessTitle: "Credits added",
     checkoutSuccessDesc:
-      "Your AI request credits are available now. You can continue from exactly where you left off.",
-    checkoutIncompleteTitle: "Payment was not completed",
+      "Your next lab report is ready for AI extraction. Pick up where you left off and let OpenMarkers do the parsing.",
+    checkoutIncompleteTitle: "Checkout cancelled",
     checkoutIncompleteDesc:
-      "No credits were added and you were not charged. You can try checkout again when ready.",
+      "No credits were added and nothing was charged. The upload flow is still here whenever you want to try again.",
     authConsent: "I agree to store my blood test results and lab data",
     authDisclaimer:
       "This is not a medical device or healthcare service. Not medical advice.",
