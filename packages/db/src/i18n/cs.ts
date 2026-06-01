@@ -161,9 +161,9 @@ const cs: TranslationData = {
     uploadTooLarge: "Soubor je příliš velký. Maximální velikost je 20 MB.",
     uploadError:
       "Nepodařilo se extrahovat výsledky z tohoto souboru. Zkuste jasnější obrázek nebo PDF.",
-    uploadRemaining: "nahrávání zbývá tento měsíc",
+    uploadRemaining: "AI extrakcí zbývá",
     uploadLimitReached:
-      "Měsíční limit nahrávání dosažen (5 za měsíc). Stále můžete zadat hodnoty ručně.",
+      "Bezplatné AI extrakce jsou vyčerpané. Můžete dokoupit kredity nebo zadat hodnoty ručně.",
     uploadUnknownTitle: "Nepodařilo se přiřadit tyto markery",
     uploadUnknownSelect: "Mysleli jste...",
     uploadUnknownReport: "Nahlásit chybějící biomarkery na GitHubu",
@@ -210,7 +210,7 @@ const cs: TranslationData = {
     settingsEditProfile: "Upravit profil",
     settingsAiUsage: "AI extrakce laboratorních zpráv",
     settingsAiUsageDesc:
-      "Nahrajte PDF nebo foto laboratorní zprávy a AI extrahuje hodnoty. Omezeno na 5 nahrávání za měsíc.",
+      "Nahrajte PDF nebo foto laboratorní zprávy a AI extrahuje hodnoty. Nové účty dostanou 5 bezplatných AI extrakcí navždy; další kredity lze dokoupit.",
     settingsAccount: "Účet",
     settingsChangeEmail: "Změnit email",
     settingsChangePassword: "Změnit heslo",

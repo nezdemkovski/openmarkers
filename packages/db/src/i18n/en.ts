@@ -160,9 +160,9 @@ const en: TranslationData = {
     uploadTooLarge: "File is too large. Maximum size is 20 MB.",
     uploadError:
       "Could not extract results from this file. Try a clearer image or PDF.",
-    uploadRemaining: "uploads remaining this month",
+    uploadRemaining: "AI extractions remaining",
     uploadLimitReached:
-      "Monthly upload limit reached (5 per month). You can still enter values manually.",
+      "Your free AI extractions are used up. You can buy more credits or enter values manually.",
     uploadUnknownTitle: "Could not match these markers",
     uploadUnknownSelect: "Did you mean...",
     uploadUnknownReport: "Report missing biomarkers on GitHub",
@@ -209,7 +209,7 @@ const en: TranslationData = {
     settingsEditProfile: "Edit Profile",
     settingsAiUsage: "AI Lab Report Extraction",
     settingsAiUsageDesc:
-      "Upload a PDF or photo of your lab report and AI will extract the values. Limited to 5 uploads per month.",
+      "Upload a PDF or photo of your lab report and AI will extract the values. New accounts include 5 free lifetime extractions; additional credits can be purchased.",
     settingsAccount: "Account",
     settingsChangeEmail: "Change Email",
     settingsChangePassword: "Change Password",

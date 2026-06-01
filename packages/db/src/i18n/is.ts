@@ -160,9 +160,9 @@ const is: TranslationData = {
     uploadTooLarge: "Skráin er of stór. Hámarksstærð er 20 MB.",
     uploadError:
       "Gat ekki dregið niðurstöður úr þessari skrá. Prófaðu skýrari mynd eða PDF.",
-    uploadRemaining: "upphleðslur eftir í þessum mánuði",
+    uploadRemaining: "AI útdrættir eftir",
     uploadLimitReached:
-      "Mánaðarleg upphleðslumörk náð (5 á mánuði). Þú getur enn slegið inn gildi handvirkt.",
+      "Ókeypis AI útdrættir eru búnir. Þú getur keypt fleiri inneignir eða slegið inn gildi handvirkt.",
     uploadUnknownTitle: "Gat ekki samsvörun þessum merkjum",
     uploadUnknownSelect: "Áttirðu við...",
     uploadUnknownReport: "Tilkynntu vantar lífmerki á GitHub",
@@ -208,7 +208,7 @@ const is: TranslationData = {
     settingsEditProfile: "Breyta prófíl",
     settingsAiUsage: "AI útdráttur rannsóknarskýrslna",
     settingsAiUsageDesc:
-      "Hladdu upp PDF eða mynd af rannsóknarskýrslu og AI dregur gildin út. Takmarkað við 5 upphleðslur á mánuði.",
+      "Hladdu upp PDF eða mynd af rannsóknarskýrslu og AI dregur gildin út. Nýir reikningar fá 5 ókeypis AI útdrætti til frambúðar; hægt er að kaupa fleiri inneignir.",
     settingsAccount: "Reikningur",
     settingsChangeEmail: "Breyta netfangi",
     settingsChangePassword: "Breyta lykilorði",

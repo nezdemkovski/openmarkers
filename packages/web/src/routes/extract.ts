@@ -74,7 +74,10 @@ function tryAutoConvert(
 
   const mw = MW_MAP[bioId];
   const converted = convertUnit(value, ref.conventionalUnit, ref.unit, mw);
-  if (converted != null && !isOutOfExpectedRange(converted, ref.refMin, ref.refMax)) {
+  if (
+    converted != null &&
+    !isOutOfExpectedRange(converted, ref.refMin, ref.refMax)
+  ) {
     return { value: converted, converted: true };
   }
 
@@ -117,10 +120,11 @@ export async function handleExtract(
   const paidUsage = shouldUseFreeCredit
     ? { paidRemaining: 0 }
     : await getPaidAiUsage(req);
-  const shouldUsePaidCredit = !shouldUseFreeCredit && paidUsage.paidRemaining > 0;
+  const shouldUsePaidCredit =
+    !shouldUseFreeCredit && paidUsage.paidRemaining > 0;
 
   if (!shouldUseFreeCredit && !shouldUsePaidCredit) {
-    return error("Monthly extraction limit reached", 429);
+    return error("AI extraction credits are depleted", 429);
   }
 
   const body = await parseBody(req, extractRequestSchema);
@@ -158,7 +162,7 @@ export async function handleExtract(
     const startTime = Date.now();
 
     const { output: aiOutput } = await generateText({
-      model: anthropic("claude-haiku-4-5-20251001"),
+      model: anthropic("claude-opus-4-6"),
       temperature: 0,
       maxOutputTokens: 16384,
       output: Output.object({ schema: extractionSchema }),
@@ -177,7 +181,12 @@ export async function handleExtract(
     console.log(`[extract] AI returned ${aiOutput.results.length} raw results`);
 
     const accepted: ValidatedResult[] = [];
-    const unknown: Array<{ id: string; value: number | string; date?: string; suggestions?: string[] }> = [];
+    const unknown: Array<{
+      id: string;
+      value: number | string;
+      date?: string;
+      suggestions?: string[];
+    }> = [];
     const seen = new Set<string>();
     const errors: string[] = [];
 
@@ -185,7 +194,10 @@ export async function handleExtract(
       if (!VALID_IDS.has(biomarker_id)) {
         const suffix = biomarker_id.replace(/^[A-Z]-/, "");
         const suggestions = [...VALID_IDS]
-          .filter((id) => id.includes(suffix) || suffix.includes(id.replace(/^[A-Z]-/, "")))
+          .filter(
+            (id) =>
+              id.includes(suffix) || suffix.includes(id.replace(/^[A-Z]-/, "")),
+          )
           .slice(0, 5);
         unknown.push({ id: biomarker_id, value: rawValue, date, suggestions });
         errors.push(`${biomarker_id}: unknown ID`);
