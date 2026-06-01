@@ -1,6 +1,6 @@
 import type { Lang } from "@openmarkers/db";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Copy, CheckCheck } from "lucide-react";
+import { Copy, CheckCheck, CheckCircle2, XCircle } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -61,6 +61,8 @@ const EMPTY_USER_DATA: UserData = {
   user: { id: 0, name: "", dateOfBirth: "", sex: Sex.Male },
   categories: [],
 };
+
+type CheckoutResult = "success" | "cancelled" | "failed";
 
 interface DashboardPageProps {
   route: Route;
@@ -210,6 +212,29 @@ export default function DashboardPage({
   const [addDataProfileId, setAddDataProfileId] = useState<number | null>(null);
   const [addDataMode, setAddDataMode] = useState<"upload" | "manual">("upload");
   const [dialogUploadActive, setDialogUploadActive] = useState(false);
+  const [checkoutResult, setCheckoutResult] = useState<CheckoutResult | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const result = url.searchParams.get("checkout");
+    if (
+      result !== "success" &&
+      result !== "cancelled" &&
+      result !== "failed"
+    ) {
+      return;
+    }
+
+    setCheckoutResult(result);
+    url.searchParams.delete("checkout");
+    history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+
+    if (result === "success") {
+      queryClient.invalidateQueries({ queryKey: ["extract-usage"] });
+    }
+  }, [queryClient]);
 
   const switchToProfile = useCallback(
     (profileId: number) => {
@@ -552,7 +577,61 @@ export default function DashboardPage({
           </DialogContent>
         </Dialog>
       )}
+      <CheckoutResultDialog
+        t={i18n.t}
+        result={checkoutResult}
+        onClose={() => setCheckoutResult(null)}
+      />
     </TooltipProvider>
+  );
+}
+
+function CheckoutResultDialog({
+  t,
+  result,
+  onClose,
+}: {
+  t: (key: string) => string;
+  result: CheckoutResult | null;
+  onClose: () => void;
+}) {
+  const success = result === "success";
+
+  return (
+    <Dialog open={result !== null} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-md">
+        <div className="flex items-start gap-3">
+          <div
+            className={
+              success
+                ? "mt-0.5 rounded-full bg-emerald-500/10 p-2 text-emerald-600 dark:text-emerald-400"
+                : "mt-0.5 rounded-full bg-amber-500/10 p-2 text-amber-600 dark:text-amber-400"
+            }
+          >
+            {success ? (
+              <CheckCircle2 className="size-5" />
+            ) : (
+              <XCircle className="size-5" />
+            )}
+          </div>
+          <DialogHeader className="flex-1">
+            <DialogTitle>
+              {success
+                ? t("checkoutSuccessTitle")
+                : t("checkoutIncompleteTitle")}
+            </DialogTitle>
+            <DialogDescription>
+              {success
+                ? t("checkoutSuccessDesc")
+                : t("checkoutIncompleteDesc")}
+            </DialogDescription>
+          </DialogHeader>
+        </div>
+        <DialogFooter>
+          <Button onClick={onClose}>{t("continue")}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 

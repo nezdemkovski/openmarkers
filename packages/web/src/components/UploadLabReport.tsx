@@ -12,8 +12,8 @@ import { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { api } from "../lib/api";
 import { track, Event } from "../lib/analytics";
+import { api } from "../lib/api";
 import { errorMessage } from "../lib/utils";
 import type { I18n } from "../types";
 
@@ -302,7 +302,9 @@ export default function UploadLabReport({
           </p>
           {usage && (
             <p className="text-[10px] text-muted-foreground/30 mt-1">
-              {usage.totalRemaining}/{usage.limit + usage.paidLimit}{" "}
+              {usage.unlimited
+                ? "Unlimited"
+                : `${usage.totalRemaining}/${usage.limit}`}{" "}
               {t("uploadRemaining")}
             </p>
           )}
@@ -448,10 +450,7 @@ export default function UploadLabReport({
             {t("uploadUnknownTitle")} ({unknownMarkers.length})
           </p>
           {unknownMarkers.map((u, idx) => (
-            <div
-              key={u.id}
-              className="flex items-center gap-2 text-xs"
-            >
+            <div key={u.id} className="flex items-center gap-2 text-xs">
               <span className="text-amber-600/80 dark:text-amber-400/60 font-mono shrink-0">
                 {u.id}: {String(u.value)}
               </span>

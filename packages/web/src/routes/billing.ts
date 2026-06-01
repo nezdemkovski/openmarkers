@@ -1,21 +1,30 @@
 import { z } from "zod";
 
-import { authApiUrl, getAuthSessionCookie } from "../auth-session.ts";
-
+import {
+  authApiUrl,
+  authRealmApiUrl,
+  getAuthSessionCookie,
+} from "../auth-session.ts";
 import { error, isResponse, json, parseBody } from "./_shared.ts";
 
 const AI_REQUESTS_PRODUCT_SLUG = "ai-requests-50";
-const AI_REQUEST_EVENT = "ai_request";
-const AI_REQUEST_METER_NAME = "OpenMarkers AI Requests";
+const AI_REQUESTS_BENEFIT_KEY = "ai_requests";
 
 const checkoutSchema = z.object({
   slug: z.string().min(1).default(AI_REQUESTS_PRODUCT_SLUG),
+  returnTo: z.string().min(1).optional(),
 });
 
-type PaidAiUsage = {
-  paidUsed: number;
-  paidLimit: number;
-  paidRemaining: number;
+type AiRequestUsage = {
+  used: number;
+  limit: number;
+  remaining: number;
+  totalRemaining: number;
+  unlimited: boolean;
+};
+
+type AiRequestReservation = {
+  id: string;
 };
 
 function requestOrigin(req: Request): string {
@@ -39,77 +48,128 @@ function authCookieHeaders(req: Request): HeadersInit | null {
   };
 }
 
-function absoluteUrl(req: Request, path: string): string {
-  return `${requestOrigin(req)}${path}`;
-}
-
-function findAiMeter(payload: unknown): Record<string, unknown> | null {
-  const root = payload as Record<string, unknown> | null;
-  const items =
-    Array.isArray(root?.items)
-      ? root.items
-      : Array.isArray((root?.result as Record<string, unknown> | undefined)?.items)
-        ? (root?.result as Record<string, unknown>).items
-        : Array.isArray((root?.data as Record<string, unknown> | undefined)?.items)
-          ? (root?.data as Record<string, unknown>).items
-          : [];
-
-  for (const item of items) {
-    if (!item || typeof item !== "object") continue;
-    const record = item as Record<string, unknown>;
-    const meter = record.meter as Record<string, unknown> | undefined;
-    const name = typeof meter?.name === "string" ? meter.name : "";
-    const metadata = meter?.metadata as Record<string, unknown> | undefined;
-    if (
-      name === AI_REQUEST_METER_NAME ||
-      metadata?.event === AI_REQUEST_EVENT ||
-      metadata?.service === "openmarkers"
-    ) {
-      return record;
-    }
+function safeReturnPath(path: string | undefined): string {
+  if (!path || !path.startsWith("/") || path.startsWith("//")) {
+    return "/dashboard/settings";
   }
 
-  return null;
+  return path;
 }
 
-export async function getPaidAiUsage(req: Request): Promise<PaidAiUsage> {
-  const headers = authCookieHeaders(req);
-  if (!headers) return { paidUsed: 0, paidLimit: 0, paidRemaining: 0 };
+function checkoutReturnUrl(
+  req: Request,
+  path: string | undefined,
+  status: "success" | "cancelled",
+): string {
+  const url = new URL(safeReturnPath(path), requestOrigin(req));
+  url.searchParams.set("checkout", status);
+  return url.toString();
+}
 
-  const res = await fetch(authApiUrl("/usage/meters/list?page=1&limit=50"), {
-    headers,
-  });
-  if (!res.ok) {
-    return { paidUsed: 0, paidLimit: 0, paidRemaining: 0 };
-  }
-
-  const payload = await res.json().catch(() => null);
-  const meter = findAiMeter(payload);
-  if (!meter) return { paidUsed: 0, paidLimit: 0, paidRemaining: 0 };
-
-  const paidUsed = Number(meter.consumedUnits ?? meter.consumed_units ?? 0);
-  const paidLimit = Number(meter.creditedUnits ?? meter.credited_units ?? 0);
-  const paidRemaining = Number(meter.balance ?? Math.max(0, paidLimit - paidUsed));
-
+function emptyAiRequestUsage(): AiRequestUsage {
   return {
-    paidUsed: Number.isFinite(paidUsed) ? paidUsed : 0,
-    paidLimit: Number.isFinite(paidLimit) ? paidLimit : 0,
-    paidRemaining: Number.isFinite(paidRemaining) ? Math.max(0, paidRemaining) : 0,
+    used: 0,
+    limit: 0,
+    remaining: 0,
+    totalRemaining: 0,
+    unlimited: false,
   };
 }
 
-export async function consumePaidAiRequest(req: Request): Promise<boolean> {
-  const headers = authCookieHeaders(req);
-  if (!headers) return false;
+function aiUsageFromPayload(payload: unknown): AiRequestUsage {
+  if (!payload || typeof payload !== "object" || !("summary" in payload)) {
+    return emptyAiRequestUsage();
+  }
 
-  const res = await fetch(authApiUrl("/usage/ingest"), {
+  const summary = payload.summary;
+  if (!summary || typeof summary !== "object") {
+    return emptyAiRequestUsage();
+  }
+
+  const used = Number("used" in summary ? summary.used : 0);
+  const limit = Number("limit" in summary ? summary.limit : 0);
+  const remaining = Number("remaining" in summary ? summary.remaining : 0);
+
+  return {
+    used: Number.isFinite(used) ? used : 0,
+    limit: Number.isFinite(limit) ? limit : 0,
+    remaining: Number.isFinite(remaining) ? Math.max(0, remaining) : 0,
+    totalRemaining: Number.isFinite(remaining) ? Math.max(0, remaining) : 0,
+    unlimited: "unlimited" in summary ? summary.unlimited === true : false,
+  };
+}
+
+export async function getAiRequestUsage(req: Request): Promise<AiRequestUsage> {
+  const headers = authCookieHeaders(req);
+  if (!headers) return emptyAiRequestUsage();
+
+  const url = authRealmApiUrl(
+    `/billing/usage/summary?key=${AI_REQUESTS_BENEFIT_KEY}`,
+  );
+  const res = await fetch(url, { headers });
+  if (!res.ok) {
+    return emptyAiRequestUsage();
+  }
+
+  const payload = await res.json().catch(() => null);
+  return aiUsageFromPayload(payload);
+}
+
+export async function reserveAiRequest(
+  req: Request,
+): Promise<AiRequestReservation | null> {
+  const headers = authCookieHeaders(req);
+  if (!headers) return null;
+
+  const res = await fetch(authRealmApiUrl("/billing/usage/reserve"), {
     method: "POST",
     headers,
     body: JSON.stringify({
-      event: AI_REQUEST_EVENT,
-      metadata: {
-        service: "openmarkers",
-      },
+      key: AI_REQUESTS_BENEFIT_KEY,
+      amount: 1,
+    }),
+  });
+  if (!res.ok) return null;
+
+  const payload = await res.json().catch(() => null);
+  const reservationId =
+    payload &&
+    typeof payload === "object" &&
+    "reservationId" in payload &&
+    typeof payload.reservationId === "string"
+      ? payload.reservationId
+      : null;
+
+  return reservationId ? { id: reservationId } : null;
+}
+
+export async function commitAiRequest(
+  req: Request,
+  reservation: AiRequestReservation,
+): Promise<boolean> {
+  return finishAiRequestReservation(req, reservation, "commit");
+}
+
+export async function releaseAiRequest(
+  req: Request,
+  reservation: AiRequestReservation,
+): Promise<boolean> {
+  return finishAiRequestReservation(req, reservation, "release");
+}
+
+async function finishAiRequestReservation(
+  req: Request,
+  reservation: AiRequestReservation,
+  action: "commit" | "release",
+): Promise<boolean> {
+  const headers = authCookieHeaders(req);
+  if (!headers) return false;
+
+  const res = await fetch(authRealmApiUrl(`/billing/usage/${action}`), {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      reservationId: reservation.id,
     }),
   });
 
@@ -123,8 +183,8 @@ export async function handleBillingCheckout(req: Request): Promise<Response> {
   const body = await parseBody(req, checkoutSchema);
   if (isResponse(body)) return body;
 
-  const successUrl = absoluteUrl(req, "/dashboard?view=settings&checkout=success");
-  const returnUrl = absoluteUrl(req, "/dashboard?view=settings");
+  const successUrl = checkoutReturnUrl(req, body.returnTo, "success");
+  const returnUrl = checkoutReturnUrl(req, body.returnTo, "cancelled");
   const res = await fetch(authApiUrl("/checkout"), {
     method: "POST",
     headers,

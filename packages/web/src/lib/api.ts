@@ -101,13 +101,11 @@ export const api = {
       used: number;
       limit: number;
       remaining: number;
-      paidUsed: number;
-      paidLimit: number;
-      paidRemaining: number;
       totalRemaining: number;
+      unlimited: boolean;
     }>("/api/extract/usage"),
-  createBillingCheckout: (slug: string) =>
-    post<{ url: string }>("/api/billing/checkout", { slug }),
+  createBillingCheckout: (slug: string, returnTo: string) =>
+    post<{ url: string }>("/api/billing/checkout", { slug, returnTo }),
   updateProfile: (
     id: number,
     data: Partial<{

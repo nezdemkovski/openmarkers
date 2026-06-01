@@ -1,5 +1,4 @@
 import { anthropic } from "@ai-sdk/anthropic";
-import { getExtractUsage, incrementExtractCount } from "@openmarkers/db";
 import {
   buildCompactReference,
   buildMolecularWeightMap,
@@ -12,7 +11,12 @@ import { parse, format, isValid } from "date-fns";
 import { z } from "zod";
 
 import { json, error, parseBody, isResponse } from "./_shared.ts";
-import { consumePaidAiRequest, getPaidAiUsage } from "./billing.ts";
+import {
+  commitAiRequest,
+  getAiRequestUsage,
+  releaseAiRequest,
+  reserveAiRequest,
+} from "./billing.ts";
 
 const BIOMARKER_REF = buildCompactReference();
 const BIOMARKER_REF_TEXT = JSON.stringify(BIOMARKER_REF);
@@ -111,19 +115,9 @@ RULES:
 
 Extract ALL results from this document:`;
 
-export async function handleExtract(
-  req: Request,
-  auth: { userId: string },
-): Promise<Response> {
-  const freeUsage = await getExtractUsage(auth.userId);
-  const shouldUseFreeCredit = freeUsage.remaining > 0;
-  const paidUsage = shouldUseFreeCredit
-    ? { paidRemaining: 0 }
-    : await getPaidAiUsage(req);
-  const shouldUsePaidCredit =
-    !shouldUseFreeCredit && paidUsage.paidRemaining > 0;
-
-  if (!shouldUseFreeCredit && !shouldUsePaidCredit) {
+export async function handleExtract(req: Request): Promise<Response> {
+  const usage = await getAiRequestUsage(req);
+  if (!usage.unlimited && usage.totalRemaining <= 0) {
     return error("AI extraction credits are depleted", 429);
   }
 
@@ -144,6 +138,11 @@ export async function handleExtract(
     if (ext === "pdf") mediaType = "application/pdf";
     else if (ext === "png") mediaType = "image/png";
     else if (ext === "jpg" || ext === "jpeg") mediaType = "image/jpeg";
+  }
+
+  const reservation = await reserveAiRequest(req);
+  if (!reservation) {
+    return error("Could not reserve AI request credit", 502);
   }
 
   try {
@@ -175,6 +174,7 @@ export async function handleExtract(
     });
 
     if (!aiOutput?.results) {
+      await releaseAiRequest(req, reservation).catch(() => {});
       return error("Could not extract results from this file.", 400);
     }
 
@@ -269,6 +269,7 @@ export async function handleExtract(
     }
 
     if (accepted.length === 0) {
+      await releaseAiRequest(req, reservation).catch(() => {});
       return error(
         "Could not extract any valid results from this file. Try a clearer image or PDF.",
         400,
@@ -306,18 +307,15 @@ export async function handleExtract(
 
     const unknownDeduped = [...new Map(unknown.map((u) => [u.id, u])).values()];
 
-    if (shouldUseFreeCredit) {
-      await incrementExtractCount(auth.userId);
-    } else {
-      const consumed = await consumePaidAiRequest(req);
-      if (!consumed) {
-        return error("Could not consume AI request credit", 502);
-      }
-    }
-
     const bioCategoryMap: Record<string, string> = {};
     for (const [id, ref] of Object.entries(BIOMARKER_REF)) {
       bioCategoryMap[id] = ref.category;
+    }
+
+    const committed = await commitAiRequest(req, reservation);
+    if (!committed) {
+      await releaseAiRequest(req, reservation).catch(() => {});
+      return error("Could not commit AI request credit", 502);
     }
 
     return json({
@@ -329,6 +327,7 @@ export async function handleExtract(
       categoryMap: bioCategoryMap,
     });
   } catch (err: unknown) {
+    await releaseAiRequest(req, reservation).catch(() => {});
     console.error("Extraction error:", err);
     return error(
       "Failed to extract lab results. Try a clearer image or PDF.",

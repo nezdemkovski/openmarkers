@@ -92,6 +92,7 @@ const en: TranslationData = {
     resultDate: "Date",
     resultValue: "Value",
     save: "Save",
+    continue: "Continue",
     delete: "Delete",
     deleteResultConfirm: "Are you sure you want to delete this result?",
     authLogin: "Log In",
@@ -210,6 +211,12 @@ const en: TranslationData = {
     settingsAiUsage: "AI Lab Report Extraction",
     settingsAiUsageDesc:
       "Upload a PDF or photo of your lab report and AI will extract the values. New accounts include 5 free lifetime extractions; additional credits can be purchased.",
+    settingsAiCreditsProduct: "50 AI requests",
+    settingsAiCreditsPackDesc: "One-time credit pack.",
+    settingsAiCreditsBalance: "Available balance",
+    settingsAiCreditsUnlimited: "unlimited",
+    settingsAiCreditsPackLoading:
+      "One-time credit pack. Checking available balance...",
     settingsAccount: "Account",
     settingsChangeEmail: "Change Email",
     settingsChangePassword: "Change Password",
@@ -245,6 +252,12 @@ const en: TranslationData = {
       "Manage profiles, import results, and run analytics from your terminal. Designed to work seamlessly with AI agents.",
     settingsCliInstall: "Install via Homebrew",
     settingsCliUsage: "Then run:",
+    checkoutSuccessTitle: "Balance topped up",
+    checkoutSuccessDesc:
+      "Your AI request credits are available now. You can continue from exactly where you left off.",
+    checkoutIncompleteTitle: "Payment was not completed",
+    checkoutIncompleteDesc:
+      "No credits were added and you were not charged. You can try checkout again when ready.",
     authConsent: "I agree to store my blood test results and lab data",
     authDisclaimer:
       "This is not a medical device or healthcare service. Not medical advice.",

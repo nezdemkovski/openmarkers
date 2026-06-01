@@ -93,6 +93,7 @@ const ru: TranslationData = {
     resultDate: "Дата",
     resultValue: "Значение",
     save: "Сохранить",
+    continue: "Продолжить",
     delete: "Удалить",
     deleteResultConfirm: "Вы уверены, что хотите удалить этот результат?",
     authLogin: "Войти",
@@ -208,6 +209,12 @@ const ru: TranslationData = {
     settingsAiUsage: "ИИ-извлечение из лабораторных отчётов",
     settingsAiUsageDesc:
       "Загрузите PDF или фото лабораторного отчёта, и ИИ извлечёт значения. Новым аккаунтам даётся 5 бесплатных AI-загрузок навсегда; дополнительные кредиты можно докупить.",
+    settingsAiCreditsProduct: "50 AI-запросов",
+    settingsAiCreditsPackDesc: "Одноразовый пакет кредитов.",
+    settingsAiCreditsBalance: "Доступный баланс",
+    settingsAiCreditsUnlimited: "без ограничений",
+    settingsAiCreditsPackLoading:
+      "Одноразовый пакет кредитов. Проверяем доступный баланс...",
     settingsAccount: "Аккаунт",
     settingsChangeEmail: "Сменить email",
     settingsChangePassword: "Сменить пароль",
@@ -243,6 +250,12 @@ const ru: TranslationData = {
       "Управляйте профилями, импортируйте результаты и запускайте аналитику из терминала. Создан для удобной работы с AI-агентами.",
     settingsCliInstall: "Установка через Homebrew",
     settingsCliUsage: "Затем запустите:",
+    checkoutSuccessTitle: "Баланс пополнен",
+    checkoutSuccessDesc:
+      "Кредиты для AI-запросов уже доступны. Можно продолжить ровно с того места, где вы остановились.",
+    checkoutIncompleteTitle: "Оплата не завершена",
+    checkoutIncompleteDesc:
+      "Кредиты не были добавлены, списания не было. Можно попробовать оплатить ещё раз, когда будете готовы.",
     authConsent:
       "Я согласен на хранение результатов анализов крови и лабораторных данных",
     authDisclaimer:

@@ -74,5 +74,4 @@ export const userPreferences = pgTable("user_preferences", {
   unitSystem: text("unit_system", { enum: ["si", "conventional"] })
     .notNull()
     .default("si"),
-  extractCount: integer("extract_count").notNull().default(0),
 });

@@ -22,11 +22,11 @@ import {
   SECURITY_HEADERS,
 } from "./routes/_shared.ts";
 import { handleDeleteAccount } from "./routes/account.ts";
+import { getAiRequestUsage, handleBillingCheckout } from "./routes/billing.ts";
 import {
   handleListCategories,
   handleListBiomarkers,
 } from "./routes/biomarkers.ts";
-import { getPaidAiUsage, handleBillingCheckout } from "./routes/billing.ts";
 import { handleExtract } from "./routes/extract.ts";
 import { handleImportCheck, handleImport } from "./routes/import.ts";
 import {
@@ -406,20 +406,13 @@ export function startWebServer(opts: {
     if (method === "GET" && path === "/api/extract/usage") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      const { getExtractUsage } = await import("@openmarkers/db");
-      const free = await getExtractUsage(auth.userId);
-      const paid = await getPaidAiUsage(req);
-      return json({
-        ...free,
-        ...paid,
-        totalRemaining: free.remaining + paid.paidRemaining,
-      });
+      return json(await getAiRequestUsage(req));
     }
 
     if (method === "POST" && path === "/api/extract") {
       const auth = await requireAuth(req);
       if (!authResult(auth)) return auth;
-      return handleExtract(req, auth);
+      return handleExtract(req);
     }
 
     if (method === "POST" && path === "/api/billing/checkout") {

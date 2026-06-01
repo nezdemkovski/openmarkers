@@ -93,6 +93,7 @@ const cs: TranslationData = {
     resultDate: "Datum",
     resultValue: "Hodnota",
     save: "Ulo\u017eit",
+    continue: "Pokračovat",
     delete: "Smazat",
     deleteResultConfirm: "Opravdu chcete smazat tento v\u00fdsledek?",
     authLogin: "P\u0159ihl\u00e1sit se",
@@ -211,6 +212,12 @@ const cs: TranslationData = {
     settingsAiUsage: "AI extrakce laboratorních zpráv",
     settingsAiUsageDesc:
       "Nahrajte PDF nebo foto laboratorní zprávy a AI extrahuje hodnoty. Nové účty dostanou 5 bezplatných AI extrakcí navždy; další kredity lze dokoupit.",
+    settingsAiCreditsProduct: "50 AI požadavků",
+    settingsAiCreditsPackDesc: "Jednorázový balíček kreditů.",
+    settingsAiCreditsBalance: "Dostupný zůstatek",
+    settingsAiCreditsUnlimited: "neomezeně",
+    settingsAiCreditsPackLoading:
+      "Jednorázový balíček kreditů. Kontrolujeme dostupný zůstatek...",
     settingsAccount: "Účet",
     settingsChangeEmail: "Změnit email",
     settingsChangePassword: "Změnit heslo",
@@ -247,6 +254,12 @@ const cs: TranslationData = {
       "Spravujte profily, importujte výsledky a spouštějte analytiku z terminálu. Navrženo pro bezproblémovou spolupráci s AI agenty.",
     settingsCliInstall: "Instalace přes Homebrew",
     settingsCliUsage: "Poté spusťte:",
+    checkoutSuccessTitle: "Zůstatek byl navýšen",
+    checkoutSuccessDesc:
+      "Kredity pro AI požadavky jsou teď dostupné. Můžete pokračovat přesně tam, kde jste skončili.",
+    checkoutIncompleteTitle: "Platba nebyla dokončena",
+    checkoutIncompleteDesc:
+      "Žádné kredity nebyly přidány a nic vám nebylo účtováno. Checkout můžete zkusit znovu, až budete připraveni.",
     authConsent:
       "Souhlasím s uložením výsledků krevních testů a laboratorních dat",
     authDisclaimer:

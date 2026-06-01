@@ -92,6 +92,7 @@ const is: TranslationData = {
     resultDate: "Dagsetning",
     resultValue: "Gildi",
     save: "Vista",
+    continue: "Halda áfram",
     delete: "Eyða",
     deleteResultConfirm: "Ertu viss um að þú viljir eyða þessari niðurstöðu?",
     authLogin: "Skrá inn",
@@ -209,6 +210,12 @@ const is: TranslationData = {
     settingsAiUsage: "AI útdráttur rannsóknarskýrslna",
     settingsAiUsageDesc:
       "Hladdu upp PDF eða mynd af rannsóknarskýrslu og AI dregur gildin út. Nýir reikningar fá 5 ókeypis AI útdrætti til frambúðar; hægt er að kaupa fleiri inneignir.",
+    settingsAiCreditsProduct: "50 AI beiðnir",
+    settingsAiCreditsPackDesc: "Einskiptur inneignarpakki.",
+    settingsAiCreditsBalance: "Tiltæk inneign",
+    settingsAiCreditsUnlimited: "ótakmarkað",
+    settingsAiCreditsPackLoading:
+      "Einskiptur inneignarpakki. Athugum tiltæka inneign...",
     settingsAccount: "Reikningur",
     settingsChangeEmail: "Breyta netfangi",
     settingsChangePassword: "Breyta lykilorði",
@@ -244,6 +251,12 @@ const is: TranslationData = {
       "Stjórnaðu prófílum, fluttu inn niðurstöður og keyrðu greiningar úr skipanalínu. Hannað til að virka óaðfinnanlega með AI-þjónum.",
     settingsCliInstall: "Setja upp með Homebrew",
     settingsCliUsage: "Keyrðu síðan:",
+    checkoutSuccessTitle: "Inneign bætt við",
+    checkoutSuccessDesc:
+      "AI beiðnainnieignin þín er nú tiltæk. Þú getur haldið áfram nákvæmlega þar sem frá var horfið.",
+    checkoutIncompleteTitle: "Greiðslu var ekki lokið",
+    checkoutIncompleteDesc:
+      "Engri inneign var bætt við og ekkert var rukkað. Þú getur prófað greiðslu aftur þegar þú ert tilbúinn.",
     authConsent:
       "Ég samþykki að geyma blóðrannsóknarniðurstöður og rannsóknargögn",
     authDisclaimer:

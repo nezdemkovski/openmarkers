@@ -987,44 +987,6 @@ export async function updateUserPreferences(
   return { unitSystem: row.unitSystem };
 }
 
-const FREE_LIFETIME_EXTRACT_LIMIT = 5;
-
-export async function getExtractUsage(
-  authUserId: string,
-): Promise<{ used: number; limit: number; remaining: number; plan: string }> {
-  const [row] = await db
-    .select({
-      count: userPreferences.extractCount,
-    })
-    .from(userPreferences)
-    .where(eq(userPreferences.authUserId, authUserId))
-    .limit(1);
-
-  const limit = FREE_LIFETIME_EXTRACT_LIMIT;
-  const used = row?.count ?? 0;
-  return {
-    used,
-    limit,
-    remaining: Math.max(0, limit - used),
-    plan: "free",
-  };
-}
-
-export async function checkExtractLimit(authUserId: string): Promise<boolean> {
-  const usage = await getExtractUsage(authUserId);
-  return usage.remaining > 0;
-}
-
-export async function incrementExtractCount(authUserId: string): Promise<void> {
-  await db
-    .insert(userPreferences)
-    .values({ authUserId, extractCount: 1 })
-    .onConflictDoUpdate({
-      target: userPreferences.authUserId,
-      set: { extractCount: sql`${userPreferences.extractCount} + 1` },
-    });
-}
-
 export async function syncBiomarkers(): Promise<{
   inserted: number;
   updated: number;

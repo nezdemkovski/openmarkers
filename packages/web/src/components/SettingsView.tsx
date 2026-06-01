@@ -522,22 +522,27 @@ function ShareProfileSection({
 function AiUsageSection({ t }: { t: (key: string) => string }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
-  const { data: usage } = useQuery({
+  const { data: usage, isPending } = useQuery({
     queryKey: ["extract-usage"],
     queryFn: api.getExtractUsage,
     staleTime: 60_000,
   });
 
-  if (!usage) return null;
-
-  const pct = Math.round((usage.used / usage.limit) * 100);
-  const totalRemaining = usage.totalRemaining ?? usage.remaining;
+  const pct =
+    usage && usage.limit > 0 ? Math.round((usage.used / usage.limit) * 100) : 0;
+  const totalRemaining = usage
+    ? (usage.totalRemaining ?? usage.remaining)
+    : null;
 
   async function startCheckout() {
     setCheckoutLoading(true);
     setCheckoutError(null);
     try {
-      const checkout = await api.createBillingCheckout("ai-requests-50");
+      const returnTo = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      const checkout = await api.createBillingCheckout(
+        "ai-requests-50",
+        returnTo,
+      );
       window.location.href = checkout.url;
     } catch (err) {
       setCheckoutError(errorMessage(err));
@@ -556,12 +561,21 @@ function AiUsageSection({ t }: { t: (key: string) => string }) {
         </p>
         <div>
           <div className="flex items-center justify-between text-sm mb-1.5">
-            <span className="text-foreground font-medium">
-              {usage.used} / {usage.limit}
-            </span>
-            <span className="text-muted-foreground text-xs">
-              {totalRemaining} {t("uploadRemaining")}
-            </span>
+            {usage ? (
+              <>
+                <span className="text-foreground font-medium">
+                  {usage.used} / {usage.limit}
+                </span>
+                <span className="text-muted-foreground text-xs">
+                  {totalRemaining} {t("uploadRemaining")}
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="h-4 w-14 rounded bg-muted animate-pulse" />
+                <span className="h-3 w-32 rounded bg-muted animate-pulse" />
+              </>
+            )}
           </div>
           <div className="h-2 rounded-full bg-muted overflow-hidden">
             <div
@@ -580,16 +594,24 @@ function AiUsageSection({ t }: { t: (key: string) => string }) {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm font-medium text-foreground">
-                50 AI requests
+                {t("settingsAiCreditsProduct")}
               </p>
               <p className="text-xs text-muted-foreground">
-                One-time credit pack. Paid balance: {usage.paidRemaining ?? 0}.
+                {usage
+                  ? `${t("settingsAiCreditsPackDesc")} ${t(
+                      "settingsAiCreditsBalance",
+                    )}: ${
+                      usage.unlimited
+                        ? t("settingsAiCreditsUnlimited")
+                        : totalRemaining
+                    }.`
+                  : t("settingsAiCreditsPackLoading")}
               </p>
             </div>
             <Button
               size="sm"
               onClick={() => void startCheckout()}
-              disabled={checkoutLoading}
+              disabled={checkoutLoading || isPending}
             >
               <CreditCard className="w-4 h-4" />
               {checkoutLoading ? "..." : "€10"}

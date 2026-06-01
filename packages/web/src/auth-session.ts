@@ -22,13 +22,21 @@ function authRealm(): { origin: string; project: string } {
   const base = new URL(authBaseUrl());
   const match = base.pathname.match(/^\/api\/([^/]+)\/auth\/?$/);
   if (!match) {
-    throw new Error("AUTH_BASE_URL must look like https://host/api/<project>/auth");
+    throw new Error(
+      "AUTH_BASE_URL must look like https://host/api/<project>/auth",
+    );
   }
 
   return {
     origin: base.origin,
-    project: match[1]
+    project: match[1],
   };
+}
+
+export function authRealmApiUrl(path: string): string {
+  const realm = authRealm();
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${realm.origin}/api/${realm.project}${normalized}`;
 }
 
 function authLoginUrl(): string {
@@ -73,7 +81,7 @@ function cookieHeader(
   name: string,
   value: string,
   req: Request,
-  maxAge: number
+  maxAge: number,
 ): string {
   const secure = secureCookie(req) ? "; Secure" : "";
   return `${name}=${encodeURIComponent(value)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAge}${secure}`;
@@ -86,32 +94,32 @@ function clearCookieHeader(name: string, req: Request): string {
 
 function randomState(): string {
   return Buffer.from(crypto.getRandomValues(new Uint8Array(24))).toString(
-    "base64url"
+    "base64url",
   );
 }
 
 function randomCodeVerifier(): string {
   return Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString(
-    "base64url"
+    "base64url",
   );
 }
 
 async function codeChallenge(verifier: string): Promise<string> {
   const digest = await crypto.subtle.digest(
     "SHA-256",
-    new TextEncoder().encode(verifier)
+    new TextEncoder().encode(verifier),
   );
 
   return Buffer.from(digest).toString("base64url");
 }
 
 async function getTokenFromSessionCookie(
-  sessionCookie: string
+  sessionCookie: string,
 ): Promise<string | null> {
   const res = await fetch(authApiUrl("/get-session"), {
     headers: {
-      Cookie: sessionCookie
-    }
+      Cookie: sessionCookie,
+    },
   });
 
   if (!res.ok) {
@@ -133,17 +141,17 @@ export async function handleAuthLogin(req: Request, mode: "login" | "signup") {
   loginUrl.searchParams.set("code_challenge_method", "S256");
 
   const headers = new Headers({
-    Location: loginUrl.toString()
+    Location: loginUrl.toString(),
   });
   headers.append("Set-Cookie", cookieHeader(STATE_COOKIE, state, req, 10 * 60));
   headers.append(
     "Set-Cookie",
-    cookieHeader(PKCE_VERIFIER_COOKIE, verifier, req, 10 * 60)
+    cookieHeader(PKCE_VERIFIER_COOKIE, verifier, req, 10 * 60),
   );
 
   return new Response(null, {
     status: 302,
-    headers
+    headers,
   });
 }
 
@@ -155,41 +163,47 @@ export async function handleAuthCallback(req: Request): Promise<Response> {
   const expectedState = cookies.get(STATE_COOKIE);
   const codeVerifier = cookies.get(PKCE_VERIFIER_COOKIE);
 
-  if (!code || !state || !expectedState || state !== expectedState || !codeVerifier) {
+  if (
+    !code ||
+    !state ||
+    !expectedState ||
+    state !== expectedState ||
+    !codeVerifier
+  ) {
     const headers = new Headers({
-      Location: "/"
+      Location: "/",
     });
     headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE, req));
     headers.append("Set-Cookie", clearCookieHeader(PKCE_VERIFIER_COOKIE, req));
 
     return new Response(null, {
       status: 302,
-      headers
+      headers,
     });
   }
 
   const res = await fetch(authLoginTokenUrl(), {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       code,
       redirect_uri: `${getBaseUrl(req)}/auth/callback`,
-      code_verifier: codeVerifier
-    })
+      code_verifier: codeVerifier,
+    }),
   });
 
   if (!res.ok) {
     const headers = new Headers({
-      Location: "/"
+      Location: "/",
     });
     headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE, req));
     headers.append("Set-Cookie", clearCookieHeader(PKCE_VERIFIER_COOKIE, req));
 
     return new Response(null, {
       status: 302,
-      headers
+      headers,
     });
   }
 
@@ -198,30 +212,30 @@ export async function handleAuthCallback(req: Request): Promise<Response> {
     typeof data?.sessionCookie === "string" ? data.sessionCookie : "";
   if (!sessionCookie) {
     const headers = new Headers({
-      Location: "/"
+      Location: "/",
     });
     headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE, req));
     headers.append("Set-Cookie", clearCookieHeader(PKCE_VERIFIER_COOKIE, req));
 
     return new Response(null, {
       status: 302,
-      headers
+      headers,
     });
   }
 
   const headers = new Headers({
-    Location: "/dashboard"
+    Location: "/dashboard",
   });
   headers.append(
     "Set-Cookie",
-    cookieHeader(SESSION_COOKIE, sessionCookie, req, SESSION_MAX_AGE_SECONDS)
+    cookieHeader(SESSION_COOKIE, sessionCookie, req, SESSION_MAX_AGE_SECONDS),
   );
   headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE, req));
   headers.append("Set-Cookie", clearCookieHeader(PKCE_VERIFIER_COOKIE, req));
 
   return new Response(null, {
     status: 302,
-    headers
+    headers,
   });
 }
 
@@ -234,7 +248,7 @@ export async function handleAuthSession(req: Request): Promise<Response> {
 
   return Response.json({
     authenticated: Boolean(session),
-    user: session ? { email: session.email } : null
+    user: session ? { email: session.email } : null,
   });
 }
 
@@ -255,8 +269,8 @@ export function handleAuthLogout(req: Request): Response {
     { ok: true },
     {
       headers: {
-        "Set-Cookie": clearCookieHeader(SESSION_COOKIE, req)
-      }
-    }
+        "Set-Cookie": clearCookieHeader(SESSION_COOKIE, req),
+      },
+    },
   );
 }
