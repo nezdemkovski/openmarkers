@@ -141,6 +141,10 @@ const en: TranslationData = {
     uploadFormats: "PDF, JPG, or PNG — up to 20 MB",
     uploadHint:
       "Best results with a single lab visit. Large reports with many dates may lose some values.",
+    uploadCreditsAvailable: "lab report scans available",
+    uploadCreditsUnlimited: "Unlimited lab report scans available",
+    uploadCreditsRequired:
+      "Lab report scanning requires credits. Buy credits or enter values manually.",
     uploadChooseFile: "Choose file",
     uploadUploading: "Uploading...",
     uploadReading: "Reading your lab report...",
@@ -161,9 +165,9 @@ const en: TranslationData = {
     uploadTooLarge: "File is too large. Maximum size is 20 MB.",
     uploadError:
       "Could not extract results from this file. Try a clearer image or PDF.",
-    uploadRemaining: "AI extractions remaining",
+    uploadRemaining: "lab report scans remaining",
     uploadLimitReached:
-      "Your free AI extractions are used up. You can buy more credits or enter values manually.",
+      "Lab report scan credits are used up. Buy more credits or enter values manually.",
     uploadUnknownTitle: "Could not match these markers",
     uploadUnknownSelect: "Did you mean...",
     uploadUnknownReport: "Report missing biomarkers on GitHub",
@@ -210,7 +214,7 @@ const en: TranslationData = {
     settingsEditProfile: "Edit Profile",
     settingsAiUsage: "AI Lab Report Extraction",
     settingsAiUsageDesc:
-      "Upload a PDF or photo of your lab report and AI will extract the values. New accounts include 5 free lifetime extractions; additional credits can be purchased.",
+      "Upload a PDF or photo of your lab report and AI will extract the values.",
     settingsAiCreditsProduct: "50 AI requests",
     settingsAiCreditsPackDesc: "One-time credit pack.",
     settingsAiCreditsBalance: "Available balance",

@@ -83,6 +83,14 @@ export default function UploadLabReport({
     staleTime: 60_000,
   });
   const limitReached = usage?.totalRemaining === 0;
+  const usageText = (() => {
+    if (!usage) return null;
+    if (usage.unlimited) return t("uploadCreditsUnlimited");
+    if (usage.limit === 0) return t("uploadCreditsRequired");
+    return `${usage.totalRemaining}/${usage.limit} ${t(
+      "uploadCreditsAvailable",
+    )}`;
+  })();
 
   const processFile = useCallback(
     async (file: File) => {
@@ -300,12 +308,9 @@ export default function UploadLabReport({
           <p className="text-[10px] text-muted-foreground/40 mt-2 max-w-xs mx-auto">
             {t("uploadHint")}
           </p>
-          {usage && (
+          {usageText && (
             <p className="text-[10px] text-muted-foreground/30 mt-1">
-              {usage.unlimited
-                ? "Unlimited"
-                : `${usage.totalRemaining}/${usage.limit}`}{" "}
-              {t("uploadRemaining")}
+              {usageText}
             </p>
           )}
         </button>

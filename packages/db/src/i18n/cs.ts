@@ -142,6 +142,11 @@ const cs: TranslationData = {
     uploadFormats: "PDF, JPG nebo PNG — do 20 MB",
     uploadHint:
       "Nejlepší výsledky s jednou návštěvou laboratoře. Velké zprávy s mnoha daty mohou ztratit některé hodnoty.",
+    uploadCreditsAvailable: "skenů laboratorních zpráv k dispozici",
+    uploadCreditsUnlimited:
+      "Neomezené skeny laboratorních zpráv k dispozici",
+    uploadCreditsRequired:
+      "Skenování laboratorní zprávy vyžaduje kredity. Kupte kredity nebo zadejte hodnoty ručně.",
     uploadChooseFile: "Vybrat soubor",
     uploadUploading: "Nahrávání...",
     uploadReading: "Čtení laboratorní zprávy...",
@@ -162,9 +167,9 @@ const cs: TranslationData = {
     uploadTooLarge: "Soubor je příliš velký. Maximální velikost je 20 MB.",
     uploadError:
       "Nepodařilo se extrahovat výsledky z tohoto souboru. Zkuste jasnější obrázek nebo PDF.",
-    uploadRemaining: "AI extrakcí zbývá",
+    uploadRemaining: "skenů laboratorních zpráv zbývá",
     uploadLimitReached:
-      "Bezplatné AI extrakce jsou vyčerpané. Můžete dokoupit kredity nebo zadat hodnoty ručně.",
+      "Kredity pro skenování laboratorních zpráv jsou vyčerpané. Můžete dokoupit kredity nebo zadat hodnoty ručně.",
     uploadUnknownTitle: "Nepodařilo se přiřadit tyto markery",
     uploadUnknownSelect: "Mysleli jste...",
     uploadUnknownReport: "Nahlásit chybějící biomarkery na GitHubu",
@@ -211,7 +216,7 @@ const cs: TranslationData = {
     settingsEditProfile: "Upravit profil",
     settingsAiUsage: "AI extrakce laboratorních zpráv",
     settingsAiUsageDesc:
-      "Nahrajte PDF nebo foto laboratorní zprávy a AI extrahuje hodnoty. Nové účty dostanou 5 bezplatných AI extrakcí navždy; další kredity lze dokoupit.",
+      "Nahrajte PDF nebo foto laboratorní zprávy a AI extrahuje hodnoty.",
     settingsAiCreditsProduct: "50 AI požadavků",
     settingsAiCreditsPackDesc: "Jednorázový balíček kreditů.",
     settingsAiCreditsBalance: "Dostupný zůstatek",

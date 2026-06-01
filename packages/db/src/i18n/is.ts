@@ -141,6 +141,11 @@ const is: TranslationData = {
     uploadFormats: "PDF, JPG eða PNG — allt að 20 MB",
     uploadHint:
       "Best árangur með einni rannsókn. Stórar skýrslur með mörgum dagsetningum geta misst nokkur gildi.",
+    uploadCreditsAvailable: "skannanir rannsóknarskýrslna tiltækar",
+    uploadCreditsUnlimited:
+      "Ótakmarkaðar skannanir rannsóknarskýrslna tiltækar",
+    uploadCreditsRequired:
+      "Skönnun rannsóknarskýrslu krefst inneigna. Kauptu inneignir eða sláðu inn gildi handvirkt.",
     uploadChooseFile: "Velja skrá",
     uploadUploading: "Hleður upp...",
     uploadReading: "Les rannsóknarskýrslu...",
@@ -161,9 +166,9 @@ const is: TranslationData = {
     uploadTooLarge: "Skráin er of stór. Hámarksstærð er 20 MB.",
     uploadError:
       "Gat ekki dregið niðurstöður úr þessari skrá. Prófaðu skýrari mynd eða PDF.",
-    uploadRemaining: "AI útdrættir eftir",
+    uploadRemaining: "skannanir rannsóknarskýrslna eftir",
     uploadLimitReached:
-      "Ókeypis AI útdrættir eru búnir. Þú getur keypt fleiri inneignir eða slegið inn gildi handvirkt.",
+      "Inneignir fyrir skönnun rannsóknarskýrslna eru búnar. Þú getur keypt fleiri inneignir eða slegið inn gildi handvirkt.",
     uploadUnknownTitle: "Gat ekki samsvörun þessum merkjum",
     uploadUnknownSelect: "Áttirðu við...",
     uploadUnknownReport: "Tilkynntu vantar lífmerki á GitHub",
@@ -209,7 +214,7 @@ const is: TranslationData = {
     settingsEditProfile: "Breyta prófíl",
     settingsAiUsage: "AI útdráttur rannsóknarskýrslna",
     settingsAiUsageDesc:
-      "Hladdu upp PDF eða mynd af rannsóknarskýrslu og AI dregur gildin út. Nýir reikningar fá 5 ókeypis AI útdrætti til frambúðar; hægt er að kaupa fleiri inneignir.",
+      "Hladdu upp PDF eða mynd af rannsóknarskýrslu og AI dregur gildin út.",
     settingsAiCreditsProduct: "50 AI beiðnir",
     settingsAiCreditsPackDesc: "Einskiptur inneignarpakki.",
     settingsAiCreditsBalance: "Tiltæk inneign",
